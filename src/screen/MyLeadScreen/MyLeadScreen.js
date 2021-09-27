@@ -3,9 +3,9 @@ import {
     Dimensions,
     SafeAreaView,
     ScrollView,
-    View,
     Image,
     Text,
+    View,
     StatusBar
 } from 'react-native';
 import * as IMAGE from '../../styles/image';
@@ -15,7 +15,7 @@ import * as SCREEN from '../../context/screen/screenName';
 import * as KEY from '../../context/actions/key';
 const WIDTH = Dimensions.get('window').width;
 
-const AnnouncementScreen = (props) => {
+const MyLeadScreen = (props) => {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
@@ -29,6 +29,5 @@ const AnnouncementScreen = (props) => {
         </SafeAreaView>
     );
 }
-export default AnnouncementScreen;
-
+export default MyLeadScreen;
 

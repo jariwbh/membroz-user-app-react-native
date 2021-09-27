@@ -23,8 +23,8 @@ export default LoginScreen = (props) => {
     const [logo, setLogo] = useState(null);
     const [backgroungImage, setBackgroungImage] = useState(null);
     const [appLogoVisible, setAppLogoVisible] = useState(false);
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [username, setUsername] = useState('salesexecutive1@gmail.com');
+    const [password, setPassword] = useState('pass#123');
     const [usernameError, setUsernameError] = useState(null);
     const [passwordError, setPasswordError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -70,8 +70,8 @@ export default LoginScreen = (props) => {
     }
 
     //add local storage Records
-    const authenticateUser = (member) => (
-        AsyncStorage.setItem(KEY.AUTHUSER, JSON.stringify(member))
+    const authenticateUser = (user) => (
+        AsyncStorage.setItem(KEY.AUTHUSER, JSON.stringify(uaer))
     )
 
     //add local storage Records
@@ -86,7 +86,7 @@ export default LoginScreen = (props) => {
             return;
         }
         const body = {
-            username: username.toUpperCase(),
+            username: username,
             password: password
         }
         setLoading(true);
@@ -103,6 +103,7 @@ export default LoginScreen = (props) => {
                 Toast.show('Login Sucessfully', Toast.SHORT, Toast.BOTTOM);
             }
         } catch (error) {
+            console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             resetScreen();
             Toast.show('Username and Password Invalid!', Toast.SHORT, Toast.BOTTOM);

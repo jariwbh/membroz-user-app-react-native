@@ -31,12 +31,10 @@ const HEIGHT = Dimensions.get('window').height;
 const ProfileScreen = (props) => {
     const [userProfilePic, setUserProfilePic] = useState(null);
     const [fullName, setFullname] = useState(null);
-    const [userPlan, setuserPlan] = useState(null);
-    const [userPlanValidity, setuserPlanValidity] = useState(null);
     const [userNumber, setuserNumber] = useState(null);
-    const [userPlanJoinDate, setuserJoinDate] = useState(null);
     const [rateusAndroid, setrateusAndroid] = useState(null);
     const [rateusIos, setRateUsIos] = useState(null);
+    const [userDesignation, setUserDesignation] = useState(null);
     const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
 
     useFocusEffect(
@@ -47,7 +45,7 @@ const ProfileScreen = (props) => {
     )
 
     useEffect(() => {
-    }, [userProfilePic, fullName, userPlan, userPlanValidity, userNumber, userPlanJoinDate, rateusAndroid, rateusIos]);
+    }, [userProfilePic, fullName, userNumber, rateusAndroid, rateusIos, userDesignation]);
 
     // REMOTECONTROLLER USE TO AUTOCONFIG APP
     const RemoteController = async () => {
@@ -61,12 +59,10 @@ const ProfileScreen = (props) => {
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
+        setUserDesignation(userInfo.designationid.title)
         setUserProfilePic(userInfo.profilepic);
         setFullname(userInfo.fullname)
-        setuserPlan(userInfo.usershipid.usershipname);
-        setuserPlanValidity(userInfo.usershipend);
         setuserNumber(userInfo.usernumber);
-        setuserJoinDate(userInfo.usershipstart);
     }
 
     //LogOut Button click to call 
@@ -112,25 +108,15 @@ const ProfileScreen = (props) => {
                             style={!userProfilePic ? { height: 70, width: 70 } : { height: 95, width: 95, borderRadius: 100 }} />
                     </View>
                     <Text style={styles.textName}>{fullName}</Text>
-                    <Text style={styles.textSansThin}>{userPlan}</Text>
-                    <Text>Valid up to {moment(userPlanValidity).format('MMM Do YYYY')}</Text>
+                    <Text style={styles.textSansThin}>{userDesignation}</Text>
                 </View>
 
                 <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginLeft: 15, marginRight: 15, marginTop: 20 }}>
                     <View style={{ justifyContent: KEY.FLEX_START }}>
-                        <Text style={styles.textInfo}>Member No</Text>
+                        <Text style={styles.textInfo}>Full Name</Text>
                     </View>
                     <View style={{ justifyContent: KEY.FLEX_END }}>
-                        <Text style={styles.textSansThin}>{userNumber}</Text>
-                    </View>
-                </View>
-
-                <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginLeft: 15, marginRight: 15, marginTop: 5 }}>
-                    <View style={{ justifyContent: KEY.FLEX_START }}>
-                        <Text style={styles.textInfo}>Joining Date</Text>
-                    </View>
-                    <View style={{ justifyContent: KEY.FLEX_END }}>
-                        <Text style={styles.textSansThin}>{moment(userPlanJoinDate).format('MMM Do YYYY')}</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_18, textTransform: KEY.CAPITALIZE }}>{fullName}</Text>
                     </View>
                 </View>
 

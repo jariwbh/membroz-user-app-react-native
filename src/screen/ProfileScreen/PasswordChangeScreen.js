@@ -9,9 +9,8 @@ import {
     Keyboard
 } from 'react-native';
 
-export { ChangePasswordService } from '../../services/PasswordService/PasswordService';
+import { ChangePasswordService } from '../../services/PasswordService/PasswordService';
 import * as LocalService from '../../services/LocalService/LocalService';
-import { AUTHUSER, AUTHUSERINFO } from '../../context/actions/type';
 import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
 import * as KEY from '../../context/actions/key';
@@ -20,7 +19,6 @@ import Toast from 'react-native-simple-toast';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import styles from './ResetPasswordStyle';
-import { ChangePasswordService } from '../../services/PasswordService/PasswordService';
 import AsyncStorage from '@react-native-community/async-storage';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 const WIDTH = Dimensions.get('window').width;
@@ -29,7 +27,7 @@ const PasswordChangeScreen = (props) => {
     const [loading, setloading] = useState(false);
     const [userNumber, setUserNumber] = useState(null);
     const [oldPassword, setOldPassword] = useState(null);
-    const [currentPassword, setCurrentPassword] = useState(null);
+    const [currentPassword, setCurrentPassword] = useState('pass#123');
     const [newPassword, setNewPassword] = useState(null);
     const [RePassword, setRePassword] = useState(null);
     const [currentPasswordError, setCurrentPasswordError] = useState(null);
@@ -62,7 +60,7 @@ const PasswordChangeScreen = (props) => {
         var userInfo = await LocalService.LocalStorageService();
         var userLoginInfo = await LocalService.LocalLoginStorageService();
         setOldPassword(userLoginInfo.password);
-        setUserNumber(userInfo.usernumber);
+        setUserNumber(userInfo.username);
     }
 
     //CHECK CURRENT PASSWORD VALIDATION

@@ -108,7 +108,7 @@ const HomeScreen = (props) => {
     };
   };
 
-  //GET MEMBER DATA IN MOBILE LOCAL STORAGE
+  //GET USER DATA IN MOBILE LOCAL STORAGE
   const getUserDeatilsLocalStorage = async () => {
     var userInfo = await LocalService.LocalStorageService();
     getuserid = userInfo?._id;
@@ -125,7 +125,7 @@ const HomeScreen = (props) => {
     });
   }
 
-  //GET MEMBER DATA USEING API CALL
+  //GET USER DATA USEING API CALL
   const getUserDeatils = async (id) => {
     try {
       const response = await getByIdUserService(id);
@@ -294,7 +294,7 @@ const HomeScreen = (props) => {
     }
   }
 
-  //UPDATE MEMBER INFORMATION API CALL
+  //UPDATE USER INFORMATION API CALL
   const UserPatch = async (deviceInfo) => {
     try {
       const response = await patchUserService(getuserid, deviceInfo);

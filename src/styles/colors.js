@@ -1,4 +1,4 @@
-export const DEFALUTCOLOR = '#C3262D' //'#FC7845';
+export const DEFALUTCOLOR = '#FC7845' //'#FC7845';
 export const DEFAULTLIGHT = '#FDA786'
 export const PRIMARY = '#1779ba';
 export const SECONDARY = '#767676';

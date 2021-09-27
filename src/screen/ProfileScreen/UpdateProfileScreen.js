@@ -36,6 +36,7 @@ const UpdateProfileScreen = (props) => {
     const [userProfilePic, setUserprofilePic] = useState(null);
     const [userInfo, setUserInfo] = useState(null);
     const [userName, setUserName] = useState(null);
+    const [userNameError, setUserNameError] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
     const [userEmailError, setUserEmailError] = useState(null);
     const [userMoblie, setUserMobile] = useState(null);
@@ -43,11 +44,13 @@ const UpdateProfileScreen = (props) => {
     const [userBirthDate, setUserBirthDate] = useState(null);
     const [userAddress, setUserAddress] = useState(null);
     const [userPincode, setUserPincode] = useState(null);
+    const [userProfileName, setUserProfileName] = useState(null);
     const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
     const secondTextInputRef = React.createRef();
     const thirdTextInputRef = React.createRef();
     const fourTextInputRef = React.createRef();
     const fiveTextInputRef = React.createRef();
+    const sixTextInputRef = React.createRef();
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
     useEffect(() => {
@@ -56,14 +59,15 @@ const UpdateProfileScreen = (props) => {
     }, []);
 
     useEffect(() => {
-    }, [loading, userID, userProfilePic, userInfo, userEmail,
-        userMoblie, userBirthDate, userAddress, userPincode])
+    }, [loading, userID, userProfilePic, userInfo, userEmail, userName, userNameError,
+        userMoblie, userBirthDate, userAddress, userPincode, userProfileName])
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
         setUserInfo(userInfo);
         setUserID(userInfo?._id);
+        setUserProfileName(userInfo?.fullname);
         setUserName(userInfo?.fullname);
         setUserprofilePic(userInfo?.profilepic);
         setUserEmail(userInfo?.property?.primaryemail);
@@ -86,6 +90,18 @@ const UpdateProfileScreen = (props) => {
         setUserBirthDate(datetime);
         hideDatePicker();
     };
+
+    //check validation of fullname
+    const checkFullName = (fullname) => {
+        if (!fullname || fullname.length <= 0) {
+            setUserNameError('FullName can not be empty');
+            setUserName(fullname);
+            return;
+        }
+        setUserName(fullname);
+        setUserNameError(null);
+        return;
+    }
 
     //check validation of email
     const checkEmail = (email) => {
@@ -204,12 +220,14 @@ const UpdateProfileScreen = (props) => {
         user.profilepic = profilepic;
         try {
             const response = await patchUserService(userID, user);
+            console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 LocalService.AuthenticateUser(response.data);
                 Toast.show('Your Profile Updated', Toast.LONG, Toast.BOTTOM);
             }
         }
         catch (error) {
+            console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setloading(false);
             Toast.show('Your Profile Not Update', Toast.LONG, Toast.BOTTOM);
@@ -225,7 +243,8 @@ const UpdateProfileScreen = (props) => {
 
     //UPDATE PROFILE PICTURE API CALL
     const UpdateProfileService = async () => {
-        if (!userMoblie || !userEmail) {
+        if (!userMoblie || !userEmail || !userName) {
+            checkFullName(userName);
             checkEmail(userMoblie);
             checkMobile(userEmail);
             return;
@@ -237,6 +256,7 @@ const UpdateProfileScreen = (props) => {
         user.property.date_of_birth = userBirthDate;
         user.property.address = userAddress;
         user.property.pincode = Number(userPincode);
+        user.property.fullname = userName;
         try {
             const response = await patchUserService(userID, user);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
@@ -265,7 +285,23 @@ const UpdateProfileScreen = (props) => {
                                 style={!userProfilePic ? { height: 70, width: 70 } : { height: 95, width: 95, borderRadius: 100 }} />
                         </View>
                     </TouchableOpacity>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_18, marginBottom: 20, marginLeft: 20, marginRight: 20 }} >{userName}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_18, marginBottom: 20, marginLeft: 20, marginRight: 20, textTransform: KEY.CAPITALIZE }} >{userProfileName}</Text>
+
+                    <View>
+                        <TextInput
+                            placeholder="UserName"
+                            style={userNameError == null ? styles.inputTextView : styles.inputTextViewError}
+                            type={KEY.CLEAR}
+                            returnKeyType={KEY.NEXT}
+                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                            defaultValue={userName}
+                            blurOnSubmit={false}
+                            onSubmitEditing={() => secondTextInputRef.current.focus()}
+                            onChangeText={(fullname) => checkFullName(fullname)}
+                        />
+                        {userNameError && <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{userNameError}</Text>}
+                    </View>
+
                     <View>
                         <TextInput
                             placeholder="Email"
@@ -276,7 +312,8 @@ const UpdateProfileScreen = (props) => {
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                             defaultValue={userEmail}
                             blurOnSubmit={false}
-                            onSubmitEditing={() => secondTextInputRef.current.focus()}
+                            ref={secondTextInputRef}
+                            onSubmitEditing={() => thirdTextInputRef.current.focus()}
                             onChangeText={(email) => checkEmail(email)}
                         />
                         {userEmailError && <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{userEmailError}</Text>}
@@ -292,8 +329,8 @@ const UpdateProfileScreen = (props) => {
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                             defaultValue={userMoblie}
                             blurOnSubmit={false}
-                            ref={secondTextInputRef}
-                            onSubmitEditing={() => thirdTextInputRef.current.focus()}
+                            ref={thirdTextInputRef}
+                            onSubmitEditing={() => fourTextInputRef.current.focus()}
                             onChangeText={(mobile) => checkMobile(mobile)}
                         />
                         {userMoblieError && <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{userMoblieError}</Text>}
@@ -308,8 +345,8 @@ const UpdateProfileScreen = (props) => {
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                             onTouchStart={() => showDatePicker()}
                             defaultValue={userBirthDate && moment(userBirthDate).format('YYYY-MM-DD')}
-                            ref={thirdTextInputRef}
-                            onSubmitEditing={() => fourTextInputRef.current.focus()}
+                            ref={fourTextInputRef}
+                            onSubmitEditing={() => fiveTextInputRef.current.focus()}
                             blurOnSubmit={false}
                         />
                         <DateTimePickerModal
@@ -330,8 +367,8 @@ const UpdateProfileScreen = (props) => {
                             numberOfLines={3}
                             defaultValue={userAddress}
                             blurOnSubmit={false}
-                            ref={fourTextInputRef}
-                            onSubmitEditing={() => fiveTextInputRef.current.focus()}
+                            ref={fiveTextInputRef}
+                            onSubmitEditing={() => sixTextInputRef.current.focus()}
                             onChangeText={(address) => setUserAddress(address)}
                         />
                     </View>
@@ -344,7 +381,7 @@ const UpdateProfileScreen = (props) => {
                             style={styles.inputTextView}
                             defaultValue={userPincode}
                             blurOnSubmit={false}
-                            ref={fiveTextInputRef}
+                            ref={sixTextInputRef}
                             onSubmitEditing={() => Keyboard.dismiss()}
                             onChangeText={(pincode) => setUserPincode(pincode)}
                         />

@@ -9,12 +9,12 @@ export const LocalStorageService = async () => {
 };
 
 //add local storage Records
-export const AuthenticateMember = (member) => (
-    AsyncStorage.setItem(AUTHUSER, JSON.stringify(member))
+export const AuthenticateUser = (user) => (
+    AsyncStorage.setItem(AUTHUSER, JSON.stringify(user))
 )
 
 //add local storage Records
-export const RemoveAuthenticateMember = () => (
+export const RemoveAuthenticateUser = () => (
     AsyncStorage.removeItem(AUTHUSER), AsyncStorage.removeItem(AUTHUSERINFO)
 )
 

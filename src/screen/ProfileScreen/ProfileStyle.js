@@ -27,11 +27,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
         fontSize: FONT.FONT_SIZE_18,
         fontWeight: FONT.FONT_WEIGHT_BOLD,
+        textTransform: KEY.CAPITALIZE
     },
     textSansThin: {
-        fontSize: FONT.FONT_SIZE_16,
-        fontFamily: FONT.FONT_FAMILY_SANS_SERIF_THIN,
-        fontWeight: FONT.FONT_WEIGHT_NORMAL
+        fontSize: FONT.FONT_SIZE_20,
+        fontWeight: FONT.FONT_WEIGHT_BOLD,
+        textTransform: KEY.CAPITALIZE
     },
     textInfo: {
         fontSize: FONT.FONT_SIZE_18,
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
         flexDirection: KEY.ROW,
         borderRadius: 6,
         backgroundColor: COLOR.WHITE,
-        height: 50,
+        height: 55,
         width: WIDTH - 30,
         shadowColor: COLOR.BLACK,
         shadowOffset: {

@@ -15,7 +15,7 @@ import * as SCREEN from '../../context/screen/screenName';
 import * as KEY from '../../context/actions/key';
 const WIDTH = Dimensions.get('window').width;
 
-const EventScreen = (props) => {
+const MeetingScreen = (props) => {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
@@ -29,6 +29,5 @@ const EventScreen = (props) => {
         </SafeAreaView>
     );
 }
-export default EventScreen;
-
+export default MeetingScreen;
 

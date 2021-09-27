@@ -10,24 +10,17 @@ import FORGOTPASSWORDSCREEN from '../screen/ForgotPasswordScreen/ForgotPasswordS
 import NOTIFICATIONSCREEN from '../screen/HomeScreen/NotificationScreen';
 import GALLERYSCREEN from '../screen/HomeScreen/GalleryScreen';
 import CALENDARSCREEN from '../screen/CalendarScreen/CalendarScreen';
-import EVENTSCREEN from '../screen/EventScreen/EventScreen';
-import MYBOOKINGSCREEN from '../screen/MyBookingScreen/MyBookingScreen';
 import SUPPORTSCREEN from '../screen/SupportScreen/SupportScreen';
-import ANNOUNCEMENTSCREEN from '../screen/AnnouncementScreen/AnnouncementScreen';
-import REFERFRIENDSCREEN from '../screen/Refer_a_friend_screen/ReferFriendScreen';
 import SUPPORTTICKETSCREEN from '../screen/SupportScreen/SupportTicketScreen';
-import REFERFRIENDREQUEST from '../screen/Refer_a_friend_screen/ReferFriendRequest';
-import CALENDARLIST from '../screen/CalendarScreen/CalendarList';
-import BOOKNOWSCREEN from '../screen/MyBookingScreen/BookNowScreen';
-import OFFERSCREEN from '../screen/OfferScreen/OfferScreen';
-import SELECTLOCATION from '../screen/MyBookingScreen/SelectLocation';
-import ONLINEMEETINGSCREEN from '../screen/OnlineMeetingScreen/OnlineMeetingScreen';
-import RESETPASSWORDSCREEN from '../screen/ProfileScreen/ResetPasswordScreen';
 import PASSWORDCHANGESCREEN from '../screen/ProfileScreen/PasswordChangeScreen';
-import OFFERDETAIL from '../screen/OfferScreen/OfferDetail';
 import VIEWIMAGE from '../screen/HomeScreen/ViewImage';
 import WEBVIEWSCREEN from '../screen/WebViewScreen/WebViewScreen';
 import NEWPASSWORDSCREEN from '../screen/ForgotPasswordScreen/NewPasswordScreen';
+import TASKSCREEN from '../screen/TaskScreen/TaskScreen';
+import FRESHLEADSCREEN from '../screen/FreshLeadScreen/FreshLeadScreen';
+import FOLLOWUPSCREEN from '../screen/FollowupScreen/FollowupScreen';
+import MEETINGSCREEN from '../screen/MeetingScreen/MeetingScreen';
+import MYLEADSCREEN from '../screen/MyLeadScreen/MyLeadScreen';
 
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
@@ -36,12 +29,10 @@ import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const AuthStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
-const OfferStack = createNativeStackNavigator();
-const WalletStack = createNativeStackNavigator();
+const TaskStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -79,20 +70,12 @@ const ProfileStackScreen = () => {
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
-
-            <ProfileStack.Screen name="ResetPasswordScreen" component={RESETPASSWORDSCREEN} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'Change Password',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-            }} />
             <ProfileStack.Screen name="PasswordChangeScreen" component={PASSWORDCHANGESCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
                 title: 'Change Password',
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
-
             <ProfileStack.Screen name="UpdateProfileScreen" component={UPDATEPROFILESCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
                 title: 'Update Profile',
@@ -103,37 +86,18 @@ const ProfileStackScreen = () => {
     );
 }
 
-const OfferStackScreen = () => {
+const TaskStackScreen = () => {
     return (
-        <OfferStack.Navigator initialRouteName="OfferScreen" screenOptions={{ headerShadowVisible: false }}>
-            <OfferStack.Screen name="OfferScreen" component={OFFERSCREEN} options={{
+        <TaskStack.Navigator initialRouteName="TaskScreen" screenOptions={{ headerShadowVisible: false }}>
+            <TaskStack.Screen name="TaskScreen" component={TASKSCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
-                title: 'Offer',
+                title: 'Tasks',
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
-            <OfferStack.Screen name="OfferDetail" component={OFFERDETAIL} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'Offer',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-            }} />
-        </OfferStack.Navigator>
+        </TaskStack.Navigator>
     );
 }
-
-// const WalletStackScreen = () => {
-//     return (
-//         <WalletStack.Navigator initialRouteName="WalletScreen" screenOptions={{ headerShadowVisible: false }}>
-//             <WalletStack.Screen name="WalletScreen" component={WALLETSCREEN} options={{
-//                 headerTitleAlign: KEY.CENTER,
-//                 title: 'Wallet',
-//                 headerTintColor: COLOR.WHITE,
-//                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-//             }} />
-//         </WalletStack.Navigator>
-//     );
-// }
 
 const HomeStackScreen = () => {
     return (
@@ -154,12 +118,6 @@ const HomeStackScreen = () => {
                 title: '',
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.BLACK }
-            }} />
-            <HomeStack.Screen name="OnlineMeetingScreen" component={ONLINEMEETINGSCREEN} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'Online Meet',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
             <HomeStack.Screen name="UpdateProfileScreen" component={UPDATEPROFILESCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
@@ -191,57 +149,9 @@ const HomeStackScreen = () => {
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
-            <HomeStack.Screen name="EventScreen" component={EVENTSCREEN} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'Event',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-            }} />
-            <HomeStack.Screen name="MyBookingScreen" component={MYBOOKINGSCREEN} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'My Booking',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-            }} />
-            <HomeStack.Screen name="AnnouncementScreen" component={ANNOUNCEMENTSCREEN} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'Announcement',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-            }} />
-            <HomeStack.Screen name="ReferFriendScreen" component={REFERFRIENDSCREEN} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'Refer a Friend',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-            }} />
             <HomeStack.Screen name="SupportTicketScreen" component={SUPPORTTICKETSCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
                 title: 'Support Ticket',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-            }} />
-            <HomeStack.Screen name="ReferFriendRequest" component={REFERFRIENDREQUEST} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'Refer a Friend Request',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-            }} />
-            <HomeStack.Screen name="CalendarList" component={CALENDARLIST} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'Holiday List',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-            }} />
-            <HomeStack.Screen name="BookNowScreen" component={BOOKNOWSCREEN} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'Booking',
-                headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
-            }} />
-            <HomeStack.Screen name="SelectLocation" component={SELECTLOCATION} options={{
-                headerTitleAlign: KEY.CENTER,
-                title: 'Booking',
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
@@ -250,6 +160,30 @@ const HomeStackScreen = () => {
                 component={WEBVIEWSCREEN}
                 options={{ headerShown: false }}
             />
+            <HomeStack.Screen name="FreshLeadScreen" component={FRESHLEADSCREEN} options={{
+                headerTitleAlign: KEY.CENTER,
+                title: 'Fresh Lead',
+                headerTintColor: COLOR.WHITE,
+                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+            }} />
+            <HomeStack.Screen name="FollowupScreen" component={FOLLOWUPSCREEN} options={{
+                headerTitleAlign: KEY.CENTER,
+                title: 'Followup',
+                headerTintColor: COLOR.WHITE,
+                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+            }} />
+            <HomeStack.Screen name="MeetingScreen" component={MEETINGSCREEN} options={{
+                headerTitleAlign: KEY.CENTER,
+                title: 'Meeting',
+                headerTintColor: COLOR.WHITE,
+                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+            }} />
+            <HomeStack.Screen name="MyLeadScreen" component={MYLEADSCREEN} options={{
+                headerTitleAlign: KEY.CENTER,
+                title: 'My Lead',
+                headerTintColor: COLOR.WHITE,
+                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+            }} />
         </HomeStack.Navigator>
     );
 };
@@ -267,18 +201,10 @@ const TabNavigation = () => {
                                 color={color}
                             />
                         );
-                    } else if (route.name === 'Offers') {
+                    } else if (route.name === 'Task') {
                         return (
-                            <Ionicons
-                                name={focused ? 'ios-gift' : 'ios-gift'}
-                                size={25}
-                                color={color}
-                            />
-                        );
-                    } else if (route.name === 'Wallet') {
-                        return (
-                            <Ionicons
-                                name={focused ? 'ios-wallet' : 'ios-wallet'}
+                            <MaterialCommunityIcons
+                                name={focused ? 'clipboard-text-outline' : 'clipboard-text-outline'}
                                 size={25}
                                 color={color}
                             />
@@ -305,8 +231,7 @@ const TabNavigation = () => {
             backBehavior="initialRoute"
         >
             <Tab.Screen name="Home" component={HomeStackScreen} options={{ unmountOnBlur: true, headerShown: false }} />
-            <Tab.Screen name="Offers" component={OfferStackScreen} options={{ headerShown: false }} />
-            {/* <Tab.Screen name="Wallet" component={WalletStackScreen} options={{ headerShown: false }} /> */}
+            <Tab.Screen name="Task" component={TaskStackScreen} options={{ headerShown: false }} />
             <Tab.Screen name="Profile" component={ProfileStackScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     );
