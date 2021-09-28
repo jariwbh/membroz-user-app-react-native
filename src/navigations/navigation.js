@@ -21,6 +21,8 @@ import FRESHLEADSCREEN from '../screen/FreshLeadScreen/FreshLeadScreen';
 import FOLLOWUPSCREEN from '../screen/FollowupScreen/FollowupScreen';
 import MEETINGSCREEN from '../screen/MeetingScreen/MeetingScreen';
 import MYLEADSCREEN from '../screen/MyLeadScreen/MyLeadScreen';
+import FOLLOWUPDETAILSCREEN from '../screen/FollowupDetailScreen/FollowupDetailScreen';
+import ADDLEADSCREEN from '../screen/MyLeadScreen/AddLeadScreen';
 
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
@@ -80,6 +82,7 @@ const ProfileStackScreen = () => {
                 headerTitleAlign: KEY.CENTER,
                 title: 'Update Profile',
                 headerTintColor: COLOR.WHITE,
+                headerTintColor: "green",
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
         </ProfileStack.Navigator>
@@ -162,7 +165,7 @@ const HomeStackScreen = () => {
             />
             <HomeStack.Screen name="FreshLeadScreen" component={FRESHLEADSCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
-                title: 'Fresh Lead',
+                title: 'Fresh Call',
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
@@ -181,6 +184,18 @@ const HomeStackScreen = () => {
             <HomeStack.Screen name="MyLeadScreen" component={MYLEADSCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
                 title: 'My Lead',
+                headerTintColor: COLOR.WHITE,
+                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+            }} />
+            <HomeStack.Screen name="AddLeadScreen" component={ADDLEADSCREEN} options={{
+                headerTitleAlign: KEY.CENTER,
+                title: 'Add Lead',
+                headerTintColor: COLOR.WHITE,
+                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+            }} />
+            <HomeStack.Screen name="FollowupDetailScreen" component={FOLLOWUPDETAILSCREEN} options={{
+                headerTitleAlign: KEY.CENTER,
+                title: 'Follow Up',
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />

@@ -1366,9 +1366,9 @@
     "@react-navigation/elements" "^1.1.2"
     warn-once "^0.1.0"
 
-"@react-navigation/native@^6.0.4":
+"@react-navigation/native@^6.0.2":
   version "6.0.4"
-  resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-6.0.4.tgz"
+  resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-6.0.4.tgz#8a9710ce4e9b903ea12c4a4fce8709f5a37e15fe"
   integrity sha512-497dGGDIZ8hDCPGj6GXZvLGHk6NvZk5k4r1cjwgqcXwutK5fS7sgD0dZP52NTQC3GvLe8PZNv6AEdMIqFrZK6A==
   dependencies:
     "@react-navigation/core" "^6.0.2"

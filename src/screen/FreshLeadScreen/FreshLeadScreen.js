@@ -6,7 +6,7 @@ import {
     Image,
     Text,
     View, FlatList, RefreshControl,
-    StatusBar, TouchableOpacity
+    StatusBar, TouchableOpacity, Pressable
 } from 'react-native';
 import * as IMAGE from '../../styles/image';
 import * as FONT from '../../styles/typography';
@@ -16,9 +16,10 @@ import * as KEY from '../../context/actions/key';
 import style from './Style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Loader from '../../components/loader/index';
+import * as LocalService from '../../services/LocalService/LocalService';
+import { FreshLeadService } from '../../services/FreshLeadService/FreshLeadService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 const WIDTH = Dimensions.get('window').width;
-
-let data = [{ "_id": 1 }, { "_id": 2 }, { "_id": 3 }, { "_id": 4 }, { "_id": 1 }, { "_id": 2 }, { "_id": 3 }, { "_id": 4 }]
 
 const FreshLeadScreen = (props) => {
     const [loading, setLoading] = useState(false);
@@ -28,14 +29,22 @@ const FreshLeadScreen = (props) => {
 
     useEffect(() => {
         setLoading(true);
-        getFesHLead();
+        getUserDeatilsLocalStorage();
     }, [])
 
     useEffect(() => {
     }, [loading, freshLeadList, userID, refreshing]);
 
+    //GET USER DATA IN MOBILE LOCAL STORAGE
+    const getUserDeatilsLocalStorage = async () => {
+        var userInfo = await LocalService.LocalStorageService();
+        setUserID(userInfo._id);
+        getFesHLead(userInfo._id);
+    }
+
     const onRefresh = () => {
         setrefreshing(true);
+        getFesHLead(userID);
         wait(3000).then(() => setrefreshing(false));
     }
 
@@ -45,22 +54,31 @@ const FreshLeadScreen = (props) => {
             setTimeout(resolve, timeout);
         });
     }
-    const getFesHLead = () => {
-        wait(1000).then(() => {
+
+    //GET FRESH LEAD API THROUGH FETCH DATA
+    const getFesHLead = async (userID) => {
+        try {
+            const response = await FreshLeadService(userID);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                wait(1000).then(() => {
+                    setLoading(false);
+                    setFreshLeadList(response.data);
+                });
+            }
+        } catch (error) {
+            firebase.crashlytics().recordError(error);
             setLoading(false);
-            setFreshLeadList(data);
-        });
+        }
     }
 
     //RENDER FRESHLEAD LIST USING FLATLIST
     const renderFreshLead = ({ item }) => (
-        <View>
+        <Pressable onPress={() => props.navigation.navigate(SCREEN.FOLLOWUPDETAILSCREEN, { item })}>
             <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 5 }}>
                 <View style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginLeft: 20 }}>
                     <View style={{ flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_START }}>
-                        <Text style={style.textTitle}>Harshad Jariwala</Text>
-                        <Text style={style.textsub}>React native </Text>
-                        <Text style={style.textsub}>7845126352</Text>
+                        <Text style={style.textTitle}>{item.property.fullname}</Text>
+                        <Text style={style.textsub}>{item.property.mobile}</Text>
                     </View>
                 </View>
 
@@ -69,7 +87,7 @@ const FreshLeadScreen = (props) => {
                 </TouchableOpacity>
             </View>
             <View style={{ borderBottomColor: COLOR.GRAY_MEDIUM, borderBottomWidth: 1, marginTop: 10, marginRight: 15, marginLeft: 15 }} />
-        </View>
+        </Pressable>
     )
 
     return (
