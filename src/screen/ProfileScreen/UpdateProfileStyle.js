@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     viweRound: {
         height: 100,
         width: 100,
-        borderRadius: 60,
+        borderRadius: 100,
         borderColor: COLOR.DEFALUTCOLOR,
         borderWidth: 3,
         backgroundColor: COLOR.WELDON_BLUE,
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
         marginBottom: 5
     },
     inputTextView: {
-        borderRadius: 30,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.BLACK,
         alignItems: KEY.FLEX_START,
         marginBottom: 10,
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
     },
     inputTextViewError: {
-        borderRadius: 30,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
         marginBottom: 10,
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     },
     addressView: {
         borderRadius: 10,
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: COLOR.BLACK,
         alignItems: KEY.FLEX_START,
         marginBottom: 10,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     },
     updateBtn: {
         marginTop: 10,
-        borderRadius: 30,
+        borderRadius: 10,
         backgroundColor: COLOR.DEFALUTCOLOR,
         width: WIDTH - 30,
         height: 45,

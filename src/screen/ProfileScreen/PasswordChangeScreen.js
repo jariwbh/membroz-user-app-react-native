@@ -27,7 +27,7 @@ const PasswordChangeScreen = (props) => {
     const [loading, setloading] = useState(false);
     const [userNumber, setUserNumber] = useState(null);
     const [oldPassword, setOldPassword] = useState(null);
-    const [currentPassword, setCurrentPassword] = useState('pass#123');
+    const [currentPassword, setCurrentPassword] = useState(null);
     const [newPassword, setNewPassword] = useState(null);
     const [RePassword, setRePassword] = useState(null);
     const [currentPasswordError, setCurrentPasswordError] = useState(null);
@@ -147,7 +147,7 @@ const PasswordChangeScreen = (props) => {
                         <Image source={IMAGE.PADLOCK} style={{ height: 55, width: 55, tintColor: COLOR.DEFALUTCOLOR }} />
                     </View>
 
-                    <View style={{ marginTop: 30 }}>
+                    <View style={{ marginTop: 30, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <View>
                             <TextInput
                                 placeholder="Enter Current Password"

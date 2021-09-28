@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
     },
     btnSupport: {
         backgroundColor: COLOR.DEFALUTCOLOR,
-        borderRadius: 30,
-        width: WIDTH - 50,
+        borderRadius: 10,
+        width: WIDTH - 60,
         height: 45,
         marginTop: 50,
         alignItems: KEY.CENTER,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         fontWeight: FONT.FONT_WEIGHT_BOLD
     },
     btnSubmit: {
-        borderRadius: 30,
+        borderRadius: 10,
         backgroundColor: COLOR.DEFALUTCOLOR,
         width: WIDTH - 30,
         height: 45,
@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     textSubject: {
-        borderRadius: 30,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.BLACK,
         alignItems: KEY.FLEX_START,
         width: WIDTH - 30,
@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
         paddingLeft: 15
     },
     textSubjectError: {
-        borderRadius: 30,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
         width: WIDTH - 30,
@@ -68,8 +68,8 @@ const styles = StyleSheet.create({
         paddingLeft: 15
     },
     textDescription: {
-        borderRadius: 15,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.BLACK,
         alignItems: KEY.FLEX_START,
         width: WIDTH - 30,
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
     },
     textDescriptionError: {
-        borderRadius: 15,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
         width: WIDTH - 30,

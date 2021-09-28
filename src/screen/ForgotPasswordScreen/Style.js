@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
         alignItems: KEY.CENTER
     },
     inputTextView: {
-        borderRadius: 30,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.WHITE,
         alignItems: KEY.FLEX_START,
         marginBottom: 10,
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
         marginTop: 25
     },
     inputTextViewError: {
-        borderRadius: 30,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
         marginBottom: 20,
@@ -41,8 +41,7 @@ const styles = StyleSheet.create({
         marginTop: 25
     },
     forgotButton: {
-        borderRadius: 30,
-        //borderWidth: 1,
+        borderRadius: 10,
         backgroundColor: COLOR.DEFALUTCOLOR,
         width: WIDTH - 30,
         height: 45,

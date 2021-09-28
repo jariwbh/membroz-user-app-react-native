@@ -124,37 +124,39 @@ const NewPasswordScreen = (props) => {
                 <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ height: HEIGHT, width: WIDTH }} >
                     <View style={styles.containerView}>
                         <Image source={IMAGE.LOCK_ICON} style={{ height: 80, width: 80, marginTop: 80, marginBottom: 50, tintColor: COLOR.DEFALUTCOLOR }} />
-                        <View>
-                            <TextInput
-                                placeholder="NewPassword"
-                                placeholderTextColor={COLOR.WHITE}
-                                selectionColor={COLOR.WHITE}
-                                style={!newPassworderror ? styles.inputTextView : styles.inputTextViewError}
-                                returnKeyType="next"
-                                defaultValue={newPassword}
-                                blurOnSubmit={false}
-                                secureTextEntry={true}
-                                onSubmitEditing={() => secondTextInputRef.current.focus()}
-                                onChangeText={(password) => setNewPasswordCheck(password)}
-                            />
-                            <Text style={{ marginLeft: 35, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 0 }}>{newPassworderror}</Text>
-                        </View>
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                            <View>
+                                <TextInput
+                                    placeholder="NewPassword"
+                                    placeholderTextColor={COLOR.WHITE}
+                                    selectionColor={COLOR.WHITE}
+                                    style={!newPassworderror ? styles.inputTextView : styles.inputTextViewError}
+                                    returnKeyType="next"
+                                    defaultValue={newPassword}
+                                    blurOnSubmit={false}
+                                    secureTextEntry={true}
+                                    onSubmitEditing={() => secondTextInputRef.current.focus()}
+                                    onChangeText={(password) => setNewPasswordCheck(password)}
+                                />
+                                <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 5 }}>{newPassworderror}</Text>
+                            </View>
 
-                        <View>
-                            <TextInput
-                                placeholder="Confirm Password"
-                                placeholderTextColor={COLOR.WHITE}
-                                selectionColor={COLOR.WHITE}
-                                style={!rePassworderror ? styles.inputTextView : styles.inputTextViewError}
-                                defaultValue={rePassword}
-                                returnKeyType="done"
-                                blurOnSubmit={false}
-                                ref={secondTextInputRef}
-                                secureTextEntry={true}
-                                onSubmitEditing={() => Keyboard.dismiss()}
-                                onChangeText={(repassword) => setRePasswordCheck(repassword)}
-                            />
-                            <Text style={{ marginLeft: 35, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 0 }}>{rePassworderror}</Text>
+                            <View>
+                                <TextInput
+                                    placeholder="Confirm Password"
+                                    placeholderTextColor={COLOR.WHITE}
+                                    selectionColor={COLOR.WHITE}
+                                    style={!rePassworderror ? styles.inputTextView : styles.inputTextViewError}
+                                    defaultValue={rePassword}
+                                    returnKeyType="done"
+                                    blurOnSubmit={false}
+                                    ref={secondTextInputRef}
+                                    secureTextEntry={true}
+                                    onSubmitEditing={() => Keyboard.dismiss()}
+                                    onChangeText={(repassword) => setRePasswordCheck(repassword)}
+                                />
+                                <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 5 }}>{rePassworderror}</Text>
+                            </View>
                         </View>
                         <TouchableOpacity style={styles.forgotButton} onPress={() => onPressSubmit()}>
                             <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Reset Password</Text>
@@ -173,8 +175,8 @@ const styles = StyleSheet.create({
         alignItems: KEY.CENTER
     },
     inputTextView: {
-        borderRadius: 30,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.WHITE,
         alignItems: KEY.FLEX_START,
         marginBottom: 10,
@@ -188,8 +190,8 @@ const styles = StyleSheet.create({
         marginTop: 0
     },
     inputTextViewError: {
-        borderRadius: 30,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
         marginBottom: 10,
@@ -203,8 +205,7 @@ const styles = StyleSheet.create({
         marginTop: 0
     },
     forgotButton: {
-        borderRadius: 30,
-        //borderWidth: 1,
+        borderRadius: 10,
         backgroundColor: COLOR.DEFALUTCOLOR,
         width: WIDTH - 30,
         height: 45,

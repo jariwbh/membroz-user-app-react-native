@@ -62,6 +62,7 @@ const ForgotPasswordScreen = (props) => {
     //check email validation
     const checkEmail = (email) => {
         if (!email || email.length <= 0) {
+            setUserName(email);
             setUserNameError('Username Required!');
             return;
         }
@@ -209,7 +210,7 @@ const ForgotPasswordScreen = (props) => {
                         </Text>
                         {
                             memberInfo ?
-                                <View>
+                                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                     <View>
                                         <TextInput
                                             placeholder={"Enter OTP"}
@@ -232,7 +233,7 @@ const ForgotPasswordScreen = (props) => {
                                     </View>
                                 </View>
                                 :
-                                <View>
+                                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                     <View>
                                         <TextInput
                                             placeholder={"Enter User Name"}

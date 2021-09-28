@@ -230,7 +230,7 @@ const TabNavigation = () => {
             })}
             backBehavior="initialRoute"
         >
-            <Tab.Screen name="Home" component={HomeStackScreen} options={{ unmountOnBlur: true, headerShown: false }} />
+            <Tab.Screen name="Home" component={HomeStackScreen} options={{ headerShown: false }} />
             <Tab.Screen name="Task" component={TaskStackScreen} options={{ headerShown: false }} />
             <Tab.Screen name="Profile" component={ProfileStackScreen} options={{ headerShown: false }} />
         </Tab.Navigator>

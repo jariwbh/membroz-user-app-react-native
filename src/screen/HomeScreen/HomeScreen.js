@@ -41,8 +41,11 @@ const WIDTH = Dimensions.get('window').width;
 
 //STATIC DATA
 let MenuDefaultArray = [
+  { "menuname": "freshlead", "title": "Fresh Call", "screenname": "FreshLeadScreen", "colorcode": "#2AAA63", "imageurl": IMAGE.PHONE_WITH_WIRE, "height": 25, "width": 25 },
+  { "menuname": "followup", "title": "Follow Up", "screenname": "FollowupScreen", "colorcode": "#FF4D4D", "imageurl": IMAGE.CLOCK, "height": 25, "width": 25 },
+  { "menuname": "meeting", "title": "Meeting", "screenname": "MeetingScreen", "colorcode": "#007AFF", "imageurl": IMAGE.IC_GROUP, "height": 25, "width": 25 },
+  { "menuname": "mylead", "title": "My Lead", "screenname": "MyLeadScreen", "colorcode": "#B366FF", "imageurl": IMAGE.PORTFOLIO, "height": 25, "width": 25 },
   { "menuname": "attendance", "title": "Attendance", "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 25, "width": 25 },
-  { "menuname": "onlinemeet", "title": "Online Meet", "screenname": "OnlineMeetingScreen", "colorcode": "#007AFF", "imageurl": IMAGE.IC_GROUP, "height": 25, "width": 25 },
   { "menuname": "calender", "title": "Calender", "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 25, "width": 25 },
   { "menuname": "support", "title": "Support", "screenname": "SupportScreen", "colorcode": "#F9C688", "imageurl": IMAGE.SUPPORT_ICON, "height": 31, "width": 16 },
   { "menuname": "booking", "title": "Book a Holiday", "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 25, "width": 25 },
@@ -60,7 +63,7 @@ const HomeScreen = (props) => {
   const [sharedIconVisible, setSharedIconVisible] = useState(false);
   const [notificationIconVisible, setNotificationIconVisible] = useState(false);
   const [notification, setNotification] = useState(0);
-  const [usershipPlan, setUsershipPlan] = useState(null);
+  const [userDesignation, setUserDesignation] = useState(null);
   const [userName, setUserName] = useState(null);
   const [userID, setUserID] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState(null);
@@ -83,7 +86,7 @@ const HomeScreen = (props) => {
 
   useEffect(() => {
   }, [loading, backgroungImage, scanIconVisible, sharedIconVisible, notificationIconVisible, photoCounter,
-    mobileapppermissions, notification, usershipPlan, userName, userID, userProfilePic
+    mobileapppermissions, notification, userDesignation, userName, userID, userProfilePic
   ])
 
   //TIME OUT FUNCTION
@@ -112,9 +115,9 @@ const HomeScreen = (props) => {
   const getUserDeatilsLocalStorage = async () => {
     var userInfo = await LocalService.LocalStorageService();
     getuserid = userInfo?._id;
-    setUsershipPlan(userInfo?.usershipid?.property?.usershipname.substring(0, 15));
+    setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
     setUserName(userInfo?.fullname.substring(0, 15));
-    setUserID(userInfo._id);
+    setUserID(userInfo?._id);
     getUserDeatils(userInfo?._id);
     getNotification(userInfo?._id);
     setUserProfilePic(userInfo?.profilepic);
@@ -162,7 +165,8 @@ const HomeScreen = (props) => {
   const MenuPermission = async () => {
     var userInfo = await LocalService.LocalStorageService();
     if (userInfo) {
-      let mobileapppermissions = userInfo.role.mobileapppermissions;
+      //let mobileapppermissions = userInfo.role.mobileapppermissions;
+      let mobileapppermissions = ["freshlead", "followup", "meeting", "mylead", "calender", "support"];
       let finalMenuPermission = [];
       MenuDefaultArray.forEach(menuEle => {
         mobileapppermissions.forEach(MobileEle => {
@@ -348,7 +352,7 @@ const HomeScreen = (props) => {
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER }}>
-      <StatusBar hidden={false} translucent={false} backgroundColor={COLOR.GRANITE_GRAY} barStyle={KEY.DARK_CONTENT} />
+      <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.GRANITE_GRAY} barStyle={KEY.DARK_CONTENT} />
       <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ width: WIDTH, height: HEIGHT }}>
         <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 20 }}>
           {
@@ -360,7 +364,8 @@ const HomeScreen = (props) => {
 
           {
             sharedIconVisible &&
-            <TouchableOpacity style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, marginLeft: !scanIconVisible ? WIDTH / 2 + 100 : WIDTH / 2 + 30, marginRight: !scanIconVisible ? 15 : 0 }}>
+            <TouchableOpacity
+              style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, marginLeft: !scanIconVisible ? WIDTH / 2 + 100 : WIDTH / 2 + 30, marginRight: !scanIconVisible ? 15 : 0 }}>
               <Image source={IMAGE.SHARE_ICON} style={{ height: 25, width: 25, tintColor: COLOR.WHITE }} />
             </TouchableOpacity>
           }
@@ -394,7 +399,7 @@ const HomeScreen = (props) => {
           <View>
             <View style={{ flexDirection: KEY.COLUMN }}>
               <Text style={styles().text}>{userName}</Text>
-              <Text style={{ color: COLOR.MENU_TEXT_COLOR, fontSize: FONT.FONT_SIZE_16, marginLeft: 5 }}>{usershipPlan}</Text>
+              <Text style={{ color: COLOR.MENU_TEXT_COLOR, fontSize: FONT.FONT_SIZE_16, marginLeft: 5 }}>{userDesignation}</Text>
             </View>
           </View>
 

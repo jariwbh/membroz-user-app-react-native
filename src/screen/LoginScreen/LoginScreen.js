@@ -23,7 +23,7 @@ export default LoginScreen = (props) => {
     const [logo, setLogo] = useState(null);
     const [backgroungImage, setBackgroungImage] = useState(null);
     const [appLogoVisible, setAppLogoVisible] = useState(false);
-    const [username, setUsername] = useState('salesexecutive1@gmail.com');
+    const [username, setUsername] = useState('telecaller1@gmail.com');
     const [password, setPassword] = useState('pass#123');
     const [usernameError, setUsernameError] = useState(null);
     const [passwordError, setPasswordError] = useState(null);
@@ -71,7 +71,7 @@ export default LoginScreen = (props) => {
 
     //add local storage Records
     const authenticateUser = (user) => (
-        AsyncStorage.setItem(KEY.AUTHUSER, JSON.stringify(uaer))
+        AsyncStorage.setItem(KEY.AUTHUSER, JSON.stringify(user))
     )
 
     //add local storage Records
@@ -145,7 +145,7 @@ export default LoginScreen = (props) => {
                                 onSubmitEditing={() => secondTextInputRef.current.focus()}
                                 onChangeText={(username) => CheckUsername(username)}
                             />
-                            <Text style={{ marginLeft: 35, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR }}>{usernameError}</Text>
+                            <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginBottom: 5, marginTop: -5 }}>{usernameError}</Text>
                         </View>
 
                         <View>
@@ -161,7 +161,7 @@ export default LoginScreen = (props) => {
                                 onSubmitEditing={() => { Keyboard.dismiss(), onPressToLogin() }}
                                 onChangeText={(password) => CheckPassword(password)}
                             />
-                            <Text style={{ marginLeft: 35, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR }}>{passwordError}</Text>
+                            <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginBottom: 5, marginTop: -5 }}>{passwordError}</Text>
                         </View>
 
                         <TouchableOpacity style={STYLES.loginBtn} onPress={() => onPressToLogin()}>

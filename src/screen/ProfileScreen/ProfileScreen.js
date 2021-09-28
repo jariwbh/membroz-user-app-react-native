@@ -122,7 +122,7 @@ const ProfileScreen = (props) => {
 
                 <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.UPDATEPROFILESCREEN)}>
                     <View style={styles.viewRectangle}>
-                        <Image source={IMAGE.PENCIL_ICON_SIMPLE} resizeMode={KEY.CONTAIN} style={{ height: 20, width: 20, tintColor: COLOR.TAUPE_GRAY, margin: 15 }} />
+                        <Image source={IMAGE.PENCIL_ICON_SIMPLE} resizeMode={KEY.CONTAIN} style={{ height: 20, width: 20, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
                         <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Update Profile</Text>
                         <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 12 }}>
                             <Icon name='chevron-right' size={40} style={{ color: COLOR.TAUPE_GRAY, marginTop: 5 }} />
@@ -132,7 +132,7 @@ const ProfileScreen = (props) => {
 
                 <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.PASSWORDCHANGESCREEN)}>
                     <View style={styles.viewRectangle}>
-                        <Image source={IMAGE.PADLOCK} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.TAUPE_GRAY, margin: 15 }} />
+                        <Image source={IMAGE.PADLOCK} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
                         <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Change Password</Text>
                         <View style={{ alignItems: KEY.FLEX_END, marginLeft: 10, flex: 1, marginRight: 12 }}>
                             <Icon name='chevron-right' size={40} style={{ color: COLOR.TAUPE_GRAY, marginTop: 5 }} />
@@ -142,7 +142,7 @@ const ProfileScreen = (props) => {
 
                 <TouchableOpacity onPress={() => setshowMessageModalVisible(true)}>
                     <View style={styles.viewRectangle}>
-                        <Image source={IMAGE.REVIEW} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.TAUPE_GRAY, margin: 15 }} />
+                        <Image source={IMAGE.REVIEW} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
                         <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Rate Us</Text>
 
                     </View>
@@ -150,7 +150,7 @@ const ProfileScreen = (props) => {
 
                 <TouchableOpacity onPress={() => onPressLogout()}>
                     <View style={styles.viewRectangle}>
-                        <Image source={IMAGE.LOGOUT} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.TAUPE_GRAY, margin: 15 }} />
+                        <Image source={IMAGE.LOGOUT} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
                         <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Logout</Text>
                     </View>
                 </TouchableOpacity>

@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
         fontFamily: FONT.FONT_FAMILY_SANS_SERIF,
     },
     inputTextView: {
-        borderRadius: 30,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.WHITE,
         alignItems: KEY.FLEX_START,
         marginBottom: 5,
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
         paddingLeft: 15
     },
     inputTextViewError: {
-        borderRadius: 30,
-        borderWidth: 2,
+        borderRadius: 10,
+        borderWidth: 1,
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
         margin: 5,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         paddingLeft: 15
     },
     loginBtn: {
-        borderRadius: 30,
+        borderRadius: 10,
         backgroundColor: COLOR.DEFALUTCOLOR,
         width: WIDTH - 30,
         height: 45,
