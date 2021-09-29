@@ -10,17 +10,34 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
-  squreView: {
-    //height: 100,
-    flex: 1,
-    width: WIDTH - 20,
-    backgroundColor: COLOR.WHITE,
-    borderRadius: 5,
-    justifyContent: KEY.SPACEBETWEEN
+  touchStyle: {
+    width: 60,
+    height: 60,
+    alignItems: KEY.CENTER,
+    justifyContent: KEY.CENTER,
+    borderRadius: 100,
+    marginRight: 20,
+    backgroundColor: COLOR.DEFALUTCOLOR
+  },
+  floatImage: {
+    resizeMode: KEY.CONTAIN,
+    width: 15,
+    height: 15,
+    tintColor: COLOR.WHITE
   },
   textTitle: {
-    marginTop: 5,
     textTransform: KEY.CAPITALIZE,
+    color: COLOR.LIGHT_BLACK,
+    fontWeight: FONT.FONT_WEIGHT_BOLD,
+    fontSize: FONT.FONT_SIZE_20
+  },
+  textDate: {
+    textTransform: KEY.UPPERCASE,
+    color: COLOR.LIGHT_BLACK,
+    fontWeight: FONT.FONT_WEIGHT_BOLD,
+    fontSize: FONT.FONT_SIZE_20
+  },
+  textEmail: {
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
     fontSize: FONT.FONT_SIZE_20
@@ -30,23 +47,34 @@ const styles = StyleSheet.create({
     color: COLOR.MENU_TEXT_COLOR,
     fontSize: FONT.FONT_SIZE_18
   },
-  viewMain: {
-    flex: 1,
-    //height: HEIGHT - 220,
+  listTab: {
     backgroundColor: COLOR.WHITE,
+    marginTop: 10,
     borderRadius: 20,
-    marginTop: 20,
-    marginRight: 15,
-    marginLeft: 15,
-    marginBottom: 10,
-    shadowColor: COLOR.BLACK,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
+    flexDirection: KEY.ROW
+  },
+  btnTab: {
+    flexDirection: KEY.ROW,
+    width: "50%",
+    padding: 10,
+    justifyContent: KEY.CENTER
+  },
+  tabText: {
+    fontSize: FONT.FONT_SIZE_18,
+    fontWeight: FONT.FONT_WEIGHT_BOLD,
+    textTransform: KEY.CAPITALIZE,
+    color: COLOR.LIGHT_BLACK
+  },
+  tabTextActive: {
+    fontSize: FONT.FONT_SIZE_18,
+    fontWeight: FONT.FONT_WEIGHT_BOLD,
+    textTransform: KEY.CAPITALIZE,
+    color: COLOR.DEFALUTCOLOR
+
+  },
+  tabActive: {
+    borderBottomColor: COLOR.DEFALUTCOLOR,
+    borderBottomWidth: 3
   },
 });
 

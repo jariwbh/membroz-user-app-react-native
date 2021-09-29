@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   FlatList,
   StatusBar,
-  Platform, Alert, Linking
+  Platform, Alert, Linking, Share
 } from 'react-native';
 import { getByIdUserService, patchUserService } from '../../services/UserService/UserService';
 import * as LocalService from '../../services/LocalService/LocalService';
@@ -68,6 +68,8 @@ const HomeScreen = (props) => {
   const [userID, setUserID] = useState(null);
   const [userProfilePic, setUserProfilePic] = useState(null);
   const [photoCounter, setPhotoCounter] = useState(0);
+  const [shareusAndroid, setSharesAndroid] = useState(null);
+  const [shareusIos, setShareUsIos] = useState(null);
   let getuserid, appVersionCode, androidUrl, iosUrl;
 
   // useFocusEffect(
@@ -86,7 +88,7 @@ const HomeScreen = (props) => {
 
   useEffect(() => {
   }, [loading, backgroungImage, scanIconVisible, sharedIconVisible, notificationIconVisible, photoCounter,
-    mobileapppermissions, notification, userDesignation, userName, userID, userProfilePic
+    mobileapppermissions, notification, userDesignation, userName, userID, userProfilePic, shareusAndroid, shareusIos
   ])
 
   //TIME OUT FUNCTION
@@ -105,6 +107,8 @@ const HomeScreen = (props) => {
       setScanIconVisible(userData.scanicon);
       setSharedIconVisible(userData.sharedicon);
       setNotificationIconVisible(userData.notificationicon);
+      setSharesAndroid(userData.playstoreid);
+      setShareUsIos(userData.appstoreid);
       appVersionCode = userData.appversioncode;
       androidUrl = userData.playstoreid;
       iosUrl = userData.appstoreid;
@@ -350,11 +354,33 @@ const HomeScreen = (props) => {
     }
   }
 
+  //SHARE BUTTON CLICK
+  const onPressShareButton = async () => {
+    try {
+      const result = await Share.share({
+        title: 'App link',
+        message: `Please install this app and stay safe , AppLink :https://play.google.com/store/apps/details?id=${androidUrl}&hl=en`,
+        url: `https://play.google.com/store/apps/details?id=${androidUrl}&hl=en`
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER }}>
-      <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.GRANITE_GRAY} barStyle={KEY.DARK_CONTENT} />
+      <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
       <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ width: WIDTH, height: HEIGHT }}>
-        <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 20 }}>
+        <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 35 }}>
           {
             scanIconVisible &&
             <TouchableOpacity>
@@ -364,8 +390,8 @@ const HomeScreen = (props) => {
 
           {
             sharedIconVisible &&
-            <TouchableOpacity
-              style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, marginLeft: !scanIconVisible ? WIDTH / 2 + 100 : WIDTH / 2 + 30, marginRight: !scanIconVisible ? 15 : 0 }}>
+            <TouchableOpacity onPress={() => onPressShareButton()}
+              style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, marginLeft: !scanIconVisible ? WIDTH / 2 + 100 : WIDTH / 2 + 30, marginRight: !scanIconVisible ? 15 : 0, marginTop: !scanIconVisible ? 5 : 0 }}>
               <Image source={IMAGE.SHARE_ICON} style={{ height: 25, width: 25, tintColor: COLOR.WHITE }} />
             </TouchableOpacity>
           }

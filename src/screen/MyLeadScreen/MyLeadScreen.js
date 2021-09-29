@@ -19,6 +19,7 @@ import Loader from '../../components/loader/index';
 import * as LocalService from '../../services/LocalService/LocalService';
 import { MyLeadService } from '../../services/FreshLeadService/FreshLeadService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import { useFocusEffect } from '@react-navigation/native';
 const WIDTH = Dimensions.get('window').width;
 
 const MyLeadScreen = (props) => {
@@ -27,10 +28,12 @@ const MyLeadScreen = (props) => {
     const [userID, setUserID] = useState(null);
     const [refreshing, setrefreshing] = useState(false);
 
-    useEffect(() => {
-        setLoading(true);
-        getUserDeatilsLocalStorage();
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            setLoading(true);
+            getUserDeatilsLocalStorage();
+        }, [])
+    );
 
     useEffect(() => {
     }, [loading, myLeadList, userID, refreshing]);

@@ -221,7 +221,7 @@ const AddLeadScreen = (props) => {
                             returnKeyType={KEY.DONE}
                             multiline={true}
                             numberOfLines={3}
-                            defaultValue={userAddress}
+                            defaultValue={userNotes}
                             blurOnSubmit={false}
                             ref={sixTextInputRef}
                             onSubmitEditing={() => Keyboard.dismiss()}
