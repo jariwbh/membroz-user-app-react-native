@@ -23,8 +23,8 @@ export default LoginScreen = (props) => {
     const [logo, setLogo] = useState(null);
     const [backgroungImage, setBackgroungImage] = useState(null);
     const [appLogoVisible, setAppLogoVisible] = useState(false);
-    const [username, setUsername] = useState('telecaller1@gmail.com');
-    const [password, setPassword] = useState('pass#123');
+    const [username, setUsername] = useState(null); //'telecaller1@gmail.com'
+    const [password, setPassword] = useState(null); //'pass#123'
     const [usernameError, setUsernameError] = useState(null);
     const [passwordError, setPasswordError] = useState(null);
     const [loading, setLoading] = useState(false);

@@ -82,7 +82,6 @@ const ProfileStackScreen = () => {
                 headerTitleAlign: KEY.CENTER,
                 title: 'Update Profile',
                 headerTintColor: COLOR.WHITE,
-                headerTintColor: "green",
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
         </ProfileStack.Navigator>

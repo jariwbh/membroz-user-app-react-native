@@ -446,7 +446,7 @@ const HomeScreen = (props) => {
             keyExtractor={(item, index) => index.toString()}
             keyboardShouldPersistTaps={KEY.ALWAYS}
             renderItem={renderMenu}
-            contentContainerStyle={{ paddingBottom: 200, alignSelf: KEY.CENTER }}
+            contentContainerStyle={{ paddingBottom: HEIGHT / 2 + 40, alignSelf: KEY.CENTER }}
           />
         </View>
       </ImageBackground>
