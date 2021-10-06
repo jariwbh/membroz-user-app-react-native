@@ -72,11 +72,20 @@ const HomeScreen = (props) => {
   const [shareusIos, setShareUsIos] = useState(null);
   let getuserid, appVersionCode, androidUrl, iosUrl;
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     getUserDeatilsLocalStorage();
-  //   }, [])
-  // );
+  useFocusEffect(
+    React.useCallback(async () => {
+      const getCallBackScreen = async () => {
+        var userInfo = await LocalService.LocalStorageService();
+        getuserid = userInfo?._id;
+        setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
+        setUserName(userInfo?.fullname.substring(0, 15));
+        setUserID(userInfo?._id);
+        getNotification(userInfo?._id);
+        setUserProfilePic(userInfo?.profilepic);
+      }
+      getCallBackScreen();
+    }, [])
+  );
 
   useEffect(() => {
     // CHECK REMOTECONTROLLER USE TO AUTOCONFIG APP

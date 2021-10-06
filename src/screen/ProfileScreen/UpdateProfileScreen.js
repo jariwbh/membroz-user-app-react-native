@@ -257,6 +257,7 @@ const UpdateProfileScreen = (props) => {
         user.property.address = userAddress;
         user.property.pincode = Number(userPincode);
         user.property.fullname = userName;
+        user.fullname = userName;
         try {
             const response = await patchUserService(userID, user);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
