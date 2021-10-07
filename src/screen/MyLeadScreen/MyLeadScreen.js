@@ -137,8 +137,6 @@ const MyLeadScreen = (props) => {
                     </>
                     : <Loader />
             }
-
-
         </SafeAreaView>
     );
 }

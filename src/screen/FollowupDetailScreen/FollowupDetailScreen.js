@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     Platform,
     FlatList,
-    Linking, RefreshControl
+    Linking, RefreshControl, Modal
 } from 'react-native';
 import * as IMAGE from '../../styles/image';
 import * as FONT from '../../styles/typography';
@@ -27,6 +27,7 @@ import Toast from 'react-native-simple-toast';
 import Loader from '../../components/loader/index';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import { DispositionService, followupHistoryService } from '../../services/DispositionService/DispositionService';
+import TreeView from "react-native-animated-tree-view";
 const WIDTH = Dimensions.get('window').width;
 
 const ListTab = [
@@ -43,9 +44,11 @@ const FollowupDetailScreen = (props) => {
     const [userInfo, setUserInfo] = useState(null);
     const [loading, setLoading] = useState(false);
     const [followupHistoryList, setFollowupHistoryList] = useState([]);
+    const [dispositionRenderList, setDispositionRenderList] = useState([]);
     const [dispositionList, setDispositionList] = useState([]);
     const [userID, setUserID] = useState(null);
     const [refreshing, setrefreshing] = useState(false);
+    const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
     const [status, setStatus] = useState('disposition');
 
     useEffect(() => {
@@ -66,13 +69,41 @@ const FollowupDetailScreen = (props) => {
         wait(1000).then(() => setLoading(false));
     }
 
+    //MANAGE AND GENERATE TREE DROPDOWN FUNCTION
+    function list_to_tree(list) {
+        var map = {}, node, roots = [], i;
+        for (i = 0; i < list.length; i += 1) {
+            map[list[i]._id] = i;
+            list[i]['value'] = list[i]['_id'];
+            list[i]['name'] = list[i]['disposition'];
+        }
+        for (i = 0; i < list.length; i += 1) {
+            node = list[i];
+            if (node.parentid !== null) {
+                var parentid = node && node.parentid && node.parentid._id ? node.parentid._id : node.parentid;
+                if (list[map[parentid]]) {
+                    if (!list[map[parentid]].items) {
+                        list[map[parentid]].items = [];
+                    }
+                    list[map[parentid]].items.push(node);
+                }
+            } else {
+                roots.push(node);
+            }
+        }
+        return roots;
+    }
+
+    //FILTER TREE DROPDOWN FUNCTION
     const getDispositionList = async () => {
         try {
             const response = await DispositionService();
+            console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 wait(1000).then(() => {
                     setLoading(false);
                     setDispositionList(response.data);
+                    setDispositionRenderList(list_to_tree(response.data));
                 });
             }
         } catch (error) {
@@ -81,6 +112,7 @@ const FollowupDetailScreen = (props) => {
         }
     }
 
+    //GET API THROUGHT FOLLOWUP HISTORY LIST
     const getFollowupHistoryList = async (id) => {
         try {
             const response = await followupHistoryService(id);
@@ -161,13 +193,6 @@ const FollowupDetailScreen = (props) => {
         wait(3000).then(() => setrefreshing(false));
     }
 
-    //RENDER DISPOSITION LIST USING FLATLIST
-    const renderDispositionList = ({ item }) => (
-        <View>
-
-        </View>
-    )
-
     //RENDER FOLLOWUP HISTORY LIST USING FLATLIST
     const renderFollowupHistoryList = ({ item }) => (
         <View>
@@ -192,20 +217,6 @@ const FollowupDetailScreen = (props) => {
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
-                {/* <View style={{ flexDirection: KEY.ROW, marginLeft: 20, marginTop: 10 }}>
-                    <TouchableOpacity onPress={() => onPressCall()} style={styles.touchStyle}>
-                        <Ionicons size={30} name="call-outline" color={COLOR.WHITE} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => onPressWhatsapp()} style={styles.touchStyle}>
-                        <Ionicons size={30} name="logo-whatsapp" color={COLOR.WHITE} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => onPressSMS()} style={styles.touchStyle}>
-                        <MaterialCommunityIcons size={30} name="message" color={COLOR.WHITE} />
-                    </TouchableOpacity>
-                </View>
-                <View style={{ height: 1, backgroundColor: COLOR.GRAY_MEDIUM, marginTop: 15 }} />
-                */}
-
                 <View style={{ marginLeft: 20, justifyContent: KEY.CENTER, marginTop: 5 }}>
                     <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center' }}>
                         <Entypo size={30} name="user" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
@@ -251,34 +262,10 @@ const FollowupDetailScreen = (props) => {
                 </View>
                 {
                     status == 'disposition' &&
-                    <FlatList
-                        style={{ marginTop: 5 }}
-                        data={dispositionList}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={renderDispositionList}
-                        contentContainerStyle={{ paddingBottom: 20 }}
-                        keyExtractor={item => item._id}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                title="Pull to refresh"
-                                tintColor={COLOR.DEFALUTCOLOR}
-                                titleColor={COLOR.DEFALUTCOLOR}
-                                colors={[COLOR.DEFALUTCOLOR]}
-                                onRefresh={onRefresh} />
-                        }
-                        ListFooterComponent={() => (
-                            dispositionList && dispositionList.length > 0 ?
-                                <></>
-                                :
-                                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                                    <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
-                                </View>
-                        )}
-                    />
+                    <View style={{ marginTop: 20 }}>
+                        <TreeView data={dispositionRenderList} onClick={(e) => console.log(e)} leftImage={(<MaterialCommunityIcons size={10} name="message" color={COLOR.DEFALUTCOLOR} />)} />
+                    </View>
                 }
-
                 {status == 'followup history' &&
                     <FlatList
                         style={{ marginTop: 5 }}
@@ -307,6 +294,30 @@ const FollowupDetailScreen = (props) => {
                         )}
                     />
                 }
+
+                {/* message model Pop */}
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={showMessageModalVisible}
+                    onRequestClose={() => setshowMessageModalVisible(!showMessageModalVisible)}>
+                    <View style={{ flex: 1, alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
+                        <View style={styles.msgModalView}>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_22, color: COLOR.BLACK, marginLeft: 15, marginTop: 15 }}>Rate this app</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15, marginTop: 20 }}>If you like this app,please take a little bit of your time to review it!</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15 }}>It really helps us and it shouldn't take you more than one minute.</Text>
+                            <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 20, marginLeft: WIDTH / 2 - 80 }}>
+                                <TouchableOpacity onPress={() => { }} >
+                                    <Text style={{ fontSize: FONT.FONT_SIZE_14, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>RATE</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => setshowMessageModalVisible(false)} >
+                                    <Text style={{ fontSize: FONT.FONT_SIZE_14, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>NO THANKS</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        </View>
+                    </View>
+                </Modal>
             </ScrollView>
             {loading ? <Loader /> : null}
         </SafeAreaView>

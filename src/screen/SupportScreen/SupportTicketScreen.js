@@ -275,7 +275,7 @@ const SupportTicketScreen = (props) => {
         animationType='slide'
         transparent={true}
         visible={showMessageModalVisible}
-        onRequestClose={() => showMessageModalVisible(!showMessageModalVisible)}>
+        onRequestClose={() => setshowMessageModalVisible(!showMessageModalVisible)}>
         <View style={{ alignItems: KEY.CENTER, flex: 1 }}>
           <View style={{ position: KEY.ABSOLUTE, bottom: 0 }}>
             <View style={styles.msgModalView}>

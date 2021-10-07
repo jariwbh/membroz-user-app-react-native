@@ -76,6 +76,25 @@ const styles = StyleSheet.create({
     borderBottomColor: COLOR.DEFALUTCOLOR,
     borderBottomWidth: 3
   },
+  msgModalView: {
+    height: 150,
+    width: WIDTH,
+    borderRadius: 0,
+    backgroundColor: COLOR.WHITE,
+    alignItems: KEY.FLEX_START,
+    shadowColor: COLOR.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 1,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    justifyContent: KEY.CENTER,
+    alignContent: KEY.CENTER
+  },
 });
 
 export default styles;
