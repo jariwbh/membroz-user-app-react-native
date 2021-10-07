@@ -125,14 +125,14 @@ const PasswordChangeScreen = (props) => {
         try {
             const response = await ChangePasswordService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                Toast.show('Your password has been changed', Toast.SHORT, Toast.BOTTOM);
+                Toast.show('Your password has been changed', Toast.SHORT);
                 resetScreen();
                 setAuthUserInfo({ username: userNumber, password: newPassword });
                 props.navigation.navigate(SCREEN.PROFILESCREEN);
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);
-            Toast.show('Your password not change', Toast.SHORT, Toast.BOTTOM);
+            Toast.show('Your password not change', Toast.SHORT);
             resetScreen();
         }
     }

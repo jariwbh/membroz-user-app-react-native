@@ -116,7 +116,7 @@ const SupportTicketScreen = (props) => {
     try {
       HelpSupportService(body).then(response => {
         if (response.data != null && response.data != 'undefind' && response.status == 200) {
-          Toast.show('Ticket submited sucessfully', Toast.LONG, Toast.BOTTOM);
+          Toast.show('Ticket submited sucessfully', Toast.LONG);
           setloading(false);
           setSubject(null);
           setSubjectError(null);
@@ -133,7 +133,7 @@ const SupportTicketScreen = (props) => {
       setSubjectError(null);
       setDescription(null);
       setDescriptionError(null);
-      Toast.show('Ticket submited problem', Toast.LONG, Toast.BOTTOM);
+      Toast.show('Ticket submited problem', Toast.LONG);
       alert('Message Sending Failed!');
     }
   }

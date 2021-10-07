@@ -77,12 +77,12 @@ const FreshLeadScreen = (props) => {
             <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 5 }}>
                 <View style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginLeft: 20 }}>
                     <View style={{ flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_START }}>
-                        <Text style={style.textTitle}>{item.property.fullname}</Text>
-                        <Text style={style.textsub}>{item.property.mobile}</Text>
+                        <Text style={style.textTitle}>{item?.property?.fullname}</Text>
+                        <Text style={style.textsub}>{item?.property?.mobile}</Text>
                     </View>
                 </View>
-
-                <TouchableOpacity style={{ justifyContent: KEY.FLEX_END, marginRight: 20 }}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.FOLLOWUPDETAILSCREEN, { item })}
+                    style={{ justifyContent: KEY.FLEX_END, marginRight: 20 }}>
                     <Ionicons name='call-outline' size={40} style={{ color: COLOR.WEB_FOREST_GREEN, alignItems: KEY.FLEX_START, marginTop: 8 }} />
                 </TouchableOpacity>
             </View>

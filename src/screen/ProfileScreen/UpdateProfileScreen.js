@@ -223,14 +223,14 @@ const UpdateProfileScreen = (props) => {
             console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 LocalService.AuthenticateUser(response.data);
-                Toast.show('Your Profile Updated', Toast.LONG, Toast.BOTTOM);
+                Toast.show('Your Profile Updated', Toast.LONG);
             }
         }
         catch (error) {
             console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setloading(false);
-            Toast.show('Your Profile Not Update', Toast.LONG, Toast.BOTTOM);
+            Toast.show('Your Profile Not Update', Toast.LONG);
         }
     }
 
@@ -264,13 +264,13 @@ const UpdateProfileScreen = (props) => {
                 props.navigation.navigate(SCREEN.PROFILESCREEN);
                 LocalService.AuthenticateUser(response.data);
                 setloading(false);
-                Toast.show('Your Profile Updated', Toast.LONG, Toast.BOTTOM);
+                Toast.show('Your Profile Updated', Toast.LONG);
             }
         }
         catch (error) {
             firebase.crashlytics().recordError(error);
             setloading(false);
-            Toast.show('Your Profile Not Update', Toast.LONG, Toast.BOTTOM);
+            Toast.show('Your Profile Not Update', Toast.LONG);
         }
     }
 

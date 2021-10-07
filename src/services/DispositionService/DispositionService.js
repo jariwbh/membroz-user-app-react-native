@@ -16,14 +16,13 @@ export const DispositionService = () => {
     return Axios.post('dispositions/filter', body)
 }
 
-export const followupHistoryService = () => {
+export const followupHistoryService = (id) => {
     const body =
     {
         "search": [
-            { "searchfield": "status", "searchvalue": "active", "criteria": "eq", "datatype": "text" },
             {
-                "searchfield": "formid",
-                "searchvalue": "59f430a7bd4e4bb2fb72ec7d",
+                "searchfield": "customerid",
+                "searchvalue": id,
                 "criteria": "eq",
                 "datatype": "ObjectId"
             }

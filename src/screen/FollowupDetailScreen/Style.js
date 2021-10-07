@@ -11,12 +11,12 @@ const WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   touchStyle: {
-    width: 60,
-    height: 60,
+    width: 40,
+    height: 40,
     alignItems: KEY.CENTER,
     justifyContent: KEY.CENTER,
     borderRadius: 100,
-    marginRight: 20,
+    marginRight: 10,
     backgroundColor: COLOR.DEFALUTCOLOR
   },
   floatImage: {

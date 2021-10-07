@@ -80,7 +80,7 @@ const ProfileScreen = (props) => {
                         AsyncStorage.removeItem(AUTHUSERINFO);
                         // AsyncStorage.removeItem(REMOVEDATA);
                         AsyncStorage.removeItem(AUTHUSER);
-                        Toast.show('Log out Success', Toast.SHORT, Toast.BOTTOM);
+                        Toast.show('Log out Success', Toast.SHORT);
                         props.navigation.replace(SCREEN.AUTH);
                     }
                 }

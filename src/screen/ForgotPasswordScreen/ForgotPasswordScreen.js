@@ -103,18 +103,18 @@ const ForgotPasswordScreen = (props) => {
                 setVerifyOtpNumber(verifyOtpNumber);
                 setMemberInfo(CheckUserResponse.data);
                 onPressSubmit(CheckUserResponse.data.property, verifyOtpNumber);
-                Toast.show('OTP Sending', Toast.SHORT, Toast.BOTTOM);
+                Toast.show('OTP Sending', Toast.SHORT);
                 setloading(false);
             }
             else {
-                Toast.show('User not exits!', Toast.SHORT, Toast.BOTTOM);
+                Toast.show('User not exits!', Toast.SHORT);
                 resetScreen();
             }
         }
         catch (error) {
             firebase.crashlytics().recordError(error);
             resetScreen();
-            Toast.show('User not exits!', Toast.SHORT, Toast.BOTTOM);
+            Toast.show('User not exits!', Toast.SHORT);
         };
     }
 
@@ -144,7 +144,7 @@ const ForgotPasswordScreen = (props) => {
         catch (error) {
             firebase.crashlytics().recordError(error);
             resetScreen();
-            Toast.show('User not exits!', Toast.SHORT, Toast.BOTTOM);
+            Toast.show('User not exits!', Toast.SHORT);
         };
     }
 
@@ -194,7 +194,7 @@ const ForgotPasswordScreen = (props) => {
         catch (error) {
             firebase.crashlytics().recordError(error);
             resetScreen();
-            Toast.show('User not exits!', Toast.SHORT, Toast.BOTTOM);
+            Toast.show('User not exits!', Toast.SHORT);
         };
     }
 

@@ -100,13 +100,13 @@ export default LoginScreen = (props) => {
                 setAuthUserInfo(body);
                 resetScreen();
                 props.navigation.replace(SCREEN.TABNAVIGATION);
-                Toast.show('Login Sucessfully', Toast.SHORT, Toast.BOTTOM);
+                Toast.show('Login Sucessfully', Toast.SHORT);
             }
         } catch (error) {
             console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             resetScreen();
-            Toast.show('Username and Password Invalid!', Toast.SHORT, Toast.BOTTOM);
+            Toast.show('Username and Password Invalid!', Toast.SHORT);
         }
     }
 

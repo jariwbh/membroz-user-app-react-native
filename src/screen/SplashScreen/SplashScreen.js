@@ -60,7 +60,7 @@ function SplashScreen(props) {
             }, 3000);
         } else {
             setshowMessageModalVisible(true);
-            Toast.show('Initialization application', Toast.SHORT, Toast.BOTTOM);
+            Toast.show('Initialization application', Toast.SHORT);
             setTimeout(() => {
                 setshowMessageModalVisible(false);
                 // Immediately reload the React Native Bundle

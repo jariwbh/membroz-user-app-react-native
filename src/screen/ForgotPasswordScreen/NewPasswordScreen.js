@@ -107,13 +107,13 @@ const NewPasswordScreen = (props) => {
             const response = await ForgetPasswordService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setloading(false);
-                Toast.show('Your Password is Reset', Toast.SHORT, Toast.BOTTOM);
+                Toast.show('Your Password is Reset', Toast.SHORT);
                 props.navigation.replace(SCREEN.LOGINSCREEN)
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);
             resetScreen();
-            Toast.show('Something wrong, try again letter!', Toast.SHORT, Toast.BOTTOM);
+            Toast.show('Something wrong, try again letter!', Toast.SHORT);
         };
     }
 

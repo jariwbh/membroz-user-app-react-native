@@ -151,7 +151,7 @@ const HomeScreen = (props) => {
           LocalService.RemoveAuthenticateUser();
           props.navigation.replace(SCREEN.AUTH);
         } else {
-          Toast.show('Welcome', Toast.SHORT, Toast.BOTTOM);
+          Toast.show('Welcome', Toast.SHORT);
           LocalService.AuthenticateUser(response.data);
         }
       }

@@ -121,14 +121,14 @@ const AddLeadScreen = (props) => {
             const response = await EnquiyService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 resetFields();
-                Toast.show('Lead Add Successfully', Toast.LONG, Toast.BOTTOM);
+                Toast.show('Lead Add Successfully', Toast.LONG);
                 props.navigation.navigate(SCREEN.MYLEADSCREEN);
             }
         }
         catch (error) {
             firebase.crashlytics().recordError(error);
             setloading(false);
-            Toast.show('Lead Add Problem', Toast.LONG, Toast.BOTTOM);
+            Toast.show('Lead Add Problem', Toast.LONG);
         }
     }
 
