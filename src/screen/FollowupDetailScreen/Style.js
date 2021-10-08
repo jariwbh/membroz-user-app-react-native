@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3
   },
   msgModalView: {
-    height: 150,
-    width: WIDTH,
-    borderRadius: 0,
+    height: HEIGHT - 200,
+    width: WIDTH - 20,
+    borderRadius: 10,
     backgroundColor: COLOR.WHITE,
     alignItems: KEY.FLEX_START,
     shadowColor: COLOR.BLACK,
@@ -90,10 +90,31 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 1,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    justifyContent: KEY.CENTER,
-    alignContent: KEY.CENTER
+    alignItems: KEY.CENTER,
+  },
+  inputTextView: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLOR.BLACK,
+    marginBottom: 10,
+    width: WIDTH - 40,
+    height: 45,
+    color: COLOR.BLACK,
+    fontSize: FONT.FONT_SIZE_16,
+    paddingLeft: 15
+  },
+  addressView: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLOR.BLACK,
+    alignItems: KEY.FLEX_START,
+    marginBottom: 10,
+    width: WIDTH - 40,
+    marginLeft: 20,
+    marginRight: 20,
+    color: COLOR.BLACK,
+    fontSize: FONT.FONT_SIZE_16,
+    paddingLeft: 15,
   },
 });
 

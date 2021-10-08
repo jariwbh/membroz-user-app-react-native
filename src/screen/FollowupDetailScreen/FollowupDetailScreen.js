@@ -9,8 +9,8 @@ import {
     StatusBar,
     TouchableOpacity,
     Platform,
-    FlatList,
-    Linking, RefreshControl, Modal
+    FlatList, TextInput,
+    Linking, RefreshControl, Modal, Keyboard
 } from 'react-native';
 import * as IMAGE from '../../styles/image';
 import * as FONT from '../../styles/typography';
@@ -20,6 +20,7 @@ import * as KEY from '../../context/actions/key';
 import styles from './Style';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import * as LocalService from '../../services/LocalService/LocalService';
 import moment from 'moment';
@@ -28,8 +29,8 @@ import Loader from '../../components/loader/index';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import { DispositionService, followupHistoryService } from '../../services/DispositionService/DispositionService';
 import TreeView from "react-native-animated-tree-view";
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 const WIDTH = Dimensions.get('window').width;
-
 const ListTab = [
     {
         'status': 'disposition'
@@ -49,7 +50,14 @@ const FollowupDetailScreen = (props) => {
     const [userID, setUserID] = useState(null);
     const [refreshing, setrefreshing] = useState(false);
     const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
+    const [formFields, setFormFields] = useState([]);
+    const [isFollowUpChecked, setIsFollowUpChecked] = useState(false);
     const [status, setStatus] = useState('disposition');
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+    const [followUpDate, setFollowUpDate] = useState(null);
+    const [followUpTime, setFollowUpTime] = useState(null);
+    const [assignTO, setAssignTO] = useState(null);
 
     useEffect(() => {
         setLoading(true);
@@ -58,7 +66,46 @@ const FollowupDetailScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [loading, userID, status, followupHistoryList, dispositionList, refreshing]);
+    }, [loading, userID, status, followupHistoryList, dispositionList, refreshing,
+        formFields, isDatePickerVisible, isTimePickerVisible, followUpDate, followUpTime, assignTO]);
+
+    //ONPRESS TO SHOW DATE PICKER
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    //ONPRESS TO HIDE DATE PICKER
+    const hideDatePicker = () => {
+        Keyboard.dismiss();
+        setDatePickerVisibility(false);
+    };
+
+    //ONPRESS TO SET DATE IN DATE PICKER
+    const handleDateConfirm = (date) => {
+        let datetime = moment(date).format()
+        setFollowUpDate(datetime);
+        Keyboard.dismiss();
+        hideDatePicker();
+    };
+
+    //ONPRESS TO SHOW TIME PICKER
+    const showTimePicker = () => {
+        setTimePickerVisibility(true);
+    };
+
+    //ONPRESS TO HIDE TIME PICKER
+    const hideTimePicker = () => {
+        Keyboard.dismiss();
+        setTimePickerVisibility(false);
+    };
+
+    //ONPRESS TO SET TIME IN TIME PICKER
+    const handleTimeConfirm = (date) => {
+        let datetime = moment(date).format()
+        setFollowUpTime(datetime);
+        Keyboard.dismiss();
+        hideTimePicker();
+    };
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
@@ -98,7 +145,7 @@ const FollowupDetailScreen = (props) => {
     const getDispositionList = async () => {
         try {
             const response = await DispositionService();
-            console.log(`response.data`, response.data);
+            // console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 wait(1000).then(() => {
                     setLoading(false);
@@ -212,6 +259,73 @@ const FollowupDetailScreen = (props) => {
         </View>
     )
 
+    //GENERATE DYNAMIC FIELD CONTROL
+    const generateControl = ({ item }) => (
+        <>
+            {item.fieldtype === "text" &&
+                <TextInput
+                    placeholder={item.displayname}
+                    style={styles.inputTextView}
+                    type={KEY.CLEAR}
+                    returnKeyType={KEY.DONE}
+                    placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                    defaultValue={'remark'}
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => Keyboard.dismiss()}
+                    onChangeText={(fullname) => checkFullName(fullname)}
+                />
+            }
+            {
+                item.fieldtype === "number" &&
+                <TextInput
+                    keyboardType={KEY.EMAILADDRESS}
+                    placeholder={item.displayname}
+                    style={styles.inputTextView}
+                    type={KEY.CLEAR}
+                    returnKeyType={KEY.DONE}
+                    placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                    defaultValue={'number'}
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => Keyboard.dismiss()}
+                    onChangeText={(fullname) => checkFullName(fullname)}
+                />
+            }
+            {
+                item.fieldtype === "long_text" &&
+                <TextInput placeholder={item.displayname}
+                    style={styles.addressView}
+                    placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                    type={KEY.CLEAR}
+                    returnKeyType={'default'}
+                    multiline={true}
+                    numberOfLines={3}
+                    defaultValue={'address'}
+                    blurOnSubmit={false}
+                    onSubmitEditing={() => Keyboard.dismiss()}
+                    onChangeText={(address) => setUserAddress(address)}
+                />
+            }
+
+        </>
+    )
+
+    //MANGE DISPOSITON FIELD DYNAMICLY
+    const dispositionMangeField = (formDetails) => {
+        console.log(`e`, formDetails.fields);
+        if (formDetails && formDetails.fields.length < 0) {
+            setFormFields(formDetails.fields);
+        }
+        setshowMessageModalVisible(true);
+    }
+
+    //CANCEL BUTTON ONPRESS TO CALL FUNCTION
+    const closeModelPopUp = () => {
+        setFollowUpDate(false);
+        setFollowUpTime(false);
+        setIsFollowUpChecked(false);
+        setshowMessageModalVisible(false);
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.WHITE }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
@@ -263,7 +377,7 @@ const FollowupDetailScreen = (props) => {
                 {
                     status == 'disposition' &&
                     <View style={{ marginTop: 20 }}>
-                        <TreeView data={dispositionRenderList} onClick={(e) => console.log(e)} leftImage={(<MaterialCommunityIcons size={10} name="message" color={COLOR.DEFALUTCOLOR} />)} />
+                        <TreeView data={dispositionRenderList} onClick={(e) => dispositionMangeField(e)} leftImage={(<MaterialCommunityIcons size={10} name="message" color={COLOR.DEFALUTCOLOR} />)} />
                     </View>
                 }
                 {status == 'followup history' &&
@@ -301,20 +415,90 @@ const FollowupDetailScreen = (props) => {
                     transparent={true}
                     visible={showMessageModalVisible}
                     onRequestClose={() => setshowMessageModalVisible(!showMessageModalVisible)}>
-                    <View style={{ flex: 1, alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
+                    <View style={{ flex: 1, alignItems: KEY.CENTER }}>
                         <View style={styles.msgModalView}>
-                            <Text style={{ fontSize: FONT.FONT_SIZE_22, color: COLOR.BLACK, marginLeft: 15, marginTop: 15 }}>Rate this app</Text>
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15, marginTop: 20 }}>If you like this app,please take a little bit of your time to review it!</Text>
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15 }}>It really helps us and it shouldn't take you more than one minute.</Text>
-                            <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 20, marginLeft: WIDTH / 2 - 80 }}>
-                                <TouchableOpacity onPress={() => { }} >
-                                    <Text style={{ fontSize: FONT.FONT_SIZE_14, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>RATE</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => setshowMessageModalVisible(false)} >
-                                    <Text style={{ fontSize: FONT.FONT_SIZE_14, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>NO THANKS</Text>
-                                </TouchableOpacity>
+                            {/* <FlatList
+                                style={{ marginTop: 5 }}
+                                data={followupHistoryList}
+                                showsVerticalScrollIndicator={false}
+                                renderItem={generateControl}
+                                contentContainerStyle={{ paddingBottom: 20 }}
+                                keyExtractor={item => item._id}
+                            /> */}
+
+                            <View style={{ marginTop: 10 }}>
+                                {
+                                    isFollowUpChecked === true ?
+                                        <View style={{ justifyContent: 'space-evenly', alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10, marginLeft: 20 }}>
+                                            <Text style={styles.textTitle}>Follow Up</Text>
+                                            <TouchableOpacity onPress={() => setIsFollowUpChecked(false)}>
+                                                <FontAwesome size={40}
+                                                    color={COLOR.DEFALUTCOLOR} name='toggle-on'
+                                                    style={{ margin: 5 }} />
+                                            </TouchableOpacity>
+                                        </View>
+                                        :
+                                        <View style={{ justifyContent: 'space-evenly', alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10, marginLeft: 20 }}>
+                                            <Text style={styles.textTitle}>Follow Up</Text>
+                                            <TouchableOpacity onPress={() => setIsFollowUpChecked(true)}>
+                                                <FontAwesome size={40}
+                                                    color={COLOR.DEFALUTCOLOR}
+                                                    name='toggle-off'
+                                                    style={{ margin: 5 }} />
+                                            </TouchableOpacity>
+                                        </View>
+                                }
                             </View>
 
+                            {isFollowUpChecked === true &&
+                                <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
+                                    <View style={{ justifyContent: KEY.CENTER }}>
+                                        <TextInput
+                                            placeholder="Follow up Date"
+                                            style={styles.inputTextView}
+                                            type={KEY.CLEAR}
+                                            returnKeyType={KEY.NEXT}
+                                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                            onTouchStart={() => showDatePicker()}
+                                            defaultValue={followUpDate && moment(followUpDate).format('YYYY-MM-DD')}
+                                            onSubmitEditing={() => Keyboard.dismiss()}
+                                        />
+                                        <DateTimePickerModal
+                                            isVisible={isDatePickerVisible}
+                                            mode='date'
+                                            onConfirm={handleDateConfirm}
+                                            onCancel={hideDatePicker}
+                                        />
+                                    </View>
+                                    <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
+                                        <TextInput
+                                            placeholder="Date Of Birth"
+                                            style={styles.inputTextView}
+                                            type={KEY.CLEAR}
+                                            returnKeyType={KEY.NEXT}
+                                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                            onTouchStart={() => showTimePicker()}
+                                            defaultValue={followUpTime && moment(followUpTime).format('LTS')}
+                                            onSubmitEditing={() => Keyboard.dismiss()}
+                                        />
+                                        <DateTimePickerModal
+                                            isVisible={isTimePickerVisible}
+                                            mode='time'
+                                            onConfirm={handleTimeConfirm}
+                                            onCancel={hideTimePicker}
+                                        />
+                                    </View>
+                                </View>
+                            }
+
+                            <TouchableOpacity onPress={() => CloseModelPopUp()}
+                                style={{ bottom: 10, position: 'absolute', alignSelf: 'flex-start' }} >
+                                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setshowMessageModalVisible(false)}
+                                style={{ bottom: 10, position: 'absolute', alignSelf: 'flex-end' }} >
+                                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginRight: 25, color: COLOR.DEFALUTCOLOR }}>Submit</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </Modal>
