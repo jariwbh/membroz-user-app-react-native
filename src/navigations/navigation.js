@@ -170,7 +170,7 @@ const HomeStackScreen = () => {
             }} />
             <HomeStack.Screen name="FollowupScreen" component={FOLLOWUPSCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
-                title: 'Followup',
+                title: 'Follow Up',
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />

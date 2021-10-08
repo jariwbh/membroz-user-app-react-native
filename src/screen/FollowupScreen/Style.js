@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     justifyContent: KEY.SPACEBETWEEN
   },
   textTitle: {
-    marginTop: 5,
+    // marginTop: 10,
+    // marginLeft: 15,
     textTransform: KEY.CAPITALIZE,
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
@@ -27,8 +28,10 @@ const styles = StyleSheet.create({
   },
   textsub: {
     textTransform: KEY.CAPITALIZE,
-    color: COLOR.MENU_TEXT_COLOR,
-    fontSize: FONT.FONT_SIZE_18
+    color: COLOR.LIGHT_BLACK,
+    fontWeight: FONT.FONT_WEIGHT_BOLD,
+    fontSize: FONT.FONT_SIZE_18,
+    width: WIDTH - 150
   },
   viewMain: {
     flex: 1,
@@ -48,6 +51,12 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5
   },
+  textDate: {
+    textTransform: KEY.UPPERCASE,
+    color: COLOR.LIGHT_BLACK,
+    fontWeight: FONT.FONT_WEIGHT_BOLD,
+    fontSize: FONT.FONT_SIZE_18
+  }
 });
 
 export default styles;
