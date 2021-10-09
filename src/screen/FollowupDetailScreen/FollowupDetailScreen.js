@@ -66,6 +66,8 @@ const FollowupDetailScreen = (props) => {
     const [dispositionSelectedItem, setDispositionSelectedItem] = useState(null);
     const [userList, setUserList] = useState(null);
 
+    const [ischecked, setischecked] = useState(false);
+
     useEffect(() => {
         setLoading(true);
         getUserDeatilsLocalStorage();
@@ -74,8 +76,9 @@ const FollowupDetailScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [loading, userID, status, followupHistoryList, dispositionList, refreshing, followUpDateError, userList, followUpTime, followUpTimeError,
-        assignTOError, formFields, isDatePickerVisible, followUpDate, assignTO, dispositionSelectedItem]);
+    }, [loading, userID, status, followupHistoryList, dispositionList, refreshing, followUpDateError, userList,
+        followUpTime, followUpTimeError, assignTOError, formFields, isDatePickerVisible, followUpDate,
+        assignTO, dispositionSelectedItem]);
 
     //check validation of FollowUp Date
     const checkFollowUpDate = (followDate) => {
@@ -110,7 +113,6 @@ const FollowupDetailScreen = (props) => {
         }
         setAssignTO(assignTO);
         setAssignTOError(null);
-        console.log(`assignTO`, assignTO);
         return;
     }
 
@@ -322,59 +324,136 @@ const FollowupDetailScreen = (props) => {
 
     //GENERATE DYNAMIC FIELD CONTROL
     const generateControl = ({ item }) => (
-        <>
-            {item.fieldtype === "text" &&
-                <TextInput
-                    placeholder={item.displayname}
-                    style={styles.inputTextView}
-                    type={KEY.CLEAR}
-                    returnKeyType={KEY.DONE}
-                    placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                    defaultValue={'remark'}
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => Keyboard.dismiss()}
-                    onChangeText={(fullname) => checkFullName(fullname)}
-                />
+        <View>
+            {
+                item.fieldtype == "text" &&
+                <View>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    <TextInput
+                        placeholder={item.displayname}
+                        style={styles.inputTextView}
+                        type={KEY.CLEAR}
+                        returnKeyType={KEY.DONE}
+                        placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                        //defaultValue={'remark'}
+                        blurOnSubmit={false}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    // onChangeText={(fullname) => checkFullName(fullname)}
+                    />
+                </View>
             }
             {
-                item.fieldtype === "number" &&
-                <TextInput
-                    keyboardType={KEY.EMAILADDRESS}
-                    placeholder={item.displayname}
-                    style={styles.inputTextView}
-                    type={KEY.CLEAR}
-                    returnKeyType={KEY.DONE}
-                    placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                    defaultValue={'number'}
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => Keyboard.dismiss()}
-                    onChangeText={(fullname) => checkFullName(fullname)}
-                />
+                item.fieldtype == "number" &&
+                <View>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    <TextInput
+                        keyboardType={KEY.EMAILADDRESS}
+                        placeholder={item.displayname}
+                        style={styles.inputTextView}
+                        keyboardType={KEY.NUMBER_PAD}
+                        returnKeyType={KEY.DONE}
+                        placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                        // defaultValue={'number'}
+                        blurOnSubmit={false}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    // onChangeText={(fullname) => checkFullName(fullname)}
+                    />
+                </View>
             }
             {
-                item.fieldtype === "long_text" &&
-                <TextInput placeholder={item.displayname}
-                    style={styles.addressView}
-                    placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                    type={KEY.CLEAR}
-                    returnKeyType={'default'}
-                    multiline={true}
-                    numberOfLines={3}
-                    defaultValue={'address'}
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => Keyboard.dismiss()}
-                    onChangeText={(address) => setUserAddress(address)}
-                />
+                item.fieldtype == "long_text" &&
+                <View>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    <TextInput placeholder={item.displayname}
+                        style={styles.addressView}
+                        placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                        type={KEY.CLEAR}
+                        returnKeyType={'default'}
+                        multiline={true}
+                        numberOfLines={3}
+                        // defaultValue={'address'}
+                        blurOnSubmit={false}
+                        onSubmitEditing={() => Keyboard.dismiss()}
+                    //onChangeText={(address) => setUserAddress(address)}
+                    />
+                </View>
             }
-
-        </>
+            {
+                item.fieldtype == "checkbox" &&
+                <View style={{ marginBottom: 5 }}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    {item.lookupdata.map((val) => (
+                        ischecked == true ?
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <TouchableOpacity >
+                                    <MaterialCommunityIcons size={30} name="checkbox-marked" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                                </TouchableOpacity>
+                                <Text>{val.value}</Text>
+                            </View>
+                            :
+                            <View style={{ flexDirection: 'row' }}>
+                                <TouchableOpacity >
+                                    <MaterialCommunityIcons size={30} name="checkbox-blank-outline" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                                </TouchableOpacity>
+                                <Text>{val.value}</Text>
+                            </View>
+                    ))
+                    }
+                </View>
+            }
+            {
+                item.fieldtype == "radio" &&
+                <View style={{ marginBottom: 5 }}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    {item.lookupdata.map((val) => (
+                        ischecked == true ?
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <TouchableOpacity >
+                                    <Ionicons size={30} name="radio-button-on" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                                </TouchableOpacity>
+                                <Text>{val.value}</Text>
+                            </View>
+                            :
+                            <View style={{ flexDirection: 'row' }}>
+                                <TouchableOpacity >
+                                    <Ionicons size={30} name="radio-button-off" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                                </TouchableOpacity>
+                                <Text>{val.value}</Text>
+                            </View>
+                    ))
+                    }
+                </View>
+            }
+            {
+                item.fieldtype == "list" &&
+                <View style={{ marginBottom: 5 }}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    <TextInput
+                        style={assignTOError == null ? styles.inputTextView : styles.inputTextViewError}
+                        type={KEY.CLEAR}
+                        returnKeyType={KEY.Done}
+                        placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                    />
+                    <Picker style={{ marginTop: -60 }}
+                        selectedValue={assignTO}
+                        onValueChange={(itemValue, itemIndex) => { }}>
+                        <Picker.Item label={'mango'} value={'mango'} />
+                        <Picker.Item label={'mango'} value={'mango'} />
+                        <Picker.Item label={'mango'} value={'mango'} />
+                        <Picker.Item label={'mango'} value={'mango'} />
+                        <Picker.Item label={'mango'} value={'mango'} />
+                        <Picker.Item label={'mango'} value={'mango'} />
+                    </Picker>
+                </View>
+            }
+        </View>
     )
 
     //MANGE DISPOSITON FIELD DYNAMICLY
     const dispositionMangeField = (formDetails) => {
+        console.log(`formDetails.fields`, formDetails.fields);
         setDispositionSelectedItem(formDetails);
-        console.log(`formDetails`, formDetails);
-        if (formDetails && formDetails.fields.length < 0) {
+        if (formDetails && formDetails.fields.length > 0) {
             setFormFields(formDetails.fields);
         }
         setshowMessageModalVisible(true);
@@ -507,7 +586,7 @@ const FollowupDetailScreen = (props) => {
                 }
                 {status == 'followup history' &&
                     <FlatList
-                        style={{ marginTop: 5 }}
+                        style={{ marginTop: 50 }}
                         data={followupHistoryList}
                         showsVerticalScrollIndicator={false}
                         renderItem={renderFollowupHistoryList}
@@ -542,114 +621,118 @@ const FollowupDetailScreen = (props) => {
                     onRequestClose={() => setshowMessageModalVisible(!showMessageModalVisible)}>
                     <View style={{ flex: 1, alignItems: KEY.CENTER }}>
                         <View style={styles.msgModalView}>
-                            {/* <FlatList
-                                style={{ marginTop: 5 }}
-                                data={followupHistoryList}
-                                showsVerticalScrollIndicator={false}
-                                renderItem={generateControl}
-                                contentContainerStyle={{ paddingBottom: 20 }}
-                                keyExtractor={item => item._id}
-                            /> */}
-
-                            <View style={{ marginTop: 10 }}>
+                            <ScrollView keyboardShouldPersistTaps={KEY.ALWAYS} showsVerticalScrollIndicator={false}>
                                 {
-                                    isFollowUpChecked === true ?
-                                        <View style={{ justifyContent: 'space-evenly', alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10, marginLeft: 20 }}>
-                                            <Text style={styles.textTitle}>Follow Up</Text>
-                                            <TouchableOpacity onPress={() => FollowUpCheckBoxFalse(false)}>
-                                                <FontAwesome size={40}
-                                                    color={COLOR.DEFALUTCOLOR} name='toggle-on'
-                                                    style={{ margin: 5 }} />
-                                            </TouchableOpacity>
-                                        </View>
-                                        :
-                                        <View style={{ justifyContent: 'space-evenly', alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10, marginLeft: 20 }}>
-                                            <Text style={styles.textTitle}>Follow Up</Text>
-                                            <TouchableOpacity onPress={() => FollowUpCheckBoxTrue(true)}>
-                                                <FontAwesome size={40}
-                                                    color={COLOR.DEFALUTCOLOR}
-                                                    name='toggle-off'
-                                                    style={{ margin: 5 }} />
-                                            </TouchableOpacity>
-                                        </View>
+                                    formFields && formFields.length > 0 &&
+                                    <View style={{ marginTop: 20 }}>
+                                        <FlatList
+                                            data={formFields}
+                                            showsVerticalScrollIndicator={false}
+                                            renderItem={generateControl}
+                                            contentContainerStyle={{ paddingBottom: 0 }}
+                                            keyExtractor={item => item._id}
+                                        />
+                                    </View>
                                 }
-                            </View>
-
-                            {isFollowUpChecked === true &&
-                                <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
-                                    <View>
-                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Followup Date</Text>
-                                        <TextInput
-                                            placeholder="Follow Up Date"
-                                            style={followUpDateError == null ? styles.inputTextView : styles.inputTextViewError}
-                                            type={KEY.CLEAR}
-                                            returnKeyType={KEY.NEXT}
-                                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                            defaultValue={followUpDate}
-                                            onTouchStart={() => showDatePicker()}
-                                            onTouchEnd={() => Keyboard.dismiss()}
-                                            defaultValue={followUpDate && moment(followUpDate).format('YYYY-MM-DD')}
-                                            onSubmitEditing={(followUpDate) => checkFollowUpDate(followUpDate)}
-                                        />
-                                        <DateTimePickerModal
-                                            isVisible={isDatePickerVisible}
-                                            mode='date'
-                                            onConfirm={handleDateConfirm}
-                                            onCancel={hideDatePicker}
-                                        />
-                                        {followUpDateError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{followUpDateError}</Text>}
-                                    </View>
-                                    <View>
-                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Followup Time</Text>
-                                        <TextInput
-                                            placeholder="Follow Up Time"
-                                            style={followUpTimeError == null ? styles.inputTextView : styles.inputTextViewError}
-                                            type={KEY.CLEAR}
-                                            returnKeyType={KEY.NEXT}
-                                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                            defaultValue={followUpTime && moment(followUpTime).format('LTS')}
-                                            onTouchStart={() => showTimePicker()}
-                                            onTouchEnd={() => Keyboard.dismiss()}
-                                            onSubmitEditing={(followUpDate) => checkFollowUp(followUpDate)}
-                                        />
-                                        <DateTimePickerModal
-                                            isVisible={isTimePickerVisible}
-                                            mode='time'
-                                            onConfirm={handleTimeConfirm}
-                                            onCancel={hideTimePicker}
-                                        />
-                                        {followUpTimeError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{followUpTimeError}</Text>}
-                                    </View>
-                                    <View>
-                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Assign To </Text>
-                                        <TextInput
-                                            style={assignTOError == null ? styles.inputTextView : styles.inputTextViewError}
-                                            type={KEY.CLEAR}
-                                            returnKeyType={KEY.Done}
-                                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                        />
-                                        <Picker style={{ marginTop: -60 }}
-                                            selectedValue={assignTO}
-                                            onValueChange={(itemValue, itemIndex) => checkAssignTO(itemValue)}>
-                                            {
-                                                userList.map((item) => (
-                                                    <Picker.Item label={item.fullname + ' - ' + item.designation} value={item._id} />
-                                                ))
-                                            }
-                                        </Picker>
-                                        {assignTOError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 10 }}>{assignTOError}</Text>}
-                                    </View>
+                                <View style={{ alignContent: 'flex-start', justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: -20 }}>
+                                    {
+                                        isFollowUpChecked === true ?
+                                            <View style={{ justifyContent: 'space-evenly', alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10, marginLeft: 20 }}>
+                                                <Text style={styles.textTitle}>Follow Up</Text>
+                                                <TouchableOpacity onPress={() => FollowUpCheckBoxFalse(false)}>
+                                                    <FontAwesome size={40}
+                                                        color={COLOR.DEFALUTCOLOR} name='toggle-on'
+                                                        style={{ margin: 5 }} />
+                                                </TouchableOpacity>
+                                            </View>
+                                            :
+                                            <View style={{ justifyContent: 'space-evenly', alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10, marginLeft: 20 }}>
+                                                <Text style={styles.textTitle}>Follow Up</Text>
+                                                <TouchableOpacity onPress={() => FollowUpCheckBoxTrue(true)}>
+                                                    <FontAwesome size={40}
+                                                        color={COLOR.DEFALUTCOLOR}
+                                                        name='toggle-off'
+                                                        style={{ margin: 5 }} />
+                                                </TouchableOpacity>
+                                            </View>
+                                    }
                                 </View>
-                            }
 
-                            <TouchableOpacity onPress={() => closeModelPopUp()}
-                                style={{ bottom: 10, position: 'absolute', alignSelf: 'flex-start' }} >
-                                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => onPressToSubmitDisposion()}
-                                style={{ bottom: 10, position: 'absolute', alignSelf: 'flex-end' }} >
-                                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginRight: 25, color: COLOR.DEFALUTCOLOR }}>Submit</Text>
-                            </TouchableOpacity>
+                                {isFollowUpChecked === true &&
+                                    <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
+                                        <View>
+                                            <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Followup Date</Text>
+                                            <TextInput
+                                                placeholder="Follow Up Date"
+                                                style={followUpDateError == null ? styles.inputTextView : styles.inputTextViewError}
+                                                type={KEY.CLEAR}
+                                                returnKeyType={KEY.NEXT}
+                                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                                defaultValue={followUpDate}
+                                                onTouchStart={() => showDatePicker()}
+                                                onTouchEnd={() => Keyboard.dismiss()}
+                                                defaultValue={followUpDate && moment(followUpDate).format('YYYY-MM-DD')}
+                                                onSubmitEditing={(followUpDate) => checkFollowUpDate(followUpDate)}
+                                            />
+                                            <DateTimePickerModal
+                                                isVisible={isDatePickerVisible}
+                                                mode='date'
+                                                onConfirm={handleDateConfirm}
+                                                onCancel={hideDatePicker}
+                                            />
+                                            {followUpDateError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{followUpDateError}</Text>}
+                                        </View>
+                                        <View>
+                                            <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Followup Time</Text>
+                                            <TextInput
+                                                placeholder="Follow Up Time"
+                                                style={followUpTimeError == null ? styles.inputTextView : styles.inputTextViewError}
+                                                type={KEY.CLEAR}
+                                                returnKeyType={KEY.NEXT}
+                                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                                defaultValue={followUpTime && moment(followUpTime).format('LTS')}
+                                                onTouchStart={() => showTimePicker()}
+                                                onTouchEnd={() => Keyboard.dismiss()}
+                                                onSubmitEditing={(followUpDate) => checkFollowUp(followUpDate)}
+                                            />
+                                            <DateTimePickerModal
+                                                isVisible={isTimePickerVisible}
+                                                mode='time'
+                                                onConfirm={handleTimeConfirm}
+                                                onCancel={hideTimePicker}
+                                            />
+                                            {followUpTimeError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{followUpTimeError}</Text>}
+                                        </View>
+                                        <View>
+                                            <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Assign To </Text>
+                                            <TextInput
+                                                style={assignTOError == null ? styles.inputTextView : styles.inputTextViewError}
+                                                type={KEY.CLEAR}
+                                                returnKeyType={KEY.Done}
+                                                placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                            />
+                                            <Picker style={{ marginTop: -60 }}
+                                                selectedValue={assignTO}
+                                                onValueChange={(itemValue, itemIndex) => checkAssignTO(itemValue)}>
+                                                {
+                                                    userList.map((item) => (
+                                                        <Picker.Item label={item.fullname + ' - ' + item.designation} value={item._id} />
+                                                    ))
+                                                }
+                                            </Picker>
+                                            {assignTOError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 10 }}>{assignTOError}</Text>}
+                                        </View>
+                                    </View>
+                                }
+                                <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, justifyContent: KEY.SPACEBETWEEN, marginTop: 30 }}>
+                                    <TouchableOpacity onPress={() => closeModelPopUp()} style={styles.btnStyle}>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_20, color: COLOR.WHITE }}>Cancel</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => onPressToSubmitDisposion()} style={styles.btnStyle}>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_20, color: COLOR.WHITE }}>Submit</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </ScrollView>
                         </View>
                     </View>
                 </Modal>

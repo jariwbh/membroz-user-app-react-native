@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3
   },
   msgModalView: {
-    height: HEIGHT - 200,
+    //height: HEIGHT - 200,
     width: WIDTH - 20,
     borderRadius: 10,
     backgroundColor: COLOR.WHITE,
@@ -90,14 +90,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 1,
-    alignItems: KEY.CENTER,
+    alignItems: KEY.CENTER
   },
   inputTextView: {
     borderRadius: 10,
     borderWidth: 1,
     borderColor: COLOR.BLACK,
     marginBottom: 10,
-    width: WIDTH - 40,
+    width: WIDTH - 60,
     height: 45,
     color: COLOR.BLACK,
     fontSize: FONT.FONT_SIZE_16,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.ERRORCOLOR,
     marginBottom: 10,
-    width: WIDTH - 40,
+    width: WIDTH - 60,
     height: 45,
     color: COLOR.BLACK,
     fontSize: FONT.FONT_SIZE_16,
@@ -118,15 +118,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: COLOR.BLACK,
-    alignItems: KEY.FLEX_START,
     marginBottom: 10,
-    width: WIDTH - 40,
-    marginLeft: 20,
-    marginRight: 20,
+    width: WIDTH - 60,
     color: COLOR.BLACK,
     fontSize: FONT.FONT_SIZE_16,
     paddingLeft: 15,
   },
+  btnStyle: {
+    bottom: 20,
+    height: 30,
+    width: 100,
+    backgroundColor: COLOR.DEFALUTCOLOR,
+    alignItems: KEY.CENTER,
+    justifyContent: KEY.CENTER,
+    borderRadius: 10,
+    color: COLOR.DEFALUTCOLOR,
+  }
 });
 
 export default styles;
