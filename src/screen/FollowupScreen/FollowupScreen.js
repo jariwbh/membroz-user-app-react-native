@@ -118,7 +118,7 @@ const FollowupScreen = (props) => {
                 <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10 }}>
                     <View style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginLeft: 20 }}>
                         <View style={{ flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_START }}>
-                            <Text style={styles.textTitle}>{item?.customerid?.fullname}</Text>
+                            <Text style={styles.textTitle}>{item?.customerid?.property?.fullname}</Text>
                             <Text style={styles.textTitle}>{item?.customerid?.property?.mobile}</Text>
                         </View>
                     </View>
@@ -141,7 +141,7 @@ const FollowupScreen = (props) => {
                 <View style={{ marginLeft: 20, justifyContent: KEY.CENTER, marginTop: 5, marginBottom: 10 }}>
                     <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: 'center' }}>
                         <Entypo size={25} name="user" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                        <Text style={styles.textsub}>{item?.customerid?.fullname}</Text>
+                        <Text style={styles.textsub}>{item?.customerid?.property?.fullname}</Text>
                     </View>
                     <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: 'center' }}>
                         <Ionicons size={25} name="call-outline" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />

@@ -27,10 +27,12 @@ import moment from 'moment';
 import Toast from 'react-native-simple-toast';
 import Loader from '../../components/loader/index';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import { DispositionService, followupHistoryService } from '../../services/DispositionService/DispositionService';
+import { DispositionService, followupHistoryService, addDispositionService } from '../../services/DispositionService/DispositionService';
 import TreeView from "react-native-animated-tree-view";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { Picker } from '@react-native-picker/picker';
 const WIDTH = Dimensions.get('window').width;
+import { UserListService } from '../../services/UserService/UserService';
 const ListTab = [
     {
         'status': 'disposition'
@@ -56,18 +58,61 @@ const FollowupDetailScreen = (props) => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [followUpDate, setFollowUpDate] = useState(null);
+    const [followUpDateError, setFollowUpDateError] = useState(null);
     const [followUpTime, setFollowUpTime] = useState(null);
+    const [followUpTimeError, setFollowUpTimeError] = useState(null);
     const [assignTO, setAssignTO] = useState(null);
+    const [assignTOError, setAssignTOError] = useState(null);
+    const [dispositionSelectedItem, setDispositionSelectedItem] = useState(null);
+    const [userList, setUserList] = useState(null);
 
     useEffect(() => {
         setLoading(true);
         getUserDeatilsLocalStorage();
+        getUserList();
         getDispositionList();
     }, [])
 
     useEffect(() => {
-    }, [loading, userID, status, followupHistoryList, dispositionList, refreshing,
-        formFields, isDatePickerVisible, isTimePickerVisible, followUpDate, followUpTime, assignTO]);
+    }, [loading, userID, status, followupHistoryList, dispositionList, refreshing, followUpDateError, userList, followUpTime, followUpTimeError,
+        assignTOError, formFields, isDatePickerVisible, followUpDate, assignTO, dispositionSelectedItem]);
+
+    //check validation of FollowUp Date
+    const checkFollowUpDate = (followDate) => {
+        if (!followDate || followDate.length <= 0) {
+            setFollowUpDateError('Follow Date Required!');
+            setFollowUpDate(followDate);
+            return;
+        }
+        setFollowUpDate(followDate);
+        setFollowUpDateError(null);
+        return;
+    }
+
+    //check validation of FollowUp Time
+    const checkFollowUpTime = (followTime) => {
+        if (!followTime || followTime.length <= 0) {
+            setFollowUpTimeError('Follow Time Required!');
+            setFollowUpTime(followTime);
+            return;
+        }
+        setFollowUpTime(followTime);
+        setFollowUpTimeError(null);
+        return;
+    }
+
+    //check validation of AssignTO
+    const checkAssignTO = (assignTO) => {
+        if (!assignTO || assignTO.length <= 0) {
+            setAssignTOError('Assign TO Required!');
+            setAssignTO(assignTO);
+            return;
+        }
+        setAssignTO(assignTO);
+        setAssignTOError(null);
+        console.log(`assignTO`, assignTO);
+        return;
+    }
 
     //ONPRESS TO SHOW DATE PICKER
     const showDatePicker = () => {
@@ -106,6 +151,22 @@ const FollowupDetailScreen = (props) => {
         Keyboard.dismiss();
         hideTimePicker();
     };
+
+    //GET ASSIGN TO USER LIST IN API FETCH DATA
+    const getUserList = async () => {
+        let customeList = [];
+        const response = await UserListService();
+        if (response.data != null && response.data != 'undefind' && response.status == 200) {
+            response.data.forEach(element => {
+                let value = {};
+                value._id = element?._id;
+                value.designation = element?.designationid?.property?.title || 'other';
+                value.fullname = element?.property?.fullname;
+                customeList.push(value);
+            });
+            setUserList(customeList);
+        }
+    }
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
@@ -311,19 +372,83 @@ const FollowupDetailScreen = (props) => {
 
     //MANGE DISPOSITON FIELD DYNAMICLY
     const dispositionMangeField = (formDetails) => {
-        console.log(`e`, formDetails.fields);
+        setDispositionSelectedItem(formDetails);
+        console.log(`formDetails`, formDetails);
         if (formDetails && formDetails.fields.length < 0) {
             setFormFields(formDetails.fields);
         }
         setshowMessageModalVisible(true);
     }
 
+    //SUBMIT BTM CLICK TO CALL FUNCTION
+    const onPressToSubmitDisposion = () => {
+        let body;
+
+        if (isFollowUpChecked) {
+            if (!followUpDate || !followUpTime || !assignTO) {
+                checkFollowUpDate(followUpDate);
+                checkFollowUpTime(followUpTime);
+                checkAssignTO(assignTO);
+                return;
+            }
+        } else {
+            setshowMessageModalVisible(false);
+        }
+
+        body = {
+            dispositionid: dispositionSelectedItem._id,
+            type: dispositionSelectedItem.action,
+            customerid: followupDetail._id,
+            onModel: 'Enquiry',
+            property: {
+                remark: 'abc',
+            },
+            status: 'close',
+        }
+        if (isFollowUpChecked) {
+            let margeDate = moment(followUpDate).format('YYYY-MM-DD') + ' ' + moment(followUpTime).format('LTS');
+            body.property.followupdate = moment(margeDate).format();
+            body.property.assignto = assignTO;
+        }
+
+        //console.log(`body`, body);
+        closeModelPopUp();
+        // const response = addDispositionService(body);
+        // if (response.data != null && response.data != 'undefind' && response.status == 200) {
+        //     setLoading(false);
+        //     setshowMessageModalVisible(false);
+        // }
+    }
+
     //CANCEL BUTTON ONPRESS TO CALL FUNCTION
     const closeModelPopUp = () => {
-        setFollowUpDate(false);
-        setFollowUpTime(false);
+        setFollowUpDate(null);
+        setFollowUpDateError(null);
+        setFollowUpTime(null);
+        setFollowUpTimeError(null);
+        setAssignTO(null);
+        setAssignTOError(null);
         setIsFollowUpChecked(false);
         setshowMessageModalVisible(false);
+    }
+
+    //FOLLOWUP CHECK BOX VALUE FALSE TO CALL FUNCTION
+    const FollowUpCheckBoxFalse = (value) => {
+        setIsFollowUpChecked(value);
+        setFollowUpTime(null);
+        setFollowUpDate(null);
+        setFollowUpDateError(null);
+        setFollowUpTimeError(null);
+        setAssignTO(null);
+        setAssignTOError(null);
+    }
+
+    //FOLLOWUP CHECK BOX VALUE TRUE TO CALL FUNCTION
+    const FollowUpCheckBoxTrue = (value) => {
+        setIsFollowUpChecked(value);
+        setFollowUpDate(moment().format());
+        setFollowUpTime(moment().format());
+        //setAssignTO(null);
     }
 
     return (
@@ -431,7 +556,7 @@ const FollowupDetailScreen = (props) => {
                                     isFollowUpChecked === true ?
                                         <View style={{ justifyContent: 'space-evenly', alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10, marginLeft: 20 }}>
                                             <Text style={styles.textTitle}>Follow Up</Text>
-                                            <TouchableOpacity onPress={() => setIsFollowUpChecked(false)}>
+                                            <TouchableOpacity onPress={() => FollowUpCheckBoxFalse(false)}>
                                                 <FontAwesome size={40}
                                                     color={COLOR.DEFALUTCOLOR} name='toggle-on'
                                                     style={{ margin: 5 }} />
@@ -440,7 +565,7 @@ const FollowupDetailScreen = (props) => {
                                         :
                                         <View style={{ justifyContent: 'space-evenly', alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10, marginLeft: 20 }}>
                                             <Text style={styles.textTitle}>Follow Up</Text>
-                                            <TouchableOpacity onPress={() => setIsFollowUpChecked(true)}>
+                                            <TouchableOpacity onPress={() => FollowUpCheckBoxTrue(true)}>
                                                 <FontAwesome size={40}
                                                     color={COLOR.DEFALUTCOLOR}
                                                     name='toggle-off'
@@ -452,16 +577,19 @@ const FollowupDetailScreen = (props) => {
 
                             {isFollowUpChecked === true &&
                                 <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
-                                    <View style={{ justifyContent: KEY.CENTER }}>
+                                    <View>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Followup Date</Text>
                                         <TextInput
-                                            placeholder="Follow up Date"
-                                            style={styles.inputTextView}
+                                            placeholder="Follow Up Date"
+                                            style={followUpDateError == null ? styles.inputTextView : styles.inputTextViewError}
                                             type={KEY.CLEAR}
                                             returnKeyType={KEY.NEXT}
                                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                            defaultValue={followUpDate}
                                             onTouchStart={() => showDatePicker()}
+                                            onTouchEnd={() => Keyboard.dismiss()}
                                             defaultValue={followUpDate && moment(followUpDate).format('YYYY-MM-DD')}
-                                            onSubmitEditing={() => Keyboard.dismiss()}
+                                            onSubmitEditing={(followUpDate) => checkFollowUpDate(followUpDate)}
                                         />
                                         <DateTimePickerModal
                                             isVisible={isDatePickerVisible}
@@ -469,17 +597,20 @@ const FollowupDetailScreen = (props) => {
                                             onConfirm={handleDateConfirm}
                                             onCancel={hideDatePicker}
                                         />
+                                        {followUpDateError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{followUpDateError}</Text>}
                                     </View>
-                                    <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
+                                    <View>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Followup Time</Text>
                                         <TextInput
-                                            placeholder="Date Of Birth"
-                                            style={styles.inputTextView}
+                                            placeholder="Follow Up Time"
+                                            style={followUpTimeError == null ? styles.inputTextView : styles.inputTextViewError}
                                             type={KEY.CLEAR}
                                             returnKeyType={KEY.NEXT}
                                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                                            onTouchStart={() => showTimePicker()}
                                             defaultValue={followUpTime && moment(followUpTime).format('LTS')}
-                                            onSubmitEditing={() => Keyboard.dismiss()}
+                                            onTouchStart={() => showTimePicker()}
+                                            onTouchEnd={() => Keyboard.dismiss()}
+                                            onSubmitEditing={(followUpDate) => checkFollowUp(followUpDate)}
                                         />
                                         <DateTimePickerModal
                                             isVisible={isTimePickerVisible}
@@ -487,15 +618,35 @@ const FollowupDetailScreen = (props) => {
                                             onConfirm={handleTimeConfirm}
                                             onCancel={hideTimePicker}
                                         />
+                                        {followUpTimeError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{followUpTimeError}</Text>}
+                                    </View>
+                                    <View>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Assign To </Text>
+                                        <TextInput
+                                            style={assignTOError == null ? styles.inputTextView : styles.inputTextViewError}
+                                            type={KEY.CLEAR}
+                                            returnKeyType={KEY.Done}
+                                            placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
+                                        />
+                                        <Picker style={{ marginTop: -60 }}
+                                            selectedValue={assignTO}
+                                            onValueChange={(itemValue, itemIndex) => checkAssignTO(itemValue)}>
+                                            {
+                                                userList.map((item) => (
+                                                    <Picker.Item label={item.fullname + ' - ' + item.designation} value={item._id} />
+                                                ))
+                                            }
+                                        </Picker>
+                                        {assignTOError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 10 }}>{assignTOError}</Text>}
                                     </View>
                                 </View>
                             }
 
-                            <TouchableOpacity onPress={() => CloseModelPopUp()}
+                            <TouchableOpacity onPress={() => closeModelPopUp()}
                                 style={{ bottom: 10, position: 'absolute', alignSelf: 'flex-start' }} >
                                 <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>Cancel</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setshowMessageModalVisible(false)}
+                            <TouchableOpacity onPress={() => onPressToSubmitDisposion()}
                                 style={{ bottom: 10, position: 'absolute', alignSelf: 'flex-end' }} >
                                 <Text style={{ fontSize: FONT.FONT_SIZE_20, marginRight: 25, color: COLOR.DEFALUTCOLOR }}>Submit</Text>
                             </TouchableOpacity>

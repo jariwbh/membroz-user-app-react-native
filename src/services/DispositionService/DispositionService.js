@@ -30,3 +30,7 @@ export const followupHistoryService = (id) => {
     }
     return Axios.post('activities/filter', body)
 }
+
+export const addDispositionService = (body) => {
+    return Axios.post('activities', body)
+}
