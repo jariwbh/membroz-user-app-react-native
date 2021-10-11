@@ -124,6 +124,16 @@ const styles = StyleSheet.create({
     fontSize: FONT.FONT_SIZE_16,
     paddingLeft: 15,
   },
+  addressViewError: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLOR.ERRORCOLOR,
+    marginBottom: 10,
+    width: WIDTH - 60,
+    color: COLOR.BLACK,
+    fontSize: FONT.FONT_SIZE_16,
+    paddingLeft: 15,
+  },
   btnStyle: {
     bottom: 20,
     height: 30,

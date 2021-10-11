@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     Dimensions,
     SafeAreaView,
@@ -65,8 +65,7 @@ const FollowupDetailScreen = (props) => {
     const [assignTOError, setAssignTOError] = useState(null);
     const [dispositionSelectedItem, setDispositionSelectedItem] = useState(null);
     const [userList, setUserList] = useState(null);
-
-    const [ischecked, setischecked] = useState(false);
+    const [fieldValArray, setFieldValArray] = useState([]);
 
     useEffect(() => {
         setLoading(true);
@@ -76,9 +75,9 @@ const FollowupDetailScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [loading, userID, status, followupHistoryList, dispositionList, refreshing, followUpDateError, userList,
-        followUpTime, followUpTimeError, assignTOError, formFields, isDatePickerVisible, followUpDate,
-        assignTO, dispositionSelectedItem]);
+    }, [loading, userID, status, followupHistoryList, dispositionList, refreshing, followUpDateError, userList, userInfo,
+        followUpTime, followUpTimeError, assignTOError, formFields, isDatePickerVisible, followUpDate, fieldValArray,
+        assignTO, dispositionSelectedItem, dispositionRenderList, showMessageModalVisible, isFollowUpChecked]);
 
     //check validation of FollowUp Date
     const checkFollowUpDate = (followDate) => {
@@ -322,30 +321,94 @@ const FollowupDetailScreen = (props) => {
         </View>
     )
 
+    //user input field to manage data
+    const getInputFieldValue = (item, val) => {
+        formFields.forEach(element => {
+            let obj = {};
+            if (element.fieldtype == item.fieldtype) {
+                obj = {
+                    fieldname: item.fieldname,
+                    value: val
+                }
+                let nwefilteredLists = fieldValArray.findIndex(el => (el.fieldname == item.fieldname))
+                if (nwefilteredLists == -1) {
+                    setFieldValArray([...fieldValArray, obj]);
+                } else {
+                    fieldValArray.splice(nwefilteredLists, 1, obj);
+                }
+            }
+        });
+    }
+
+    //user input Choice to manage data
+    const getInputChoiceValue = (item, val) => {
+        console.log(`item`, item);
+        formFields.forEach(element => {
+            let obj = {};
+            if (element.fieldtype === "checkbox" && element.fieldname == item.fieldname) {
+                element.lookupdata.forEach(ele => {
+                    if (ele.value == val) {
+                        ele.ischecked = true;
+                    }
+                })
+                obj = {
+                    fieldname: item.fieldname,
+                    value: val
+                }
+                let nwefilteredLists = fieldValArray.findIndex(el => (el.fieldname == item.fieldname))
+                if (nwefilteredLists == -1) {
+                    setFieldValArray([...fieldValArray, obj]);
+                } else {
+                    fieldValArray.splice(nwefilteredLists, 1, obj);
+                }
+            } else if (element.fieldtype === "radio" && element.fieldname == item.fieldname) {
+                element.lookupdata.forEach(ele => {
+                    if (ele.value == val) {
+                        ele.ischecked = true;
+                    } else {
+                        ele.ischecked = false;
+                    }
+                })
+                obj = {
+                    fieldname: item.fieldname,
+                    value: val
+                }
+                let nwefilteredLists = fieldValArray.findIndex(el => (el.fieldname == item.fieldname))
+                if (nwefilteredLists == -1) {
+                    setFieldValArray([...fieldValArray, obj]);
+                } else {
+                    fieldValArray.splice(nwefilteredLists, 1, obj);
+                }
+                console.log(`formFields`, formFields);
+            }
+        });
+    }
+
     //GENERATE DYNAMIC FIELD CONTROL
     const generateControl = ({ item }) => (
         <View>
             {
                 item.fieldtype == "text" &&
                 <View>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
                     <TextInput
                         placeholder={item.displayname}
+                        style={styles.inputTextView}
                         style={styles.inputTextView}
                         type={KEY.CLEAR}
                         returnKeyType={KEY.DONE}
                         placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                        //defaultValue={'remark'}
                         blurOnSubmit={false}
                         onSubmitEditing={() => Keyboard.dismiss()}
-                    // onChangeText={(fullname) => checkFullName(fullname)}
+                        onChangeText={(val) => getInputFieldValue(item, val)}
                     />
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{'Field is required!'}</Text>}
                 </View>
             }
             {
                 item.fieldtype == "number" &&
                 <View>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
                     <TextInput
                         keyboardType={KEY.EMAILADDRESS}
                         placeholder={item.displayname}
@@ -353,17 +416,17 @@ const FollowupDetailScreen = (props) => {
                         keyboardType={KEY.NUMBER_PAD}
                         returnKeyType={KEY.DONE}
                         placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                        // defaultValue={'number'}
                         blurOnSubmit={false}
                         onSubmitEditing={() => Keyboard.dismiss()}
-                    // onChangeText={(fullname) => checkFullName(fullname)}
+                        onChangeText={(val) => getInputFieldValue(item, val)}
                     />
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{'Field is required!'}</Text>}
                 </View>
             }
             {
                 item.fieldtype == "long_text" &&
                 <View>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
                     <TextInput placeholder={item.displayname}
                         style={styles.addressView}
                         placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -371,63 +434,65 @@ const FollowupDetailScreen = (props) => {
                         returnKeyType={'default'}
                         multiline={true}
                         numberOfLines={3}
-                        // defaultValue={'address'}
                         blurOnSubmit={false}
                         onSubmitEditing={() => Keyboard.dismiss()}
-                    //onChangeText={(address) => setUserAddress(address)}
+                        onChangeText={(val) => getInputFieldValue(item, val)}
                     />
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{'Field is required!'}</Text>}
                 </View>
             }
             {
                 item.fieldtype == "checkbox" &&
                 <View style={{ marginBottom: 5 }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
                     {item.lookupdata.map((val) => (
-                        ischecked == true ?
+                        val.ischecked == true ?
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <TouchableOpacity >
+                                <TouchableOpacity onPress={() => getInputChoiceValue(item, val.value)}>
                                     <MaterialCommunityIcons size={30} name="checkbox-marked" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                                 </TouchableOpacity>
                                 <Text>{val.value}</Text>
                             </View>
                             :
                             <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity >
+                                <TouchableOpacity onPress={() => getInputChoiceValue(item, val.value)}>
                                     <MaterialCommunityIcons size={30} name="checkbox-blank-outline" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                                 </TouchableOpacity>
                                 <Text>{val.value}</Text>
                             </View>
                     ))
                     }
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'Field is required!'}</Text>}
                 </View>
             }
             {
                 item.fieldtype == "radio" &&
                 <View style={{ marginBottom: 5 }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
                     {item.lookupdata.map((val) => (
-                        ischecked == true ?
+                        val.ischecked == true ?
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <TouchableOpacity >
+                                <TouchableOpacity onPress={() => getInputChoiceValue(item, val.value)}>
                                     <Ionicons size={30} name="radio-button-on" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                                 </TouchableOpacity>
                                 <Text>{val.value}</Text>
                             </View>
                             :
                             <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity >
+                                <TouchableOpacity onPress={() => getInputChoiceValue(item, val.value)}>
                                     <Ionicons size={30} name="radio-button-off" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                                 </TouchableOpacity>
                                 <Text>{val.value}</Text>
                             </View>
                     ))
                     }
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'Field is required!'}</Text>}
                 </View>
             }
             {
                 item.fieldtype == "list" &&
                 <View style={{ marginBottom: 5 }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{item.displayname}</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
                     <TextInput
                         style={assignTOError == null ? styles.inputTextView : styles.inputTextViewError}
                         type={KEY.CLEAR}
@@ -435,15 +500,15 @@ const FollowupDetailScreen = (props) => {
                         placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                     />
                     <Picker style={{ marginTop: -60 }}
-                        selectedValue={assignTO}
-                        onValueChange={(itemValue, itemIndex) => { }}>
-                        <Picker.Item label={'mango'} value={'mango'} />
-                        <Picker.Item label={'mango'} value={'mango'} />
-                        <Picker.Item label={'mango'} value={'mango'} />
-                        <Picker.Item label={'mango'} value={'mango'} />
-                        <Picker.Item label={'mango'} value={'mango'} />
-                        <Picker.Item label={'mango'} value={'mango'} />
+                        // selectedValue={assignTO}
+                        onValueChange={(itemValue, itemIndex) => getInputFieldValue(item, itemValue)}>
+                        {
+                            item.lookupdata.map((item) => (
+                                <Picker.Item label={item.key} value={item.value} />
+                            ))
+                        }
                     </Picker>
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'Field is required!'}</Text>}
                 </View>
             }
         </View>
@@ -451,9 +516,13 @@ const FollowupDetailScreen = (props) => {
 
     //MANGE DISPOSITON FIELD DYNAMICLY
     const dispositionMangeField = (formDetails) => {
-        console.log(`formDetails.fields`, formDetails.fields);
         setDispositionSelectedItem(formDetails);
         if (formDetails && formDetails.fields.length > 0) {
+            formDetails.fields.forEach(element => {
+                if (element.fieldtype.toLowerCase() == "radio" || element.fieldtype.toLowerCase() == "checkbox") {
+                    element.lookupdata.map(p => p.ischecked = false);
+                }
+            });
             setFormFields(formDetails.fields);
         }
         setshowMessageModalVisible(true);
