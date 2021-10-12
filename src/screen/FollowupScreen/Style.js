@@ -33,6 +33,13 @@ const styles = StyleSheet.create({
     fontSize: FONT.FONT_SIZE_18,
     width: WIDTH - 150
   },
+  textsubCallBtn: {
+    textTransform: KEY.CAPITALIZE,
+    color: COLOR.WHITE,
+    fontWeight: FONT.FONT_WEIGHT_BOLD,
+    fontSize: FONT.FONT_SIZE_18,
+    marginRight: 10
+  },
   viewMain: {
     flex: 1,
     //height: HEIGHT - 220,

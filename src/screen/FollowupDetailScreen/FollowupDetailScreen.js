@@ -75,6 +75,7 @@ const FollowupDetailScreen = (props) => {
     }, [])
 
     useEffect(() => {
+        console.log(`fieldValArray`, fieldValArray);
     }, [loading, userID, status, followupHistoryList, dispositionList, refreshing, followUpDateError, userList, userInfo,
         followUpTime, followUpTimeError, assignTOError, formFields, isDatePickerVisible, followUpDate, fieldValArray,
         assignTO, dispositionSelectedItem, dispositionRenderList, showMessageModalVisible, isFollowUpChecked]);
@@ -340,30 +341,60 @@ const FollowupDetailScreen = (props) => {
         });
     }
 
-    //user input Choice to manage data
-    const getInputChoiceValue = (item, val) => {
-        console.log(`item`, item);
+    //user input field to manage data
+    const getListValue = (item, val) => {
         formFields.forEach(element => {
             let obj = {};
-            if (element.fieldtype === "checkbox" && element.fieldname == item.fieldname) {
-                element.lookupdata.forEach(ele => {
-                    if (ele.value == val) {
-                        ele.ischecked = true;
-                    }
-                })
+            if (element.fieldtype == item.fieldtype) {
+                element.selectedvalue = val;
                 obj = {
                     fieldname: item.fieldname,
                     value: val
                 }
-                let nwefilteredLists = fieldValArray.findIndex(el => (el.fieldname == item.fieldname))
-                if (nwefilteredLists == -1) {
-                    setFieldValArray([...fieldValArray, obj]);
+                let nwefilteredLists = fieldValArray.find(el => (el.fieldname == item.fieldname))
+                if (nwefilteredLists) {
+                    nwefilteredLists["value"] = val;
+                    setFieldValArray([...fieldValArray]);
                 } else {
-                    fieldValArray.splice(nwefilteredLists, 1, obj);
+                    setFieldValArray([...fieldValArray, obj]);
+                }
+            }
+        });
+    }
+
+    //user input Choice to manage data
+    const getInputChoiceValue = (item, val) => {
+        formFields.forEach(element => {
+            let obj = {};
+            if (element.fieldtype === "checkbox" && element.fieldname == item.fieldname) {
+                element.lookupdata.forEach(ele => {
+                    if (ele.value === val.value && ele.ischecked === false) {
+                        ele.ischecked = true;
+                    }
+                    else if (ele.value === val.value && ele.ischecked === true) {
+                        ele.ischecked = false;
+                    }
+                })
+                obj = {
+                    fieldname: item.fieldname,
+                    value: [val.value]
+                }
+                let nwefilteredLists = fieldValArray.find(el => (el.fieldname == item.fieldname))
+                let ind;
+                if (nwefilteredLists && nwefilteredLists.value.length > 0) {
+                    ind = nwefilteredLists.value.findIndex(a => a == val.value);
+                    if (ind != -1 && val.ischecked === false) {
+                        nwefilteredLists.value.splice(ind, 1);
+                    } else {
+                        nwefilteredLists.value.push(val.value);
+                    }
+                    setFieldValArray([...fieldValArray]);
+                } else {
+                    setFieldValArray([...fieldValArray, obj]);
                 }
             } else if (element.fieldtype === "radio" && element.fieldname == item.fieldname) {
                 element.lookupdata.forEach(ele => {
-                    if (ele.value == val) {
+                    if (ele.value == val.value) {
                         ele.ischecked = true;
                     } else {
                         ele.ischecked = false;
@@ -371,15 +402,15 @@ const FollowupDetailScreen = (props) => {
                 })
                 obj = {
                     fieldname: item.fieldname,
-                    value: val
+                    value: val.value
                 }
-                let nwefilteredLists = fieldValArray.findIndex(el => (el.fieldname == item.fieldname))
-                if (nwefilteredLists == -1) {
-                    setFieldValArray([...fieldValArray, obj]);
+                let nwefilteredLists = fieldValArray.find(el => (el.fieldname == item.fieldname))
+                if (nwefilteredLists) {
+                    nwefilteredLists["value"] = val.value;
+                    setFieldValArray([...fieldValArray]);
                 } else {
-                    fieldValArray.splice(nwefilteredLists, 1, obj);
+                    setFieldValArray([...fieldValArray, obj]);
                 }
-                console.log(`formFields`, formFields);
             }
         });
     }
@@ -446,20 +477,12 @@ const FollowupDetailScreen = (props) => {
                 <View style={{ marginBottom: 5 }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
                     {item.lookupdata.map((val) => (
-                        val.ischecked == true ?
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <TouchableOpacity onPress={() => getInputChoiceValue(item, val.value)}>
-                                    <MaterialCommunityIcons size={30} name="checkbox-marked" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                                </TouchableOpacity>
-                                <Text>{val.value}</Text>
-                            </View>
-                            :
-                            <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity onPress={() => getInputChoiceValue(item, val.value)}>
-                                    <MaterialCommunityIcons size={30} name="checkbox-blank-outline" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                                </TouchableOpacity>
-                                <Text>{val.value}</Text>
-                            </View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <TouchableOpacity onPress={() => getInputChoiceValue(item, val)}>
+                                <MaterialCommunityIcons size={30} name={val.ischecked == true ? "checkbox-marked" : "checkbox-blank-outline"} color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                            </TouchableOpacity>
+                            <Text>{val.value}</Text>
+                        </View>
                     ))
                     }
                     {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'Field is required!'}</Text>}
@@ -470,20 +493,12 @@ const FollowupDetailScreen = (props) => {
                 <View style={{ marginBottom: 5 }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
                     {item.lookupdata.map((val) => (
-                        val.ischecked == true ?
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <TouchableOpacity onPress={() => getInputChoiceValue(item, val.value)}>
-                                    <Ionicons size={30} name="radio-button-on" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                                </TouchableOpacity>
-                                <Text>{val.value}</Text>
-                            </View>
-                            :
-                            <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity onPress={() => getInputChoiceValue(item, val.value)}>
-                                    <Ionicons size={30} name="radio-button-off" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                                </TouchableOpacity>
-                                <Text>{val.value}</Text>
-                            </View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <TouchableOpacity onPress={() => getInputChoiceValue(item, val)}>
+                                <Ionicons size={30} name={val.ischecked == true ? "radio-button-on" : "radio-button-off"} color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                            </TouchableOpacity>
+                            <Text>{val.value}</Text>
+                        </View>
                     ))
                     }
                     {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'Field is required!'}</Text>}
@@ -500,8 +515,9 @@ const FollowupDetailScreen = (props) => {
                         placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                     />
                     <Picker style={{ marginTop: -60 }}
-                        // selectedValue={assignTO}
-                        onValueChange={(itemValue, itemIndex) => getInputFieldValue(item, itemValue)}>
+                        selectedValue={item.selectedvalue}
+                        onValueChange={(itemValue, itemIndex) => getListValue(item, itemValue)}>
+                        <Picker.Item label={item.displayname} value={item.displayname} />
                         {
                             item.lookupdata.map((item) => (
                                 <Picker.Item label={item.key} value={item.value} />
@@ -522,6 +538,9 @@ const FollowupDetailScreen = (props) => {
                 if (element.fieldtype.toLowerCase() == "radio" || element.fieldtype.toLowerCase() == "checkbox") {
                     element.lookupdata.map(p => p.ischecked = false);
                 }
+                if (element.fieldtype.toLowerCase() == "list") {
+                    element.selectedvalue = null;
+                }
             });
             setFormFields(formDetails.fields);
         }
@@ -529,9 +548,10 @@ const FollowupDetailScreen = (props) => {
     }
 
     //SUBMIT BTM CLICK TO CALL FUNCTION
-    const onPressToSubmitDisposion = () => {
+    const onPressToSubmitDisposion = async () => {
+        setLoading(true);
         let body;
-
+        let property = {};
         if (isFollowUpChecked) {
             if (!followUpDate || !followUpTime || !assignTO) {
                 checkFollowUpDate(followUpDate);
@@ -539,33 +559,51 @@ const FollowupDetailScreen = (props) => {
                 checkAssignTO(assignTO);
                 return;
             }
-        } else {
-            setshowMessageModalVisible(false);
         }
 
+        if (formFields && formFields.length > 0 && fieldValArray && fieldValArray.length > 0) {
+            formFields.forEach(element => {
+                fieldValArray.forEach(ele => {
+                    if (element.required == true && ele.value != null) {
+                        console.log('true');
+                    } else {
+                        return;
+                    }
+                });
+            });
+        } else {
+            Toast.show('Please select require field')
+        }
+
+        if (fieldValArray && fieldValArray.length > 0) {
+            fieldValArray.forEach(element => {
+                property[element.fieldname] = element.value;
+            });
+        }
         body = {
             dispositionid: dispositionSelectedItem._id,
             type: dispositionSelectedItem.action,
             customerid: followupDetail._id,
             onModel: 'Enquiry',
-            property: {
-                remark: 'abc',
-            },
             status: 'close',
+            property
         }
         if (isFollowUpChecked) {
             let margeDate = moment(followUpDate).format('YYYY-MM-DD') + ' ' + moment(followUpTime).format('LTS');
             body.property.followupdate = moment(margeDate).format();
             body.property.assignto = assignTO;
         }
-
-        //console.log(`body`, body);
-        closeModelPopUp();
-        // const response = addDispositionService(body);
-        // if (response.data != null && response.data != 'undefind' && response.status == 200) {
-        //     setLoading(false);
-        //     setshowMessageModalVisible(false);
-        // }
+        try {
+            const response = await addDispositionService(body);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                setLoading(false);
+                closeModelPopUp();
+            }
+        } catch (error) {
+            console.log(`error`, error);
+            firebase.crashlytics().recordError(error);
+            setLoading(false);
+        }
     }
 
     //CANCEL BUTTON ONPRESS TO CALL FUNCTION
@@ -578,6 +616,7 @@ const FollowupDetailScreen = (props) => {
         setAssignTOError(null);
         setIsFollowUpChecked(false);
         setshowMessageModalVisible(false);
+        setFieldValArray([]);
     }
 
     //FOLLOWUP CHECK BOX VALUE FALSE TO CALL FUNCTION
@@ -596,7 +635,6 @@ const FollowupDetailScreen = (props) => {
         setIsFollowUpChecked(value);
         setFollowUpDate(moment().format());
         setFollowUpTime(moment().format());
-        //setAssignTO(null);
     }
 
     return (
@@ -688,7 +726,7 @@ const FollowupDetailScreen = (props) => {
                     transparent={true}
                     visible={showMessageModalVisible}
                     onRequestClose={() => setshowMessageModalVisible(!showMessageModalVisible)}>
-                    <View style={{ flex: 1, alignItems: KEY.CENTER }}>
+                    <View style={{ flex: 1, alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
                         <View style={styles.msgModalView}>
                             <ScrollView keyboardShouldPersistTaps={KEY.ALWAYS} showsVerticalScrollIndicator={false}>
                                 {
@@ -698,6 +736,7 @@ const FollowupDetailScreen = (props) => {
                                             data={formFields}
                                             showsVerticalScrollIndicator={false}
                                             renderItem={generateControl}
+                                            keyboardShouldPersistTaps={KEY.ALWAYS}
                                             contentContainerStyle={{ paddingBottom: 0 }}
                                             keyExtractor={item => item._id}
                                         />

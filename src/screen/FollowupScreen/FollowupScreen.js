@@ -161,8 +161,12 @@ const FollowupScreen = (props) => {
                         <FontAwesome5 size={23} name="user-check" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                         <Text style={styles.textsub}>{item?.assingeeuser?.fullname}</Text>
                     </View>
-                    <TouchableOpacity onPress={() => renderFollowUpDeatils(item)} style={{ marginRight: 20 }}>
-                        <AntDesign name='rightcircle' size={30} style={{ color: COLOR.DEFALUTCOLOR }} />
+                </View>
+                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 10 }}>
+                    <TouchableOpacity onPress={() => renderFollowUpDeatils(item)}
+                        style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, backgroundColor: COLOR.DEFALUTCOLOR, width: 150, height: 40, borderRadius: 100, flexDirection: KEY.ROW }}>
+                        <Text style={styles.textsubCallBtn}>View More</Text>
+                        <AntDesign name='rightcircle' size={25} style={{ color: COLOR.WHITE }} />
                     </TouchableOpacity>
                 </View>
                 <View style={{ borderBottomColor: COLOR.GRAY_MEDIUM, borderBottomWidth: 1, marginTop: 15, marginRight: 15, marginLeft: 15 }} />

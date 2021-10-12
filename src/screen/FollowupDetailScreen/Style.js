@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     //height: HEIGHT - 200,
     width: WIDTH - 20,
     borderRadius: 10,
-    backgroundColor: COLOR.WHITE,
+    backgroundColor: '#f1f2f5',
     alignItems: KEY.FLEX_START,
     shadowColor: COLOR.BLACK,
     shadowOffset: {
