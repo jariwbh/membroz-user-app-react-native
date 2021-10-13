@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: KEY.CENTER,
     justifyContent: KEY.CENTER,
     borderRadius: 10,
-    color: COLOR.DEFALUTCOLOR,
+    color: COLOR.DEFALUTCOLOR
   }
 });
 

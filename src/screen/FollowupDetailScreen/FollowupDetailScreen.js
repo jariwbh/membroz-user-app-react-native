@@ -70,12 +70,10 @@ const FollowupDetailScreen = (props) => {
     useEffect(() => {
         setLoading(true);
         getUserDeatilsLocalStorage();
-        getUserList();
         getDispositionList();
     }, [])
 
     useEffect(() => {
-        console.log(`fieldValArray`, fieldValArray);
     }, [loading, userID, status, followupHistoryList, dispositionList, refreshing, followUpDateError, userList, userInfo,
         followUpTime, followUpTimeError, assignTOError, formFields, isDatePickerVisible, followUpDate, fieldValArray,
         assignTO, dispositionSelectedItem, dispositionRenderList, showMessageModalVisible, isFollowUpChecked]);
@@ -155,11 +153,14 @@ const FollowupDetailScreen = (props) => {
     };
 
     //GET ASSIGN TO USER LIST IN API FETCH DATA
-    const getUserList = async () => {
+    const getUserList = async (id) => {
         let customeList = [];
         const response = await UserListService();
         if (response.data != null && response.data != 'undefind' && response.status == 200) {
             response.data.forEach(element => {
+                if (id && id === element._id) {
+                    setAssignTO(element._id);
+                }
                 let value = {};
                 value._id = element?._id;
                 value.designation = element?.designationid?.property?.title || 'other';
@@ -174,6 +175,7 @@ const FollowupDetailScreen = (props) => {
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
         setUserInfo(userInfo);
+        getUserList(userInfo._id);
         setUserID(userInfo._id);
         getFollowupHistoryList(followupDetail._id);
         wait(1000).then(() => setLoading(false));
@@ -549,7 +551,6 @@ const FollowupDetailScreen = (props) => {
 
     //SUBMIT BTM CLICK TO CALL FUNCTION
     const onPressToSubmitDisposion = async () => {
-        setLoading(true);
         let body;
         let property = {};
         if (isFollowUpChecked) {
@@ -560,21 +561,34 @@ const FollowupDetailScreen = (props) => {
                 return;
             }
         }
-
         if (formFields && formFields.length > 0 && fieldValArray && fieldValArray.length > 0) {
+            let ary = [];
+            let fieldExists;
             formFields.forEach(element => {
-                fieldValArray.forEach(ele => {
-                    if (element.required == true && ele.value != null) {
-                        console.log('true');
-                    } else {
+                if (element.required) {
+                    fieldExists = fieldValArray.find(ele => ele.fieldname == element.fieldname);
+                    if (!fieldExists) {
+                        Toast.show('Please select require field')
                         return;
+                    } else {
+
+                        if (!fieldExists.value) {
+                            Toast.show('Please select require field')
+                            return;
+                        } else if (fieldExists.value && (fieldExists.value == null || fieldExists.value.length == 0 || fieldExists.value == "")) {
+                            Toast.show('Please select require field')
+                            return;
+                        }
+
                     }
-                });
+                }
             });
         } else {
             Toast.show('Please select require field')
+            return;
         }
 
+        setLoading(true);
         if (fieldValArray && fieldValArray.length > 0) {
             fieldValArray.forEach(element => {
                 property[element.fieldname] = element.value;
@@ -599,8 +613,9 @@ const FollowupDetailScreen = (props) => {
                 setLoading(false);
                 closeModelPopUp();
             }
+            setLoading(false);
+
         } catch (error) {
-            console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setLoading(false);
         }
@@ -612,7 +627,7 @@ const FollowupDetailScreen = (props) => {
         setFollowUpDateError(null);
         setFollowUpTime(null);
         setFollowUpTimeError(null);
-        setAssignTO(null);
+        // setAssignTO(null);
         setAssignTOError(null);
         setIsFollowUpChecked(false);
         setshowMessageModalVisible(false);
@@ -626,7 +641,7 @@ const FollowupDetailScreen = (props) => {
         setFollowUpDate(null);
         setFollowUpDateError(null);
         setFollowUpTimeError(null);
-        setAssignTO(null);
+        // setAssignTO(null);
         setAssignTOError(null);
     }
 

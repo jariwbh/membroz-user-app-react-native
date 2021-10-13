@@ -21,6 +21,7 @@ import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import styles from './HomeStyle';
 import Loader from '../../components/loader/index';
 import { GalleryService } from '../../services/GalleryService/GalleryService';
@@ -156,8 +157,10 @@ const HomeScreen = (props) => {
         }
       }
     } catch (error) {
-      firebase.crashlytics().recordError(error);
       setloading(false);
+      firebase.crashlytics().recordError(error);
+      LocalService.RemoveAuthenticateUser();
+      props.navigation.replace(SCREEN.AUTH);
     }
   }
 
@@ -392,24 +395,22 @@ const HomeScreen = (props) => {
         <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 35 }}>
           {
             scanIconVisible &&
-            <TouchableOpacity>
-              <Image source={IMAGE.IC_QRCODE} style={{ height: 25, width: 25, justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.WHITE, marginLeft: 15 }} />
+            <TouchableOpacity style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.WHITE, marginLeft: 15 }}>
+              <Icon name='qrcode-scan' size={28} color={COLOR.WHITE} />
             </TouchableOpacity>
           }
-
           {
             sharedIconVisible &&
             <TouchableOpacity onPress={() => onPressShareButton()}
               style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, marginLeft: !scanIconVisible ? WIDTH / 2 + 100 : WIDTH / 2 + 30, marginRight: !scanIconVisible ? 15 : 0, marginTop: !scanIconVisible ? 5 : 0 }}>
-              <Image source={IMAGE.SHARE_ICON} style={{ height: 25, width: 25, tintColor: COLOR.WHITE }} />
+              <Ionicons name='share-social' size={30} color={COLOR.WHITE} />
             </TouchableOpacity>
           }
-
           {
             notificationIconVisible &&
             <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NOTIFICATIONSCREEN)}
               style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, marginRight: 25, marginTop: !scanIconVisible ? 0 : -15 || !sharedIconVisible ? -10 : -15 }}>
-              <Image source={IMAGE.BELL_ICON} style={{ height: 30, width: 25 }} />
+              <Ionicons name='notifications-outline' size={30} color={COLOR.WHITE} />
               <View style={{ marginLeft: 0, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, backgroundColor: COLOR.NOTIFICATION_COLOR }}>
                 <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, fontSize: 12, color: COLOR.WHITE }}>{notification}</Text>
               </View>
