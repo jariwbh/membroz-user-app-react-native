@@ -69,7 +69,6 @@ const FollowupDetailScreen = (props) => {
     const [fieldValArray, setFieldValArray] = useState([]);
     const [spinner, setSpinner] = useState(false);
 
-
     useEffect(() => {
         setLoading(true);
         getUserDeatilsLocalStorage();
@@ -421,11 +420,14 @@ const FollowupDetailScreen = (props) => {
 
     //GENERATE DYNAMIC FIELD CONTROL
     const generateControl = ({ item }) => (
-        <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
+        <View>
             {
                 item.fieldtype == "text" &&
                 <View>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                        {item.required && <Text style={{ marginLeft: 5, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>}
+                    </View>
                     <TextInput
                         placeholder={item.displayname}
                         style={styles.inputTextView}
@@ -442,7 +444,10 @@ const FollowupDetailScreen = (props) => {
             {
                 item.fieldtype == "number" &&
                 <View>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                        {item.required && <Text style={{ marginLeft: 5, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>}
+                    </View>
                     <TextInput
                         keyboardType={KEY.EMAILADDRESS}
                         placeholder={item.displayname}
@@ -460,7 +465,10 @@ const FollowupDetailScreen = (props) => {
             {
                 item.fieldtype == "long_text" &&
                 <View>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                        {item.required && <Text style={{ marginLeft: 5, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>}
+                    </View>
                     <TextInput placeholder={item.displayname}
                         style={styles.addressView}
                         placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -478,7 +486,10 @@ const FollowupDetailScreen = (props) => {
             {
                 item.fieldtype == "checkbox" &&
                 <View style={{ marginBottom: 5 }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                        {item.required && <Text style={{ marginLeft: 5, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>}
+                    </View>
                     {item.lookupdata.map((val) => (
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <TouchableOpacity onPress={() => getInputChoiceValue(item, val)}>
@@ -494,7 +505,10 @@ const FollowupDetailScreen = (props) => {
             {
                 item.fieldtype == "radio" &&
                 <View style={{ marginBottom: 5 }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                        {item.required && <Text style={{ marginLeft: 5, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>}
+                    </View>
                     {item.lookupdata.map((val) => (
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <TouchableOpacity onPress={() => getInputChoiceValue(item, val)}>
@@ -510,7 +524,10 @@ const FollowupDetailScreen = (props) => {
             {
                 item.fieldtype == "list" &&
                 <View style={{ marginBottom: 5 }}>
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
+                        {item.required && <Text style={{ marginLeft: 5, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>}
+                    </View>
                     <TextInput
                         style={assignTOError == null ? styles.inputTextView : styles.inputTextViewError}
                         type={KEY.CLEAR}
@@ -570,16 +587,16 @@ const FollowupDetailScreen = (props) => {
                     fieldExists = fieldValArray.find(ele => ele.fieldname == element.fieldname);
                     if (!fieldExists) {
                         ary.push(fieldExists);
-                        Toast.show('Please select require field');
+                        Toast.show('Please fill in required fields');
                         return;
                     } else {
                         if (!fieldExists.value) {
                             ary.push(fieldExists);
-                            Toast.show('Please select require field');
+                            Toast.show('Please fill in required fields');
                             return;
                         } else if (fieldExists.value && (fieldExists.value == null || fieldExists.value.length == 0 || fieldExists.value == "")) {
                             ary.push(fieldExists);
-                            Toast.show('Please select require field');
+                            Toast.show('Please fill in required fields');
                             return;
                         }
 
@@ -587,12 +604,12 @@ const FollowupDetailScreen = (props) => {
                 }
             });
         } else {
-            Toast.show('Please select require field');
+            Toast.show('Please fill in required fields');
             return;
         }
 
         if (ary && ary.length != 0) {
-            Toast.show('Please select require field');
+            Toast.show('Please fill in required fields');
             return;
         }
 
@@ -761,7 +778,7 @@ const FollowupDetailScreen = (props) => {
                             <ScrollView keyboardShouldPersistTaps={KEY.ALWAYS} showsVerticalScrollIndicator={false}>
                                 {
                                     formFields && formFields.length > 0 &&
-                                    <View style={{ marginTop: 20 }}>
+                                    <View style={{ marginTop: 20, alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
                                         <FlatList
                                             data={formFields}
                                             showsVerticalScrollIndicator={false}
