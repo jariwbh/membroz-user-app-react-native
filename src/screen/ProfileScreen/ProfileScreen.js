@@ -89,7 +89,7 @@ const ProfileScreen = (props) => {
     }
 
     const onPressRateUs = () => {
-        setshowMessageModalVisible(false);
+        setshowMessageModalVisible(!showMessageModalVisible);
         if (Platform.OS != 'ios') {
             Linking.openURL(`market://details?id=${rateusAndroid}`);
         } else {
@@ -98,91 +98,92 @@ const ProfileScreen = (props) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
-            <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
-            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
-                <View style={styles.viewMain}>
-                    <View style={styles.viewRound}>
-                        <Image source={!userProfilePic ? IMAGE.USERPROFILE : { uri: userProfilePic }}
-                            style={!userProfilePic ? { height: 70, width: 70 } : { height: 95, width: 95, borderRadius: 100 }} />
+        !showMessageModalVisible ?
+            <SafeAreaView style={{ flex: 1 }}>
+                <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+                <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
+                    <View style={styles.viewMain}>
+                        <View style={styles.viewRound}>
+                            <Image source={!userProfilePic ? IMAGE.USERPROFILE : { uri: userProfilePic }}
+                                style={!userProfilePic ? { height: 70, width: 70 } : { height: 95, width: 95, borderRadius: 100 }} />
+                        </View>
+                        <Text style={styles.textName}>{fullName}</Text>
+                        <Text style={styles.textSansThin}>{userDesignation}</Text>
                     </View>
-                    <Text style={styles.textName}>{fullName}</Text>
-                    <Text style={styles.textSansThin}>{userDesignation}</Text>
-                </View>
 
-                <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginLeft: 15, marginRight: 15, marginTop: 20 }}>
-                    <View style={{ justifyContent: KEY.FLEX_START }}>
-                        <Text style={styles.textInfo}>Full Name</Text>
-                    </View>
-                    <View style={{ justifyContent: KEY.FLEX_END }}>
-                        <Text style={{ fontSize: FONT.FONT_SIZE_18, textTransform: KEY.CAPITALIZE }}>{fullName}</Text>
-                    </View>
-                </View>
-
-                <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.UPDATEPROFILESCREEN)}>
-                    <View style={styles.viewRectangle}>
-                        <Image source={IMAGE.PENCIL_ICON_SIMPLE} resizeMode={KEY.CONTAIN} style={{ height: 20, width: 20, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
-                        <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Update Profile</Text>
-                        <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 12 }}>
-                            <Icon name='chevron-right' size={40} style={{ color: COLOR.TAUPE_GRAY, marginTop: 5 }} />
+                    <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginLeft: 15, marginRight: 15, marginTop: 20 }}>
+                        <View style={{ justifyContent: KEY.FLEX_START }}>
+                            <Text style={styles.textInfo}>Full Name</Text>
+                        </View>
+                        <View style={{ justifyContent: KEY.FLEX_END }}>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_18, textTransform: KEY.CAPITALIZE }}>{fullName}</Text>
                         </View>
                     </View>
-                </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.PASSWORDCHANGESCREEN)}>
-                    <View style={styles.viewRectangle}>
-                        <Image source={IMAGE.PADLOCK} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
-                        <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Change Password</Text>
-                        <View style={{ alignItems: KEY.FLEX_END, marginLeft: 10, flex: 1, marginRight: 12 }}>
-                            <Icon name='chevron-right' size={40} style={{ color: COLOR.TAUPE_GRAY, marginTop: 5 }} />
+                    <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.UPDATEPROFILESCREEN)}>
+                        <View style={styles.viewRectangle}>
+                            <Image source={IMAGE.PENCIL_ICON_SIMPLE} resizeMode={KEY.CONTAIN} style={{ height: 20, width: 20, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
+                            <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Update Profile</Text>
+                            <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 12 }}>
+                                <Icon name='chevron-right' size={40} style={{ color: COLOR.TAUPE_GRAY, marginTop: 5 }} />
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.PASSWORDCHANGESCREEN)}>
+                        <View style={styles.viewRectangle}>
+                            <Image source={IMAGE.PADLOCK} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
+                            <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Change Password</Text>
+                            <View style={{ alignItems: KEY.FLEX_END, marginLeft: 10, flex: 1, marginRight: 12 }}>
+                                <Icon name='chevron-right' size={40} style={{ color: COLOR.TAUPE_GRAY, marginTop: 5 }} />
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => setshowMessageModalVisible(true)}>
+                        <View style={styles.viewRectangle}>
+                            <Image source={IMAGE.REVIEW} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
+                            <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Rate Us</Text>
+
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => onPressLogout()}>
+                        <View style={styles.viewRectangle}>
+                            <Image source={IMAGE.LOGOUT} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
+                            <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Logout</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <View style={{ marginBottom: 70 }} />
+                </ScrollView>
+            </SafeAreaView>
+            :
+            <SafeAreaView style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+                {/* message model Pop */}
+                <Modal
+                    animationType='slide'
+                    transparent={true}
+                    visible={showMessageModalVisible}
+                    onRequestClose={() => setshowMessageModalVisible(!showMessageModalVisible)}>
+                    <View style={{ flex: 1, alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
+                        <View style={styles.msgModalView}>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_22, color: COLOR.BLACK, marginLeft: 15, marginTop: 15 }}>Rate this app</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15, marginTop: 20 }}>If you like this app,please take a little bit of your time to review it!</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15 }}>It really helps us and it shouldn't take you more than one minute.</Text>
+                            <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 20, marginLeft: WIDTH / 2 - 80 }}>
+                                <TouchableOpacity onPress={() => onPressRateUs()} >
+                                    <Text style={{ fontSize: FONT.FONT_SIZE_14, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>RATE</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => setshowMessageModalVisible(false)} >
+                                    <Text style={{ fontSize: FONT.FONT_SIZE_14, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>NO THANKS</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => setshowMessageModalVisible(true)}>
-                    <View style={styles.viewRectangle}>
-                        <Image source={IMAGE.REVIEW} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
-                        <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Rate Us</Text>
-
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => onPressLogout()}>
-                    <View style={styles.viewRectangle}>
-                        <Image source={IMAGE.LOGOUT} resizeMode={KEY.CONTAIN} style={{ height: 25, width: 25, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
-                        <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Logout</Text>
-                    </View>
-                </TouchableOpacity>
-                <View style={{ marginBottom: 70 }} />
-            </ScrollView>
-
-            {/* message model Pop */}
-            <Modal
-                animationType='slide'
-                transparent={true}
-                visible={showMessageModalVisible}
-                onRequestClose={() => showMessageModalVisible(!showMessageModalVisible)}>
-
-                <View style={{ flex: 1, alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
-                    <View style={styles.msgModalView}>
-                        <Text style={{ fontSize: FONT.FONT_SIZE_22, color: COLOR.BLACK, marginLeft: 15, marginTop: 15 }}>Rate this app</Text>
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15, marginTop: 20 }}>If you like this app,please take a little bit of your time to review it!</Text>
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15 }}>It really helps us and it shouldn't take you more than one minute.</Text>
-                        <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 20, marginLeft: WIDTH / 2 - 80 }}>
-                            <TouchableOpacity onPress={() => onPressRateUs()} >
-                                <Text style={{ fontSize: FONT.FONT_SIZE_14, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>RATE</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setshowMessageModalVisible(false)} >
-                                <Text style={{ fontSize: FONT.FONT_SIZE_14, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>NO THANKS</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                    </View>
-                </View>
-            </Modal>
-
-        </SafeAreaView>
+                </Modal>
+            </SafeAreaView>
     );
 }
 export default ProfileScreen;
