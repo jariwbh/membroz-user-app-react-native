@@ -138,7 +138,7 @@ const NewPasswordScreen = (props) => {
                                     onSubmitEditing={() => secondTextInputRef.current.focus()}
                                     onChangeText={(password) => setNewPasswordCheck(password)}
                                 />
-                                <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 5 }}>{newPassworderror}</Text>
+                                <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 5 }}>{newPassworderror}</Text>
                             </View>
 
                             <View>
@@ -155,7 +155,7 @@ const NewPasswordScreen = (props) => {
                                     onSubmitEditing={() => Keyboard.dismiss()}
                                     onChangeText={(repassword) => setRePasswordCheck(repassword)}
                                 />
-                                <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 5 }}>{rePassworderror}</Text>
+                                <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -5, marginBottom: 5 }}>{rePassworderror}</Text>
                             </View>
                         </View>
                         <TouchableOpacity style={styles.forgotButton} onPress={() => onPressSubmit()}>
@@ -179,30 +179,24 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: COLOR.WHITE,
         alignItems: KEY.FLEX_START,
-        marginBottom: 10,
+        marginBottom: 5,
         width: WIDTH - 30,
         height: 45,
-        marginLeft: 20,
-        marginRight: 20,
         color: COLOR.WHITE,
-        fontSize: FONT.FONT_SIZE_16,
+        fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
-        marginTop: 0
     },
     inputTextViewError: {
         borderRadius: 10,
         borderWidth: 1,
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
-        marginBottom: 10,
+        marginBottom: 5,
         width: WIDTH - 30,
         height: 45,
-        marginLeft: 20,
-        marginRight: 20,
         color: COLOR.WHITE,
-        fontSize: FONT.FONT_SIZE_16,
+        fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
-        marginTop: 0
     },
     forgotButton: {
         borderRadius: 10,

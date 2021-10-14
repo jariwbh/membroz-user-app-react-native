@@ -23,16 +23,15 @@ const styles = StyleSheet.create({
     textTransform: KEY.CAPITALIZE,
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
-    fontSize: FONT.FONT_SIZE_20
+    fontSize: FONT.FONT_SIZE_18
   },
   textsub: {
     textTransform: KEY.CAPITALIZE,
     color: COLOR.MENU_TEXT_COLOR,
-    fontSize: FONT.FONT_SIZE_18
+    fontSize: FONT.FONT_SIZE_16
   },
   viewMain: {
     flex: 1,
-    //height: HEIGHT - 220,
     backgroundColor: COLOR.WHITE,
     borderRadius: 20,
     marginTop: 20,
@@ -99,10 +98,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: WIDTH - 30,
     height: 45,
-    marginLeft: 20,
-    marginRight: 20,
     color: COLOR.BLACK,
-    fontSize: FONT.FONT_SIZE_16,
+    fontSize: FONT.FONT_SIZE_14,
     paddingLeft: 15,
   },
   inputTextViewError: {
@@ -116,7 +113,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     color: COLOR.BLACK,
-    fontSize: FONT.FONT_SIZE_16,
+    fontSize: FONT.FONT_SIZE_14,
     paddingLeft: 15,
   },
   addressView: {
@@ -126,10 +123,8 @@ const styles = StyleSheet.create({
     alignItems: KEY.FLEX_START,
     marginBottom: 10,
     width: WIDTH - 30,
-    marginLeft: 20,
-    marginRight: 20,
     color: COLOR.BLACK,
-    fontSize: FONT.FONT_SIZE_16,
+    fontSize: FONT.FONT_SIZE_14,
     paddingLeft: 15,
   },
   updateBtn: {

@@ -18,10 +18,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         width: WIDTH - 30,
         height: 45,
-        marginLeft: 20,
-        marginRight: 20,
         color: COLOR.WHITE,
-        fontSize: FONT.FONT_SIZE_16,
+        fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
         marginTop: 25
     },
@@ -33,10 +31,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         width: WIDTH - 30,
         height: 45,
-        marginLeft: 20,
-        marginRight: 20,
         color: COLOR.WHITE,
-        fontSize: FONT.FONT_SIZE_16,
+        fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
         marginTop: 25
     },

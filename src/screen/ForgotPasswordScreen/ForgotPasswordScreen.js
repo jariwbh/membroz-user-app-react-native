@@ -100,6 +100,7 @@ const ForgotPasswordScreen = (props) => {
             const CheckUserResponse = await CheckUserService(body);
             if (Object.keys(CheckUserResponse.data).length !== 0 && CheckUserResponse.data != null && CheckUserResponse.data != 'undefind' && CheckUserResponse.status == 200) {
                 const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
+                console.log(`verifyOtpNumber`, verifyOtpNumber)
                 setVerifyOtpNumber(verifyOtpNumber);
                 setMemberInfo(CheckUserResponse.data);
                 onPressSubmit(CheckUserResponse.data.property, verifyOtpNumber);
@@ -112,6 +113,7 @@ const ForgotPasswordScreen = (props) => {
             }
         }
         catch (error) {
+            console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             resetScreen();
             Toast.show('User not exits!', Toast.SHORT);
@@ -234,7 +236,7 @@ const ForgotPasswordScreen = (props) => {
                                 </View>
                                 :
                                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                                    <View>
+                                    <View style={{ justifyContent: KEY.CENTER }}>
                                         <TextInput
                                             placeholder={"Enter User Name"}
                                             placeholderTextColor={COLOR.WHITE}
@@ -245,7 +247,7 @@ const ForgotPasswordScreen = (props) => {
                                             onSubmitEditing={() => Keyboard.dismiss()}
                                             onChangeText={(email) => checkEmail(email)}
                                         />
-                                        <Text style={{ marginLeft: 35, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -15, marginBottom: 10 }}>{userNameError}</Text>
+                                        <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -15, marginBottom: 10 }}>{userNameError}</Text>
                                     </View>
                                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                         <TouchableOpacity style={styles.forgotButton} onPress={() => createOtp()}>

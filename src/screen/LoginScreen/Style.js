@@ -30,13 +30,11 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: COLOR.WHITE,
         alignItems: KEY.FLEX_START,
-        marginBottom: 5,
         width: WIDTH - 30,
         height: 45,
-        marginLeft: 20,
-        marginRight: 20,
         color: COLOR.WHITE,
-        fontSize: FONT.FONT_SIZE_16,
+        fontSize: FONT.FONT_SIZE_14,
+        marginBottom: 5,
         paddingLeft: 15
     },
     inputTextViewError: {
@@ -44,13 +42,11 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
-        margin: 5,
         width: WIDTH - 30,
         height: 45,
-        marginLeft: 20,
-        marginRight: 20,
         color: COLOR.WHITE,
-        fontSize: FONT.FONT_SIZE_16,
+        fontSize: FONT.FONT_SIZE_14,
+        marginBottom: 5,
         paddingLeft: 15
     },
     loginBtn: {

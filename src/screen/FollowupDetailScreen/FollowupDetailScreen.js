@@ -33,6 +33,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Picker } from '@react-native-picker/picker';
 const WIDTH = Dimensions.get('window').width;
 import { UserListService } from '../../services/UserService/UserService';
+import Spinner from 'react-native-loading-spinner-overlay';
 const ListTab = [
     {
         'status': 'disposition'
@@ -66,6 +67,8 @@ const FollowupDetailScreen = (props) => {
     const [dispositionSelectedItem, setDispositionSelectedItem] = useState(null);
     const [userList, setUserList] = useState(null);
     const [fieldValArray, setFieldValArray] = useState([]);
+    const [spinner, setSpinner] = useState(false);
+
 
     useEffect(() => {
         setLoading(true);
@@ -75,7 +78,7 @@ const FollowupDetailScreen = (props) => {
 
     useEffect(() => {
     }, [loading, userID, status, followupHistoryList, dispositionList, refreshing, followUpDateError, userList, userInfo,
-        followUpTime, followUpTimeError, assignTOError, formFields, isDatePickerVisible, followUpDate, fieldValArray,
+        followUpTime, followUpTimeError, assignTOError, formFields, isDatePickerVisible, followUpDate, fieldValArray, spinner,
         assignTO, dispositionSelectedItem, dispositionRenderList, showMessageModalVisible, isFollowUpChecked]);
 
     //check validation of FollowUp Date
@@ -228,6 +231,7 @@ const FollowupDetailScreen = (props) => {
     const getFollowupHistoryList = async (id) => {
         try {
             const response = await followupHistoryService(id);
+            console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 wait(1000).then(() => {
                     setLoading(false);
@@ -311,14 +315,14 @@ const FollowupDetailScreen = (props) => {
             <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 5, marginLeft: 5, marginRight: 5 }}>
                 <View style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginLeft: 20 }}>
                     <View style={{ flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_START }}>
-                        <Text style={styles.textTitle}>{item?.customerid?.property?.fullname}</Text>
-                        <Text style={styles.textsub}>{item?.customerid?.property?.mobile}</Text>
+                        <Text style={styles.textTitle2}>{item?.customerid?.property?.fullname}</Text>
+                        <Text style={styles.textsub2}>Create by : {item?.addedby?.property?.fullname}</Text>
                     </View>
                 </View>
-
-                <TouchableOpacity style={{ justifyContent: KEY.FLEX_END, marginRight: 20 }}>
-                    <Ionicons name='call-outline' size={40} style={{ color: COLOR.WEB_FOREST_GREEN, alignItems: KEY.FLEX_START, marginTop: 8 }} />
-                </TouchableOpacity>
+                <View style={{ justifyContent: KEY.FLEX_END, marginRight: 20 }}>
+                    <Text style={styles.textsub}>{moment(item?.createdAt).format('ll')}</Text>
+                    {/* <Ionicons name='call-outline' size={40} style={{ color: COLOR.WEB_FOREST_GREEN, alignItems: KEY.FLEX_START, marginTop: 8 }} /> */}
+                </View>
             </View>
             <View style={{ borderBottomColor: COLOR.GRAY_MEDIUM, borderBottomWidth: 1, marginTop: 10, marginRight: 15, marginLeft: 15 }} />
         </View>
@@ -426,7 +430,6 @@ const FollowupDetailScreen = (props) => {
                     <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
                     <TextInput
                         placeholder={item.displayname}
-                        style={styles.inputTextView}
                         style={styles.inputTextView}
                         type={KEY.CLEAR}
                         returnKeyType={KEY.DONE}
@@ -553,6 +556,8 @@ const FollowupDetailScreen = (props) => {
     const onPressToSubmitDisposion = async () => {
         let body;
         let property = {};
+        let ary = [];
+        let fieldExists;
         if (isFollowUpChecked) {
             if (!followUpDate || !followUpTime || !assignTO) {
                 checkFollowUpDate(followUpDate);
@@ -562,21 +567,21 @@ const FollowupDetailScreen = (props) => {
             }
         }
         if (formFields && formFields.length > 0 && fieldValArray && fieldValArray.length > 0) {
-            let ary = [];
-            let fieldExists;
             formFields.forEach(element => {
                 if (element.required) {
                     fieldExists = fieldValArray.find(ele => ele.fieldname == element.fieldname);
                     if (!fieldExists) {
-                        Toast.show('Please select require field')
+                        ary.push(fieldExists);
+                        Toast.show('Please select require field');
                         return;
                     } else {
-
                         if (!fieldExists.value) {
-                            Toast.show('Please select require field')
+                            ary.push(fieldExists);
+                            Toast.show('Please select require field');
                             return;
                         } else if (fieldExists.value && (fieldExists.value == null || fieldExists.value.length == 0 || fieldExists.value == "")) {
-                            Toast.show('Please select require field')
+                            ary.push(fieldExists);
+                            Toast.show('Please select require field');
                             return;
                         }
 
@@ -584,11 +589,16 @@ const FollowupDetailScreen = (props) => {
                 }
             });
         } else {
-            Toast.show('Please select require field')
+            Toast.show('Please select require field');
             return;
         }
 
-        setLoading(true);
+        if (ary && ary.length != 0) {
+            Toast.show('Please select require field');
+            return;
+        }
+
+        setSpinner(true);
         if (fieldValArray && fieldValArray.length > 0) {
             fieldValArray.forEach(element => {
                 property[element.fieldname] = element.value;
@@ -610,14 +620,14 @@ const FollowupDetailScreen = (props) => {
         try {
             const response = await addDispositionService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                setLoading(false);
+                setSpinner(false);
+                Toast.show('Your form is submited');
                 closeModelPopUp();
             }
-            setLoading(false);
-
         } catch (error) {
             firebase.crashlytics().recordError(error);
-            setLoading(false);
+            setSpinner(false);
+            setshowMessageModalVisible(false);
         }
     }
 
@@ -653,88 +663,94 @@ const FollowupDetailScreen = (props) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.WHITE }}>
-            <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
-            <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
-            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
-                <View style={{ marginLeft: 20, justifyContent: KEY.CENTER, marginTop: 5 }}>
-                    <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center' }}>
-                        <Entypo size={30} name="user" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                        <Text style={styles.textTitle}>{followupDetail?.property?.fullname}</Text>
-                    </View>
-                    <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center' }}>
-                        <Ionicons size={30} name="call-outline" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                        <Text style={styles.textTitle}>{followupDetail?.property?.mobile}</Text>
+        !showMessageModalVisible ?
+            <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.WHITE }}>
+                <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+                <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
+                    <View style={{ marginLeft: 20, justifyContent: KEY.CENTER, marginTop: 5 }}>
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center' }}>
+                            <Entypo size={30} name="user" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                            <Text style={styles.textTitle}>{followupDetail?.property?.fullname}</Text>
+                        </View>
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center' }}>
+                            <Ionicons size={30} name="call-outline" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                            <Text style={styles.textTitle}>{followupDetail?.property?.mobile}</Text>
 
-                        <TouchableOpacity onPress={() => onPressCall()} style={[styles.touchStyle, { marginLeft: 10 }]}>
-                            <Ionicons size={25} name="call-outline" color={COLOR.WHITE} />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => onPressWhatsapp()} style={styles.touchStyle}>
-                            <Ionicons size={25} name="logo-whatsapp" color={COLOR.WHITE} />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => onPressSMS()} style={styles.touchStyle}>
-                            <MaterialCommunityIcons size={25} name="message" color={COLOR.WHITE} />
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => onPressCall()} style={[styles.touchStyle, { marginLeft: 10 }]}>
+                                <Ionicons size={25} name="call-outline" color={COLOR.WHITE} />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => onPressWhatsapp()} style={styles.touchStyle}>
+                                <Ionicons size={25} name="logo-whatsapp" color={COLOR.WHITE} />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => onPressSMS()} style={styles.touchStyle}>
+                                <MaterialCommunityIcons size={25} name="message" color={COLOR.WHITE} />
+                            </TouchableOpacity>
+                        </View>
+                        {
+                            followupDetail?.property?.primaryemail &&
+                            <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center' }}>
+                                <Ionicons size={30} name="mail" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                                <Text style={styles.textEmail}>{followupDetail?.property?.primaryemail}</Text>
+                            </View>
+                        }
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center', marginBottom: 10 }}>
+                            <MaterialCommunityIcons size={30} name="calendar" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                            <Text style={styles.textDate}>{moment(followupDetail.createdAt).format('lll')}</Text>
+                        </View>
+                    </View>
+                    <View style={{ height: 1, backgroundColor: COLOR.GRAY_MEDIUM, marginTop: 5 }} />
+                    <View style={styles.listTab}>
+                        {
+                            ListTab.map((e, index) => (
+                                <TouchableOpacity style={[styles.btnTab, status === e.status && styles.tabActive]} onPress={() => setStatusFilter(e.status, index)}>
+                                    <Text style={[styles.tabText, status === e.status && styles.tabTextActive]}>
+                                        {e.status}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))
+                        }
                     </View>
                     {
-                        followupDetail?.property?.primaryemail &&
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center' }}>
-                            <Ionicons size={30} name="mail" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                            <Text style={styles.textEmail}>{followupDetail?.property?.primaryemail}</Text>
+                        status == 'disposition' &&
+                        <View style={{ marginTop: 20 }}>
+                            <TreeView data={dispositionRenderList} onClick={(e) => dispositionMangeField(e)} leftImage={(<MaterialCommunityIcons size={10} name="message" color={COLOR.DEFALUTCOLOR} />)} />
                         </View>
                     }
-                    <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center', marginBottom: 10 }}>
-                        <MaterialCommunityIcons size={30} name="calendar" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                        <Text style={styles.textDate}>{moment(followupDetail.createdAt).format('lll')}</Text>
-                    </View>
-                </View>
-                <View style={{ height: 1, backgroundColor: COLOR.GRAY_MEDIUM, marginTop: 5 }} />
-                <View style={styles.listTab}>
-                    {
-                        ListTab.map((e, index) => (
-                            <TouchableOpacity style={[styles.btnTab, status === e.status && styles.tabActive]} onPress={() => setStatusFilter(e.status, index)}>
-                                <Text style={[styles.tabText, status === e.status && styles.tabTextActive]}>
-                                    {e.status}
-                                </Text>
-                            </TouchableOpacity>
-                        ))
+                    {status == 'followup history' &&
+                        <FlatList
+                            style={{ marginTop: 10 }}
+                            data={followupHistoryList}
+                            showsVerticalScrollIndicator={false}
+                            renderItem={renderFollowupHistoryList}
+                            contentContainerStyle={{ paddingBottom: 100 }}
+                            keyExtractor={item => item._id}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    title="Pull to refresh"
+                                    tintColor={COLOR.DEFALUTCOLOR}
+                                    titleColor={COLOR.DEFALUTCOLOR}
+                                    colors={[COLOR.DEFALUTCOLOR]}
+                                    onRefresh={onRefresh} />
+                            }
+                            ListFooterComponent={() => (
+                                followupHistoryList && followupHistoryList.length > 0 ?
+                                    <></>
+                                    :
+                                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                                        <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                    </View>
+                            )}
+                        />
                     }
-                </View>
-                {
-                    status == 'disposition' &&
-                    <View style={{ marginTop: 20 }}>
-                        <TreeView data={dispositionRenderList} onClick={(e) => dispositionMangeField(e)} leftImage={(<MaterialCommunityIcons size={10} name="message" color={COLOR.DEFALUTCOLOR} />)} />
-                    </View>
-                }
-                {status == 'followup history' &&
-                    <FlatList
-                        style={{ marginTop: 50 }}
-                        data={followupHistoryList}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={renderFollowupHistoryList}
-                        contentContainerStyle={{ paddingBottom: 20 }}
-                        keyExtractor={item => item._id}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                title="Pull to refresh"
-                                tintColor={COLOR.DEFALUTCOLOR}
-                                titleColor={COLOR.DEFALUTCOLOR}
-                                colors={[COLOR.DEFALUTCOLOR]}
-                                onRefresh={onRefresh} />
-                        }
-                        ListFooterComponent={() => (
-                            followupHistoryList && followupHistoryList.length > 0 ?
-                                <></>
-                                :
-                                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                                    <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
-                                </View>
-                        )}
-                    />
-                }
-
+                </ScrollView>
+                {loading ? <Loader /> : null}
+            </SafeAreaView>
+            :
+            <SafeAreaView style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
                 {/* message model Pop */}
                 <Modal
                     animationType='slide'
@@ -792,7 +808,7 @@ const FollowupDetailScreen = (props) => {
                                                 returnKeyType={KEY.NEXT}
                                                 placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                                                 defaultValue={followUpDate}
-                                                onTouchStart={() => showDatePicker()}
+                                                onFocus={() => showDatePicker()}
                                                 onTouchEnd={() => Keyboard.dismiss()}
                                                 defaultValue={followUpDate && moment(followUpDate).format('YYYY-MM-DD')}
                                                 onSubmitEditing={(followUpDate) => checkFollowUpDate(followUpDate)}
@@ -814,7 +830,7 @@ const FollowupDetailScreen = (props) => {
                                                 returnKeyType={KEY.NEXT}
                                                 placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                                                 defaultValue={followUpTime && moment(followUpTime).format('LTS')}
-                                                onTouchStart={() => showTimePicker()}
+                                                onFocus={() => showTimePicker()}
                                                 onTouchEnd={() => Keyboard.dismiss()}
                                                 onSubmitEditing={(followUpDate) => checkFollowUp(followUpDate)}
                                             />
@@ -859,9 +875,11 @@ const FollowupDetailScreen = (props) => {
                         </View>
                     </View>
                 </Modal>
-            </ScrollView>
-            {loading ? <Loader /> : null}
-        </SafeAreaView>
+                <Spinner
+                    visible={spinner}
+                    textStyle={{ color: COLOR.DEFALUTCOLOR }}
+                />
+            </SafeAreaView>
     );
 }
 

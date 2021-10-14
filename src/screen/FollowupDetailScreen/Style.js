@@ -29,23 +29,39 @@ const styles = StyleSheet.create({
     textTransform: KEY.CAPITALIZE,
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
-    fontSize: FONT.FONT_SIZE_20
+    fontSize: FONT.FONT_SIZE_18,
+    width: WIDTH - 50
+  },
+  textTitle2: {
+    textTransform: KEY.CAPITALIZE,
+    color: COLOR.LIGHT_BLACK,
+    fontWeight: FONT.FONT_WEIGHT_BOLD,
+    fontSize: FONT.FONT_SIZE_16,
+    width: WIDTH / 2
+  },
+  textsub2: {
+    textTransform: KEY.CAPITALIZE,
+    color: COLOR.MENU_TEXT_COLOR,
+    fontSize: FONT.FONT_SIZE_16,
+    width: WIDTH / 2
   },
   textDate: {
     textTransform: KEY.UPPERCASE,
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
-    fontSize: FONT.FONT_SIZE_20
+    fontSize: FONT.FONT_SIZE_16,
+    width: WIDTH - 50
   },
   textEmail: {
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
-    fontSize: FONT.FONT_SIZE_20
+    fontSize: FONT.FONT_SIZE_18,
+    width: WIDTH - 50
   },
   textsub: {
     textTransform: KEY.CAPITALIZE,
     color: COLOR.MENU_TEXT_COLOR,
-    fontSize: FONT.FONT_SIZE_18
+    fontSize: FONT.FONT_SIZE_16,
   },
   listTab: {
     backgroundColor: COLOR.WHITE,
@@ -77,10 +93,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3
   },
   msgModalView: {
-    //height: HEIGHT - 200,
+    height: HEIGHT - 200,
     width: WIDTH - 20,
     borderRadius: 10,
-    backgroundColor: '#f1f2f5',
+    backgroundColor: COLOR.WHITE,
     alignItems: KEY.FLEX_START,
     shadowColor: COLOR.BLACK,
     shadowOffset: {
@@ -100,7 +116,7 @@ const styles = StyleSheet.create({
     width: WIDTH - 60,
     height: 45,
     color: COLOR.BLACK,
-    fontSize: FONT.FONT_SIZE_16,
+    fontSize: FONT.FONT_SIZE_14,
     paddingLeft: 15
   },
   inputTextViewError: {
@@ -111,7 +127,7 @@ const styles = StyleSheet.create({
     width: WIDTH - 60,
     height: 45,
     color: COLOR.BLACK,
-    fontSize: FONT.FONT_SIZE_16,
+    fontSize: FONT.FONT_SIZE_14,
     paddingLeft: 15
   },
   addressView: {
@@ -121,7 +137,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: WIDTH - 60,
     color: COLOR.BLACK,
-    fontSize: FONT.FONT_SIZE_16,
+    fontSize: FONT.FONT_SIZE_14,
     paddingLeft: 15,
   },
   addressViewError: {
@@ -131,7 +147,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: WIDTH - 60,
     color: COLOR.BLACK,
-    fontSize: FONT.FONT_SIZE_16,
+    fontSize: FONT.FONT_SIZE_14,
     paddingLeft: 15,
   },
   btnStyle: {

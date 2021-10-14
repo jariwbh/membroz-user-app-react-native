@@ -161,7 +161,7 @@ const PasswordChangeScreen = (props) => {
                                 onSubmitEditing={() => secondTextInputRef.current.focus()}
                                 onChangeText={(currentpassword) => checkCurrentPassword(currentpassword)}
                             />
-                            {currentPasswordError && <Text style={{ marginLeft: 15, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -15, marginBottom: 5 }}>{currentPasswordError}</Text>}
+                            {currentPasswordError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -15, marginBottom: 5 }}>{currentPasswordError}</Text>}
                         </View>
 
                         <View>
@@ -178,7 +178,7 @@ const PasswordChangeScreen = (props) => {
                                 onSubmitEditing={() => thirdTextInputRef.current.focus()}
                                 onChangeText={(newpassword) => checkNewPassword(newpassword)}
                             />
-                            {newPasswordError && <Text style={{ marginLeft: 15, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -15, marginBottom: 5 }}>{newPasswordError}</Text>}
+                            {newPasswordError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -15, marginBottom: 5 }}>{newPasswordError}</Text>}
                         </View>
 
                         <View>
@@ -195,7 +195,7 @@ const PasswordChangeScreen = (props) => {
                                 onSubmitEditing={() => Keyboard.dismiss()}
                                 onChangeText={(repassword) => checkRePassword(repassword)}
                             />
-                            {RePasswordError && <Text style={{ marginLeft: 15, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -15, marginBottom: 5 }}>{RePasswordError}</Text>}
+                            {RePasswordError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -15, marginBottom: 5 }}>{RePasswordError}</Text>}
                         </View>
 
                         <TouchableOpacity style={styles.forgotButton} onPress={() => onPressChangePassword()}>

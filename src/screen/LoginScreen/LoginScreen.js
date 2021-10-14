@@ -134,7 +134,7 @@ export default LoginScreen = (props) => {
                         <Text style={STYLES.welcomeText}>Welcome</Text>
                         <Text style={{ color: COLOR.WHITE, fontSize: 18, fontWeight: FONT.FONT_WEIGHT_BOLD, marginBottom: 45 }}>Login To Your Account</Text>
 
-                        <View>
+                        <View style={{ justifyContent: KEY.CENTER }}>
                             <TextInput placeholder={KEY.USERNAME}
                                 placeholderTextColor={COLOR.WHITE}
                                 selectionColor={COLOR.WHITE}
@@ -145,10 +145,10 @@ export default LoginScreen = (props) => {
                                 onSubmitEditing={() => secondTextInputRef.current.focus()}
                                 onChangeText={(username) => CheckUsername(username)}
                             />
-                            <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginBottom: 5, marginTop: -5 }}>{usernameError}</Text>
+                            <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginBottom: 5, marginTop: -5 }}>{usernameError}</Text>
                         </View>
 
-                        <View>
+                        <View style={{ justifyContent: KEY.CENTER }}>
                             <TextInput placeholder={KEY.PASSWORD}
                                 placeholderTextColor={COLOR.WHITE}
                                 selectionColor={COLOR.WHITE}
@@ -161,9 +161,8 @@ export default LoginScreen = (props) => {
                                 onSubmitEditing={() => { Keyboard.dismiss(), onPressToLogin() }}
                                 onChangeText={(password) => CheckPassword(password)}
                             />
-                            <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginBottom: 5, marginTop: -5 }}>{passwordError}</Text>
+                            <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginBottom: 5, marginTop: -5 }}>{passwordError}</Text>
                         </View>
-
                         <TouchableOpacity style={STYLES.loginBtn} onPress={() => onPressToLogin()}>
                             <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Login</Text>
                         </TouchableOpacity>

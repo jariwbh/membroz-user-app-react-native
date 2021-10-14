@@ -24,10 +24,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         alignItems: KEY.FLEX_START,
+        borderColor: COLOR.GRAY_DARK,
         marginBottom: 20,
         width: WIDTH - 30,
         height: 45,
-        fontSize: FONT.FONT_SIZE_16,
+        fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
     },
     inputTextViewError: {
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         width: WIDTH - 30,
         height: 45,
-        fontSize: FONT.FONT_SIZE_16,
+        fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
     },
     viewRound: {

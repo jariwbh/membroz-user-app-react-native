@@ -59,8 +59,8 @@ const UpdateProfileScreen = (props) => {
     }, []);
 
     useEffect(() => {
-    }, [loading, userID, userProfilePic, userInfo, userEmail, userName, userNameError,
-        userMoblie, userBirthDate, userAddress, userPincode, userProfileName])
+    }, [loading, userID, userProfilePic, userInfo, userEmail, userName, userNameError, userEmailError,
+        userMoblieError, userMoblie, userBirthDate, userAddress, userPincode, userProfileName])
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
@@ -94,7 +94,7 @@ const UpdateProfileScreen = (props) => {
     //check validation of fullname
     const checkFullName = (fullname) => {
         if (!fullname || fullname.length <= 0) {
-            setUserNameError('FullName can not be empty');
+            setUserNameError('Fullname can not be empty');
             setUserName(fullname);
             return;
         }
@@ -300,7 +300,7 @@ const UpdateProfileScreen = (props) => {
                             onSubmitEditing={() => secondTextInputRef.current.focus()}
                             onChangeText={(fullname) => checkFullName(fullname)}
                         />
-                        {userNameError && <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{userNameError}</Text>}
+                        {userNameError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{userNameError}</Text>}
                     </View>
 
                     <View>
@@ -317,7 +317,7 @@ const UpdateProfileScreen = (props) => {
                             onSubmitEditing={() => thirdTextInputRef.current.focus()}
                             onChangeText={(email) => checkEmail(email)}
                         />
-                        {userEmailError && <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{userEmailError}</Text>}
+                        {userEmailError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{userEmailError}</Text>}
                     </View>
 
                     <View>
@@ -334,7 +334,7 @@ const UpdateProfileScreen = (props) => {
                             onSubmitEditing={() => fourTextInputRef.current.focus()}
                             onChangeText={(mobile) => checkMobile(mobile)}
                         />
-                        {userMoblieError && <Text style={{ marginLeft: 30, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{userMoblieError}</Text>}
+                        {userMoblieError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{userMoblieError}</Text>}
                     </View>
 
                     <View>
@@ -344,7 +344,8 @@ const UpdateProfileScreen = (props) => {
                             type={KEY.CLEAR}
                             returnKeyType={KEY.NEXT}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
-                            onTouchStart={() => showDatePicker()}
+                            onFocus={() => showDatePicker()}
+                            onTouchEnd={() => Keyboard.dismiss()}
                             defaultValue={userBirthDate && moment(userBirthDate).format('YYYY-MM-DD')}
                             ref={fourTextInputRef}
                             onSubmitEditing={() => fiveTextInputRef.current.focus()}

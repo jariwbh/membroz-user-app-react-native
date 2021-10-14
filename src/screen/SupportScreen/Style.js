@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
         backgroundColor: COLOR.DEFALUTCOLOR,
         width: WIDTH - 30,
         height: 45,
-        marginTop: 30,
+        marginTop: 20,
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
-        marginBottom: 10
+        marginBottom: 20
     },
     textSubject: {
         borderRadius: 10,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         width: WIDTH - 30,
         height: 45,
         marginTop: 30,
-        fontSize: FONT.FONT_SIZE_16,
+        fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15
     },
     textSubjectError: {
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         width: WIDTH - 30,
         height: 45,
         marginTop: 30,
-        fontSize: FONT.FONT_SIZE_16,
+        fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15
     },
     textDescription: {
@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
         borderColor: COLOR.BLACK,
         alignItems: KEY.FLEX_START,
         width: WIDTH - 30,
-        marginTop: 15,
-        fontSize: FONT.FONT_SIZE_16,
+        marginTop: 10,
+        fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
     },
     textDescriptionError: {
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
         width: WIDTH - 30,
-        marginTop: 15,
-        fontSize: FONT.FONT_SIZE_16,
+        marginTop: 10,
+        fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
     },
     msgModalView: {

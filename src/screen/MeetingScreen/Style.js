@@ -11,7 +11,6 @@ const WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   squreView: {
-    //height: 100,
     flex: 1,
     width: WIDTH - 20,
     backgroundColor: COLOR.WHITE,
@@ -23,7 +22,7 @@ const styles = StyleSheet.create({
     textTransform: KEY.CAPITALIZE,
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
-    fontSize: FONT.FONT_SIZE_20
+    fontSize: FONT.FONT_SIZE_18
   },
   textsub: {
     textTransform: KEY.CAPITALIZE,
@@ -32,7 +31,6 @@ const styles = StyleSheet.create({
   },
   viewMain: {
     flex: 1,
-    //height: HEIGHT - 220,
     backgroundColor: COLOR.WHITE,
     borderRadius: 20,
     marginTop: 20,

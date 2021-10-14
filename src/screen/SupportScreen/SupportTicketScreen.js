@@ -221,7 +221,7 @@ const SupportTicketScreen = (props) => {
           <Image source={IMAGE.CONSULT_TALK_ICON} resizeMode={KEY.CONTAIN} style={{ height: 100, width: 100 }} />
           <Text style={styles.textHeader}>We are here to help you</Text>
 
-          <View>
+          <View style={{ justifyContent: KEY.CENTER }}>
             <TextInput
               placeholder='Subject'
               style={subjectError == null ? styles.textSubject : styles.textSubjectError}
@@ -233,10 +233,10 @@ const SupportTicketScreen = (props) => {
               onSubmitEditing={() => secondTextInputRef.current.focus()}
               onChangeText={(subject) => checkSubject(subject)}
             />
-            {subjectError && <Text style={{ marginLeft: 15, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR }}>{subjectError}</Text>}
+            {subjectError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR }}>{subjectError}</Text>}
           </View>
 
-          <View>
+          <View style={{ justifyContent: KEY.CENTER }}>
             <TextInput placeholder='Description'
               multiline={true}
               numberOfLines={3}
@@ -250,11 +250,11 @@ const SupportTicketScreen = (props) => {
               onSubmitEditing={() => Keyboard.dismiss()}
               onChangeText={(desc) => checkDescription(desc)}
             />
-            {DescriptionError && <Text style={{ marginLeft: 15, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR }}>{DescriptionError}</Text>}
+            {DescriptionError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR }}>{DescriptionError}</Text>}
           </View>
 
           <TouchableOpacity onPress={() => { setshowMessageModalVisible(true), Keyboard.dismiss() }}>
-            <View pointerEvents="none">
+            <View pointerEvents="none" style={{ justifyContent: KEY.CENTER }}>
               <TextInput
                 placeholder='Click to upload image'
                 placeholderTextColor={COLOR.PLACEHOLDER_COLOR}

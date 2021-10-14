@@ -32,6 +32,7 @@
     "react-native-device-info": "^8.3.3",
     "react-native-exit-app": "^1.1.0",
     "react-native-image-picker": "^4.1.1",
+    "react-native-loading-spinner-overlay": "^2.0.0",
     "react-native-modal-datetime-picker": "^11.0.0",
     "react-native-paper": "^4.9.2",
     "react-native-permissions": "^3.0.5",
