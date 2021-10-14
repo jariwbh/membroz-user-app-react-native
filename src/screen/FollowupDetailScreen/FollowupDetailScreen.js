@@ -213,7 +213,6 @@ const FollowupDetailScreen = (props) => {
     const getDispositionList = async () => {
         try {
             const response = await DispositionService();
-            // console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 wait(1000).then(() => {
                     setLoading(false);
@@ -622,6 +621,7 @@ const FollowupDetailScreen = (props) => {
                 setSpinner(false);
                 Toast.show('Your form is submited');
                 closeModelPopUp();
+                getFollowupHistoryList(followupDetail._id);
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);
