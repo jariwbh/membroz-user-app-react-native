@@ -231,7 +231,6 @@ const FollowupDetailScreen = (props) => {
     const getFollowupHistoryList = async (id) => {
         try {
             const response = await followupHistoryService(id);
-            console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 wait(1000).then(() => {
                     setLoading(false);
@@ -423,7 +422,7 @@ const FollowupDetailScreen = (props) => {
 
     //GENERATE DYNAMIC FIELD CONTROL
     const generateControl = ({ item }) => (
-        <View>
+        <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
             {
                 item.fieldtype == "text" &&
                 <View>
@@ -613,7 +612,7 @@ const FollowupDetailScreen = (props) => {
             property
         }
         if (isFollowUpChecked) {
-            let margeDate = moment(followUpDate).format('YYYY-MM-DD') + ' ' + moment(followUpTime).format('LTS');
+            let margeDate = moment(followUpDate).format('YYYY-MM-DD') + ' ' + moment(followUpTime).format('HH:mm:ss');
             body.property.followupdate = moment(margeDate).format();
             body.property.assignto = assignTO;
         }
@@ -773,10 +772,10 @@ const FollowupDetailScreen = (props) => {
                                         />
                                     </View>
                                 }
-                                <View style={{ alignContent: 'flex-start', justifyContent: 'flex-start', alignItems: 'flex-start', marginLeft: -20 }}>
+                                <View style={{ marginLeft: 20 }}>
                                     {
                                         isFollowUpChecked === true ?
-                                            <View style={{ justifyContent: 'space-evenly', alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10, marginLeft: 20 }}>
+                                            <View style={{ marginTop: 10 }}>
                                                 <Text style={styles.textTitle}>Follow Up</Text>
                                                 <TouchableOpacity onPress={() => FollowUpCheckBoxFalse(false)}>
                                                     <FontAwesome size={40}
@@ -785,7 +784,7 @@ const FollowupDetailScreen = (props) => {
                                                 </TouchableOpacity>
                                             </View>
                                             :
-                                            <View style={{ justifyContent: 'space-evenly', alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10, marginLeft: 20 }}>
+                                            <View style={{ marginTop: 10 }}>
                                                 <Text style={styles.textTitle}>Follow Up</Text>
                                                 <TouchableOpacity onPress={() => FollowUpCheckBoxTrue(true)}>
                                                     <FontAwesome size={40}
@@ -796,7 +795,6 @@ const FollowupDetailScreen = (props) => {
                                             </View>
                                     }
                                 </View>
-
                                 {isFollowUpChecked === true &&
                                     <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
                                         <View>
@@ -863,7 +861,10 @@ const FollowupDetailScreen = (props) => {
                                         </View>
                                     </View>
                                 }
-                                <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, justifyContent: KEY.SPACEBETWEEN, marginTop: 30 }}>
+                                <View style={{
+                                    flexDirection: KEY.ROW, alignItems: KEY.CENTER, justifyContent: KEY.SPACEBETWEEN,
+                                    marginTop: 30, marginLeft: 25, marginRight: 25, marginBottom: 10
+                                }}>
                                     <TouchableOpacity onPress={() => closeModelPopUp()} style={styles.btnStyle}>
                                         <Text style={{ fontSize: FONT.FONT_SIZE_20, color: COLOR.WHITE }}>Cancel</Text>
                                     </TouchableOpacity>

@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
     width: WIDTH - 20,
     borderRadius: 10,
     backgroundColor: COLOR.WHITE,
-    alignItems: KEY.FLEX_START,
     shadowColor: COLOR.BLACK,
     shadowOffset: {
       width: 0,
@@ -105,8 +104,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 1,
-    alignItems: KEY.CENTER
+    elevation: 1
   },
   inputTextView: {
     borderRadius: 10,
@@ -151,6 +149,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   btnStyle: {
+    marginTop: 5,
     bottom: 20,
     height: 30,
     width: 100,
