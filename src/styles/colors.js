@@ -1,11 +1,17 @@
-export const DEFALUTCOLOR = '#FC7845' //'#FC7845';
-export const DEFAULTLIGHT = '#FDA786'
+//APP MAIN COLOR
+export const DEFALUTCOLOR = '#F58634'; //'#C42B32' //'#FC7845'; 
+export const BACKGROUNDCOLOR = '#FFFFFF' //'#F0F0F0';
+
+//BASIC COLOR
+export const DEFAULTLIGHT = '#FDA786';
 export const PRIMARY = '#1779ba';
 export const SECONDARY = '#767676';
-export const WHITE = '#FFFFFF';
-export const BLACK = '#000000';
+export const WHITE = '#FFFFFF'; //'#000000'
+export const BLACK = '#000000'; //'#FFFFFF'
 export const RED = '#FF0000';
 export const ERRORCOLOR = '#FF0000';
+export const SPLASHMODELCOLOR = '#FFFFFF';
+export const GALLERYCOLOR = 'rgba(0,0,0,0.5)';
 
 // ACTIONS
 export const SUCCESS = '#3adb76';
@@ -20,6 +26,7 @@ export const TAUPE_GRAY = '#898989';
 export const DAVY_GREY = '#575552';
 export const GREY = '#807D79';
 export const BLACK_OLIVE = '#403F3D';
+
 
 //LOADING COLOR
 export const LOADING_COLOR = '#FC8250';
@@ -57,6 +64,7 @@ export const NOTIFICATION_COLOR = '#FF0000';
 
 //holiday title color
 export const KELY_GREEN = '#53AD26';
+export const GREEN = '#008000';
 
 //home background color
 export const GAINSBORO = '#D8DFE5'

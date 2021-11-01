@@ -138,7 +138,7 @@ const PasswordChangeScreen = (props) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
@@ -150,6 +150,7 @@ const PasswordChangeScreen = (props) => {
                     <View style={{ marginTop: 30, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <View>
                             <TextInput
+                                selectionColor={COLOR.DEFALUTCOLOR}
                                 placeholder="Enter Current Password"
                                 style={currentPasswordError == null ? styles.inputTextView : styles.inputTextViewError}
                                 type={KEY.CLEAR}
@@ -166,6 +167,7 @@ const PasswordChangeScreen = (props) => {
 
                         <View>
                             <TextInput
+                                selectionColor={COLOR.DEFALUTCOLOR}
                                 placeholder="Enter New Password"
                                 style={newPasswordError == null ? styles.inputTextView : styles.inputTextViewError}
                                 type={KEY.CLEAR}
@@ -183,6 +185,7 @@ const PasswordChangeScreen = (props) => {
 
                         <View>
                             <TextInput
+                                selectionColor={COLOR.DEFALUTCOLOR}
                                 placeholder="Confirm Password"
                                 style={RePasswordError == null ? styles.inputTextView : styles.inputTextViewError}
                                 type={KEY.CLEAR}

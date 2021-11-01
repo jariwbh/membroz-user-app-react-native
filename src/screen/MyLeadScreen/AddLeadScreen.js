@@ -133,7 +133,7 @@ const AddLeadScreen = (props) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
@@ -141,6 +141,7 @@ const AddLeadScreen = (props) => {
                     <Image source={IMAGE.CLIPBOARD_TEXT_OUTLINE} style={{ tintColor: COLOR.DEFALUTCOLOR, height: 100, width: 100, marginBottom: 10 }} />
                     <View>
                         <TextInput
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             placeholder="Full Name"
                             style={userNameError == null ? styles.inputTextView : styles.inputTextViewError}
                             type={KEY.CLEAR}
@@ -155,6 +156,7 @@ const AddLeadScreen = (props) => {
                     </View>
                     <View>
                         <TextInput
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             placeholder="Mobile Number"
                             keyboardType={KEY.NUMBER_PAD}
                             style={userMoblieError == null ? styles.inputTextView : styles.inputTextViewError}
@@ -171,6 +173,7 @@ const AddLeadScreen = (props) => {
                     </View>
                     <View>
                         <TextInput
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             placeholder="Email"
                             keyboardType={KEY.EMAILADDRESS}
                             style={styles.inputTextView}
@@ -187,6 +190,7 @@ const AddLeadScreen = (props) => {
                     <View>
                         <TextInput placeholder="Address"
                             style={styles.addressView}
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                             type={KEY.CLEAR}
                             returnKeyType={KEY.NEXT}
@@ -202,6 +206,7 @@ const AddLeadScreen = (props) => {
                     <View>
                         <TextInput placeholder="PinCode"
                             keyboardType={KEY.NUMBER_PAD}
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                             returnKeyType={KEY.NEXT}
                             style={styles.inputTextView}
@@ -216,6 +221,7 @@ const AddLeadScreen = (props) => {
                     <View>
                         <TextInput placeholder="Note"
                             style={styles.addressView}
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                             type={KEY.CLEAR}
                             returnKeyType={KEY.DONE}

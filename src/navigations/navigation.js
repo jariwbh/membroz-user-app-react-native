@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SPLASHSCREEN from '../screen/SplashScreen/SplashScreen';
@@ -23,7 +23,8 @@ import MEETINGSCREEN from '../screen/MeetingScreen/MeetingScreen';
 import MYLEADSCREEN from '../screen/MyLeadScreen/MyLeadScreen';
 import FOLLOWUPDETAILSCREEN from '../screen/FollowupDetailScreen/FollowupDetailScreen';
 import ADDLEADSCREEN from '../screen/MyLeadScreen/AddLeadScreen';
-
+import TICKETHISTORYSCREEN from '../screen/SupportScreen/TicketHistoryScreen';
+import ANNOUNCEMENTSCREEN from '../screen/AnnouncementScreen/AnnouncementScreen';
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
 import * as KEY from '../context/actions/key';
@@ -31,6 +32,9 @@ import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import * as LocalService from '../services/LocalService/LocalService';
 
 const AuthStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
@@ -38,6 +42,11 @@ const TaskStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+//STATIC DATA
+let MenuDefaultArray = [
+    { "menuname": "task" }
+];
 
 const AuthStackScreen = () => {
     return (
@@ -157,11 +166,12 @@ const HomeStackScreen = () => {
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
-            <HomeStack.Screen
-                name="WebViewScreen"
-                component={WEBVIEWSCREEN}
-                options={{ headerShown: false }}
-            />
+            <HomeStack.Screen name="TicketHistoryScreen" component={TICKETHISTORYSCREEN} options={{
+                headerTitleAlign: KEY.CENTER,
+                title: 'Ticket History',
+                headerTintColor: COLOR.WHITE,
+                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+            }} />
             <HomeStack.Screen name="FreshLeadScreen" component={FRESHLEADSCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
                 title: 'Fresh Call',
@@ -198,11 +208,45 @@ const HomeStackScreen = () => {
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
+            <HomeStack.Screen name="AnnouncementScreen" component={ANNOUNCEMENTSCREEN} options={{
+                headerTitleAlign: KEY.CENTER,
+                title: 'Announcement',
+                headerTintColor: COLOR.WHITE,
+                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+            }} />
+            <HomeStack.Screen
+                name="WebViewScreen"
+                component={WEBVIEWSCREEN}
+                options={{ headerShown: false }}
+            />
         </HomeStack.Navigator>
     );
 };
 
 const TabNavigation = () => {
+    const [taskVisible, setTaskVisible] = useState(false);
+
+    useEffect(() => {
+        MenuPermission();
+    }, []);
+
+    useEffect(() => {
+    }, [taskVisible]);
+
+    //CHECK MENU PERMISSION FUNCTION
+    const MenuPermission = async () => {
+        var userInfo = await LocalService.LocalStorageService();
+        if (userInfo) {
+            let mobileapppermissions = userInfo.role.mobileapppermissions;
+            mobileapppermissions.forEach(MobileEle => {
+                let filter = MenuDefaultArray.find(e => e.menuname == MobileEle);
+                if (filter && filter != undefined && filter.menuname == 'task') {
+                    setTaskVisible(true);
+                }
+            });
+        }
+    }
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -236,16 +280,22 @@ const TabNavigation = () => {
                 tabBarActiveTintColor: COLOR.DEFALUTCOLOR,
                 tabBarInactiveTintColor: COLOR.GREY,
                 tabBarStyle: {
-                    borderTopRightRadius: 20,
-                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 0,
+                    borderTopLeftRadius: 0,
+                    backgroundColor: COLOR.BACKGROUNDCOLOR,
                 },
-                tabBarLabelStyle: { fontSize: 12 },
-                tabBarHideOnKeyboard: true
+
+                tabBarLabelStyle: { fontSize: 14, textTransform: KEY.CAPITALIZE },
+                tabBarHideOnKeyboard: true,
+                headerTintColor: COLOR.BACKGROUNDCOLOR
             })}
             backBehavior="initialRoute"
         >
             <Tab.Screen name="Home" component={HomeStackScreen} options={{ headerShown: false }} />
-            <Tab.Screen name="Task" component={TaskStackScreen} options={{ headerShown: false }} />
+            {
+                taskVisible &&
+                <Tab.Screen name="Task" component={TaskStackScreen} options={{ headerShown: false }} />
+            }
             <Tab.Screen name="Profile" component={ProfileStackScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     );

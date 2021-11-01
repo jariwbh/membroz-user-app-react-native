@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
+import * as FONT from '../../styles/typography'
+import * as COLOR from '../../styles/colors'
 import * as KEY from '../../context/actions/key';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
     },
     btnSupport: {
         backgroundColor: COLOR.DEFALUTCOLOR,
-        borderRadius: 10,
-        width: WIDTH - 60,
+        borderRadius: 30,
+        width: WIDTH - 50,
         height: 45,
         marginTop: 50,
         alignItems: KEY.CENTER,
@@ -36,61 +36,64 @@ const styles = StyleSheet.create({
         fontWeight: FONT.FONT_WEIGHT_BOLD
     },
     btnSubmit: {
-        borderRadius: 10,
+        borderRadius: 30,
         backgroundColor: COLOR.DEFALUTCOLOR,
         width: WIDTH - 30,
         height: 45,
-        marginTop: 20,
+        marginTop: 30,
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
-        marginBottom: 20
+        marginBottom: 10
     },
     textSubject: {
-        borderRadius: 10,
-        borderWidth: 1,
+        color: COLOR.BLACK,
+        borderRadius: 30,
+        borderWidth: 2,
         borderColor: COLOR.BLACK,
         alignItems: KEY.FLEX_START,
         width: WIDTH - 30,
         height: 45,
         marginTop: 30,
-        fontSize: FONT.FONT_SIZE_14,
+        fontSize: FONT.FONT_SIZE_16,
         paddingLeft: 15
     },
     textSubjectError: {
-        borderRadius: 10,
-        borderWidth: 1,
+        color: COLOR.BLACK,
+        borderRadius: 30,
+        borderWidth: 2,
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
         width: WIDTH - 30,
         height: 45,
         marginTop: 30,
-        fontSize: FONT.FONT_SIZE_14,
+        fontSize: FONT.FONT_SIZE_16,
         paddingLeft: 15
     },
     textDescription: {
-        borderRadius: 10,
-        borderWidth: 1,
+        color: COLOR.BLACK,
+        borderRadius: 15,
+        borderWidth: 2,
         borderColor: COLOR.BLACK,
         alignItems: KEY.FLEX_START,
         width: WIDTH - 30,
-        marginTop: 10,
-        fontSize: FONT.FONT_SIZE_14,
+        marginTop: 15,
+        fontSize: FONT.FONT_SIZE_16,
         paddingLeft: 15,
     },
     textDescriptionError: {
-        borderRadius: 10,
-        borderWidth: 1,
+        color: COLOR.BLACK,
+        borderRadius: 15,
+        borderWidth: 2,
         borderColor: COLOR.ERRORCOLOR,
         alignItems: KEY.FLEX_START,
         width: WIDTH - 30,
-        marginTop: 10,
-        fontSize: FONT.FONT_SIZE_14,
+        marginTop: 15,
+        fontSize: FONT.FONT_SIZE_16,
         paddingLeft: 15,
     },
     msgModalView: {
-        height: 150,
+        height: 250,
         width: WIDTH,
-        borderRadius: 0,
         backgroundColor: COLOR.WHITE,
         alignItems: KEY.FLEX_START,
         shadowColor: COLOR.BLACK,
@@ -103,8 +106,27 @@ const styles = StyleSheet.create({
         elevation: 1,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        justifyContent: KEY.CENTER,
-        alignContent: KEY.CENTER
+
+    },
+    transactionView: {
+        shadowColor: COLOR.BLACK,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 1,
+        borderRadius: 10,
+        backgroundColor: COLOR.WHITE,
+        width: WIDTH - 30,
+        height: 85,
+        alignItems: KEY.FLEX_START,
+        flexDirection: KEY.ROW,
+        position: KEY.ABSOLUTE,
+        bottom: 15,
+        left: 15,
+        right: 15,
     },
 });
 

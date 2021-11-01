@@ -11,9 +11,9 @@ import {
     ScrollView
 } from 'react-native';
 import styles from './Style';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image'
+import * as FONT from '../../styles/typography'
+import * as COLOR from '../../styles/colors'
 import * as SCREEN from '../../context/screen/screenName';
 import * as KEY from '../../context/actions/key';
 import moment from 'moment';
@@ -35,7 +35,6 @@ export default class CalendarScreen extends Component {
         this.currentMonth = moment().clone().startOf('month').format('M');
         this.state = {
             holidaysList: [],
-            calenderList: [],
             renderList: null,
             loader: true,
             currentMonthHolidays: [],
@@ -138,11 +137,11 @@ export default class CalendarScreen extends Component {
         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
             <View style={styles.innercardview}>
                 <View style={{ flexDirection: KEY.ROW, marginTop: 15 }}>
-                    <Text style={{ fontSize: 14, marginLeft: 15, color: COLOR.DAVY_GREY, textTransform: KEY.CAPITALIZE }}>{item.title}</Text>
+                    <Text style={{ fontSize: 14, marginLeft: 15, color: COLOR.BLACK, textTransform: KEY.CAPITALIZE }}>{item.title}</Text>
                 </View>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginTop: 5, marginBottom: 10 }}>
-                    <Text style={{ fontSize: 14, marginLeft: 15, color: COLOR.DAVY_GREY }}>{item && item.date && moment(item.date).format('Do MMMM')}</Text>
-                    <Text style={{ fontSize: 14, marginRight: 15, color: COLOR.DAVY_GREY }}>{item && item.date && moment(item.date).format('dddd')}</Text>
+                    <Text style={{ fontSize: 14, marginLeft: 15, color: COLOR.BLACK }}>{item && item.date && moment(item.date).format('Do MMMM')}</Text>
+                    <Text style={{ fontSize: 14, marginRight: 15, color: COLOR.BLACK }}>{item && item.date && moment(item.date).format('dddd')}</Text>
                 </View>
             </View>
         </View>
@@ -150,66 +149,69 @@ export default class CalendarScreen extends Component {
 
     render() {
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.WHITE }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
                 <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
                 <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
-
-                {(this.state.holidaysList == null) || (this.state.holidaysList && this.state.holidaysList.length == 0) ?
-                    (this.state.loader == false ?
+                <View style={{ marginTop: 20 }} />
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    {(this.state.holidaysList == null) || (this.state.holidaysList && this.state.holidaysList.length > 0) &&
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                            <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
-                        </View>
-                        : <Loader />
-                    )
-                    :
-                    <>
-                        <View style={{ marginTop: 25 }} />
-                        <ScrollView showsVerticalScrollIndicator={false}>
-                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                                <SelectDropdown
-                                    defaultValue={"All"}
-                                    data={dropdowndata}
-                                    onSelect={(selectedItem, index) => {
-                                        this.setState({ selectedItem: selectedItem.toLowerCase() });
-                                        this.renderCalendarHolidays()
-                                    }}
-                                    buttonTextAfterSelection={(selectedItem, index) => {
-                                        // text represented after item is selected
-                                        // if data array is an array of objects then return selectedItem.property to render after item is selected
-                                        return selectedItem
-                                    }}
-                                    rowTextForSelection={(item, index) => {
-                                        // text represented for each item in dropdown
-                                        // if data array is an array of objects then return item.property to represent item in dropdown
-                                        return item
-                                    }}
-                                    buttonStyle={{ width: '80%', backgroundColor: COLOR.WHITE, borderWidth: 0.5, borderRadius: 10 }}
-                                    renderDropdownIcon={() => <Ionicons name="chevron-down" size={25} color={COLOR.BLACK} />}
-                                    dropdownIconPosition={"right"}
-                                />
-                            </View>
-                            <Calendar
-                                markedDates={this.state.renderList}
-                                onMonthChange={(month) => this.onChangeMonth(month.month)}
-                                markingType={'custom'}
-                                hideExtraDays={true}
+                            <SelectDropdown
+                                defaultValue={"All"}
+                                data={dropdowndata}
+                                onSelect={(selectedItem, index) => {
+                                    this.setState({ selectedItem: selectedItem.toLowerCase() });
+                                    this.renderCalendarHolidays()
+                                }}
+                                buttonTextAfterSelection={(selectedItem, index) => {
+                                    // text represented after item is selected
+                                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                    return selectedItem
+                                }}
+                                rowTextForSelection={(item, index) => {
+                                    // text represented for each item in dropdown
+                                    // if data array is an array of objects then return item.property to represent item in dropdown
+                                    return item
+                                }}
+                                buttonStyle={{ width: '80%', backgroundColor: COLOR.BACKGROUNDCOLOR, borderWidth: 0.5, borderRadius: 10 }}
+                                renderDropdownIcon={() => <Ionicons name="chevron-down" size={25} color={COLOR.BLACK} />}
+                                dropdownIconPosition={"right"}
                             />
-                            <View>
-                                <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.DAVY_GREY, marginTop: 15, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>List of {this.state.selectedItem}</Text>
-                            </View>
-                            {(this.state.currentMonthHolidays == null) || (this.state.currentMonthHolidays && this.state.currentMonthHolidays.length == 0) ?
-                                <Text style={{ textAlign: KEY.CENTER, fontSize: 14, color: COLOR.BLACK, marginTop: 25, textTransform: KEY.CAPITALIZE }}>No record Available</Text>
-                                :
-                                <FlatList
-                                    data={this.state.currentMonthHolidays}
-                                    renderItem={this.renderHolidaysList}
-                                    keyExtractor={item => item._id}
-                                />
-                            }
-                            <View style={{ marginBottom: 20 }}></View>
-                        </ScrollView></>
-                }
+                        </View>
+                    }
+                    <View style={{ marginTop: 20 }} />
+                    <Calendar
+                        enableSwipeMonths={true}
+                        theme={{
+                            textSectionTitleColor: COLOR.BLACK,
+                            backgroundColor: COLOR.BACKGROUNDCOLOR,
+                            calendarBackground: COLOR.BACKGROUNDCOLOR,
+                            arrowColor: COLOR.BLACK,
+                            monthTextColor: COLOR.BLACK,
+                            indicatorColor: COLOR.BLACK,
+                            dayTextColor: COLOR.BLACK,
+                            todayTextColor: COLOR.DEFALUTCOLOR,
+                        }}
+                        style={{ backgroundColor: COLOR.BACKGROUNDCOLOR }}
+                        markedDates={this.state.renderList}
+                        onMonthChange={(month) => this.onChangeMonth(month.month)}
+                        markingType={'custom'}
+                        hideExtraDays={true}
+                    />
+                    <View>
+                        <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 15, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>List of {this.state.selectedItem}</Text>
+                    </View>
+                    {(this.state.currentMonthHolidays == null) || (this.state.currentMonthHolidays && this.state.currentMonthHolidays.length == 0) ?
+                        <Text style={{ textAlign: KEY.CENTER, fontSize: 14, color: COLOR.BLACK, marginTop: 25, textTransform: KEY.CAPITALIZE }}>No record Available</Text>
+                        :
+                        <FlatList
+                            data={this.state.currentMonthHolidays}
+                            renderItem={this.renderHolidaysList}
+                            keyExtractor={item => item._id}
+                        />
+                    }
+                    <View style={{ marginBottom: 20 }}></View>
+                </ScrollView>
             </SafeAreaView>
         );
     }

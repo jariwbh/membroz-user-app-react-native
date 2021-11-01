@@ -22,6 +22,10 @@ export const MEETINGSCREEN = 'MeetingScreen';
 export const MYLEADSCREEN = 'MyLeadScreen';
 export const FOLLOWUPDETAILSCREEN = 'FollowupDetailScreen';
 export const ADDLEADSCREEN = 'AddLeadScreen';
+export const TICKETHISTORYSCREEN = 'TicketHistoryScreen';
+export const ANNOUNCEMENTSCREEN = 'AnnouncementScreen';
+
+
 
 
 

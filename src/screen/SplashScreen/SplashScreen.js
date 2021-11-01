@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { AUTHUSER, REMOTEDATA, REMOTECONFIGKEY } from '../../context/actions/type';
 import axiosConfig from '../../helpers/axiosConfig';
-import styles from './Styles';
+import styles from './Styles'
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as FONT from '../../styles/typography';
@@ -139,16 +139,16 @@ function SplashScreen(props) {
                                 <View style={{ marginTop: 20 }}>
                                     <ActivityIndicator
                                         size='large'
-                                        color={COLOR.BLACK}
+                                        color={COLOR.BLACK_OLIVE}
                                         style={{
                                             left: Platform.OS === 'ios' ? 1.3 : 0,
                                             top: Platform.OS === 'ios' ? 1 : 0,
                                         }}
                                     />
                                 </View>
-                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, marginTop: 25, textTransform: KEY.CAPITALIZE }}>initialization your app </Text>
-                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, textTransform: KEY.CAPITALIZE }}>please wait few Seconds</Text>
-                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, textTransform: KEY.CAPITALIZE }}>auto restart app</Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK_OLIVE, marginTop: 25, textTransform: KEY.CAPITALIZE }}>initialization your app </Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK_OLIVE, textTransform: KEY.CAPITALIZE }}>please wait few Seconds</Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK_OLIVE, textTransform: KEY.CAPITALIZE }}>auto restart app</Text>
                             </View>
                         </View>
                     </View>

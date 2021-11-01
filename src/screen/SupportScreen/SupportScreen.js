@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     StatusBar
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as LocalService from '../../services/LocalService/LocalService';
 import * as SCREEN from '../../context/screen/screenName';
 import * as KEY from '../../context/actions/key';
@@ -32,12 +33,12 @@ const SupportScreen = (props) => {
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getuserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
-        setSupportMobile(userInfo.branchid.supportemail);
-        setSupportEmail(userInfo.branchid.companyphone);
+        setSupportMobile(userInfo.branchid.companyphone);
+        setSupportEmail(userInfo.branchid.supportemail);
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
             <View style={styles.containView}>
@@ -52,6 +53,25 @@ const SupportScreen = (props) => {
                     <Text style={styles.btnText}>Support Ticket</Text>
                 </TouchableOpacity>
             </View>
+            <TouchableOpacity style={styles.transactionView} onPress={() => props.navigation.navigate(SCREEN.TICKETHISTORYSCREEN)}>
+                <View style={{ flexDirection: KEY.ROW }}>
+                    <Icon name='wallet' size={45}
+                        style={{
+                            color: COLOR.TAUPE_GRAY,
+                            marginRight: 10,
+                            marginTop: 20,
+                            marginLeft: 15,
+
+                        }} />
+                    <View style={{ flexDirection: KEY.COLUMN, width: 190 }}>
+                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.GREY, fontSize: FONT.FONT_SIZE_20, marginLeft: 10, marginTop: 10 }}>Ticket history</Text>
+                        <Text style={{ color: COLOR.TAUPE_GRAY, fontSize: FONT.FONT_SIZE_16, marginLeft: 10 }}>View your support ticket history</Text>
+                    </View>
+                    <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 10, marginTop: 20 }}>
+                        <Icon name='chevron-right' size={40} color={COLOR.TAUPE_GRAY} />
+                    </View>
+                </View>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }

@@ -14,7 +14,7 @@ const WIDTH = Dimensions.get('window').width;
 export default function ViewImage(props) {
     const viewimage = props.route.params.viewimage;
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BLACK }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.GRANITE_GRAY} barStyle={KEY.DARK_CONTENT} />
             <View style={{
                 flex: 1,

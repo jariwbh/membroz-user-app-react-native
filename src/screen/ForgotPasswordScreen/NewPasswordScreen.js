@@ -118,7 +118,7 @@ const NewPasswordScreen = (props) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.LIGHT_CONTENT} />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ height: HEIGHT, width: WIDTH }} >
@@ -127,6 +127,7 @@ const NewPasswordScreen = (props) => {
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                             <View>
                                 <TextInput
+                                    selectionColor={COLOR.DEFALUTCOLOR}
                                     placeholder="NewPassword"
                                     placeholderTextColor={COLOR.WHITE}
                                     selectionColor={COLOR.WHITE}
@@ -143,6 +144,7 @@ const NewPasswordScreen = (props) => {
 
                             <View>
                                 <TextInput
+                                    selectionColor={COLOR.DEFALUTCOLOR}
                                     placeholder="Confirm Password"
                                     placeholderTextColor={COLOR.WHITE}
                                     selectionColor={COLOR.WHITE}

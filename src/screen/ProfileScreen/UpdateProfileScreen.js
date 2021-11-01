@@ -74,7 +74,7 @@ const UpdateProfileScreen = (props) => {
         setUserMobile(userInfo?.property?.mobile);
         setUserBirthDate(userInfo?.property?.date_of_birth);
         setUserAddress(userInfo?.property?.address);
-        setUserPincode(userInfo?.property?.pincode.toString());
+        setUserPincode(userInfo?.property?.pincode && userInfo?.property?.pincode.toString());
     }
 
     const showDatePicker = () => {
@@ -275,7 +275,7 @@ const UpdateProfileScreen = (props) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: !showMessageModalVisible ? COLOR.BACKGROUNDCOLOR : 'rgba(0,0,0,0.5)' }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
@@ -291,6 +291,7 @@ const UpdateProfileScreen = (props) => {
                     <View>
                         <TextInput
                             placeholder="UserName"
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             style={userNameError == null ? styles.inputTextView : styles.inputTextViewError}
                             type={KEY.CLEAR}
                             returnKeyType={KEY.NEXT}
@@ -306,6 +307,7 @@ const UpdateProfileScreen = (props) => {
                     <View>
                         <TextInput
                             placeholder="Email"
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             keyboardType={KEY.EMAILADDRESS}
                             style={userEmailError == null ? styles.inputTextView : styles.inputTextViewError}
                             type={KEY.CLEAR}
@@ -323,6 +325,7 @@ const UpdateProfileScreen = (props) => {
                     <View>
                         <TextInput
                             placeholder="Mobile Number"
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             keyboardType={KEY.NUMBER_PAD}
                             style={userMoblieError == null ? styles.inputTextView : styles.inputTextViewError}
                             type={KEY.CLEAR}
@@ -340,6 +343,7 @@ const UpdateProfileScreen = (props) => {
                     <View>
                         <TextInput
                             placeholder="Date Of Birth"
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             style={styles.inputTextView}
                             type={KEY.CLEAR}
                             returnKeyType={KEY.NEXT}
@@ -361,6 +365,7 @@ const UpdateProfileScreen = (props) => {
 
                     <View>
                         <TextInput placeholder="Address"
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             style={styles.addressView}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                             type={KEY.CLEAR}
@@ -377,6 +382,7 @@ const UpdateProfileScreen = (props) => {
 
                     <View>
                         <TextInput placeholder="PinCode"
+                            selectionColor={COLOR.DEFALUTCOLOR}
                             keyboardType={KEY.NUMBER_PAD}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                             returnKeyType={KEY.DONE}

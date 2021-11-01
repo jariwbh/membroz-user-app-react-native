@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
+import * as FONT from '../../styles/typography'
+import * as COLOR from '../../styles/colors'
 import * as KEY from '../../context/actions/key';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -76,15 +76,15 @@ const styles = StyleSheet.create({
     },
     cardview: {
         flex: 1,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: COLOR.BACKGROUNDCOLOR,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         marginTop: 20,
 
     },
     innercardview: {
-        flexDirection: 'column',
-        backgroundColor: "#FFFFFF",
+        flexDirection: KEY.COLUMN,
+        backgroundColor: COLOR.BACKGROUNDCOLOR,
         borderRadius: 10,
         width: WIDTH - 30,
         marginTop: 5,

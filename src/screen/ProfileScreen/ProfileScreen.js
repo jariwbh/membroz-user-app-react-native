@@ -19,7 +19,7 @@ import * as KEY from '../../context/actions/key';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 import Toast from 'react-native-simple-toast';
-import { AUTHUSER, AUTHUSERINFO } from '../../context/actions/type';
+import { AUTHREMBERUSERINFO, AUTHUSER, AUTHUSERINFO } from '../../context/actions/type';
 import * as LocalService from '../../services/LocalService/LocalService';
 import moment from 'moment';
 import { RemoteService } from '../../services/RemortService/RemortService';
@@ -78,6 +78,7 @@ const ProfileScreen = (props) => {
                 {
                     text: "Log out", onPress: () => {
                         AsyncStorage.removeItem(AUTHUSERINFO);
+                        //AsyncStorage.removeItem(AUTHREMBERUSERINFO);
                         // AsyncStorage.removeItem(REMOVEDATA);
                         AsyncStorage.removeItem(AUTHUSER);
                         Toast.show('Log out Success', Toast.SHORT);
@@ -99,7 +100,7 @@ const ProfileScreen = (props) => {
 
     return (
         !showMessageModalVisible ?
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
                 <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
                 <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>

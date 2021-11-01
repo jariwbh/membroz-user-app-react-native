@@ -20,6 +20,7 @@ import Loader from '../../components/loader/index';
 import * as KEY from '../../context/actions/key';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import * as SCREEN from '../../context/screen/screenName';
 import Toast from 'react-native-simple-toast';
 import styles from './Style';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -122,11 +123,11 @@ const SupportTicketScreen = (props) => {
           setSubjectError(null);
           setDescription(null);
           setDescriptionError(null);
+          props.navigation.navigate(SCREEN.HOMESCREEN)
         }
       })
     }
     catch (error) {
-      console.log(`error`, error);
       firebase.crashlytics().recordError(error);
       setloading(false);
       setSubject(null);
@@ -134,7 +135,6 @@ const SupportTicketScreen = (props) => {
       setDescription(null);
       setDescriptionError(null);
       Toast.show('Ticket submited problem', Toast.LONG);
-      alert('Message Sending Failed!');
     }
   }
 
@@ -212,7 +212,7 @@ const SupportTicketScreen = (props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
       <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
       <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
 
@@ -223,6 +223,7 @@ const SupportTicketScreen = (props) => {
 
           <View style={{ justifyContent: KEY.CENTER }}>
             <TextInput
+              selectionColor={COLOR.DEFALUTCOLOR}
               placeholder='Subject'
               style={subjectError == null ? styles.textSubject : styles.textSubjectError}
               type={KEY.CLEAR}
@@ -237,7 +238,9 @@ const SupportTicketScreen = (props) => {
           </View>
 
           <View style={{ justifyContent: KEY.CENTER }}>
-            <TextInput placeholder='Description'
+            <TextInput
+              selectionColor={COLOR.DEFALUTCOLOR}
+              placeholder='Description'
               multiline={true}
               numberOfLines={3}
               style={DescriptionError == null ? styles.textDescription : styles.textDescriptionError}

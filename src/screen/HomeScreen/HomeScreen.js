@@ -48,10 +48,10 @@ let MenuDefaultArray = [
   { "menuname": "mylead", "title": "My Lead", "screenname": "MyLeadScreen", "colorcode": "#B366FF", "imageurl": IMAGE.PORTFOLIO, "height": 25, "width": 25 },
   { "menuname": "attendance", "title": "Attendance", "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 25, "width": 25 },
   { "menuname": "calender", "title": "Calender", "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 25, "width": 25 },
+  { "menuname": "announcement", "title": "Announcement", "screenname": "AnnouncementScreen", "colorcode": "#CFD03B", "imageurl": IMAGE.NOTICE_OUTLINE, "height": 25, "width": 25 },
   { "menuname": "support", "title": "Support", "screenname": "SupportScreen", "colorcode": "#F9C688", "imageurl": IMAGE.SUPPORT_ICON, "height": 31, "width": 16 },
   { "menuname": "booking", "title": "Book a Holiday", "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 25, "width": 25 },
   { "menuname": "event", "title": "Event", "screenname": "EventScreen", "colorcode": "#C889F2", "imageurl": IMAGE.IC_EVENT, "height": 25, "width": 25 },
-  { "menuname": "announcement", "title": "Announcement", "screenname": "AnnouncementScreen", "colorcode": "#CFD03B", "imageurl": IMAGE.NOTICE_OUTLINE, "height": 25, "width": 25 },
   { "menuname": "referfriend", "title": "Refer a Friend", "screenname": "ReferFriendScreen", "colorcode": "#2AAA63", "imageurl": IMAGE.IC_GROUP, "height": 25, "width": 25 },
 ];
 
@@ -181,8 +181,8 @@ const HomeScreen = (props) => {
   const MenuPermission = async () => {
     var userInfo = await LocalService.LocalStorageService();
     if (userInfo) {
-      //let mobileapppermissions = userInfo.role.mobileapppermissions;
-      let mobileapppermissions = ["freshlead", "followup", "meeting", "mylead", "calender", "support"];
+      let mobileapppermissions = userInfo.role.mobileapppermissions;
+      //let mobileapppermissions = ["freshlead", "followup", "meeting", "mylead", "calender", "support"];
       let finalMenuPermission = [];
       MenuDefaultArray.forEach(menuEle => {
         mobileapppermissions.forEach(MobileEle => {
@@ -389,7 +389,7 @@ const HomeScreen = (props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER }}>
+    <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
       <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
       <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ width: WIDTH, height: HEIGHT }}>
         <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 35 }}>
@@ -411,7 +411,7 @@ const HomeScreen = (props) => {
             <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NOTIFICATIONSCREEN)}
               style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, marginRight: 25, marginTop: !scanIconVisible ? 0 : -15 || !sharedIconVisible ? -10 : -15 }}>
               <Ionicons name='notifications-outline' size={30} color={COLOR.WHITE} />
-              <View style={{ marginLeft: 0, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, backgroundColor: COLOR.NOTIFICATION_COLOR }}>
+              <View style={{ marginLeft: 0, marginBottom: !sharedIconVisible ? 50 : 0, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, backgroundColor: COLOR.NOTIFICATION_COLOR }}>
                 <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, fontSize: 12, color: COLOR.WHITE }}>{notification}</Text>
               </View>
             </TouchableOpacity>
@@ -456,7 +456,7 @@ const HomeScreen = (props) => {
             keyExtractor={(item, index) => index.toString()}
             keyboardShouldPersistTaps={KEY.ALWAYS}
             renderItem={renderMenu}
-            contentContainerStyle={{ paddingBottom: HEIGHT / 2 + 40, alignSelf: KEY.CENTER }}
+            contentContainerStyle={{ paddingBottom: HEIGHT / 2 + 100, alignSelf: KEY.CENTER }}
           />
         </View>
       </ImageBackground>

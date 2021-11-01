@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
         height: 45,
         fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
+        color: COLOR.BLACK
     },
     inputTextViewError: {
         borderRadius: 10,
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
         height: 45,
         fontSize: FONT.FONT_SIZE_14,
         paddingLeft: 15,
+        color: COLOR.BLACK
     },
     viewRound: {
         height: 90,

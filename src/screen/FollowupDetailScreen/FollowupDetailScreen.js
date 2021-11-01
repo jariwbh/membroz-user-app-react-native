@@ -429,6 +429,7 @@ const FollowupDetailScreen = (props) => {
                         {item.required && <Text style={{ marginLeft: 5, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>}
                     </View>
                     <TextInput
+                        selectionColor={COLOR.DEFALUTCOLOR}
                         placeholder={item.displayname}
                         style={styles.inputTextView}
                         type={KEY.CLEAR}
@@ -449,6 +450,7 @@ const FollowupDetailScreen = (props) => {
                         {item.required && <Text style={{ marginLeft: 5, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>}
                     </View>
                     <TextInput
+                        selectionColor={COLOR.DEFALUTCOLOR}
                         keyboardType={KEY.EMAILADDRESS}
                         placeholder={item.displayname}
                         style={styles.inputTextView}
@@ -469,7 +471,9 @@ const FollowupDetailScreen = (props) => {
                         <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3, textTransform: KEY.CAPITALIZE }}>{item.displayname}</Text>
                         {item.required && <Text style={{ marginLeft: 5, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>}
                     </View>
-                    <TextInput placeholder={item.displayname}
+                    <TextInput
+                        selectionColor={COLOR.DEFALUTCOLOR}
+                        placeholder={item.displayname}
                         style={styles.addressView}
                         placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                         type={KEY.CLEAR}
@@ -529,6 +533,7 @@ const FollowupDetailScreen = (props) => {
                         {item.required && <Text style={{ marginLeft: 5, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'*'}</Text>}
                     </View>
                     <TextInput
+                        selectionColor={COLOR.DEFALUTCOLOR}
                         style={assignTOError == null ? styles.inputTextView : styles.inputTextViewError}
                         type={KEY.CLEAR}
                         returnKeyType={KEY.Done}
@@ -680,7 +685,7 @@ const FollowupDetailScreen = (props) => {
 
     return (
         !showMessageModalVisible ?
-            <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.WHITE }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
                 <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
                 <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
@@ -817,6 +822,7 @@ const FollowupDetailScreen = (props) => {
                                         <View>
                                             <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Followup Date</Text>
                                             <TextInput
+                                                selectionColor={COLOR.DEFALUTCOLOR}
                                                 placeholder="Follow Up Date"
                                                 style={followUpDateError == null ? styles.inputTextView : styles.inputTextViewError}
                                                 type={KEY.CLEAR}
@@ -839,6 +845,7 @@ const FollowupDetailScreen = (props) => {
                                         <View>
                                             <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Followup Time</Text>
                                             <TextInput
+                                                selectionColor={COLOR.DEFALUTCOLOR}
                                                 placeholder="Follow Up Time"
                                                 style={followUpTimeError == null ? styles.inputTextView : styles.inputTextViewError}
                                                 type={KEY.CLEAR}

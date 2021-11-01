@@ -16,8 +16,10 @@ import STYLES from './Style';
 import Toast from 'react-native-simple-toast';
 import axiosConfig from '../../helpers/axiosConfig';
 import { LoginService } from '../../services/LoginService/LoginService';
+import * as LocalService from '../../services/LocalService/LocalService';
 import Loader from '../../components/loader/index';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default LoginScreen = (props) => {
     const [logo, setLogo] = useState(null);
@@ -28,14 +30,19 @@ export default LoginScreen = (props) => {
     const [usernameError, setUsernameError] = useState(null);
     const [passwordError, setPasswordError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
     const secondTextInputRef = React.createRef();
 
     useEffect(() => {
         // check AuthController use to Login Or Not Login
         RemoteController();
+        localStorageInfoCheck();
     }, []);
 
-    async function RemoteController() {
+    useEffect(() => {
+    }, [logo, backgroungImage, appLogoVisible, isChecked, username, password, usernameError, passwordError, loading]);
+
+    const RemoteController = async () => {
         var getUser = await AsyncStorage.getItem(REMOTEDATA);
         var userData = JSON.parse(getUser);
         if (userData) {
@@ -79,6 +86,11 @@ export default LoginScreen = (props) => {
         AsyncStorage.setItem(KEY.AUTHUSERINFO, JSON.stringify(credentials))
     )
 
+    //add local storage Records
+    const setAuthRemberUserInfo = (credentials) => (
+        AsyncStorage.setItem(KEY.AUTHREMBERUSERINFO, JSON.stringify(credentials))
+    )
+
     const onPressToLogin = async () => {
         if (!username || !password) {
             CheckUsername(username);
@@ -119,6 +131,34 @@ export default LoginScreen = (props) => {
         setLoading(false);
     }
 
+    //check login info use to remember function
+    const localStorageInfoCheck = async () => {
+        const loginInfo = await LocalService.LocalRemberLoginStorageService();
+        if (loginInfo == null) {
+            LocalService.RemoveRemberLocalLoginStorageService();
+            setIsChecked(false);
+        } else {
+            setUsername(loginInfo.username);
+            setPassword(loginInfo.password);
+            setIsChecked(true);
+        }
+    }
+
+    //remember me function
+    const rememberMe = async () => {
+        if (isChecked) {
+            setIsChecked(false);
+            LocalService.RemoveRemberLocalLoginStorageService();
+        } else {
+            setIsChecked(true);
+            const body = {
+                username: username,
+                password: password
+            }
+            setAuthRemberUserInfo(body);
+        }
+    }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.LIGHT_CONTENT} />
@@ -135,9 +175,10 @@ export default LoginScreen = (props) => {
                         <Text style={{ color: COLOR.WHITE, fontSize: 18, fontWeight: FONT.FONT_WEIGHT_BOLD, marginBottom: 45 }}>Login To Your Account</Text>
 
                         <View style={{ justifyContent: KEY.CENTER }}>
-                            <TextInput placeholder={KEY.USERNAME}
+                            <TextInput
+                                placeholder={KEY.USERNAME}
                                 placeholderTextColor={COLOR.WHITE}
-                                selectionColor={COLOR.WHITE}
+                                selectionColor={COLOR.DEFALUTCOLOR}
                                 returnKeyType={KEY.NEXT}
                                 style={!usernameError ? STYLES.inputTextView : STYLES.inputTextViewError}
                                 defaultValue={username}
@@ -149,9 +190,10 @@ export default LoginScreen = (props) => {
                         </View>
 
                         <View style={{ justifyContent: KEY.CENTER }}>
-                            <TextInput placeholder={KEY.PASSWORD}
+                            <TextInput
+                                placeholder={KEY.PASSWORD}
                                 placeholderTextColor={COLOR.WHITE}
-                                selectionColor={COLOR.WHITE}
+                                selectionColor={COLOR.DEFALUTCOLOR}
                                 returnKeyType={KEY.DONE}
                                 style={!passwordError ? STYLES.inputTextView : STYLES.inputTextViewError}
                                 secureTextEntry={true}
@@ -167,9 +209,29 @@ export default LoginScreen = (props) => {
                             <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Login</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={{ marginTop: 30 }} onPress={() => { props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), resetScreen() }}>
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 20, alignItems: KEY.CENTER }}>
+                            {
+                                isChecked == true ?
+                                    <TouchableOpacity onPress={() => rememberMe()}>
+                                        <MaterialCommunityIcons size={25}
+                                            color={COLOR.WHITE} name='check-box-outline'
+                                            style={{ margin: 0 }} />
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity onPress={() => rememberMe()}>
+                                        <MaterialCommunityIcons size={25}
+                                            color={COLOR.WHITE}
+                                            name='checkbox-blank-outline'
+                                            style={{ margin: 0 }} />
+                                    </TouchableOpacity>
+                            }
+                            <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16, marginLeft: 2 }}>Remember Me</Text>
+                        </View>
+
+                        <TouchableOpacity style={{ marginTop: 20 }} onPress={() => { props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), resetScreen() }}>
                             <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Reset Your Password</Text>
                         </TouchableOpacity>
+
                     </View>
                     <View style={{ marginVertical: 20 }} />
                 </ImageBackground>
