@@ -209,7 +209,13 @@ export default LoginScreen = (props) => {
                             <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Login</Text>
                         </TouchableOpacity>
 
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 20, alignItems: KEY.CENTER }}>
+
+                    </View>
+                    <View style={{
+                        flexDirection: KEY.ROW, marginTop: 20, alignItems: KEY.CENTER,
+                        justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20
+                    }}>
+                        <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER }}>
                             {
                                 isChecked == true ?
                                     <TouchableOpacity onPress={() => rememberMe()}>
@@ -228,12 +234,11 @@ export default LoginScreen = (props) => {
                             <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16, marginLeft: 2 }}>Remember Me</Text>
                         </View>
 
-                        <TouchableOpacity style={{ marginTop: 20 }} onPress={() => { props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), resetScreen() }}>
-                            <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Reset Your Password</Text>
+                        <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), resetScreen() }}>
+                            <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Forget Password?</Text>
                         </TouchableOpacity>
-
                     </View>
-                    <View style={{ marginVertical: 20 }} />
+                    {/* <View style={{ paddingVertical: 50 }} /> */}
                 </ImageBackground>
             </ScrollView>
             {loading ? <Loader /> : null}

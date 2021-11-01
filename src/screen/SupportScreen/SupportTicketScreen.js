@@ -267,7 +267,7 @@ const SupportTicketScreen = (props) => {
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.btnSubmit} onPress={() => onPressSubmit()} >
-            <Text style={styles.btnText}>Submit</Text>
+            <Text style={styles.btnSubmitText}>Submit</Text>
           </TouchableOpacity>
 
         </View>

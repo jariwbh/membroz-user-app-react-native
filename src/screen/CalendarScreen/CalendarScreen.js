@@ -198,17 +198,24 @@ export default class CalendarScreen extends Component {
                         markingType={'custom'}
                         hideExtraDays={true}
                     />
-                    <View>
-                        <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 15, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>List of {this.state.selectedItem}</Text>
-                    </View>
-                    {(this.state.currentMonthHolidays == null) || (this.state.currentMonthHolidays && this.state.currentMonthHolidays.length == 0) ?
-                        <Text style={{ textAlign: KEY.CENTER, fontSize: 14, color: COLOR.BLACK, marginTop: 25, textTransform: KEY.CAPITALIZE }}>No record Available</Text>
-                        :
-                        <FlatList
-                            data={this.state.currentMonthHolidays}
-                            renderItem={this.renderHolidaysList}
-                            keyExtractor={item => item._id}
-                        />
+
+                    {(this.state.holidaysList == null) || (this.state.holidaysList && this.state.holidaysList.length > 0) &&
+                        <View>
+                            <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 15, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>List of {this.state.selectedItem}</Text>
+                            <FlatList
+                                data={this.state.currentMonthHolidays}
+                                renderItem={this.renderHolidaysList}
+                                showsVerticalScrollIndicator={false}
+                                keyExtractor={item => item._id}
+                                ListFooterComponent={() => (
+                                    this.state.currentMonthHolidays && this.state.currentMonthHolidays.length == 0 &&
+                                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                                        <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 50 }} resizeMode={KEY.CONTAIN} />
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                    </View>
+                                )}
+                            />
+                        </View>
                     }
                     <View style={{ marginBottom: 20 }}></View>
                 </ScrollView>

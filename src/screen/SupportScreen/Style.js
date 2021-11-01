@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
         marginTop: 15
     },
     btnSupport: {
-        backgroundColor: COLOR.DEFALUTCOLOR,
-        borderRadius: 30,
+        backgroundColor: COLOR.BACKGROUNDCOLOR,
+        borderRadius: 10,
         width: WIDTH - 50,
         height: 45,
         marginTop: 50,
@@ -31,7 +31,11 @@ const styles = StyleSheet.create({
         justifyContent: KEY.CENTER
     },
     btnText: {
-        fontSize: FONT.FONT_SIZE_18,
+        fontSize: FONT.FONT_SIZE_16,
+        color: COLOR.DEFALUTCOLOR
+    },
+    btnSubmitText: {
+        fontSize: FONT.FONT_SIZE_16,
         color: COLOR.WHITE,
         fontWeight: FONT.FONT_WEIGHT_BOLD
     },
@@ -106,7 +110,6 @@ const styles = StyleSheet.create({
         elevation: 1,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-
     },
     transactionView: {
         shadowColor: COLOR.BLACK,
@@ -120,13 +123,36 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: COLOR.WHITE,
         width: WIDTH - 30,
-        height: 85,
-        alignItems: KEY.FLEX_START,
-        flexDirection: KEY.ROW,
-        position: KEY.ABSOLUTE,
-        bottom: 15,
-        left: 15,
+        height: 55,
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
+        bottom: 0,
+    },
+    touchStyle: {
+        position: KEY.ABSOLUT,
+        width: 50,
+        height: 50,
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
         right: 15,
+        borderRadius: 100,
+        backgroundColor: COLOR.DEFALUTCOLOR,
+        shadowColor: COLOR.BLACK,
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 1,
+        bottom: 10,
+        zIndex: 2
+    },
+    floatImage: {
+        resizeMode: KEY.CONTAIN,
+        width: 15,
+        height: 15,
+        tintColor: COLOR.WHITE
     },
 });
 

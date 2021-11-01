@@ -6,9 +6,9 @@ import {
     Image,
     Text,
     TouchableOpacity,
-    StatusBar
+    StatusBar, ScrollView
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as LocalService from '../../services/LocalService/LocalService';
 import * as SCREEN from '../../context/screen/screenName';
 import * as KEY from '../../context/actions/key';
@@ -45,33 +45,23 @@ const SupportScreen = (props) => {
                 <Image source={IMAGE.CONSULT_TALK_ICON} resizeMode={KEY.CONTAIN} style={{ height: 100, width: 100 }} />
                 <Text style={styles.textHeader}>We are here to help you</Text>
                 <Text style={styles.textSub}>Contact Us</Text>
-                <View style={{ marginTop: 10, justifyContent: KEY.CE, alignItems: 'center' }}>
+                <View style={{ marginTop: 10, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                     <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16 }}>Call us - {supportMobile}</Text>
                     <Text style={{ color: COLOR.BLACK, fontSize: FONT.FONT_SIZE_16 }}>Mail us - {supportEmail}</Text>
                 </View>
-                <TouchableOpacity style={styles.btnSupport} onPress={() => props.navigation.navigate(SCREEN.SUPPORTTICKETSCREEN)} >
-                    <Text style={styles.btnText}>Support Ticket</Text>
+            </View>
+
+            <TouchableOpacity style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, justifyContent: KEY.CENTER, marginTop: 20 }}
+                onPress={() => props.navigation.navigate(SCREEN.TICKETHISTORYSCREEN)} >
+                <Text style={styles.btnText}>Show Ticket History</Text>
+                <MaterialCommunityIcons name='chevron-right' size={30} color={COLOR.DEFALUTCOLOR} style={{ marginTop: 5 }} />
+            </TouchableOpacity>
+
+            <View style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, bottom: 10, position: KEY.ABSOLUTE, right: 10 }}>
+                <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SUPPORTTICKETSCREEN)} style={styles.touchStyle}>
+                    <Image source={IMAGE.PLUS} style={styles.floatImage} />
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.transactionView} onPress={() => props.navigation.navigate(SCREEN.TICKETHISTORYSCREEN)}>
-                <View style={{ flexDirection: KEY.ROW }}>
-                    <Icon name='wallet' size={45}
-                        style={{
-                            color: COLOR.TAUPE_GRAY,
-                            marginRight: 10,
-                            marginTop: 20,
-                            marginLeft: 15,
-
-                        }} />
-                    <View style={{ flexDirection: KEY.COLUMN, width: 190 }}>
-                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.GREY, fontSize: FONT.FONT_SIZE_20, marginLeft: 10, marginTop: 10 }}>Ticket history</Text>
-                        <Text style={{ color: COLOR.TAUPE_GRAY, fontSize: FONT.FONT_SIZE_16, marginLeft: 10 }}>View your support ticket history</Text>
-                    </View>
-                    <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 10, marginTop: 20 }}>
-                        <Icon name='chevron-right' size={40} color={COLOR.TAUPE_GRAY} />
-                    </View>
-                </View>
-            </TouchableOpacity>
         </SafeAreaView>
     );
 }
