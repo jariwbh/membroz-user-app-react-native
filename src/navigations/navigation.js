@@ -25,6 +25,17 @@ import FOLLOWUPDETAILSCREEN from '../screen/FollowupDetailScreen/FollowupDetailS
 import ADDLEADSCREEN from '../screen/MyLeadScreen/AddLeadScreen';
 import TICKETHISTORYSCREEN from '../screen/SupportScreen/TicketHistoryScreen';
 import ANNOUNCEMENTSCREEN from '../screen/AnnouncementScreen/AnnouncementScreen';
+import ADDLEAVESCREEN from '../screen/LeaveScreen/AddLeaveScreen';
+import LEAVESCREEN from '../screen/LeaveScreen/LeaveScreen';
+import MYCLAIMSCREEN from '../screen/MyClaimScreen/MyClaimScreen';
+import ADDCLAIMSCREEN from '../screen/MyClaimScreen/AddClaimScreen';
+import MYTEAMSCREEN from '../screen/MyTeamScreen/MyTeamScreen';
+import REFERFRIENDREQUEST from '../screen/Refer_a_friend_screen/ReferFriendRequest';
+import REFERFRIENDSCREEN from '../screen/Refer_a_friend_screen/ReferFriendScreen';
+import SALARYSCREEN from '../screen/SalaryScreen/SalaryScreen';
+import TIMESHEETSCREEN from '../screen/TimesheetScreen/TimesheetScreen';
+import ATTENDANCESCREEN from '../screen/AttendanceScreen/AttendanceScreen';
+
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
 import * as KEY from '../context/actions/key';
@@ -214,6 +225,76 @@ const HomeStackScreen = () => {
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
+            <HomeStack.Screen name="AddLeaveScreen" component={ADDLEAVESCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'Leave Request',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
+            <HomeStack.Screen name="LeaveScreen" component={LEAVESCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'My Leaves',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
+            <HomeStack.Screen name="MyClaimScreen" component={MYCLAIMSCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'My Claims',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
+            <HomeStack.Screen name="AddClaimScreen" component={ADDCLAIMSCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'Claim Request',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
+            <HomeStack.Screen name="MyTeamScreen" component={MYTEAMSCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'Teams',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
+            <HomeStack.Screen name="ReferFriendRequest" component={REFERFRIENDREQUEST}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'Refer Friend',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
+            <HomeStack.Screen name="ReferFriendScreen" component={REFERFRIENDSCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'Refer Friends',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
+            <HomeStack.Screen name="SalaryScreen" component={SALARYSCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'My Salary',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
+            <HomeStack.Screen name="TimesheetScreen" component={TIMESHEETSCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'Time sheet',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
+            <HomeStack.Screen name="AttendanceScreen" component={ATTENDANCESCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'Attendance',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
             <HomeStack.Screen
                 name="WebViewScreen"
                 component={WEBVIEWSCREEN}

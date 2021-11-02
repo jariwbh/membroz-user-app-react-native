@@ -32,7 +32,7 @@ const WebViewScreen = (props) => {
     }, [title]);
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <View style={{ flexDirection: KEY.ROW }}>
                 <View style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, marginLeft: 15, marginTop: 30 }}>

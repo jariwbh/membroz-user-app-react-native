@@ -32,12 +32,17 @@ import SUPPORT_ICON from '../../src/assets/images/icons/support_icon.png';
 import CLOCK from '../../src/assets/images/icons/clock.png';
 import PHONE_WITH_WIRE from '../../src/assets/images/icons/phone_with_wire.png';
 import PORTFOLIO from '../../src/assets/images/icons/portfolio.png';
+import CLAIMICON from '../../src/assets/images/icons/claim.png';
+import TIMELINEICON from '../../src/assets/images/icons/timeline.png';
+import PAYMENT_ICON from '../../src/assets/images/icons/payment_icon.png';
+import IC_PRESCRIPTION from '../../src/assets/images/icons/ic_prescription.png';
+import REFERICON from '../../src/assets/images/icons/refer.png';
 
 export {
-    BACKGROUND_IMAGE, MEMBROZ_LOGO, HEADER, USERPROFILE, NO_PHOTO,
+    BACKGROUND_IMAGE, MEMBROZ_LOGO, HEADER, USERPROFILE, NO_PHOTO, REFERICON,
     ATTENDANCE_ICON, BELL_ICON, CALENDER_ICON, CLIPBOARD_TEXT_OUTLINE, CONSULT_TALK_ICON,
     IC_EVENT, IC_GROUP, IC_LIBRARY, IC_LOGIN, IC_QRCODE, IC_SCHEDULE, NOTICE_OUTLINE,
     PENCIL_ICON, PICTURE_ICON, PROFILE_ICON_GREY, CLOCK, PORTFOLIO, PHONE_WITH_WIRE,
-    RECORD_ICON, PLUS, SHARE_ICON, PENCIL_ICON_SIMPLE, CALENDAR,
-    PADLOCK, LOGOUT, REVIEW, PREMIUM_SERVICES, LOCK_ICON, SUPPORT_ICON
+    RECORD_ICON, PLUS, SHARE_ICON, PENCIL_ICON_SIMPLE, CALENDAR, TIMELINEICON, PAYMENT_ICON,
+    PADLOCK, LOGOUT, REVIEW, PREMIUM_SERVICES, LOCK_ICON, SUPPORT_ICON, CLAIMICON, IC_PRESCRIPTION
 };

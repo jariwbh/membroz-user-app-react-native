@@ -15,7 +15,7 @@ import * as SCREEN from '../../context/screen/screenName';
 import * as KEY from '../../context/actions/key';
 const WIDTH = Dimensions.get('window').width;
 
-export default TaskScreen = (props) => {
+export default SalaryScreen = (props) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />

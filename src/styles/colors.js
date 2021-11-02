@@ -1,12 +1,12 @@
 //APP MAIN COLOR
-export const DEFALUTCOLOR = '#F58634'; //'#C42B32' //'#FC7845'; 
-export const BACKGROUNDCOLOR = '#FFFFFF' //'#F0F0F0';
+export const DEFALUTCOLOR = '#FC7845'; //'#C42B32' //'#FC7845'; 
+export const BACKGROUNDCOLOR = '#FFFFFF';
 
 //BASIC COLOR
 export const DEFAULTLIGHT = '#FDA786';
 export const PRIMARY = '#1779ba';
 export const SECONDARY = '#767676';
-export const WHITE = '#FFFFFF'; //'#000000'
+export const WHITE = '#FFFFFF';
 export const BLACK = '#000000'; //'#FFFFFF'
 export const RED = '#FF0000';
 export const ERRORCOLOR = '#FF0000';

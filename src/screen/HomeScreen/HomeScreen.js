@@ -48,11 +48,16 @@ let MenuDefaultArray = [
   { "menuname": "mylead", "title": "My Lead", "screenname": "MyLeadScreen", "colorcode": "#B366FF", "imageurl": IMAGE.PORTFOLIO, "height": 25, "width": 25 },
   { "menuname": "attendance", "title": "Attendance", "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 25, "width": 25 },
   { "menuname": "calender", "title": "Calender", "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 25, "width": 25 },
-  { "menuname": "announcement", "title": "Announcement", "screenname": "AnnouncementScreen", "colorcode": "#CFD03B", "imageurl": IMAGE.NOTICE_OUTLINE, "height": 25, "width": 25 },
-  { "menuname": "support", "title": "Support", "screenname": "SupportScreen", "colorcode": "#F9C688", "imageurl": IMAGE.SUPPORT_ICON, "height": 31, "width": 16 },
   { "menuname": "booking", "title": "Book a Holiday", "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 25, "width": 25 },
   { "menuname": "event", "title": "Event", "screenname": "EventScreen", "colorcode": "#C889F2", "imageurl": IMAGE.IC_EVENT, "height": 25, "width": 25 },
-  { "menuname": "referfriend", "title": "Refer a Friend", "screenname": "ReferFriendScreen", "colorcode": "#2AAA63", "imageurl": IMAGE.IC_GROUP, "height": 25, "width": 25 },
+  { "menuname": "salary", "title": "My Salary", "screenname": "SalaryScreen", "colorcode": "#4B9E47", "imageurl": IMAGE.PAYMENT_ICON, "height": 25, "width": 28 },
+  { "menuname": "leave", "title": "My Leave", "screenname": "LeaveScreen", "colorcode": "#91479E", "imageurl": IMAGE.IC_PRESCRIPTION, "height": 25, "width": 25 },
+  { "menuname": "timesheet", "title": "Timesheet", "screenname": "TimesheetScreen", "colorcode": "#757FD9", "imageurl": IMAGE.TIMELINEICON, "height": 25, "width": 25 },
+  { "menuname": "claim", "title": "My Claim", "screenname": "MyClaimScreen", "colorcode": "#EB4034", "imageurl": IMAGE.CLAIMICON, "height": 25, "width": 25 },
+  { "menuname": "announcement", "title": "Announcement", "screenname": "AnnouncementScreen", "colorcode": "#CFD03B", "imageurl": IMAGE.NOTICE_OUTLINE, "height": 25, "width": 25 },
+  { "menuname": "team", "title": "Team", "screenname": "MyTeamScreen", "colorcode": "#0099EB", "imageurl": IMAGE.IC_GROUP, "height": 25, "width": 25 },
+  { "menuname": "support", "title": "Support", "screenname": "SupportScreen", "colorcode": "#F9C688", "imageurl": IMAGE.SUPPORT_ICON, "height": 31, "width": 16 },
+  { "menuname": "referfriend", "title": "Refer a Friend", "screenname": "ReferFriendScreen", "colorcode": "#9E7347", "imageurl": IMAGE.REFERICON, "height": 25, "width": 25 },
 ];
 
 //HOME SCREEN FUNCTION
@@ -395,23 +400,23 @@ const HomeScreen = (props) => {
         <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 35 }}>
           {
             scanIconVisible &&
-            <TouchableOpacity style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.WHITE, marginLeft: 15 }}>
+            <TouchableOpacity style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.WHITE, marginLeft: 15, marginTop: 10 }}>
               <Icon name='qrcode-scan' size={28} color={COLOR.WHITE} />
             </TouchableOpacity>
           }
           {
             sharedIconVisible &&
             <TouchableOpacity onPress={() => onPressShareButton()}
-              style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, marginLeft: !scanIconVisible ? WIDTH / 2 + 100 : WIDTH / 2 + 30, marginRight: !scanIconVisible ? 15 : 0, marginTop: !scanIconVisible ? 5 : 0 }}>
+              style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, marginLeft: !scanIconVisible ? WIDTH / 2 + 100 : WIDTH / 2 + 30, marginRight: !scanIconVisible ? 15 : 0, marginTop: !scanIconVisible ? 10 : 10 }}>
               <Ionicons name='share-social' size={30} color={COLOR.WHITE} />
             </TouchableOpacity>
           }
           {
             notificationIconVisible &&
             <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NOTIFICATIONSCREEN)}
-              style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, marginRight: 25, marginTop: !scanIconVisible ? 0 : -15 || !sharedIconVisible ? -10 : -15 }}>
+              style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, marginRight: 25, marginTop: !scanIconVisible ? 0 : -15 || !sharedIconVisible ? 0 : -15 }}>
               <Ionicons name='notifications-outline' size={30} color={COLOR.WHITE} />
-              <View style={{ marginLeft: 0, marginBottom: !sharedIconVisible ? 50 : 0, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, backgroundColor: COLOR.NOTIFICATION_COLOR }}>
+              <View style={{ marginLeft: 0, marginBottom: !sharedIconVisible ? 0 : 0, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, backgroundColor: COLOR.NOTIFICATION_COLOR }}>
                 <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, fontSize: 12, color: COLOR.WHITE }}>{notification}</Text>
               </View>
             </TouchableOpacity>

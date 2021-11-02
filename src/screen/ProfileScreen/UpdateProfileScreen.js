@@ -268,6 +268,7 @@ const UpdateProfileScreen = (props) => {
             }
         }
         catch (error) {
+            console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setloading(false);
             Toast.show('Your Profile Not Update', Toast.LONG);
