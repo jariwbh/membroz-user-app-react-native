@@ -85,7 +85,7 @@ const styles = (colorcode) => StyleSheet.create(
       justifyContent: 'center'
     },
     viewRectangle: {
-      borderLeftWidth: 90,
+      borderLeftWidth: 70,
       borderRightWidth: 5,
       borderLeftColor: COLOR.DEFALUTCOLOR,
       borderRightColor: COLOR.DEFALUTCOLOR,
@@ -105,7 +105,7 @@ const styles = (colorcode) => StyleSheet.create(
       shadowRadius: 2.62,
       elevation: 4,
       flexDirection: KEY.ROW,
-
+      alignItems: KEY.CENTER
     },
     rectangleText: {
       fontSize: FONT.FONT_SIZE_10,

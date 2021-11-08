@@ -39,7 +39,7 @@ import SCANNERSCREEN from '../screen/HomeScreen/ScannerScreen';
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
 import * as KEY from '../context/actions/key';
-import { Image } from 'react-native';
+import { Image, LogBox } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -123,7 +123,7 @@ const TaskStackScreen = () => {
 
 const HomeStackScreen = () => {
     return (
-        <HomeStack.Navigator initialRouteName='HomeScreen' screenOptions={{ headerShadowVisible: false }}>
+        <HomeStack.Navigator initialRouteName='HomeScreen' screenOptions={{ headerShadowVisible: false }} >
             <HomeStack.Screen
                 name="HomeScreen"
                 component={HOMESCREEN}

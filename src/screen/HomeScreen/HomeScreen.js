@@ -134,14 +134,13 @@ const HomeScreen = (props) => {
     }
     try {
       const checkindatetime = await AttendanceService.getTodayAttendenceService(data);
-      console.log(`checkindatetime.data`, checkindatetime.data);
       if (checkindatetime.data && checkindatetime.data.length > 0) {
         setTodayAttendTime(checkindatetime.data[0]);
-        //if (todayAttendTime && todayAttendTime.property && todayAttendTime.property.mode === 'checkin') {
-        if (checkindatetime.data[0] && checkindatetime.data[0].checkin === checkindatetime.data[0].checkout) {
+        if (checkindatetime.data[0] && checkindatetime.data[0].property && checkindatetime.data[0].property.mode === 'checkin') {
+          // if (checkindatetime.data[0] && checkindatetime.data[0].checkin === checkindatetime.data[0].checkout) {
           let secTimer = setInterval(() => {
             setDt(new Date().toLocaleString())
-          }, 100)
+          }, 1000)
           return () => clearInterval(secTimer);
         }
       }
@@ -463,12 +462,21 @@ const HomeScreen = (props) => {
         },
         {
           text: `${todayAttendTime?.property?.mode == 'checkin' ? 'check out' : 'check in'}`, onPress: () => {
-            props.navigation.navigate(SCREEN.SCANNERSCREEN);
+            props.navigation.navigate(SCREEN.SCANNERSCREEN, { item: todayAttendTime });
             checkPermission();
           }
         }
       ]
     );
+  }
+
+  //Scan icon in check day in time
+  const checkDayInTime = () => {
+    if (todayAttendTime) {
+      onPressLogout()
+    } else {
+      props.navigation.navigate(SCREEN.SCANNERSCREEN, { item: todayAttendTime })
+    }
   }
 
   return (
@@ -478,7 +486,7 @@ const HomeScreen = (props) => {
         <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 35 }}>
           {
             scanIconVisible &&
-            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SCANNERSCREEN)}
+            <TouchableOpacity onPress={() => checkDayInTime()}
               style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.WHITE, marginLeft: 15, marginTop: 10 }}>
               <Icon name='qrcode-scan' size={28} color={COLOR.WHITE} />
             </TouchableOpacity>
@@ -532,16 +540,22 @@ const HomeScreen = (props) => {
         <View style={styles().viewMain}>
           {todayAttendTime &&
             <View style={styles().viewRectangle}>
-              <Ionicons name='ios-alarm-outline' size={45} style={{ marginTop: 15, color: COLOR.WHITE, marginLeft: -70, marginBottom: 15 }} />
-              <View style={{ flexDirection: KEY.COLUMN, marginLeft: 35 }}>
+              <View style={{ marginLeft: 10 }}>
+                <Ionicons name='ios-alarm-outline' size={40} color={COLOR.GREEN} style={{ marginTop: 15, alignItems: KEY.CENTER, color: COLOR.WHITE, marginLeft: -70, marginBottom: 15 }} />
+              </View>
+              <View style={{ flexDirection: KEY.COLUMN, marginLeft: 0 }}>
                 <Text style={styles().rectangleText}>CheckIn Time</Text>
                 <Text style={{ fontSize: FONT.FONT_SIZE_14, textTransform: KEY.UPPERCASE }}>{moment(checkinTime).format('DD MMM YYYY, h:mm:ss a')}</Text>
                 <Text style={styles().rectangleText}>Total Time</Text>
-                <Text style={{ fontSize: FONT.FONT_SIZE_14 }}>{finalcal}</Text>
+                {todayAttendTime && todayAttendTime.property && todayAttendTime.property.mode === 'checkout' ?
+                  <Text style={{ fontSize: FONT.FONT_SIZE_14 }}>{totalTime}</Text>
+                  :
+                  <Text style={{ fontSize: FONT.FONT_SIZE_14 }}>{finalcal}</Text>
+                }
               </View>
-              <View style={{ flex: 1, alignItems: KEY.FLEX_END }}>
+              <View style={{ flex: 1, alignItems: KEY.FLEX_END, marginTop: 10 }}>
                 <TouchableOpacity style={styles().rectangleRound} onPress={() => onPressLogout()} >
-                  <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18, fontWeight: 'bold' }}>logOut</Text>
+                  <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18, fontWeight: 'bold' }}>{todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}</Text>
                 </TouchableOpacity>
               </View>
             </View>
