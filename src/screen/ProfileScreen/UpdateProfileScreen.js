@@ -245,8 +245,8 @@ const UpdateProfileScreen = (props) => {
     const UpdateProfileService = async () => {
         if (!userMoblie || !userEmail || !userName) {
             checkFullName(userName);
-            checkEmail(userMoblie);
-            checkMobile(userEmail);
+            checkEmail(userEmail);
+            checkMobile(userMoblie);
             return;
         }
         setloading(true);

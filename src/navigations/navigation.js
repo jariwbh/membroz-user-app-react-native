@@ -35,7 +35,7 @@ import REFERFRIENDSCREEN from '../screen/Refer_a_friend_screen/ReferFriendScreen
 import SALARYSCREEN from '../screen/SalaryScreen/SalaryScreen';
 import TIMESHEETSCREEN from '../screen/TimesheetScreen/TimesheetScreen';
 import ATTENDANCESCREEN from '../screen/AttendanceScreen/AttendanceScreen';
-
+import SCANNERSCREEN from '../screen/HomeScreen/ScannerScreen';
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
 import * as KEY from '../context/actions/key';
@@ -295,6 +295,10 @@ const HomeStackScreen = () => {
                     headerTintColor: COLOR.WHITE,
                     headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
                 }} />
+            <HomeStack.Screen name="ScannerScreen"
+                component={SCANNERSCREEN}
+                options={{ headerShown: false }} />
+
             <HomeStack.Screen
                 name="WebViewScreen"
                 component={WEBVIEWSCREEN}

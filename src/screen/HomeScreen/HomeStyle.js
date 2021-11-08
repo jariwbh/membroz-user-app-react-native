@@ -90,7 +90,7 @@ const styles = (colorcode) => StyleSheet.create(
       borderLeftColor: COLOR.DEFALUTCOLOR,
       borderRightColor: COLOR.DEFALUTCOLOR,
       width: WIDTH - 15,
-      height: 75,
+      height: 90,
       marginTop: 25,
       marginLeft: 10,
       marginRight: 10,
@@ -108,11 +108,9 @@ const styles = (colorcode) => StyleSheet.create(
 
     },
     rectangleText: {
-      fontSize: FONT.FONT_SIZE_16,
+      fontSize: FONT.FONT_SIZE_10,
       color: COLOR.DEFALUTCOLOR,
-      marginTop: 15,
-      fontFamily: FONT.FONT_FAMILY_SANS_SERIF_LIGHT,
-      fontWeight: FONT.FONT_WEIGHT_NORMAL,
+      marginTop: 5,
     },
     rectangleRound: {
       height: 40,

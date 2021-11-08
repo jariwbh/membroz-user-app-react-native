@@ -24,7 +24,6 @@ export const FOLLOWUPDETAILSCREEN = 'FollowupDetailScreen';
 export const ADDLEADSCREEN = 'AddLeadScreen';
 export const TICKETHISTORYSCREEN = 'TicketHistoryScreen';
 export const ANNOUNCEMENTSCREEN = 'AnnouncementScreen';
-
 export const ADDLEAVESCREEN = 'AddLeaveScreen';
 export const LEAVESCREEN = 'LeaveScreen';
 export const MYCLAIMSCREEN = 'MyClaimScreen';
@@ -35,6 +34,7 @@ export const REFERFRIENDSCREEN = 'ReferFriendScreen';
 export const SALARYSCREEN = 'SalaryScreen';
 export const TIMESHEETSCREEN = 'TimesheetScreen';
 export const ATTENDANCESCREEN = 'AttendanceScreen';
+export const SCANNERSCREEN = 'ScannerScreen';
 
 
 

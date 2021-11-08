@@ -22,10 +22,13 @@ import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import Feather from 'react-native-vector-icons/Feather';
 import styles from './HomeStyle';
 import Loader from '../../components/loader/index';
 import { GalleryService } from '../../services/GalleryService/GalleryService';
 import { NotificationService } from '../../services/NotificationService/NotificationService';
+import * as AttendanceService from '../../services/AttendanceService/AttendanceService';
 import DeviceInfo from 'react-native-device-info';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
@@ -35,6 +38,8 @@ import Toast from 'react-native-simple-toast';
 import { useFocusEffect } from '@react-navigation/native';
 import RNExitApp from 'react-native-exit-app';
 import crashlytics from "@react-native-firebase/crashlytics";
+import moment from 'moment';
+import MyPermissionController from '../../helpers/appPermission';
 
 //STATIC VARIABLE 
 const HEIGHT = Dimensions.get('window').height;
@@ -76,6 +81,19 @@ const HomeScreen = (props) => {
   const [photoCounter, setPhotoCounter] = useState(0);
   const [shareusAndroid, setSharesAndroid] = useState(null);
   const [shareusIos, setShareUsIos] = useState(null);
+  const [todayAttendTime, setTodayAttendTime] = useState(null);
+
+  let currentTime = moment();
+  let checkinTime = moment(todayAttendTime && todayAttendTime.checkin);
+  let checkoutTime = moment(todayAttendTime && todayAttendTime.checkout);
+  let duration = moment.duration(currentTime.diff(checkinTime));
+  let finalcal = moment.utc(duration.as('milliseconds')).format('HH:mm:ss');
+
+  let currentTimefinal = moment(todayAttendTime && todayAttendTime.checkout);
+  let durationtime = moment.duration(currentTimefinal.diff(checkinTime));
+  let totalTime = moment.utc(durationtime.as('milliseconds')).format('HH:mm:ss');
+  let finalcalbreaktime = moment.duration(currentTime.diff(checkoutTime)).asMinutes();
+  const [dt, setDt] = useState(moment.utc(duration.as('milliseconds')).format('HH:mm:ss'));
   let getuserid, appVersionCode, androidUrl, iosUrl;
 
   useFocusEffect(
@@ -87,9 +105,11 @@ const HomeScreen = (props) => {
         setUserName(userInfo?.fullname.substring(0, 15));
         setUserID(userInfo?._id);
         getNotification(userInfo?._id);
+        getCheckinTime(userInfo?._id);
         setUserProfilePic(userInfo?.profilepic);
       }
       getCallBackScreen();
+
     }, [])
   );
 
@@ -102,9 +122,46 @@ const HomeScreen = (props) => {
   }, []);
 
   useEffect(() => {
-  }, [loading, backgroungImage, scanIconVisible, sharedIconVisible, notificationIconVisible, photoCounter,
+  }, [loading, backgroungImage, scanIconVisible, sharedIconVisible, notificationIconVisible, photoCounter, todayAttendTime,
     mobileapppermissions, notification, userDesignation, userName, userID, userProfilePic, shareusAndroid, shareusIos
   ])
+
+  //Get CheckIn time
+  const getCheckinTime = async (userid) => {
+    let data = {
+      date: moment().format('YYYY-MM-DD'),
+      id: userid,
+    }
+    try {
+      const checkindatetime = await AttendanceService.getTodayAttendenceService(data);
+      console.log(`checkindatetime.data`, checkindatetime.data);
+      if (checkindatetime.data && checkindatetime.data.length > 0) {
+        setTodayAttendTime(checkindatetime.data[0]);
+        //if (todayAttendTime && todayAttendTime.property && todayAttendTime.property.mode === 'checkin') {
+        if (checkindatetime.data[0] && checkindatetime.data[0].checkin === checkindatetime.data[0].checkout) {
+          let secTimer = setInterval(() => {
+            setDt(new Date().toLocaleString())
+          }, 100)
+          return () => clearInterval(secTimer);
+        }
+      }
+    } catch (error) {
+      firebase.crashlytics().recordError(error);
+      console.log(`error`, error);
+    }
+  }
+
+  //check permission Function
+  const checkPermission = () => {
+    setTimeout(
+      () => {
+        MyPermissionController.checkAndRequestStoragePermission()
+          .then((granted) => { })
+          .catch((err) => console.log(err))
+      },
+      500
+    );
+  }
 
   //TIME OUT FUNCTION
   const wait = (timeout) => {
@@ -138,6 +195,7 @@ const HomeScreen = (props) => {
     setUserName(userInfo?.fullname.substring(0, 15));
     setUserID(userInfo?._id);
     getUserDeatils(userInfo?._id);
+    getCheckinTime(userInfo?._id);
     getNotification(userInfo?._id);
     setUserProfilePic(userInfo?.profilepic);
     PushNotifications();
@@ -393,6 +451,26 @@ const HomeScreen = (props) => {
     }
   }
 
+  //LogOut Button click to call 
+  const onPressLogout = () => {
+    Alert.alert(
+      `${todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}`,
+      `Are you sure you want to ${todayAttendTime?.property?.mode == 'checkin' ? 'check out' : 'check in'}`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        {
+          text: `${todayAttendTime?.property?.mode == 'checkin' ? 'check out' : 'check in'}`, onPress: () => {
+            props.navigation.navigate(SCREEN.SCANNERSCREEN);
+            checkPermission();
+          }
+        }
+      ]
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
       <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
@@ -400,7 +478,8 @@ const HomeScreen = (props) => {
         <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 35 }}>
           {
             scanIconVisible &&
-            <TouchableOpacity style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.WHITE, marginLeft: 15, marginTop: 10 }}>
+            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.SCANNERSCREEN)}
+              style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.WHITE, marginLeft: 15, marginTop: 10 }}>
               <Icon name='qrcode-scan' size={28} color={COLOR.WHITE} />
             </TouchableOpacity>
           }
@@ -451,6 +530,22 @@ const HomeScreen = (props) => {
         </View>
 
         <View style={styles().viewMain}>
+          {todayAttendTime &&
+            <View style={styles().viewRectangle}>
+              <Ionicons name='ios-alarm-outline' size={45} style={{ marginTop: 15, color: COLOR.WHITE, marginLeft: -70, marginBottom: 15 }} />
+              <View style={{ flexDirection: KEY.COLUMN, marginLeft: 35 }}>
+                <Text style={styles().rectangleText}>CheckIn Time</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_14, textTransform: KEY.UPPERCASE }}>{moment(checkinTime).format('DD MMM YYYY, h:mm:ss a')}</Text>
+                <Text style={styles().rectangleText}>Total Time</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_14 }}>{finalcal}</Text>
+              </View>
+              <View style={{ flex: 1, alignItems: KEY.FLEX_END }}>
+                <TouchableOpacity style={styles().rectangleRound} onPress={() => onPressLogout()} >
+                  <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18, fontWeight: 'bold' }}>logOut</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          }
           <FlatList
             style={{ marginTop: 15 }}
             data={mobileapppermissions}
@@ -464,6 +559,7 @@ const HomeScreen = (props) => {
             contentContainerStyle={{ paddingBottom: HEIGHT / 2 + 100, alignSelf: KEY.CENTER }}
           />
         </View>
+
       </ImageBackground>
       {loading ? <Loader /> : null}
     </SafeAreaView>

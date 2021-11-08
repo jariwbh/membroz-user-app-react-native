@@ -49,11 +49,11 @@ class PermissionController {
                     check(PERMISSIONS.IOS.MEDIA_LIBRARY)
                         .then((result0) => {
                             if (result0 === RESULTS.DENIED) {
-                                requestMultiple([PERMISSIONS.IOS.MEDIA_LIBRARY])
+                                requestMultiple([PERMISSIONS.IOS.MEDIA_LIBRARY, PERMISSIONS.IOS.CAMERA])
                                     .then((results) => {
                                         console.log(results);
                                         if (
-                                            results[PERMISSIONS.IOS.MEDIA_LIBRARY] === RESULTS.GRANTED
+                                            results[PERMISSIONS.IOS.MEDIA_LIBRARY, PERMISSIONS.IOS.CAMERA] === RESULTS.GRANTED
                                         ) {
                                             // console.log("Permission Granted")
                                             resolve(true);
