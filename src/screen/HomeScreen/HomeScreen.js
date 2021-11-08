@@ -137,10 +137,9 @@ const HomeScreen = (props) => {
       if (checkindatetime.data && checkindatetime.data.length > 0) {
         setTodayAttendTime(checkindatetime.data[0]);
         if (checkindatetime.data[0] && checkindatetime.data[0].property && checkindatetime.data[0].property.mode === 'checkin') {
-          // if (checkindatetime.data[0] && checkindatetime.data[0].checkin === checkindatetime.data[0].checkout) {
           let secTimer = setInterval(() => {
             setDt(new Date().toLocaleString())
-          }, 1000)
+          }, 100)
           return () => clearInterval(secTimer);
         }
       }

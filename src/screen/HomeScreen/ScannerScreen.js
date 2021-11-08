@@ -79,7 +79,7 @@ const ScannerScreen = (props) => {
             const response = await AttendanceSercice.addAttendenceService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 Toast.show('Check in Successfully Done', Toast.SHORT);
-                props.navigation.replace(SCREEN.LOGOFFSCREEN, { item: response.data });
+                props.navigation.navigate(SCREEN.HOMESCREEN, { item: response.data });
                 setTorch(RNCamera.Constants.FlashMode.off);
             } else {
                 setTorch(RNCamera.Constants.FlashMode.off);
