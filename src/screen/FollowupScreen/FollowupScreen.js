@@ -72,10 +72,8 @@ const FollowupScreen = (props) => {
         try {
             const response = await followUpService(userID);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                wait(1000).then(() => {
-                    setLoading(false);
-                    setFollowUpList(response.data);
-                });
+                setFollowUpList(response.data);
+                setLoading(false);
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);

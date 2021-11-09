@@ -59,10 +59,10 @@ const ProfileScreen = (props) => {
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
-        setUserDesignation(userInfo.designationid.title)
-        setUserProfilePic(userInfo.profilepic);
-        setFullname(userInfo.fullname)
-        setuserNumber(userInfo.usernumber);
+        setUserDesignation(userInfo?.designationid?.title)
+        setUserProfilePic(userInfo?.profilepic);
+        setFullname(userInfo?.fullname)
+        setuserNumber(userInfo?.usernumber);
     }
 
     //LogOut Button click to call 

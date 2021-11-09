@@ -6,8 +6,8 @@ export const followUpService = (id) => {
         "search": [
             {
                 "searchfield": "status",
-                "searchvalue": "open",
-                "criteria": "eq",
+                "searchvalue": "close",
+                "criteria": "ne",
                 "datatype": "text"
             },
             {
@@ -15,7 +15,8 @@ export const followUpService = (id) => {
                 "searchvalue": id,
                 "criteria": "eq",
                 "datatype": "ObjectId"
-            }
+            },
+
         ], "sort": { "duedate": -1 }
     }
     return Axios.post('activities/filter', body)

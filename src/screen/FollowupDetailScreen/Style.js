@@ -32,6 +32,12 @@ const styles = StyleSheet.create({
     fontSize: FONT.FONT_SIZE_18,
     width: WIDTH - 50
   },
+  textMobile: {
+    textTransform: KEY.CAPITALIZE,
+    color: COLOR.LIGHT_BLACK,
+    fontWeight: FONT.FONT_WEIGHT_BOLD,
+    fontSize: FONT.FONT_SIZE_18,
+  },
   textTitle2: {
     textTransform: KEY.CAPITALIZE,
     color: COLOR.LIGHT_BLACK,

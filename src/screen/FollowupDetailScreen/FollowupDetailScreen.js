@@ -690,13 +690,13 @@ const FollowupDetailScreen = (props) => {
                 <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={{ marginLeft: 20, justifyContent: KEY.CENTER, marginTop: 5 }}>
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center' }}>
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: KEY.CENTER }}>
                             <Entypo size={30} name="user" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                             <Text style={styles.textTitle}>{followupDetail?.property?.fullname}</Text>
                         </View>
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center' }}>
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: KEY.CENTER }}>
                             <Ionicons size={30} name="call-outline" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                            <Text style={styles.textTitle}>{followupDetail?.property?.mobile}</Text>
+                            <Text style={styles.textMobile}>{followupDetail?.property?.mobile}</Text>
 
                             <TouchableOpacity onPress={() => onPressCall()} style={[styles.touchStyle, { marginLeft: 10 }]}>
                                 <Ionicons size={25} name="call-outline" color={COLOR.WHITE} />
@@ -710,12 +710,12 @@ const FollowupDetailScreen = (props) => {
                         </View>
                         {
                             followupDetail?.property?.primaryemail &&
-                            <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center' }}>
+                            <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: KEY.CENTER }}>
                                 <Ionicons size={30} name="mail" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                                 <Text style={styles.textEmail}>{followupDetail?.property?.primaryemail}</Text>
                             </View>
                         }
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: KEY.CENTER, marginBottom: 10 }}>
                             <MaterialCommunityIcons size={30} name="calendar" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                             <Text style={styles.textDate}>{moment(followupDetail.createdAt).format('lll')}</Text>
                         </View>
