@@ -1,4 +1,4 @@
-package com.staffmembroz;
+package com.membroz_user_app;
 
 import com.facebook.react.ReactActivity;
 
