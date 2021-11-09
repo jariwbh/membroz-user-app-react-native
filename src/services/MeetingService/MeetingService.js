@@ -4,7 +4,7 @@ export const FreshMeetingService = (id) => {
     const body = {
         "search": [
             { "searchfield": "type", "searchvalue": "meeting", "criteria": "eq", "datatype": "text" },
-            { "searchfield": "status", "searchvalue": "open", "criteria": "eq", "datatype": "text" },
+            { "searchfield": "status", "searchvalue": "close", "criteria": "ne", "datatype": "text" },
             { "searchfield": "assingeeuser", "searchvalue": id, "criteria": "eq", "datatype": "ObjectId" }
         ],
     }

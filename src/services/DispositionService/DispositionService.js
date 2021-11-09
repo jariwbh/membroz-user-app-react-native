@@ -25,6 +25,12 @@ export const followupHistoryService = (id) => {
                 "searchvalue": id,
                 "criteria": "eq",
                 "datatype": "ObjectId"
+            },
+            {
+                "searchfield": "status",
+                "searchvalue": "close",
+                "criteria": "eq",
+                "datatype": "text"
             }
         ]
     }
