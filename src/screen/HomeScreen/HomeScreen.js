@@ -554,7 +554,7 @@ const HomeScreen = (props) => {
               </View>
               <View style={{ flex: 1, alignItems: KEY.FLEX_END, marginTop: 10 }}>
                 <TouchableOpacity style={styles().rectangleRound} onPress={() => onPressLogout()} >
-                  <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}</Text>
+                  <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_14, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -569,7 +569,7 @@ const HomeScreen = (props) => {
             keyExtractor={(item, index) => index.toString()}
             keyboardShouldPersistTaps={KEY.ALWAYS}
             renderItem={renderMenu}
-            contentContainerStyle={{ paddingBottom: HEIGHT / 2 + 100, alignSelf: KEY.CENTER }}
+            contentContainerStyle={{ paddingBottom: 300, alignSelf: KEY.CENTER }}
           />
         </View>
 

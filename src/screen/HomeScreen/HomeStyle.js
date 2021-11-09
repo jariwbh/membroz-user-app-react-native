@@ -90,7 +90,7 @@ const styles = (colorcode) => StyleSheet.create(
       borderLeftColor: COLOR.DEFALUTCOLOR,
       borderRightColor: COLOR.DEFALUTCOLOR,
       width: WIDTH - 15,
-      height: 90,
+      height: 100,
       marginTop: 25,
       marginLeft: 10,
       marginRight: 10,
