@@ -90,7 +90,7 @@ const SupportTicketScreen = (props) => {
   }
 
   //HELP MODEL POP UP SUBMIT BUTTON TOUCH TO CALLED
-  const onPressSubmit = () => {
+  const onPressSubmit = async () => {
     if (!description || !subject) {
       checkSubject(subject);
       checkDescription(description);
@@ -115,17 +115,16 @@ const SupportTicketScreen = (props) => {
 
     setloading(true);
     try {
-      HelpSupportService(body).then(response => {
-        if (response.data != null && response.data != 'undefind' && response.status == 200) {
-          Toast.show('Ticket submited sucessfully', Toast.LONG);
-          setloading(false);
-          setSubject(null);
-          setSubjectError(null);
-          setDescription(null);
-          setDescriptionError(null);
-          props.navigation.navigate(SCREEN.HOMESCREEN)
-        }
-      })
+      const response = await HelpSupportService(body);
+      if (response.data != null && response.data != 'undefind' && response.status == 200) {
+        Toast.show('Ticket submited sucessfully', Toast.LONG);
+        setloading(false);
+        setSubject(null);
+        setSubjectError(null);
+        setDescription(null);
+        setDescriptionError(null);
+        props.navigation.navigate(SCREEN.HOMESCREEN)
+      }
     }
     catch (error) {
       firebase.crashlytics().recordError(error);

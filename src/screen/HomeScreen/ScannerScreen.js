@@ -147,9 +147,6 @@ const ScannerScreen = (props) => {
                     onPress={() => props.navigation.goBack(null)} >
                     <Ionicons name="arrow-back" size={25} color={COLOR.WHITE} />
                 </TouchableOpacity>
-                <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 40 }}>
-                    {name}
-                </Text>
                 <TouchableOpacity style={{ marginRight: 5, alignItems: KEY.FLEX_END, flex: 1 }}
                     onPress={() => onTouchFlashMode()}>
                     {torch == RNCamera.Constants.FlashMode.torch ?
@@ -167,6 +164,7 @@ const ScannerScreen = (props) => {
                 reactivate={true}
                 reactivateTimeout={1000}
             />
+            {loading ? <Loader /> : null}
         </>
     )
 }

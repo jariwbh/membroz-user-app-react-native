@@ -1,4 +1,4 @@
-package com.membroz_user_app;
+package app.product.staffmembroz;
 
 import android.app.Application;
 import android.content.Context;

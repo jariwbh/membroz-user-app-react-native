@@ -124,7 +124,7 @@ const styles = (colorcode) => StyleSheet.create(
       justifyContent: KEY.CENTER
     },
     viewSquareTwoColumn: {
-      height: 110,
+      height: 95,
       width: WIDTH / 2.2,
       marginTop: 5,
       marginRight: 3,
@@ -145,7 +145,7 @@ const styles = (colorcode) => StyleSheet.create(
       backgroundColor: COLOR.WHITE
     },
     viewSquareThreeColumn: {
-      height: 110,
+      height: 95,
       width: WIDTH / 3.3,
       marginTop: 5,
       marginRight: 3,

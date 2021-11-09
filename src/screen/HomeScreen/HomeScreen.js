@@ -47,22 +47,22 @@ const WIDTH = Dimensions.get('window').width;
 
 //STATIC DATA
 let MenuDefaultArray = [
-  { "menuname": "freshlead", "title": "Fresh Call", "screenname": "FreshLeadScreen", "colorcode": "#2AAA63", "imageurl": IMAGE.PHONE_WITH_WIRE, "height": 25, "width": 25 },
-  { "menuname": "followup", "title": "Follow Up", "screenname": "FollowupScreen", "colorcode": "#FF4D4D", "imageurl": IMAGE.CLOCK, "height": 25, "width": 25 },
-  { "menuname": "meeting", "title": "Meeting", "screenname": "MeetingScreen", "colorcode": "#007AFF", "imageurl": IMAGE.IC_GROUP, "height": 25, "width": 25 },
-  { "menuname": "mylead", "title": "My Lead", "screenname": "MyLeadScreen", "colorcode": "#B366FF", "imageurl": IMAGE.PORTFOLIO, "height": 25, "width": 25 },
-  { "menuname": "attendance", "title": "Attendance", "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 25, "width": 25 },
-  { "menuname": "calender", "title": "Calender", "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 25, "width": 25 },
-  { "menuname": "booking", "title": "Book a Holiday", "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 25, "width": 25 },
-  { "menuname": "event", "title": "Event", "screenname": "EventScreen", "colorcode": "#C889F2", "imageurl": IMAGE.IC_EVENT, "height": 25, "width": 25 },
-  { "menuname": "salary", "title": "My Salary", "screenname": "SalaryScreen", "colorcode": "#4B9E47", "imageurl": IMAGE.PAYMENT_ICON, "height": 25, "width": 28 },
-  { "menuname": "leave", "title": "My Leave", "screenname": "LeaveScreen", "colorcode": "#91479E", "imageurl": IMAGE.IC_PRESCRIPTION, "height": 25, "width": 25 },
-  { "menuname": "timesheet", "title": "Timesheet", "screenname": "TimesheetScreen", "colorcode": "#757FD9", "imageurl": IMAGE.TIMELINEICON, "height": 25, "width": 25 },
-  { "menuname": "claim", "title": "My Claim", "screenname": "MyClaimScreen", "colorcode": "#EB4034", "imageurl": IMAGE.CLAIMICON, "height": 25, "width": 25 },
-  { "menuname": "announcement", "title": "Announcement", "screenname": "AnnouncementScreen", "colorcode": "#CFD03B", "imageurl": IMAGE.NOTICE_OUTLINE, "height": 25, "width": 25 },
-  { "menuname": "team", "title": "Team", "screenname": "MyTeamScreen", "colorcode": "#0099EB", "imageurl": IMAGE.IC_GROUP, "height": 25, "width": 25 },
-  { "menuname": "support", "title": "Support", "screenname": "SupportScreen", "colorcode": "#F9C688", "imageurl": IMAGE.SUPPORT_ICON, "height": 31, "width": 16 },
-  { "menuname": "referfriend", "title": "Refer a Friend", "screenname": "ReferFriendScreen", "colorcode": "#9E7347", "imageurl": IMAGE.REFERICON, "height": 25, "width": 25 },
+  { "menuname": "freshlead", "title": "Fresh Call", "screenname": "FreshLeadScreen", "colorcode": "#2AAA63", "imageurl": IMAGE.PHONE_WITH_WIRE, "height": 20, "width": 20 },
+  { "menuname": "followup", "title": "Follow Up", "screenname": "FollowupScreen", "colorcode": "#FF4D4D", "imageurl": IMAGE.CLOCK, "height": 20, "width": 20 },
+  { "menuname": "meeting", "title": "Meeting", "screenname": "MeetingScreen", "colorcode": "#007AFF", "imageurl": IMAGE.IC_GROUP, "height": 20, "width": 20 },
+  { "menuname": "mylead", "title": "My Lead", "screenname": "MyLeadScreen", "colorcode": "#B366FF", "imageurl": IMAGE.PORTFOLIO, "height": 20, "width": 20 },
+  { "menuname": "attendance", "title": "Attendance", "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 20, "width": 20 },
+  { "menuname": "calender", "title": "Calender", "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 20, "width": 20 },
+  { "menuname": "booking", "title": "Book a Holiday", "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 20, "width": 20 },
+  { "menuname": "event", "title": "Event", "screenname": "EventScreen", "colorcode": "#C889F2", "imageurl": IMAGE.IC_EVENT, "height": 20, "width": 20 },
+  { "menuname": "salary", "title": "My Salary", "screenname": "SalaryScreen", "colorcode": "#4B9E47", "imageurl": IMAGE.PAYMENT_ICON, "height": 20, "width": 23 },
+  { "menuname": "leave", "title": "My Leave", "screenname": "LeaveScreen", "colorcode": "#91479E", "imageurl": IMAGE.IC_PRESCRIPTION, "height": 20, "width": 20 },
+  { "menuname": "timesheet", "title": "Timesheet", "screenname": "TimesheetScreen", "colorcode": "#757FD9", "imageurl": IMAGE.TIMELINEICON, "height": 20, "width": 20 },
+  { "menuname": "claim", "title": "My Claim", "screenname": "MyClaimScreen", "colorcode": "#EB4034", "imageurl": IMAGE.CLAIMICON, "height": 20, "width": 20 },
+  { "menuname": "announcement", "title": "Announcement", "screenname": "AnnouncementScreen", "colorcode": "#CFD03B", "imageurl": IMAGE.NOTICE_OUTLINE, "height": 20, "width": 20 },
+  { "menuname": "team", "title": "Team", "screenname": "MyTeamScreen", "colorcode": "#0099EB", "imageurl": IMAGE.IC_GROUP, "height": 20, "width": 20 },
+  { "menuname": "support", "title": "Support", "screenname": "SupportScreen", "colorcode": "#F9C688", "imageurl": IMAGE.SUPPORT_ICON, "height": 25, "width": 14 },
+  { "menuname": "referfriend", "title": "Refer a Friend", "screenname": "ReferFriendScreen", "colorcode": "#9E7347", "imageurl": IMAGE.REFERICON, "height": 20, "width": 20 },
 ];
 
 //HOME SCREEN FUNCTION
@@ -272,12 +272,12 @@ const HomeScreen = (props) => {
     <TouchableOpacity onPress={() => props.navigation.navigate(item.item.screenname)} style={{ marginBottom: 5 }}>
       <View style={WIDTH <= 420 ? styles(item.item.colorcode).viewSquareTwoColumn : styles(item.item.colorcode).viewSquareThreeColumn}>
         <View style={{
-          height: 50, width: 50, marginBottom: 10, backgroundColor: item.item.colorcode, borderRadius: 100,
+          height: 40, width: 40, marginBottom: 10, backgroundColor: item.item.colorcode, borderRadius: 100,
           justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 15, marginLeft: 20
         }}>
           <Image source={item.item.imageurl} style={{ height: item.item.height, width: item.item.width }} />
         </View>
-        <Text numberOfLines={1} style={{ flex: 1, fontSize: FONT.FONT_SIZE_18, marginLeft: 20, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR }}>{item.item.title}</Text>
+        <Text numberOfLines={1} style={{ flex: 1, fontSize: FONT.FONT_SIZE_16, marginLeft: 20, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR }}>{item.item.title}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -539,10 +539,10 @@ const HomeScreen = (props) => {
         <View style={styles().viewMain}>
           {todayAttendTime &&
             <View style={styles().viewRectangle}>
-              <View style={{ marginLeft: 10 }}>
+              <View style={{ marginLeft: 15 }}>
                 <Ionicons name='ios-alarm-outline' size={40} color={COLOR.GREEN} style={{ marginTop: 15, alignItems: KEY.CENTER, color: COLOR.WHITE, marginLeft: -70, marginBottom: 15 }} />
               </View>
-              <View style={{ flexDirection: KEY.COLUMN, marginLeft: 0 }}>
+              <View style={{ flexDirection: KEY.COLUMN, marginLeft: -5 }}>
                 <Text style={styles().rectangleText}>CheckIn Time</Text>
                 <Text style={{ fontSize: FONT.FONT_SIZE_14, textTransform: KEY.UPPERCASE }}>{moment(checkinTime).format('DD MMM YYYY, h:mm:ss a')}</Text>
                 <Text style={styles().rectangleText}>Total Time</Text>
@@ -554,7 +554,7 @@ const HomeScreen = (props) => {
               </View>
               <View style={{ flex: 1, alignItems: KEY.FLEX_END, marginTop: 10 }}>
                 <TouchableOpacity style={styles().rectangleRound} onPress={() => onPressLogout()} >
-                  <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18, fontWeight: 'bold' }}>{todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}</Text>
+                  <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}</Text>
                 </TouchableOpacity>
               </View>
             </View>
