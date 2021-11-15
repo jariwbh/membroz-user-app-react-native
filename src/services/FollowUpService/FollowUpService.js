@@ -6,8 +6,8 @@ export const followUpService = (id) => {
         "search": [
             {
                 "searchfield": "status",
-                "searchvalue": "close",
-                "criteria": "ne",
+                "searchvalue": "followup",
+                "criteria": "eq",
                 "datatype": "text"
             },
             {
