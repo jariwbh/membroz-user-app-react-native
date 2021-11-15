@@ -23,12 +23,12 @@ const styles = StyleSheet.create({
     textTransform: KEY.CAPITALIZE,
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
-    fontSize: FONT.FONT_SIZE_20
+    fontSize: FONT.FONT_SIZE_18
   },
   textsub: {
     textTransform: KEY.CAPITALIZE,
     color: COLOR.MENU_TEXT_COLOR,
-    fontSize: FONT.FONT_SIZE_18
+    fontSize: FONT.FONT_SIZE_16
   },
   viewMain: {
     flex: 1,
@@ -47,6 +47,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5
+  },
+  centerView: {
+    alignItems: KEY.CENTER,
+    justifyContent: KEY.CENTER
+  },
+  statusbar: {
+    flexDirection: KEY.ROW,
+    alignItems: KEY.CENTER,
+    marginTop: 20,
+
+  },
+  inputTextView: {
+    marginRight: 15,
+    marginLeft: 15,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLOR.GRANITE_GRAY,
+    alignItems: KEY.FLEX_START,
+    width: WIDTH - 80,
+    height: 45,
+    color: COLOR.BLACK_OLIVE,
+    fontSize: FONT.FONT_SIZE_14,
+    marginBottom: 5,
+    paddingLeft: 15
   },
 });
 

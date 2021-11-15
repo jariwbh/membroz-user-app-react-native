@@ -230,10 +230,21 @@ const FollowupDetailScreen = (props) => {
         try {
             const response = await followupHistoryService(id);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                wait(1000).then(() => {
-                    setLoading(false);
-                    setFollowupHistoryList(response.data);
+                setLoading(false);
+                let i;
+                response.data.forEach(element => {
+                    element.displayproperty = [];
+                    for (const key in element.property) {
+                        i = element.dispositionid.fields.find(a => a.fieldname == key);
+                        if (i) {
+                            if (!element.displayproperty) {
+                                element.displayproperty = {};
+                            }
+                            element.displayproperty.push({ displayname: i.displayname, value: element.property[key] });
+                        }
+                    }
                 });
+                setFollowupHistoryList(response.data);
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);
@@ -314,11 +325,16 @@ const FollowupDetailScreen = (props) => {
                     <View style={{ flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_START }}>
                         <Text style={styles.textTitle2}>{item?.customerid?.property?.fullname}</Text>
                         <Text style={styles.textsub2}>Create by : {item?.addedby?.property?.fullname}</Text>
+                        <Text style={styles.textsub2}>{item?.dispositionid?.disposition}</Text>
+                        {
+                            item?.displayproperty.map((val, i) => (
+                                <Text key={i} style={styles.textsub2}>{val.displayname + ' : ' + val.value}</Text>
+                            ))
+                        }
                     </View>
                 </View>
                 <View style={{ justifyContent: KEY.FLEX_END, marginRight: 20 }}>
                     <Text style={styles.textsub}>{moment(item?.createdAt).format('ll')}</Text>
-                    {/* <Ionicons name='call-outline' size={40} style={{ color: COLOR.WEB_FOREST_GREEN, alignItems: KEY.FLEX_START, marginTop: 8 }} /> */}
                 </View>
             </View>
             <View style={{ borderBottomColor: COLOR.GRAY_MEDIUM, borderBottomWidth: 1, marginTop: 10, marginRight: 15, marginLeft: 15 }} />

@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   textsub2: {
     textTransform: KEY.CAPITALIZE,
     color: COLOR.MENU_TEXT_COLOR,
-    fontSize: FONT.FONT_SIZE_16,
+    fontSize: FONT.FONT_SIZE_14,
     width: WIDTH / 2
   },
   textDate: {

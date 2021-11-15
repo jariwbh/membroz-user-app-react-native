@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
     height: 45,
     justifyContent: KEY.CENTER,
     alignItems: KEY.CENTER,
+    marginBottom: 20
   },
 });
 

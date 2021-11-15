@@ -60,7 +60,27 @@ const styles = StyleSheet.create({
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
     fontSize: FONT.FONT_SIZE_18
-  }
+  },
+  statusbar: {
+    flexDirection: KEY.ROW,
+    alignItems: KEY.CENTER,
+    marginTop: 20,
+
+  },
+  inputTextView: {
+    marginRight: 15,
+    marginLeft: 15,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: COLOR.GRANITE_GRAY,
+    alignItems: KEY.FLEX_START,
+    width: WIDTH - 80,
+    height: 45,
+    color: COLOR.BLACK_OLIVE,
+    fontSize: FONT.FONT_SIZE_14,
+    marginBottom: 5,
+    paddingLeft: 15
+  },
 });
 
 export default styles;
