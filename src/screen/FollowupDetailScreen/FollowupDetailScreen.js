@@ -618,13 +618,16 @@ const FollowupDetailScreen = (props) => {
                             Toast.show('Please fill in required fields');
                             return;
                         }
-
                     }
                 }
             });
         } else {
-            Toast.show('Please fill in required fields');
-            return;
+            formFields.forEach(element => {
+                if (element.required) {
+                    Toast.show('Please fill in required fields');
+                    return;
+                }
+            });
         }
 
         if (ary && ary.length != 0) {
