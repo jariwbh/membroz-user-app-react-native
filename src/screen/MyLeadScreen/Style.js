@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     textTransform: KEY.CAPITALIZE,
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
-    fontSize: FONT.FONT_SIZE_18
+    fontSize: FONT.FONT_SIZE_18,
+    width: WIDTH - 150
   },
   textsub: {
     textTransform: KEY.CAPITALIZE,

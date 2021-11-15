@@ -65,22 +65,24 @@ const styles = StyleSheet.create({
     flexDirection: KEY.ROW,
     alignItems: KEY.CENTER,
     marginTop: 20,
-
-  },
-  inputTextView: {
-    marginRight: 15,
-    marginLeft: 15,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: COLOR.GRANITE_GRAY,
     alignItems: KEY.FLEX_START,
-    width: WIDTH - 80,
+    width: WIDTH - 40,
     height: 45,
     color: COLOR.BLACK_OLIVE,
-    fontSize: FONT.FONT_SIZE_14,
     marginBottom: 5,
     paddingLeft: 15
   },
+  inputTextView: {
+    fontSize: FONT.FONT_SIZE_14,
+    flex: 1
+  },
+  centerView: {
+    alignItems: KEY.CENTER,
+    justifyContent: KEY.CENTER
+  }
 });
 
 export default styles;

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     textTransform: KEY.CAPITALIZE,
     color: COLOR.MENU_TEXT_COLOR,
     fontSize: FONT.FONT_SIZE_14,
-    width: WIDTH / 2
+    flex: 1
   },
   textDate: {
     textTransform: KEY.UPPERCASE,

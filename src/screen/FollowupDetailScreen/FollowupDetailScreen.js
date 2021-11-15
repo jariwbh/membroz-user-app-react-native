@@ -331,10 +331,8 @@ const FollowupDetailScreen = (props) => {
                                 <Text key={i} style={styles.textsub2}>{val.displayname + ' : ' + val.value}</Text>
                             ))
                         }
+                        <Text style={styles.textsub2}>{moment(item?.createdAt).format('LLL')}</Text>
                     </View>
-                </View>
-                <View style={{ justifyContent: KEY.FLEX_END, marginRight: 20 }}>
-                    <Text style={styles.textsub}>{moment(item?.createdAt).format('ll')}</Text>
                 </View>
             </View>
             <View style={{ borderBottomColor: COLOR.GRAY_MEDIUM, borderBottomWidth: 1, marginTop: 10, marginRight: 15, marginLeft: 15 }} />

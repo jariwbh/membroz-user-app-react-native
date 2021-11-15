@@ -193,19 +193,20 @@ const FollowupScreen = (props) => {
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
             {followUpList && followUpList.length > 0 ?
                 <>
-                    <View style={styles.statusbar}>
-                        <TextInput
-                            placeholder={KEY.SEARCH}
-                            placeholderTextColor={COLOR.GRAY_MEDIUM}
-                            selectionColor={COLOR.DEFALUTCOLOR}
-                            returnKeyType={KEY.DONE}
-                            style={styles.inputTextView}
-                            autoCorrect={false}
-                            onChangeText={(value) => searchFilterFunction(value)}
-                        />
-                        <TouchableOpacity style={{ marginLeft: 0 }}>
-                            <AntDesign name='search1' size={25} color={COLOR.BLACK} />
-                        </TouchableOpacity>
+                    <View style={styles.centerView}>
+                        <View style={styles.statusbar}>
+                            <TextInput
+                                placeholder={KEY.SEARCH}
+                                placeholderTextColor={COLOR.GRAY_MEDIUM}
+                                selectionColor={COLOR.DEFALUTCOLOR}
+                                returnKeyType={KEY.DONE}
+                                autoCapitalize="none"
+                                style={styles.inputTextView}
+                                autoCorrect={false}
+                                onChangeText={(value) => searchFilterFunction(value)}
+                            />
+                            <AntDesign name='search1' size={23} color={COLOR.BLACK} style={{ padding: 10 }} />
+                        </View>
                     </View>
                     <View style={styles.viewMain}>
                         <FlatList
