@@ -14,7 +14,7 @@ import { getByIdUserService, patchUserService } from '../../services/UserService
 import * as LocalService from '../../services/LocalService/LocalService';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as SCREEN from '../../context/screen/screenName';
-import { REMOTEDATA, MESSAGINGSENDERID } from '../../context/actions/type';
+import { REMOTEDATA, MESSAGINGSENDERID, DEFAULTPROFILE } from '../../context/actions/type';
 import React, { useEffect, useState } from 'react';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
@@ -478,6 +478,12 @@ const HomeScreen = (props) => {
     }
   }
 
+  //VIEW PROFILE PICTURE 
+  const onTouchViewProfile = () => {
+    let viewimage = userProfilePic ? userProfilePic : DEFAULTPROFILE;
+    props.navigation.navigate(SCREEN.VIEWIMAGESCREEN, { viewimage });
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
       <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
@@ -518,10 +524,10 @@ const HomeScreen = (props) => {
         </View>
 
         <View style={styles().viewName}>
-          <View style={styles().viweRound}>
+          <TouchableOpacity onPress={() => onTouchViewProfile(userProfilePic)} style={styles().viweRound}>
             <Image source={!userProfilePic ? IMAGE.USERPROFILE : { uri: userProfilePic }}
               style={!userProfilePic ? { height: 70, width: 70 } : { height: 95, width: 95, borderRadius: 100 }} />
-          </View>
+          </TouchableOpacity>
 
           <View>
             <View style={{ flexDirection: KEY.COLUMN }}>

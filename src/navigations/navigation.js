@@ -36,6 +36,7 @@ import SALARYSCREEN from '../screen/SalaryScreen/SalaryScreen';
 import TIMESHEETSCREEN from '../screen/TimesheetScreen/TimesheetScreen';
 import ATTENDANCESCREEN from '../screen/AttendanceScreen/AttendanceScreen';
 import SCANNERSCREEN from '../screen/HomeScreen/ScannerScreen';
+import VIEWIMAGESCREEN from '../screen/ViewImageScreen/ViewImageScreen';
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
 import * as KEY from '../context/actions/key';
@@ -136,6 +137,12 @@ const HomeStackScreen = () => {
                 headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
             <HomeStack.Screen name="ViewImage" component={VIEWIMAGE} options={{
+                headerTitleAlign: KEY.CENTER,
+                title: '',
+                headerTintColor: COLOR.WHITE,
+                headerStyle: { backgroundColor: COLOR.BLACK }
+            }} />
+            <HomeStack.Screen name="View Profile" component={VIEWIMAGESCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
                 title: '',
                 headerTintColor: COLOR.WHITE,
