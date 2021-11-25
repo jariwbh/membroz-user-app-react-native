@@ -31,7 +31,7 @@ export const IOS = 'ios'
 export const CLEAR = 'clear'
 export const EMAILADDRESS = 'email-address'
 export const UPPERCASE = 'uppercase'
-export const SEARCH = 'search'
+export const SEARCH = 'Search'
 
 
 

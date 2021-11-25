@@ -32,6 +32,8 @@ const styles = StyleSheet.create({
         tintColor: COLOR.WHITE
     },
     cardView: {
+        borderRightWidth: 50,
+        borderRightColor: COLOR.DEFALUTCOLOR,
         marginTop: 10,
         marginLeft: 15,
         marginRight: 15,
@@ -47,6 +49,39 @@ const styles = StyleSheet.create({
         shadowRadius: 2.62,
         elevation: 3,
         borderRadius: 10
+    },
+    viewRound: {
+        height: 80,
+        width: 80,
+        borderRadius: 100,
+        borderColor: COLOR.DEFALUTCOLOR,
+        borderWidth: 3,
+        backgroundColor: COLOR.WELDON_BLUE,
+        marginLeft: 5,
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER,
+    },
+    centerView: {
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER
+    },
+    statusbar: {
+        flexDirection: KEY.ROW,
+        alignItems: KEY.CENTER,
+        marginTop: 10,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: COLOR.GRANITE_GRAY,
+        alignItems: KEY.FLEX_START,
+        width: WIDTH - 40,
+        height: 45,
+        color: COLOR.BLACK_OLIVE,
+        marginBottom: 10,
+        paddingLeft: 15
+    },
+    inputTextView: {
+        fontSize: FONT.FONT_SIZE_14,
+        flex: 1
     }
 });
 

@@ -21,7 +21,7 @@ export const UserListService = () => {
             "searchvalue": "active",
             "criteria": "eq",
             "datatype": "text"
-        }], "sort": { "createdAt": 1 },
+        }], "sort": { "fullname": 1 },
         "formname": "user"
     }
     return Axios.post('users/filter', body);

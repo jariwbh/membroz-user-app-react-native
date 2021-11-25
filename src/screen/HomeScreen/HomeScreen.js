@@ -546,7 +546,7 @@ const HomeScreen = (props) => {
           {todayAttendTime &&
             <View style={styles().viewRectangle}>
               <View style={{ marginLeft: 15 }}>
-                <Ionicons name='ios-alarm-outline' size={40} color={COLOR.GREEN} style={{ marginTop: 15, alignItems: KEY.CENTER, color: COLOR.WHITE, marginLeft: -70, marginBottom: 15 }} />
+                <Ionicons name='ios-alarm-outline' size={40} color={COLOR.WHITE} style={{ marginTop: 15, alignItems: KEY.CENTER, marginLeft: -70, marginBottom: 15 }} />
               </View>
               <View style={{ flexDirection: KEY.COLUMN, marginLeft: -5 }}>
                 <Text style={styles().rectangleText}>CheckIn Time</Text>
