@@ -44,7 +44,7 @@ const ScannerScreen = (props) => {
     useEffect(() => {
     }, [loading, userID, torch, branchId])
 
-    //GET MEMBER DATA IN MOBILE LOCAL STORAGE
+    //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
         setUserID(userInfo._id);

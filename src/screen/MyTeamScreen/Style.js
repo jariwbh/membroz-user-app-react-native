@@ -6,58 +6,6 @@ const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
-    containView: {
-        justifyContent: KEY.CENTER,
-        alignItems: KEY.CENTER,
-        marginTop: 20
-    },
-    btnSupport: {
-        backgroundColor: COLOR.DEFALUTCOLOR,
-        borderRadius: 30,
-        width: WIDTH - 50,
-        height: 45,
-        marginTop: 50,
-        alignItems: KEY.CENTER,
-        justifyContent: KEY.CENTER
-    },
-    btnText: {
-        fontSize: FONT.FONT_SIZE_18,
-        color: COLOR.WHITE,
-        fontWeight: FONT.FONT_WEIGHT_BOLD
-    },
-    btnSubmit: {
-        borderRadius: 30,
-        backgroundColor: COLOR.DEFALUTCOLOR,
-        width: WIDTH - 30,
-        height: 45,
-        marginTop: 10,
-        justifyContent: KEY.CENTER,
-        alignItems: KEY.CENTER,
-    },
-    inputTextStyle: {
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: COLOR.BLACK,
-        alignItems: KEY.FLEX_START,
-        width: WIDTH - 30,
-        height: 45,
-        color: COLOR.BLACK,
-        fontSize: FONT.FONT_SIZE_16,
-        paddingLeft: 15,
-        marginBottom: 20
-    },
-    inputTextStyleError: {
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: COLOR.ERRORCOLOR,
-        alignItems: KEY.FLEX_START,
-        width: WIDTH - 30,
-        height: 45,
-        color: COLOR.BLACK,
-        fontSize: FONT.FONT_SIZE_16,
-        paddingLeft: 15,
-        marginBottom: 20
-    },
     touchStyle: {
         position: KEY.ABSOLUTE,
         width: 50,

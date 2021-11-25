@@ -31,14 +31,14 @@ const TicketHistoryScreen = (props) => {
 
     useEffect(() => {
         setLoading(true);
-        getMemberDeatilsLocalStorage();
+        getUserDeatilsLocalStorage();
     }, [])
 
     useEffect(() => {
     }, [loading, userID])
 
-    //GET MEMBER DATA IN MOBILE LOCAL STORAGE
-    const getMemberDeatilsLocalStorage = async () => {
+    //GET USER DATA IN MOBILE LOCAL STORAGE
+    const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
         setUserID(userInfo._id);
         getTicketHistory(userInfo._id);

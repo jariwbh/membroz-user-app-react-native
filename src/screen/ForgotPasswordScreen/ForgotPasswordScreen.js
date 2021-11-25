@@ -35,7 +35,7 @@ const ForgotPasswordScreen = (props) => {
     const [verifyOtpNumber, setVerifyOtpNumber] = useState(null);
     const [inputOtpNumber, setInputOtpNumber] = useState(null);
     const [inputOtpNumberError, setInputOtpNumberError] = useState(null);
-    const [memberInfo, setMemberInfo] = useState(null);
+    const [userInfo, setUserInfo] = useState(null);
     const [authKey, setAuthKey] = useState(null);
     const [appName, setAppName] = useState(null);
 
@@ -46,7 +46,7 @@ const ForgotPasswordScreen = (props) => {
 
     useEffect(() => {
     }, [backgroungImage, userName, loading, userNameError, verifyOtpNumber,
-        inputOtpNumber, memberInfo, inputOtpNumberError, authKey, appName])
+        inputOtpNumber, userInfo, inputOtpNumberError, authKey, appName])
 
     // check AuthController use to Login Or Not Login
     async function AuthController() {
@@ -79,7 +79,7 @@ const ForgotPasswordScreen = (props) => {
         setInputOtpNumber(null);
         setInputOtpNumberError(null);
         setVerifyOtpNumber(null);
-        setMemberInfo(null);
+        setUserInfo(null);
     }
 
     // generate OTP function 
@@ -102,7 +102,7 @@ const ForgotPasswordScreen = (props) => {
                 const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
                 console.log(`verifyOtpNumber`, verifyOtpNumber)
                 setVerifyOtpNumber(verifyOtpNumber);
-                setMemberInfo(CheckUserResponse.data);
+                setUserInfo(CheckUserResponse.data);
                 onPressSubmit(CheckUserResponse.data.property, verifyOtpNumber);
                 Toast.show('OTP Sending', Toast.SHORT);
                 setloading(false);
@@ -151,27 +151,27 @@ const ForgotPasswordScreen = (props) => {
     }
 
     //SIGN IN BUTTON ONPRESS TO PROCESS
-    const onPressSubmit = async (member, verifyOtpNumber) => {
+    const onPressSubmit = async (user, verifyOtpNumber) => {
         axiosConfig(authKey);
         let mobilebody;
         let emailbody;
-        if (member && member.mobile) {
+        if (user && user.mobile) {
             mobilebody = {
                 "messagetype": "SMS",
                 "message": {
                     "content": `${verifyOtpNumber} is the OTP for accessing on ${appName}. Valid till 5 Minutes.Do not share this with anyone.`,
-                    "to": member.mobile,
+                    "to": user.mobile,
                     "subject": "Reset Password OTP"
                 }
             }
         }
 
-        if (member && member.primaryemail) {
+        if (user && user.primaryemail) {
             emailbody = {
                 "messagetype": "EMAIL",
                 "message": {
                     "content": `${verifyOtpNumber} is the OTP for accessing on ${appName}. Valid till 5 Minutes.Do not share this with anyone.`,
-                    "to": member.primaryemail,
+                    "to": user.primaryemail,
                     "subject": "Reset Password OTP"
                 }
             }
@@ -179,14 +179,14 @@ const ForgotPasswordScreen = (props) => {
 
         setloading(true);
         try {
-            if (member && member.primaryemail) {
+            if (user && user.primaryemail) {
                 const responseEmail = await SendEmailService(emailbody);
                 if (responseEmail.data != 'undefind' && responseEmail.status == 200) {
                     setloading(false);
                 }
             }
 
-            if (member && member.mobile) {
+            if (user && user.mobile) {
                 const responseSMS = await SendSmsService(mobilebody);
                 if (responseSMS.data != 'undefind' && responseSMS.status == 200) {
                     setloading(false);
@@ -211,7 +211,7 @@ const ForgotPasswordScreen = (props) => {
                             Enter your Username or phone number bellow to receive your password reset instructions
                         </Text>
                         {
-                            memberInfo ?
+                            userInfo ?
                                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                     <View>
                                         <TextInput

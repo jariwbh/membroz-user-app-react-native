@@ -35,7 +35,7 @@ const AnnouncementScreen = (props) => {
     useEffect(() => {
     }, [loading, userID, refreshing, AannouncementList]);
 
-    //GET MEMBER DATA IN MOBILE LOCAL STORAGE
+    //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
         setUserID(userInfo._id);
