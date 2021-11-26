@@ -84,10 +84,11 @@ export default LeaveScreen = (props) => {
         }
     }
 
+    //LEAVE TYPE API THROUGH FETCH DATA
     const getLeaveType = async () => {
         try {
             const response = await leaveTypeService();
-            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+            if (response.data != null && response.data != 'undefind' && response.status == 200 && response.data.length > 0) {
                 let catagory = [];
                 catagory = response.data;
                 setLeaveTypeList([{ _id: '12345678910', title: 'all', selected: true }, ...catagory]);
@@ -116,7 +117,7 @@ export default LeaveScreen = (props) => {
                         }
                     </View>
                     <View style={{ flexDirection: KEY.COLUMN, marginLeft: -70 }}>
-                        <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{moment(item.property.fromdate).format('DD MMM, YYYY') + ' - ' + moment(item.property.todate).format('DD MMM, YYYY')}</Text>
+                        <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{moment(item?.property?.fromdate).format('DD MMM, YYYY') + ' - ' + moment(item?.property?.todate).format('DD MMM, YYYY')}</Text>
                         <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15 }}>{item.leavetype.title}</Text>
                         <Text style={{ fontSize: 12, color: COLOR.BLACK, marginLeft: 15 }}>{'Create at : ' + moment(item.createdAt).format('ll')}</Text>
                     </View>

@@ -278,7 +278,7 @@ export default AddLeaveScreen = (props) => {
                     />
                 </View>
                 <TouchableOpacity style={styles.updateBtn} onPress={() => onPressToSubmitLeaveRequest()}>
-                    <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Update</Text>
+                    <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Submit</Text>
                 </TouchableOpacity>
             </ScrollView>
             {loading ? <Loader /> : null}
