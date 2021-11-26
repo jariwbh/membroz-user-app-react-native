@@ -64,7 +64,7 @@ export const NOTIFICATION_COLOR = '#FF0000';
 
 //holiday title color
 export const KELY_GREEN = '#53AD26';
-export const GREEN = '#008000';
+export const GREEN = '#04DE71';
 
 //home background color
 export const GAINSBORO = '#D8DFE5'

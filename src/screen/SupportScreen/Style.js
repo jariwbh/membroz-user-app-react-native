@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         bottom: 0,
     },
     touchStyle: {
-        position: KEY.ABSOLUT,
+        position: KEY.ABSOLUTE,
         width: 50,
         height: 50,
         alignItems: KEY.CENTER,

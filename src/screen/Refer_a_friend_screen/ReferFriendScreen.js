@@ -120,7 +120,7 @@ const ReferFriendScreen = (props) => {
             />
             {!loading &&
                 <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', bottom: 0 }}>
-                    <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.ADDLEADSCREEN)} style={styles.touchStyle}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.REFERFRIENDREQUEST)} style={styles.touchStyle}>
                         <Image source={IMAGE.PLUS} style={styles.floatImage} />
                     </TouchableOpacity>
                 </View>
