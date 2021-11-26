@@ -14,7 +14,7 @@ const styles = (colorcode) => StyleSheet.create(
     viewPhoto: {
       height: 50,
       width: WIDTH / 3 + 10,
-      backgroundColor: COLOR.BLACK,
+      backgroundColor: COLOR.GALLERYCOLOR,
       borderRadius: 30,
       borderColor: COLOR.WHITE,
       borderWidth: 2,

@@ -61,8 +61,10 @@ const ReferFriendScreen = (props) => {
         try {
             const response = await ReferFriendListService(userID);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                setLoading(false);
-                setReferFrienList(response.data);
+                wait(1000).then(() => {
+                    setLoading(false);
+                    setReferFrienList(response.data);
+                });
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);
@@ -91,35 +93,39 @@ const ReferFriendScreen = (props) => {
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, tintColor: COLOR.DEFALUTCOLOR }} />
-            {referFrienList && referFrienList.length > 0 ?
-                <FlatList
-                    style={{ marginTop: 10 }}
-                    data={referFrienList}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={renderReferFriendList}
-                    contentContainerStyle={{ paddingBottom: 80 }}
-                    keyExtractor={item => item._id}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            title="Pull to refresh"
-                            tintColor={COLOR.DEFALUTCOLOR}
-                            titleColor={COLOR.DEFALUTCOLOR}
-                            colors={[COLOR.DEFALUTCOLOR]}
-                            onRefresh={onRefresh} />
-                    }
-                />
-                :
-                loading == false ?
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
-                    </View>
-                    : <Loader />
+            <FlatList
+                style={{ marginTop: 10 }}
+                data={referFrienList}
+                showsVerticalScrollIndicator={false}
+                renderItem={renderReferFriendList}
+                contentContainerStyle={{ paddingBottom: 80 }}
+                keyExtractor={item => item._id}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        title="Pull to refresh"
+                        tintColor={COLOR.DEFALUTCOLOR}
+                        titleColor={COLOR.DEFALUTCOLOR}
+                        colors={[COLOR.DEFALUTCOLOR]}
+                        onRefresh={onRefresh} />
+                }
+                ListFooterComponent={() => (
+                    referFrienList && referFrienList.length > 0 ?
+                        null :
+                        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                            <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                        </View>
+                )}
+            />
+            {!loading &&
+                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', bottom: 0 }}>
+                    <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.ADDLEADSCREEN)} style={styles.touchStyle}>
+                        <Image source={IMAGE.PLUS} style={styles.floatImage} />
+                    </TouchableOpacity>
+                </View>
             }
-            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.REFERFRIENDREQUEST)} style={styles.touchStyle}>
-                <Image source={IMAGE.PLUS} style={styles.floatImage} />
-            </TouchableOpacity>
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     );
 }

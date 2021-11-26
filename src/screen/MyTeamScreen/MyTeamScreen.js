@@ -57,9 +57,11 @@ export default MyTeamScreen = (props) => {
         try {
             const response = await UserListService();
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                setLoading(false);
-                setTeamList(response.data);
-                setSearchList(response.data);
+                wait(1000).then(() => {
+                    setLoading(false);
+                    setTeamList(response.data);
+                    setSearchList(response.data);
+                });
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);
@@ -218,6 +220,7 @@ export default MyTeamScreen = (props) => {
                     )}
                 />
             }
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     );
 }
