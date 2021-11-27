@@ -49,9 +49,9 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   listTab: {
-    backgroundColor: COLOR.WHITE,
-    marginTop: 10,
-    borderRadius: 20
+    backgroundColor: COLOR.ANTI_FLASH_WHITE,
+    marginTop: 15,
+    borderRadius: 0
   },
   btnTab: {
     flex: 1,

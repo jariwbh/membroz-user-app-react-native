@@ -119,7 +119,7 @@ export default LeaveScreen = (props) => {
                     <View style={{ flexDirection: KEY.COLUMN, marginLeft: -70 }}>
                         <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{moment(item?.property?.fromdate).format('DD MMM, YYYY') + ' - ' + moment(item?.property?.todate).format('DD MMM, YYYY')}</Text>
                         <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15 }}>{item.leavetype.title}</Text>
-                        <Text style={{ fontSize: 12, color: COLOR.BLACK, marginLeft: 15 }}>{'Create at : ' + moment(item.createdAt).format('ll')}</Text>
+                        <Text style={{ fontSize: 12, color: COLOR.BLACK, marginLeft: 15 }}>{'Created at : ' + moment(item.createdAt).format('ll')}</Text>
                     </View>
                     {
                         item.wfstatus && item.wfstatus.toLowerCase() == "approved" &&

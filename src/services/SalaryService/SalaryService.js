@@ -9,12 +9,11 @@ export const salaryComponentService = (id) => {
     return Axios.post('salarycomponents/filter', body);
 }
 
-export const userSalaryService = (month, year) => {
+export const userSalaryService = (year) => {
     const body = {
         "search": [
             { "searchfield": "status", "searchvalue": "paid", "criteria": "eq", "datatype": "text" },
-            { "searchfield": "year", "searchvalue": year, "criteria": "eq", "datatype": "text" },
-            { "searchfield": "month", "searchvalue": month, "criteria": "eq", "datatype": "text" }
+            { "searchfield": "year", "searchvalue": year, "criteria": "eq", "datatype": "text" }
         ]
     }
     return Axios.post('payrolls/filter', body);
