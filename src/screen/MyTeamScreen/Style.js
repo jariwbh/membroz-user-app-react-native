@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
         tintColor: COLOR.WHITE
     },
     cardView: {
-        borderRightWidth: 50,
         borderRightColor: COLOR.DEFALUTCOLOR,
         marginTop: 10,
         marginLeft: 15,

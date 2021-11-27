@@ -12,6 +12,7 @@ export const RED = '#FF0000';
 export const ERRORCOLOR = '#FF0000';
 export const SPLASHMODELCOLOR = '#FFFFFF';
 export const GALLERYCOLOR = 'rgba(0,0,0,0.5)';
+export const ABSENTCOLOR = '#FF3232';
 
 // ACTIONS
 export const SUCCESS = '#3adb76';

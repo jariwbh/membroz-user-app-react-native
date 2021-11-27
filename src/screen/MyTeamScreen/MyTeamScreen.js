@@ -101,40 +101,37 @@ export default MyTeamScreen = (props) => {
     const renderMyTeamList = ({ item }) => (
         <View style={styles.cardView}>
             <View style={{ flexDirection: KEY.ROW, marginLeft: 0, width: WIDTH - 40, padding: 5, flex: 1, alignItems: KEY.CENTER }}>
-                <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, margin: 10 }}>
+                <View style={{ flexDirection: KEY.COLUMN, alignItems: KEY.CENTER, margin: 10 }}>
                     <View style={styles.viewRound}>
                         <Image source={!item.profilepic ? IMAGE.USERPROFILE : { uri: item.profilepic }}
                             style={!item.profilepic ? { height: 50, width: 50 } : { height: 70, width: 70, borderRadius: 100 }} />
                     </View>
+                    <View style={{ marginTop: 10, flexDirection: KEY.ROW, alignItems: KEY.SPACEBETWEEN }}>
+                        <TouchableOpacity onPress={() => onPressCall(item)}
+                            style={{ marginRight: 0, alignItems: KEY.CENTER }}>
+                            <Ionicons size={20} name="call" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => onPressEmail(item)}
+                            style={{ marginLeft: 10, alignItems: KEY.CENTER }}>
+                            <Ionicons size={20} name="mail" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 0 }} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-
                 <View style={{ marginLeft: 10, flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_START, width: WIDTH / 2 }}>
                     {item.property && item.property.fullname &&
                         <Text style={{ fontSize: FONT.FONT_SIZE_18, color: COLOR.BLACK, fontWeight: FONT.FONT_WEIGHT_BOLD, textTransform: KEY.CAPITALIZE }}>
                             {item.property.fullname}</Text>}
-
+                    {item.designationid && item.designationid.title &&
+                        <Text style={{ marginTop: 2, fontSize: FONT.FONT_SIZE_14, color: COLOR.GRANITE_GRAY, textTransform: KEY.CAPITALIZE }}>
+                            {item.designationid.title}</Text>}
                     {item.property && item.property.primaryemail &&
-                        <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.GRANITE_GRAY }}>
+                        <Text style={{ marginTop: 2, fontSize: FONT.FONT_SIZE_14, color: COLOR.GRANITE_GRAY }}>
                             {item.property.primaryemail}</Text>}
-
                     {item.property && item.property.mobile &&
-                        <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.GRANITE_GRAY }}>
+                        <Text style={{ marginTop: 2, fontSize: FONT.FONT_SIZE_14, color: COLOR.GRANITE_GRAY }}>
                             {item.property.mobile}</Text>}
                 </View>
-                <View style={{ marginLeft: 15, flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_END }}>
-                    <TouchableOpacity onPress={() => onPressEmail(item)}
-                        style={{ marginTop: 0, alignItems: KEY.CENTER }}>
-                        <Ionicons size={30} name="mail" color={COLOR.WHITE} style={{ marginRight: 10 }} />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => onPressCall(item)}
-                        style={{ marginTop: 10, alignItems: KEY.CENTER }}>
-                        <Ionicons size={30} name="call" color={COLOR.WHITE} style={{ marginRight: 10 }} />
-                    </TouchableOpacity>
-                </View>
             </View>
-
-
         </View>
     )
 

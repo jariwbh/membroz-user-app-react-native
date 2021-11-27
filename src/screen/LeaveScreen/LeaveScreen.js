@@ -104,7 +104,7 @@ export default LeaveScreen = (props) => {
         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 5 }}>
             <View style={styles.boxView}>
                 <View
-                    style={{ justifyContent: KEY.SPACEBETWEEN, flexDirection: KEY.ROW, marginTop: 10, marginBottom: 10 }}>
+                    style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, marginTop: 10, marginBottom: 10 }}>
                     <View style={{ marginLeft: 15, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         {item.wfstatus && item.wfstatus.toLowerCase() == "approved" &&
                             <MaterialCommunityIcons name='check-circle' size={40} style={{ color: COLOR.GREEN, alignItems: KEY.CENTER }} />
@@ -116,12 +116,12 @@ export default LeaveScreen = (props) => {
                             <MaterialCommunityIcons name='minus-circle' size={40} style={{ color: COLOR.ERRORCOLOR, alignItems: KEY.CENTER }} />
                         }
                     </View>
-                    <View style={{ flexDirection: KEY.COLUMN, marginLeft: -70 }}>
+                    <View style={{ flexDirection: KEY.COLUMN, marginLeft: 0 }}>
                         <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{moment(item?.property?.fromdate).format('DD MMM, YYYY') + ' - ' + moment(item?.property?.todate).format('DD MMM, YYYY')}</Text>
                         <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15 }}>{item.leavetype.title}</Text>
-                        <Text style={{ fontSize: 12, color: COLOR.BLACK, marginLeft: 15 }}>{'Created at : ' + moment(item.createdAt).format('ll')}</Text>
+                        <Text style={{ fontSize: 12, color: COLOR.BLACK, marginLeft: 15 }}>{'Created At : ' + moment(item.createdAt).format('ll')}</Text>
                     </View>
-                    {
+                    {/* {
                         item.wfstatus && item.wfstatus.toLowerCase() == "approved" &&
                         <Text style={{ fontSize: 14, color: COLOR.WEB_FOREST_GREEN, marginTop: 15, marginRight: 20 }}>{'Approved'}</Text>
                     }
@@ -132,7 +132,7 @@ export default LeaveScreen = (props) => {
                     {
                         item.wfstatus && item.wfstatus.toLowerCase() == "declined" &&
                         <Text style={{ fontSize: 14, color: COLOR.ERRORCOLOR, marginTop: 15, marginRight: 20 }}>{'Declined'}</Text>
-                    }
+                    } */}
                 </View>
             </View>
         </View>

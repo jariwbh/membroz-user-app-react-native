@@ -124,7 +124,7 @@ export default class AttendanceScreen extends Component {
             this.state.renderList = {};
             await absent.forEach(element => {
                 if (element) {
-                    this.dateConversion(moment(element).format('YYYY-MM-DD'), COLOR.DARK_PINK)
+                    this.dateConversion(moment(element).format('YYYY-MM-DD'), COLOR.ABSENTCOLOR)
                 }
             });
         } else {
