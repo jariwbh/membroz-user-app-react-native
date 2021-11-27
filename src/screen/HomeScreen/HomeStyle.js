@@ -58,10 +58,10 @@ const styles = (colorcode) => StyleSheet.create(
       alignItems: KEY.CENTER
     },
     text: {
+      maxWidth: WIDTH / 2,
       fontSize: FONT.FONT_SIZE_22,
       color: COLOR.DEFALUTCOLOR,
       marginLeft: 5,
-      fontFamily: FONT.FONT_FAMILY_SANS_SERIF_LIGHT,
       fontWeight: FONT.FONT_WEIGHT_NORMAL,
       textTransform: KEY.CAPITALIZE
     },

@@ -101,8 +101,8 @@ const HomeScreen = (props) => {
       const getCallBackScreen = async () => {
         var userInfo = await LocalService.LocalStorageService();
         getuserid = userInfo?._id;
-        setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
-        setUserName(userInfo?.fullname.substring(0, 15));
+        setUserDesignation(userInfo?.designationid?.title);
+        setUserName(userInfo?.fullname);
         setUserID(userInfo?._id);
         getNotification(userInfo?._id);
         getCheckinTime(userInfo?._id);
@@ -189,8 +189,8 @@ const HomeScreen = (props) => {
   const getUserDeatilsLocalStorage = async () => {
     var userInfo = await LocalService.LocalStorageService();
     getuserid = userInfo?._id;
-    setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
-    setUserName(userInfo?.fullname.substring(0, 15));
+    setUserDesignation(userInfo?.designationid?.title);
+    setUserName(userInfo?.fullname);
     setUserID(userInfo?._id);
     getUserDeatils(userInfo?._id);
     getCheckinTime(userInfo?._id);
@@ -531,8 +531,8 @@ const HomeScreen = (props) => {
 
           <View>
             <View style={{ flexDirection: KEY.COLUMN }}>
-              <Text style={styles().text}>{userName}</Text>
-              <Text style={{ color: COLOR.MENU_TEXT_COLOR, fontSize: FONT.FONT_SIZE_16, marginLeft: 5 }}>{userDesignation}</Text>
+              <Text style={styles().text} numberOfLines={1}>{userName}</Text>
+              <Text style={{ color: COLOR.MENU_TEXT_COLOR, fontSize: FONT.FONT_SIZE_16, marginLeft: 5, maxWidth: WIDTH / 2, }} numberOfLines={1}>{userDesignation}</Text>
             </View>
           </View>
 

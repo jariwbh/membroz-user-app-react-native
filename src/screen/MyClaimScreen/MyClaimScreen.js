@@ -89,7 +89,7 @@ export default LeaveScreen = (props) => {
                 <View style={{ flexDirection: KEY.COLUMN, marginTop: 10, marginBottom: 10 }}>
                     <Text style={{ fontSize: 16, color: COLOR.BLACK, marginLeft: 15, fontWeight: FONT.FONT_WEIGHT_BOLD, textTransform: KEY.CAPITALIZE }}>{item?.property?.title}</Text>
                     <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, marginTop: 2 }}>{'Claim Type : ' + item?.property?.claimtype}</Text>
-                    <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, marginTop: 2 }}>{'Claim Type : ' + currencySymbol + item?.property?.amount}</Text>
+                    <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, marginTop: 2 }}>{'Amount : ' + currencySymbol + item?.property?.amount}</Text>
                     <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, marginTop: 2 }}>{'Note : ' + item?.property?.notes}</Text>
                     <Text style={{ fontSize: 12, color: COLOR.BLACK, marginLeft: 15, marginTop: 2 }}>{'Create at : ' + moment(item.createdAt).format('ll')}</Text>
                 </View>
