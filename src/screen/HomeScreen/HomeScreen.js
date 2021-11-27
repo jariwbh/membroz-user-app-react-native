@@ -101,8 +101,8 @@ const HomeScreen = (props) => {
       const getCallBackScreen = async () => {
         var userInfo = await LocalService.LocalStorageService();
         getuserid = userInfo?._id;
-        setUserDesignation(userInfo?.designationid?.title);
-        setUserName(userInfo?.fullname);
+        setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
+        setUserName(userInfo?.fullname.substring(0, 15));
         setUserID(userInfo?._id);
         getNotification(userInfo?._id);
         getCheckinTime(userInfo?._id);
@@ -189,8 +189,8 @@ const HomeScreen = (props) => {
   const getUserDeatilsLocalStorage = async () => {
     var userInfo = await LocalService.LocalStorageService();
     getuserid = userInfo?._id;
-    setUserDesignation(userInfo?.designationid?.title);
-    setUserName(userInfo?.fullname);
+    setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
+    setUserName(userInfo?.fullname.substring(0, 15));
     setUserID(userInfo?._id);
     getUserDeatils(userInfo?._id);
     getCheckinTime(userInfo?._id);
