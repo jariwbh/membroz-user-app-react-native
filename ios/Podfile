@@ -9,9 +9,22 @@ target 'membroz_user_app' do
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
-    :hermes_enabled => false
+    :hermes_enabled => true
   )
-
+  pod 'Firebase/Analytics' 
+  pod 'Firebase/Crashlytics'
+  pod 'rn-fetch-blob', :path => '../node_modules/rn-fetch-blob'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+  pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+  # pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
+  pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly"
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+  # pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
+  pod 'RNExitApp', :path => '../node_modules/react-native-exit-app'
+  pod 'react-native-restart', :path => '../node_modules/react-native-restart'
   target 'membroz_user_appTests' do
     inherit! :complete
     # Pods for testing
@@ -21,7 +34,7 @@ target 'membroz_user_app' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!()
+  # use_flipper!()
 
   post_install do |installer|
     react_native_post_install(installer)

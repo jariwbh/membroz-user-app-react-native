@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
         height: 45,
         color: COLOR.BLACK_OLIVE,
         marginBottom: 10,
-        paddingLeft: 15
+        paddingLeft: 15,
+        alignItems: KEY.CENTER
     },
     inputTextView: {
         fontSize: FONT.FONT_SIZE_14,

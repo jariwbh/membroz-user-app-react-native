@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>24932558592-n1bpja771m0i36vgfu7l8sd5375j4isa.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.24932558592-n1bpja771m0i36vgfu7l8sd5375j4isa</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>24932558592-41h0b9scd4chanudrrg1hl2hbac5q5ns.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBHCLLgdWyvIX6trmA5goNBzb5zJgG2Kg4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>24932558592</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.staffmembroz</string>
+	<key>PROJECT_ID</key>
+	<string>membroz-44bf7</string>
+	<key>STORAGE_BUCKET</key>
+	<string>membroz-44bf7.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:24932558592:ios:97bfd4301ff8d2df2df5e5</string>
+	<key>DATABASE_URL</key>
+	<string>https://membroz-44bf7.firebaseio.com</string>
+</dict>
+</plist>
