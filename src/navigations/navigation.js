@@ -48,6 +48,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as LocalService from '../services/LocalService/LocalService';
+import * as FONT from '../styles/typography';
 
 const AuthStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
@@ -383,13 +384,13 @@ const TabNavigation = () => {
                 tabBarActiveTintColor: COLOR.DEFALUTCOLOR,
                 tabBarInactiveTintColor: COLOR.GREY,
                 tabBarStyle: {
-                    height: 50,
+                    height: 55,
                     borderTopRightRadius: 10,
                     borderTopLeftRadius: 10,
                     backgroundColor: COLOR.BACKGROUNDCOLOR,
                 },
 
-                tabBarLabelStyle: { fontSize: 14, textTransform: KEY.CAPITALIZE },
+                tabBarLabelStyle: { fontSize: FONT.FONT_SIZE_14, textTransform: KEY.CAPITALIZE, marginBottom: 5 },
                 tabBarHideOnKeyboard: true,
                 headerTintColor: COLOR.BACKGROUNDCOLOR
             })}

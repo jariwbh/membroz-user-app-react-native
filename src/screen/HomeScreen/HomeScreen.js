@@ -402,8 +402,8 @@ const HomeScreen = (props) => {
     Alert.alert(
       "Warning",
       Platform.OS === KEY.IOS ?
-        "Please Update the app in App store otherwise cancle to close app."
-        : "Please Update the app in Play store otherwise cancle to close app.",
+        "Please Update the app in App store otherwise cancel to close app."
+        : "Please Update the app in Play store otherwise cancel to close app.",
       [
         {
           text: "Close",

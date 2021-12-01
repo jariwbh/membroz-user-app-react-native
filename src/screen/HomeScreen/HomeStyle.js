@@ -20,7 +20,7 @@ const styles = (colorcode) => StyleSheet.create(
       borderWidth: 2,
       marginLeft: 135,
       marginRight: 100,
-      marginTop: 30,
+      marginTop: 10,
       flexDirection: KEY.ROW,
       justifyContent: KEY.SPACEBETWEEN,
       alignItems: KEY.CENTER
