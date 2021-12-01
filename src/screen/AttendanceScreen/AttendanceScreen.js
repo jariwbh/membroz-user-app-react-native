@@ -188,7 +188,7 @@ export default class AttendanceScreen extends Component {
         }
         let data = {
             id: this.studentDetails._id,
-            datRange: { gte: this.startDate, lte: this.endDate }
+            datRange: { gte: this.startDate, lte: moment(this.endDate, "YYYY-MM-DD").add(1, 'days') }
         }
         await this.getAttendenceService(data);
         await this.getHolidayService();

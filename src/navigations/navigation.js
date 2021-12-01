@@ -357,6 +357,7 @@ const TabNavigation = () => {
                                 name={focused ? 'home' : 'home'}
                                 size={25}
                                 color={color}
+                                style={{ marginTop: 5 }}
                             />
                         );
                     } else if (route.name === 'Task') {
@@ -365,6 +366,7 @@ const TabNavigation = () => {
                                 name={focused ? 'clipboard-text-outline' : 'clipboard-text-outline'}
                                 size={25}
                                 color={color}
+                                style={{ marginTop: 5 }}
                             />
                         );
                     } else if (route.name === 'Profile') {
@@ -373,6 +375,7 @@ const TabNavigation = () => {
                                 name={focused ? 'user' : 'user'}
                                 size={25}
                                 color={color}
+                                style={{ marginTop: 5 }}
                             />
                         );
                     }
@@ -380,8 +383,9 @@ const TabNavigation = () => {
                 tabBarActiveTintColor: COLOR.DEFALUTCOLOR,
                 tabBarInactiveTintColor: COLOR.GREY,
                 tabBarStyle: {
-                    borderTopRightRadius: 0,
-                    borderTopLeftRadius: 0,
+                    height: 50,
+                    borderTopRightRadius: 10,
+                    borderTopLeftRadius: 10,
                     backgroundColor: COLOR.BACKGROUNDCOLOR,
                 },
 
