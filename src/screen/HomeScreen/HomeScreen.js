@@ -54,6 +54,7 @@ let MenuDefaultArray = [
   { "menuname": "attendance", "title": "Attendance", "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 20, "width": 20 },
   { "menuname": "calender", "title": "Calender", "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 20, "width": 20 },
   { "menuname": "booking", "title": "Book a Holiday", "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 20, "width": 20 },
+  { "menuname": "appointment", "title": "My Appointment", "screenname": "AppointmentScreen", "colorcode": "#F2542C", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 20, "width": 20 },
   { "menuname": "event", "title": "Event", "screenname": "EventScreen", "colorcode": "#C889F2", "imageurl": IMAGE.IC_EVENT, "height": 20, "width": 20 },
   { "menuname": "salary", "title": "My Salary", "screenname": "SalaryScreen", "colorcode": "#4B9E47", "imageurl": IMAGE.PAYMENT_ICON, "height": 20, "width": 23 },
   { "menuname": "leave", "title": "My Leave", "screenname": "LeaveScreen", "colorcode": "#91479E", "imageurl": IMAGE.IC_PRESCRIPTION, "height": 20, "width": 20 },
@@ -220,7 +221,7 @@ const HomeScreen = (props) => {
     } catch (error) {
       setloading(false);
       firebase.crashlytics().recordError(error);
-      LocalService.RemoveAuthenticateUser();
+      //LocalService.RemoveAuthenticateUser();
       props.navigation.replace(SCREEN.AUTH);
     }
   }
