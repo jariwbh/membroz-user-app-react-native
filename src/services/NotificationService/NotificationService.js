@@ -28,29 +28,27 @@ export const deleteAllNotificationService = (data) => {
 export const AannouncementService = (id) => {
     let body =
     {
-        "search": [{
-            "search": [
-                {
-                    "searchfield": "status",
-                    "searchvalue": "active",
-                    "criteria": "eq",
-                    "datatype": "text"
-                },
-                {
-                    "searchfield": "receiver",
-                    "searchvalue": id,
-                    "criteria": "in",
-                    "datatype": "ObjectId"
-                },
-                {
-                    "searchfield": "communicationid",
-                    "searchvalue": false,
-                    "criteria": "exists",
-                    "datatype": "boolean"
-                }
-            ]
-        }
+        "search": [
+            {
+                "searchfield": "status",
+                "searchvalue": "active",
+                "criteria": "eq",
+                "datatype": "text"
+            },
+            {
+                "searchfield": "receiver",
+                "searchvalue": id,
+                "criteria": "in",
+                "datatype": "ObjectId"
+            },
+            {
+                "searchfield": "communicationid",
+                "searchvalue": false,
+                "criteria": "exists",
+                "datatype": "boolean"
+            }
         ]
+
     }
     return Axios.post('communicationlogs/filter', body);
 }
