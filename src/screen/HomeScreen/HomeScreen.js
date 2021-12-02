@@ -184,7 +184,11 @@ const HomeScreen = (props) => {
       setNotificationIconVisible(userData.notificationicon);
       setSharesAndroid(userData.playstoreid);
       setShareUsIos(userData.appstoreid);
-      appVersionCode = userData.appversioncode;
+      if (Platform.OS === KEY.IOS) {
+        appVersionCode = userData.appstoreversioncode;
+      } else {
+        appVersionCode = userData.appversioncode;
+      }      
       androidUrl = userData.playstoreid;
       iosUrl = userData.appstoreid;
     };
