@@ -37,11 +37,8 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<array>
-		<string>Camera Use to Scan QR-CODE</string>
-		<string>Camera Use to profile picture change</string>
-	</array>
+	<key>NSCameraUsageDescription</key>	
+	<string>Camera Use to Scan QR-CODE / profile picture change</string>			
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
