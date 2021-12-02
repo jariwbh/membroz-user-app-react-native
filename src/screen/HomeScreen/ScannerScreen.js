@@ -78,8 +78,8 @@ const ScannerScreen = (props) => {
             }
             const response = await AttendanceSercice.addAttendenceService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                Toast.show('Check in Successfully Done', Toast.SHORT);
-                props.navigation.navigate(SCREEN.HOMESCREEN, { item: response.data });
+                Toast.show('Check in Successfully', Toast.SHORT);
+                props.navigation.replace(SCREEN.HOMESCREEN, { item: response.data });
                 setTorch(RNCamera.Constants.FlashMode.off);
             } else {
                 setTorch(RNCamera.Constants.FlashMode.off);
@@ -109,7 +109,7 @@ const ScannerScreen = (props) => {
             const response = await AttendanceSercice.updateAttendenceService(id, body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setLoading(false);
-                Toast.show(`${todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'} Success`, Toast.SHORT);
+                Toast.show(`${todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'} Successfully`, Toast.SHORT);
                 setTorch(RNCamera.Constants.FlashMode.off);
                 props.navigation.navigate(SCREEN.HOMESCREEN);
             } else {

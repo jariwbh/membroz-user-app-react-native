@@ -113,16 +113,16 @@ const ProfileScreen = (props) => {
                         <Text style={styles.textSansThin}>{userDesignation}</Text>
                     </View>
 
-                    <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginLeft: 15, marginRight: 15, marginTop: 20 }}>
+                    {/* <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginLeft: 15, marginRight: 15, marginTop: 20 }}>
                         <View style={{ justifyContent: KEY.FLEX_START }}>
                             <Text style={styles.textInfo}>Full Name</Text>
                         </View>
                         <View style={{ justifyContent: KEY.FLEX_END }}>
                             <Text style={{ fontSize: FONT.FONT_SIZE_18, textTransform: KEY.CAPITALIZE }}>{fullName}</Text>
                         </View>
-                    </View>
+                    </View> */}
 
-                    <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.UPDATEPROFILESCREEN)}>
+                    <TouchableOpacity style={{ marginTop: 10 }} onPress={() => props.navigation.navigate(SCREEN.UPDATEPROFILESCREEN)}>
                         <View style={styles.viewRectangle}>
                             <Image source={IMAGE.PENCIL_ICON_SIMPLE} resizeMode={KEY.CONTAIN} style={{ height: 20, width: 20, tintColor: COLOR.DEFALUTCOLOR, margin: 15 }} />
                             <Text style={{ marginTop: 15, fontSize: FONT.FONT_SIZE_17, color: COLOR.TAUPE_GRAY, fontWeight: FONT.FONT_WEIGHT_BOLD, marginLeft: 10 }}>Update Profile</Text>
@@ -171,9 +171,9 @@ const ProfileScreen = (props) => {
                     <View style={{ flex: 1, alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
                         <View style={styles.msgModalView}>
                             <Text style={{ fontSize: FONT.FONT_SIZE_22, color: COLOR.BLACK, marginLeft: 15, marginTop: 15 }}>Rate this app</Text>
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15, marginTop: 20 }}>If you like this app,please take a little bit of your time to review it!</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15, marginTop: 20 }}>If you like this app please take a little bit of your time to review it!</Text>
                             <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GRANITE_GRAY, marginLeft: 15, marginRight: 15 }}>It really helps us and it shouldn't take you more than one minute.</Text>
-                            <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 20, marginLeft: WIDTH / 2 - 80 }}>
+                            <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 25, marginLeft: WIDTH / 2 - 80 }}>
                                 <TouchableOpacity onPress={() => onPressRateUs()} >
                                     <Text style={{ fontSize: FONT.FONT_SIZE_14, marginLeft: 25, color: COLOR.DEFALUTCOLOR }}>RATE</Text>
                                 </TouchableOpacity>

@@ -114,6 +114,7 @@ export default class CalendarScreen extends Component {
             }
         });
         var holidays = [];
+        //console.log(`dateArray`, dateArray);
         this.state.holidaysList.forEach(element => {
             if (dateArray.includes(moment(element.date).format('YYYY-MM-DD')) && element.type === this.state.selectedItem) {
                 holidays.push(element);
@@ -121,14 +122,22 @@ export default class CalendarScreen extends Component {
                 holidays.push(element);
             }
         });
+        //console.log(`holidays`, holidays);
         this.setState({ renderList: holidayDate, currentMonthHolidays: holidays, Loader: false });
     }
 
     //CHANGE MONTH TO CALL FUNATION
     async onChangeMonth(month) {
+        var date = new Date(month.dateString), y = date.getFullYear(), m = date.getMonth();
+        var firstDay = new Date(y, m, 1);
+        var lastDay = new Date(y, m + 1, 0);
+        firstDay = moment(firstDay).format('YYYY-MM-DD');
+        lastDay = moment(lastDay).format('YYYY-MM-DD');
         this.setState({ Loader: true });
-        this.startDate = moment().month(month - 1, 'months').startOf('month').format('YYYY-MM-DD');
-        this.endDate = moment().month(month - 1, 'months').endOf('month').format('YYYY-MM-DD');
+        this.startDate = firstDay;
+        this.endDate = lastDay;
+        // this.startDate = moment().month(month - 1, 'months').startOf('month').format('YYYY-MM-DD');
+        // this.endDate = moment().month(month - 1, 'months').endOf('month').format('YYYY-MM-DD');
         this.renderCalendarHolidays();
     }
 
@@ -194,7 +203,7 @@ export default class CalendarScreen extends Component {
                         }}
                         style={{ backgroundColor: COLOR.BACKGROUNDCOLOR }}
                         markedDates={this.state.renderList}
-                        onMonthChange={(month) => this.onChangeMonth(month.month)}
+                        onMonthChange={(month) => this.onChangeMonth(month)}
                         markingType={'custom'}
                         hideExtraDays={true}
                     />
@@ -219,6 +228,7 @@ export default class CalendarScreen extends Component {
                     }
                     <View style={{ marginBottom: 20 }}></View>
                 </ScrollView>
+                {this.state.loader ? <Loader /> : null}
             </SafeAreaView>
         );
     }

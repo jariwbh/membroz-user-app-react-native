@@ -74,7 +74,7 @@ export default SalaryScreen = (props) => {
             setBonus(0);
             setExpense(0);
             setPFTax(0);
-            setPTTax(userInfo.salarycomponents && userInfo.salarycomponents[1] && userInfo.salarycomponents[1].amount)
+            setPTTax(userInfo.salarycomponents && userInfo.salarycomponents[1] && userInfo.salarycomponents[1].amount ? userInfo.salarycomponents[1].amount : 0)
             setTotalCF(userInfo.cf);
             setCurrencySymbol(response);
             setUserInfo(userInfo);
@@ -126,7 +126,7 @@ export default SalaryScreen = (props) => {
     //RENDER SALARY HISTORY LIST USING FLATLIST
     const renderSalaryHistory = ({ item }) => (
         <View style={styles.viewMain}>
-            <Text style={styles.earningTextTitle}>{moment().month(item.month).format("MMM") + ' - ' + moment().year(item.year).format("YYYY")}</Text>
+            <Text style={styles.earningTextTitle}>{moment().month(item.month - 1).format("MMM") + ' - ' + moment().year(item.year).format("YYYY")}</Text>
             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
                 <Text style={styles.text}>Paid Salary</Text>
                 <Text style={styles.text}>{currencySymbol + item.earnings}</Text>

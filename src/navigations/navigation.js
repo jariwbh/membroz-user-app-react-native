@@ -37,6 +37,7 @@ import TIMESHEETSCREEN from '../screen/TimesheetScreen/TimesheetScreen';
 import ATTENDANCESCREEN from '../screen/AttendanceScreen/AttendanceScreen';
 import SCANNERSCREEN from '../screen/HomeScreen/ScannerScreen';
 import VIEWIMAGESCREEN from '../screen/ViewImageScreen/ViewImageScreen';
+import APPOINTMENTSCREEN from '../screen/AppointmentScreen/AppointmentScreen';
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
 import * as KEY from '../context/actions/key';
@@ -47,6 +48,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import * as LocalService from '../services/LocalService/LocalService';
+import * as FONT from '../styles/typography';
 
 const AuthStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
@@ -302,6 +304,13 @@ const HomeStackScreen = () => {
                     headerTintColor: COLOR.WHITE,
                     headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
                 }} />
+            <HomeStack.Screen name="AppointmentScreen" component={APPOINTMENTSCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'My Appoinments',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
             <HomeStack.Screen name="ScannerScreen"
                 component={SCANNERSCREEN}
                 options={{ headerShown: false }} />
@@ -349,6 +358,7 @@ const TabNavigation = () => {
                                 name={focused ? 'home' : 'home'}
                                 size={25}
                                 color={color}
+                                style={{ marginTop: 5 }}
                             />
                         );
                     } else if (route.name === 'Task') {
@@ -357,6 +367,7 @@ const TabNavigation = () => {
                                 name={focused ? 'clipboard-text-outline' : 'clipboard-text-outline'}
                                 size={25}
                                 color={color}
+                                style={{ marginTop: 5 }}
                             />
                         );
                     } else if (route.name === 'Profile') {
@@ -365,6 +376,7 @@ const TabNavigation = () => {
                                 name={focused ? 'user' : 'user'}
                                 size={25}
                                 color={color}
+                                style={{ marginTop: 5 }}
                             />
                         );
                     }
@@ -372,12 +384,13 @@ const TabNavigation = () => {
                 tabBarActiveTintColor: COLOR.DEFALUTCOLOR,
                 tabBarInactiveTintColor: COLOR.GREY,
                 tabBarStyle: {
-                    borderTopRightRadius: 0,
-                    borderTopLeftRadius: 0,
+                    height: 55,
+                    borderTopRightRadius: 10,
+                    borderTopLeftRadius: 10,
                     backgroundColor: COLOR.BACKGROUNDCOLOR,
                 },
 
-                tabBarLabelStyle: { fontSize: 14, textTransform: KEY.CAPITALIZE },
+                tabBarLabelStyle: { fontSize: FONT.FONT_SIZE_14, textTransform: KEY.CAPITALIZE, marginBottom: 5 },
                 tabBarHideOnKeyboard: true,
                 headerTintColor: COLOR.BACKGROUNDCOLOR
             })}

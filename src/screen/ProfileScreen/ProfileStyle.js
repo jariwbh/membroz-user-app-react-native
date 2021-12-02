@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         alignItems: KEY.CENTER,
     },
     textName: {
-        marginTop: 20,
+        marginTop: 10,
         fontSize: FONT.FONT_SIZE_18,
         fontWeight: FONT.FONT_WEIGHT_BOLD,
         textTransform: KEY.CAPITALIZE
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 
     },
     msgModalView: {
-        height: 200,
+        height: 220,
         width: WIDTH - 60,
         borderRadius: 0,
         backgroundColor: COLOR.WHITE,

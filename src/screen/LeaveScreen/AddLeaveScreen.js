@@ -23,6 +23,7 @@ import moment from 'moment';
 import Toast from 'react-native-simple-toast';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default AddLeaveScreen = (props) => {
     const [loading, setLoading] = useState(false);
@@ -38,6 +39,7 @@ export default AddLeaveScreen = (props) => {
     const [toDateError, setToDateError] = useState(null);
     const [isFromDatePickerVisible, setFromDatePickerVisibility] = useState(false);
     const [isToDatePickerVisible, setToDatePickerVisibility] = useState(false);
+    const [halfDayLeave, setHalfDayLeave] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -46,7 +48,7 @@ export default AddLeaveScreen = (props) => {
     }, []);
 
     useEffect(() => {
-    }, [loading, leaveTypeList, selectLeaveType, userID, reason, isFromDatePickerVisible,
+    }, [loading, leaveTypeList, selectLeaveType, userID, reason, isFromDatePickerVisible, halfDayLeave,
         reasonError, fromDate, fromDateError, toDate, toDateError, isToDatePickerVisible
     ]);
 
@@ -63,6 +65,7 @@ export default AddLeaveScreen = (props) => {
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setLoading(false);
                 setLeaveTypeList(response.data);
+                setSelectLeaveType(response.data[0]._id);
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);
@@ -103,7 +106,10 @@ export default AddLeaveScreen = (props) => {
                 fromdate: fromDate,
                 todate: toDate,
                 fileupload: [],
-                leavetype: selectLeaveType
+                leavetype: selectLeaveType,
+                halfday: [
+                    halfDayLeave ? "yes" : "no"
+                ]
             },
         }
         try {
@@ -276,6 +282,18 @@ export default AddLeaveScreen = (props) => {
                         onConfirm={toDateHandleConfirm}
                         onCancel={hideDatePickerToDate}
                     />
+                </View>
+                <View style={{ marginLeft: 20, marginTop: 0 }}>
+                    {
+                        <View style={{ marginTop: 0, flexDirection: KEY.ROW, alignItems: KEY.CENTER }}>
+                            <Text style={styles.textTitle2}>Half Day </Text>
+                            <TouchableOpacity onPress={() => setHalfDayLeave(halfDayLeave ? false : true)}>
+                                <FontAwesome size={40}
+                                    color={COLOR.DEFALUTCOLOR} name={halfDayLeave === true ? 'toggle-on' : 'toggle-off'}
+                                    style={{ margin: 5 }} />
+                            </TouchableOpacity>
+                        </View>
+                    }
                 </View>
                 <TouchableOpacity style={styles.updateBtn} onPress={() => onPressToSubmitLeaveRequest()}>
                     <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Submit</Text>

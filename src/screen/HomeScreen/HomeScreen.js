@@ -22,8 +22,7 @@ import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './HomeStyle';
 import Loader from '../../components/loader/index';
 import { GalleryService } from '../../services/GalleryService/GalleryService';
@@ -54,6 +53,7 @@ let MenuDefaultArray = [
   { "menuname": "attendance", "title": "Attendance", "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 20, "width": 20 },
   { "menuname": "calender", "title": "Calender", "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 20, "width": 20 },
   { "menuname": "booking", "title": "Book a Holiday", "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 20, "width": 20 },
+  { "menuname": "appointment", "title": "My Appointment", "screenname": "AppointmentScreen", "colorcode": "#F2542C", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 20, "width": 20 },
   { "menuname": "event", "title": "Event", "screenname": "EventScreen", "colorcode": "#C889F2", "imageurl": IMAGE.IC_EVENT, "height": 20, "width": 20 },
   { "menuname": "salary", "title": "My Salary", "screenname": "SalaryScreen", "colorcode": "#4B9E47", "imageurl": IMAGE.PAYMENT_ICON, "height": 20, "width": 23 },
   { "menuname": "leave", "title": "My Leave", "screenname": "LeaveScreen", "colorcode": "#91479E", "imageurl": IMAGE.IC_PRESCRIPTION, "height": 20, "width": 20 },
@@ -81,7 +81,9 @@ const HomeScreen = (props) => {
   const [photoCounter, setPhotoCounter] = useState(0);
   const [shareusAndroid, setSharesAndroid] = useState(null);
   const [shareusIos, setShareUsIos] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   const [todayAttendTime, setTodayAttendTime] = useState(null);
+  const [timerShow, setTimerShow] = useState(false);
 
   let currentTime = moment();
   let checkinTime = moment(todayAttendTime && todayAttendTime.checkin);
@@ -109,7 +111,6 @@ const HomeScreen = (props) => {
         setUserProfilePic(userInfo?.profilepic);
       }
       getCallBackScreen();
-
     }, [])
   );
 
@@ -122,8 +123,9 @@ const HomeScreen = (props) => {
   }, []);
 
   useEffect(() => {
-  }, [loading, backgroungImage, scanIconVisible, sharedIconVisible, notificationIconVisible, photoCounter, todayAttendTime,
-    mobileapppermissions, notification, userDesignation, userName, userID, userProfilePic, shareusAndroid, shareusIos
+  }, [loading, backgroungImage, scanIconVisible, sharedIconVisible, notificationIconVisible, photoCounter,
+    todayAttendTime, timerShow, mobileapppermissions, notification, userDesignation, userName, userID,
+    timerShow, userProfilePic, shareusAndroid, shareusIos, userInfo
   ])
 
   //Get CheckIn time
@@ -137,10 +139,13 @@ const HomeScreen = (props) => {
       if (checkindatetime.data && checkindatetime.data.length > 0) {
         setTodayAttendTime(checkindatetime.data[0]);
         if (checkindatetime.data[0] && checkindatetime.data[0].property && checkindatetime.data[0].property.mode === 'checkin') {
+          setTimerShow(true);
           let secTimer = setInterval(() => {
             setDt(new Date().toLocaleString())
           }, 100)
           return () => clearInterval(secTimer);
+        } else {
+          setTimerShow(false);
         }
       }
     } catch (error) {
@@ -188,19 +193,22 @@ const HomeScreen = (props) => {
   //GET USER DATA IN MOBILE LOCAL STORAGE
   const getUserDeatilsLocalStorage = async () => {
     var userInfo = await LocalService.LocalStorageService();
-    getuserid = userInfo?._id;
-    setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
-    setUserName(userInfo?.fullname.substring(0, 15));
-    setUserID(userInfo?._id);
-    getUserDeatils(userInfo?._id);
-    getCheckinTime(userInfo?._id);
-    getNotification(userInfo?._id);
-    setUserProfilePic(userInfo?.profilepic);
-    PushNotifications();
-    await getAppVersion(appVersionCode);
-    wait(1000).then(() => {
-      setloading(false);
-    });
+    if (userInfo) {
+      getuserid = userInfo?._id;
+      setUserInfo
+      setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
+      setUserName(userInfo?.fullname.substring(0, 15));
+      setUserID(userInfo?._id);
+      getUserDeatils(userInfo?._id);
+      getCheckinTime(userInfo?._id);
+      getNotification(userInfo?._id);
+      setUserProfilePic(userInfo?.profilepic);
+      PushNotifications();
+      await getAppVersion(appVersionCode);
+      wait(1000).then(() => {
+        setloading(false);
+      });
+    }
   }
 
   //GET USER DATA USEING API CALL
@@ -220,7 +228,7 @@ const HomeScreen = (props) => {
     } catch (error) {
       setloading(false);
       firebase.crashlytics().recordError(error);
-      LocalService.RemoveAuthenticateUser();
+      //LocalService.RemoveAuthenticateUser();
       props.navigation.replace(SCREEN.AUTH);
     }
   }
@@ -394,8 +402,8 @@ const HomeScreen = (props) => {
     Alert.alert(
       "Warning",
       Platform.OS === KEY.IOS ?
-        "Please Update the app in App store otherwise cancle to close app."
-        : "Please Update the app in Play store otherwise cancle to close app.",
+        "Please Update the app in App store otherwise cancel to close app."
+        : "Please Update the app in Play store otherwise cancel to close app.",
       [
         {
           text: "Close",
@@ -543,13 +551,13 @@ const HomeScreen = (props) => {
         </View>
 
         <View style={styles().viewMain}>
-          {todayAttendTime &&
+          {timerShow &&
             <View style={styles().viewRectangle}>
               <View style={{ marginLeft: 15 }}>
                 <Ionicons name='ios-alarm-outline' size={40} color={COLOR.WHITE} style={{ marginTop: 15, alignItems: KEY.CENTER, marginLeft: -70, marginBottom: 15 }} />
               </View>
               <View style={{ flexDirection: KEY.COLUMN, marginLeft: -5 }}>
-                <Text style={styles().rectangleText}>CheckIn Time</Text>
+                <Text style={styles().rectangleText}>Checkin Time</Text>
                 <Text style={{ fontSize: FONT.FONT_SIZE_14, textTransform: KEY.UPPERCASE }}>{moment(checkinTime).format('DD MMM YYYY, h:mm:ss a')}</Text>
                 <Text style={styles().rectangleText}>Total Time</Text>
                 {todayAttendTime && todayAttendTime.property && todayAttendTime.property.mode === 'checkout' ?
@@ -558,9 +566,10 @@ const HomeScreen = (props) => {
                   <Text style={{ fontSize: FONT.FONT_SIZE_14 }}>{finalcal}</Text>
                 }
               </View>
-              <View style={{ flex: 1, alignItems: KEY.FLEX_END, marginTop: 10 }}>
+              <View style={{ flex: 1, alignItems: KEY.FLEX_END, marginTop: 0 }}>
                 <TouchableOpacity style={styles().rectangleRound} onPress={() => onPressLogout()} >
-                  <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_14, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}</Text>
+                  <FontAwesome name='sign-out' size={45} color={COLOR.DEFALUTCOLOR} />
+                  {/* <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_14, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}</Text> */}
                 </TouchableOpacity>
               </View>
             </View>
@@ -578,7 +587,6 @@ const HomeScreen = (props) => {
             contentContainerStyle={{ paddingBottom: HEIGHT / 2 + 100, alignSelf: KEY.CENTER }}
           />
         </View>
-
       </ImageBackground>
       {loading ? <Loader /> : null}
     </SafeAreaView>
