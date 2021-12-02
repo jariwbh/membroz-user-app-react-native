@@ -1186,45 +1186,6 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:24932558592:android:3850177d34b49c1d2df5e5",
-        "android_client_info": {
-          "package_name": "com.app.membroztelecallingapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "24932558592-f8r0eamgabd7756u63ioqsj0318qshvu.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDVTuuwrjNvtjZMgYqgmYuR_aB3kKkYkII"
-        },
-        {
-          "current_key": "AIzaSyAsKk_zGh5_ryKBUQF1U6EDFcnD_W_NMrU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "24932558592-f8r0eamgabd7756u63ioqsj0318qshvu.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "24932558592-0g9ernschjgrih3r3dcjs0ikjr2ts1qt.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "app.product.enterprisemembroz"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:24932558592:android:f37a4c8ea49071f22df5e5",
         "android_client_info": {
           "package_name": "com.app.membroztrainer"
@@ -1615,48 +1576,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:24932558592:android:bc8f5da2795f706f2df5e5",
+        "mobilesdk_app_id": "1:24932558592:android:0dc77533693a5bbf2df5e5",
         "android_client_info": {
-          "package_name": "com.example.firebase_test_app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "24932558592-f8r0eamgabd7756u63ioqsj0318qshvu.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDVTuuwrjNvtjZMgYqgmYuR_aB3kKkYkII"
-        },
-        {
-          "current_key": "AIzaSyAsKk_zGh5_ryKBUQF1U6EDFcnD_W_NMrU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "24932558592-f8r0eamgabd7756u63ioqsj0318qshvu.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "24932558592-0g9ernschjgrih3r3dcjs0ikjr2ts1qt.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "app.product.enterprisemembroz"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:24932558592:android:f19ce8892524e95e2df5e5",
-        "android_client_info": {
-          "package_name": "com.example.flavour_test_app"
+          "package_name": "com.dubaiyogatrainers"
         }
       },
       "oauth_client": [
@@ -1912,17 +1834,17 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:24932558592:android:e588d7fd97081f582df5e5",
+        "mobilesdk_app_id": "1:24932558592:android:3c41b8ecc91c22772df5e5",
         "android_client_info": {
-          "package_name": "com.membrozretail"
+          "package_name": "com.membrozretails"
         }
       },
       "oauth_client": [
         {
-          "client_id": "24932558592-7gnpoi014t7d3fnr4ocj2grq8nhh2ohu.apps.googleusercontent.com",
+          "client_id": "24932558592-41h0b9scd4chanudrrg1hl2hbac5q5ns.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.membrozretail",
+            "package_name": "com.membrozretails",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },

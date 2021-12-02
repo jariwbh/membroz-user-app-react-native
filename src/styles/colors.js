@@ -1,9 +1,9 @@
 //APP MAIN COLOR
-export const DEFALUTCOLOR = '#FC7845'; //'#C42B32' //'#FC7845'; 
+export const DEFALUTCOLOR = '#39BB5C'; //'#C42B32' //'#FC7845'; 
+export const DEFAULTLIGHT = '#98CD74';
 export const BACKGROUNDCOLOR = '#FFFFFF';
 
 //BASIC COLOR
-export const DEFAULTLIGHT = '#FDA786';
 export const PRIMARY = '#1779ba';
 export const SECONDARY = '#767676';
 export const WHITE = '#FFFFFF';
@@ -80,7 +80,12 @@ export const PLACEHOLDER_COLOR = '#999999'
 //CLOCK COLOR
 export const YELLOW = '#F4BB29'
 
+//krtya HR 
+// export const DEFALUTCOLOR = '#FC7845';
+// export const BACKGROUNDCOLOR = '#FFFFFF';
+// export const DEFAULTLIGHT = '#FDA786';
 
-
-
+//dubai yoga topic
+// export const DEFALUTCOLOR = '#39BB5C';
+// export const DEFAULTLIGHT = '#99CE75';
 

@@ -117,7 +117,9 @@ export default LoginScreen = (props) => {
         } catch (error) {
             console.log(`error`, error);
             firebase.crashlytics().recordError(error);
-            resetScreen();
+            setPassword(null);
+            setPasswordError(null);
+            setLoading(false);
             Toast.show('Username and Password Invalid!', Toast.SHORT);
         }
     }

@@ -220,7 +220,6 @@ const UpdateProfileScreen = (props) => {
         user.profilepic = profilepic;
         try {
             const response = await patchUserService(userID, user);
-            console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 LocalService.AuthenticateUser(response.data);
                 Toast.show('Your Profile Updated', Toast.LONG);

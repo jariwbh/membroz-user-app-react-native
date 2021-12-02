@@ -70,7 +70,7 @@ export default SalaryScreen = (props) => {
         if (userInfo) {
             userID = userInfo._id;
             const response = getCurrency(userInfo.branchid.currency);
-            setBasicEarning(userInfo.salarycomponents && userInfo.salarycomponents[0] && userInfo.salarycomponents[0].amount);
+            setBasicEarning(userInfo.salarycomponents && userInfo.salarycomponents[0] && userInfo.salarycomponents[0].amount ? userInfo.salarycomponents[0].amount : 0);
             setBonus(0);
             setExpense(0);
             setPFTax(0);
