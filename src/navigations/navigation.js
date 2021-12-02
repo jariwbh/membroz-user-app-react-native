@@ -144,11 +144,11 @@ const HomeStackScreen = () => {
                 headerTintColor: COLOR.WHITE,
                 headerStyle: { backgroundColor: COLOR.BLACK }
             }} />
-            <HomeStack.Screen name="View Profile" component={VIEWIMAGESCREEN} options={{
+            <HomeStack.Screen name="ViewImageScreen" component={VIEWIMAGESCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
                 title: '',
                 headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.BLACK }
+                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
             <HomeStack.Screen name="UpdateProfileScreen" component={UPDATEPROFILESCREEN} options={{
                 headerTitleAlign: KEY.CENTER,

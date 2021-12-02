@@ -5,7 +5,7 @@ import * as KEY from '../../context/actions/key';
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
-const styles = StyleSheet.create({
+const styles = (colorcode) => StyleSheet.create({
     touchStyle: {
         position: KEY.ABSOLUTE,
         width: 50,
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         marginRight: 20,
         marginBottom: 5,
         borderRightWidth: 10,
-        borderRightColor: COLOR.DEFALUTCOLOR,
+        borderRightColor: colorcode,
         flexDirection: KEY.ROW,
         backgroundColor: COLOR.WHITE,
         shadowColor: COLOR.BLACK,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         width: 100,
         borderTopLeftRadius: 15,
         borderBottomLeftRadius: 15,
-        backgroundColor: COLOR.DEFALUTCOLOR,
+        backgroundColor: colorcode,
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         flexDirection: KEY.COLUMN,
@@ -69,14 +69,51 @@ const styles = StyleSheet.create({
     },
     rectangleText: {
         fontWeight: FONT.FONT_WEIGHT_BOLD,
-        fontSize: FONT.FONT_SIZE_14,
+        fontSize: FONT.FONT_SIZE_16,
         color: COLOR.BLACK,
-        marginTop: 5,
+        marginTop: 2,
+        width: WIDTH / 2
     },
     rectangleSubText: {
         fontSize: FONT.FONT_SIZE_14,
         color: COLOR.BLACK,
-        marginTop: 5,
+        marginTop: 2,
+    },
+    msgModalView: {
+        width: WIDTH - 60,
+        borderRadius: 0,
+        backgroundColor: COLOR.WHITE,
+        alignItems: KEY.FLEX_STAR,
+        shadowColor: COLOR.BLACK,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 1,
+        borderRadius: 5
+    },
+    viewRound: {
+        height: 80,
+        width: 80,
+        borderRadius: 100,
+        borderColor: COLOR.DEFALUTCOLOR,
+        borderWidth: 3,
+        backgroundColor: COLOR.WELDON_BLUE,
+        marginLeft: 5,
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER,
+        marginTop: 10
+    },
+    meetingBtn: {
+        borderRadius: 10,
+        backgroundColor: COLOR.DEFALUTCOLOR,
+        width: 100,
+        height: 40,
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER,
+        marginTop: 10
     }
 });
 export default styles;

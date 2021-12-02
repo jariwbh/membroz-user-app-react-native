@@ -75,7 +75,7 @@ export default SalaryScreen = (props) => {
             setExpense(0);
             setPFTax(0);
             setPTTax(userInfo.salarycomponents && userInfo.salarycomponents[1] && userInfo.salarycomponents[1].amount ? userInfo.salarycomponents[1].amount : 0)
-            setTotalCF(userInfo.cf);
+            setTotalCF(userInfo.cf ? userInfo.cf : 0);
             setCurrencySymbol(response);
             setUserInfo(userInfo);
             await getSalaryHistoryList();

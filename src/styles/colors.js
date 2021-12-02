@@ -80,6 +80,14 @@ export const PLACEHOLDER_COLOR = '#999999'
 //CLOCK COLOR
 export const YELLOW = '#F4BB29'
 
+// CALENDER COLOR
+export const CONFIRMED_COLOR = '#E152BF'
+export const CANCEL_COLOR = '#FB3E39'
+export const NOSHOW_COLOR = '#F57C00'
+export const REQUESTED_COLOR = '#3D58D4'
+export const CHECKOUT_COLOR = '#47CCBF'
+
+
 //krtya HR 
 // export const DEFALUTCOLOR = '#FC7845';
 // export const BACKGROUNDCOLOR = '#FFFFFF';
