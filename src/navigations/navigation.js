@@ -40,7 +40,7 @@ import VIEWIMAGESCREEN from '../screen/ViewImageScreen/ViewImageScreen';
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
 import * as KEY from '../context/actions/key';
-import { Image, LogBox } from 'react-native';
+import { Image, LogBox, Platform } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -71,13 +71,13 @@ const AuthStackScreen = () => {
             <AuthStack.Screen name="ForgotPasswordScreen" component={FORGOTPASSWORDSCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
                 title: 'Forgot Password',
-                headerTintColor: COLOR.WHITE,
+                headerTintColor: Platform.OS == 'android' ? COLOR.WHITE : COLOR.DEFALUTCOLOR,
                 headerTransparent: true
             }} />
             <AuthStack.Screen name="NewPasswordScreen" component={NEWPASSWORDSCREEN} options={{
                 headerTitleAlign: KEY.CENTER,
                 title: 'Forgot Password',
-                headerTintColor: COLOR.WHITE,
+                headerTintColor: Platform.OS == 'android' ? COLOR.WHITE : COLOR.DEFALUTCOLOR,
                 headerTransparent: true
             }} />
         </AuthStack.Navigator>
