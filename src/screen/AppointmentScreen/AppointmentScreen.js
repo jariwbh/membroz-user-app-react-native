@@ -102,9 +102,13 @@ export default class AppointmentScreen extends Component {
 
     //CALCULATE CALENDER DATE AND POST DATA TO CALENDER COMPOMENT  
     async renderCalendar() {
-        await this.state.AppointmentList.forEach(element => {
-            if (element && element.appointmentdate) {
-                this.dateConversion(moment(element.appointmentdate).format('YYYY-MM-DD'), COLOR.DEFALUTCOLOR)
+        var appdate;
+        await this.state.AppointmentList.forEach((element) => {
+            appdate = moment(element.appointmentdate).format('YYYY-MM-DD')
+            if (element && moment(appdate).isBefore(moment().format('YYYY-MM-DD'))) {
+                this.dateConversion(appdate, COLOR.RED)
+            } else {
+                this.dateConversion(appdate, COLOR.DEFALUTCOLOR)
             }
         });
         this.setState({ loading: false });
