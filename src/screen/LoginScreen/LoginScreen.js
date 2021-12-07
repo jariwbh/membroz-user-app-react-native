@@ -163,9 +163,9 @@ export default LoginScreen = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.DARK_CONTENT} />
-            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
-                <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ height: HEIGHT, width: WIDTH }} >
+            <StatusBar hidden={false} translucent={false} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.DARK_CONTENT} />
+            <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={STYLES.backgroundImage} >
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={STYLES.containerView}>
                         {appLogoVisible ?
                             <Image source={logo ? { uri: logo } : IMAGE.MEMBROZ_LOGO} resizeMode={KEY.COVER}
@@ -210,8 +210,6 @@ export default LoginScreen = (props) => {
                         <TouchableOpacity style={STYLES.loginBtn} onPress={() => onPressToLogin()}>
                             <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Login</Text>
                         </TouchableOpacity>
-
-
                     </View>
                     <View style={{
                         flexDirection: KEY.ROW, marginTop: 20, alignItems: KEY.CENTER,
@@ -235,14 +233,13 @@ export default LoginScreen = (props) => {
                             }
                             <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16, marginLeft: 2 }}>Remember Me</Text>
                         </View>
-
                         <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), resetScreen() }}>
                             <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Forget Password?</Text>
                         </TouchableOpacity>
                     </View>
                     {/* <View style={{ paddingVertical: 50 }} /> */}
-                </ImageBackground>
-            </ScrollView>
+                </ScrollView>
+            </ImageBackground>
             {loading ? <Loader /> : null}
         </SafeAreaView>
     );

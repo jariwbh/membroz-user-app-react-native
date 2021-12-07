@@ -56,6 +56,12 @@ const styles = StyleSheet.create({
         height: 45,
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER
+    },
+    backgroundImage: {
+        flex: 1,
+        height: HEIGHT,
+        width: WIDTH,
+        justifyContent: KEY.CENTER
     }
 });
 

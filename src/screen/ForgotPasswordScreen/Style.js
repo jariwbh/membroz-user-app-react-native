@@ -44,6 +44,12 @@ const styles = StyleSheet.create({
         marginTop: 0,
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER
+    },
+    backgroundImage: {
+        flex: 1,
+        height: HEIGHT,
+        width: WIDTH,
+        justifyContent: KEY.CENTER
     }
 });
 export default styles;

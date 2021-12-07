@@ -202,9 +202,9 @@ const ForgotPasswordScreen = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
-            <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.DARK_CONTENT} />
-            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
-                <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ height: HEIGHT, width: WIDTH }} >
+            <StatusBar hidden={false} translucent={false} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.DARK_CONTENT} />
+            <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={styles.backgroundImage} >
+                <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={styles.containerView}>
                         <Image source={IMAGE.LOCK_ICON} style={{ height: 80, width: 80, marginTop: 80, tintColor: COLOR.DEFALUTCOLOR }} />
                         <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16, marginTop: 15, marginLeft: 25, marginRight: 25, textAlign: KEY.CENTER, lineHeight: 25 }}>
@@ -259,8 +259,8 @@ const ForgotPasswordScreen = (props) => {
                                 </View>
                         }
                     </View>
-                </ImageBackground>
-            </ScrollView>
+                </ScrollView>
+            </ImageBackground>
             {loading == true ? <Loader /> : null}
         </SafeAreaView>
     );

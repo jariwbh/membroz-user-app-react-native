@@ -78,9 +78,10 @@ const styles = (colorcode) => StyleSheet.create({
         fontSize: FONT.FONT_SIZE_14,
         color: COLOR.BLACK,
         marginTop: 2,
+        width: WIDTH / 2
     },
     msgModalView: {
-        width: WIDTH - 60,
+        width: WIDTH - 0,
         borderRadius: 0,
         backgroundColor: COLOR.WHITE,
         alignItems: KEY.FLEX_STAR,
@@ -114,6 +115,10 @@ const styles = (colorcode) => StyleSheet.create({
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER,
         marginTop: 10
+    },
+    centerView: {
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER
     }
 });
 export default styles;

@@ -16,7 +16,7 @@ export default function ViewImageScreen(props) {
     const viewimage = props.route.params.viewimage;
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
-            <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.GRANITE_GRAY} barStyle={KEY.DARK_CONTENT} />
+            <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
             <View style={{
                 flex: 1,
@@ -26,7 +26,7 @@ export default function ViewImageScreen(props) {
                 marginTop: -100
             }}>
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                    <Image source={{ uri: viewimage }} resizeMode={KEY.STRETCH} style={{ height: 500, width: WIDTH, borderRadius: 5 }} />
+                    <Image source={{ uri: viewimage }} resizeMode={KEY.COVER} style={{ height: 500, width: WIDTH, borderRadius: 5 }} />
                 </View>
             </View>
         </SafeAreaView>

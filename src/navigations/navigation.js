@@ -38,6 +38,8 @@ import ATTENDANCESCREEN from '../screen/AttendanceScreen/AttendanceScreen';
 import SCANNERSCREEN from '../screen/HomeScreen/ScannerScreen';
 import VIEWIMAGESCREEN from '../screen/ViewImageScreen/ViewImageScreen';
 import APPOINTMENTSCREEN from '../screen/AppointmentScreen/AppointmentScreen';
+import APPOINTMENTDETAILSCREEN from '../screen/AppointmentScreen/AppointmentDetailScreen';
+
 import * as COLOR from '../styles/colors';
 import * as IMAGE from '../styles/image';
 import * as KEY from '../context/actions/key';
@@ -308,6 +310,13 @@ const HomeStackScreen = () => {
                 options={{
                     headerTitleAlign: KEY.CENTER,
                     title: 'My Appoinments',
+                    headerTintColor: COLOR.WHITE,
+                    headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
+                }} />
+            <HomeStack.Screen name="AppointmentDetailScreen" component={APPOINTMENTDETAILSCREEN}
+                options={{
+                    headerTitleAlign: KEY.CENTER,
+                    title: 'View Appoinment',
                     headerTintColor: COLOR.WHITE,
                     headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
                 }} />

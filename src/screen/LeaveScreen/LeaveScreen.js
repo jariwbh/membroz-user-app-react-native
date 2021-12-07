@@ -200,7 +200,7 @@ export default LeaveScreen = (props) => {
                     myLeaveFilterList && myLeaveFilterList.length > 0 ?
                         null :
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                            <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 150 }} resizeMode={KEY.CONTAIN} />
+                            <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
                             <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
                         </View>
                 )}

@@ -6,8 +6,10 @@ import * as KEY from '../../context/actions/key';
 
 const styles = StyleSheet.create({
     imageStyle: {
+        flex: 1,
         height: HEIGHT,
-        width: WIDTH
+        width: WIDTH,
+        justifyContent: KEY.CENTER
     },
     imageLogo: {
         justifyContent: KEY.CENTER,
