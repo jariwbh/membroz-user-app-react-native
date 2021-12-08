@@ -161,7 +161,7 @@ export default class AttendanceScreen extends Component {
     //get color with Sunday days Only
     getDayColor(date, color) {
         var dt = moment(date, "YYYY-MM-DD").format('dddd');
-        if (dt == "Sunday") return COLOR.DEFAULTLIGHT
+        if (dt == "Sunday") return COLOR.X11_GRAY
         return color;
     }
 
