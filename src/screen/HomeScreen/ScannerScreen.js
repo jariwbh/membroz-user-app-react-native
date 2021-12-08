@@ -98,6 +98,8 @@ const ScannerScreen = (props) => {
             let body = {
                 checkin: todayAttendTime && todayAttendTime.checkin,
                 checkout: moment().format(),
+                membrozid: userID,
+                onModel: 'User',
                 property: {
                     checkin: todayAttendTime && todayAttendTime.checkin,
                     checkout: moment().format(),
@@ -117,6 +119,7 @@ const ScannerScreen = (props) => {
                 Toast.show('OR-CODE Invalid please try again', Toast.SHORT);
             }
         } catch (error) {
+            console.log(`error`, error);
             setTorch(RNCamera.Constants.FlashMode.off);
             setLoading(false);
             Toast.show('OR-CODE Invalid please try again', Toast.SHORT);

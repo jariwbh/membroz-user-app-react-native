@@ -31,5 +31,5 @@ export const getTodayAttendenceService = (data) => {
 //Update attendance when scan
 export const updateAttendenceService = (id, body) => {
     body = JSON.stringify(body);
-    return Axios.patch('attendances/' + id, body);
+    return Axios.put('attendances/' + id, body);
 }
