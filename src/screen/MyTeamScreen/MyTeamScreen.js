@@ -192,7 +192,6 @@ export default MyTeamScreen = (props) => {
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ paddingBottom: 50, marginTop: 0 }}
                     data={searchList}
-                    showsVerticalScrollIndicator={false}
                     renderItem={renderMyTeamList}
                     keyExtractor={item => item._id}
                     keyboardShouldPersistTaps={KEY.ALWAYS}

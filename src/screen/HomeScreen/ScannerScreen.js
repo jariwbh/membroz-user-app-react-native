@@ -128,18 +128,22 @@ const ScannerScreen = (props) => {
 
     //barcode scan after to return value call function
     const onSucess = (e) => {
-        let barcode = e.data.replace(/\\/g, "");
-        let DECODE = JSON.parse(barcode);
-        if (branchId == DECODE.branchid) {
-            setLoading(true);
-            if (todayAttendTime) {
-                addAttendenceUpdate();
+        try {
+            let barcode = e.data.replace(/\\/g, "");
+            let DECODE = JSON.parse(barcode);
+            if (branchId == DECODE.branchid) {
+                setLoading(true);
+                if (todayAttendTime) {
+                    addAttendenceUpdate();
+                } else {
+                    addAttendence();
+                }
             } else {
-                addAttendence();
+                setLoading(false);
+                Toast.show('OR-CODE Invalid please try again', Toast.SHORT);
             }
-        } else {
-            setLoading(false);
-            Toast.show('OR-CODE Invalid please try again', Toast.SHORT);
+        } catch (error) {
+            console.log(`error`, error);
         }
     };
 
