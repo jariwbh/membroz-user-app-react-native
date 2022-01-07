@@ -1,7 +1,9 @@
 //APP MAIN COLOR
-export const DEFALUTCOLOR = '#39BB5C'; //'#C42B32' //'#FC7845'; 
-export const DEFAULTLIGHT = '#98CD74';
+export const DEFALUTCOLOR = '#FC7845'; //'#C42B32' //'#FC7845'; 
+export const DEFAULTLIGHT = '#FDA786';
 export const BACKGROUNDCOLOR = '#FFFFFF';
+export const SPLASHCOLOR = '#FFFFFF';
+export const STATUSCOLOR = '#0097D7';
 
 //BASIC COLOR
 export const PRIMARY = '#1779ba';
@@ -86,7 +88,6 @@ export const CANCEL_COLOR = '#FB3E39'
 export const NOSHOW_COLOR = '#F57C00'
 export const REQUESTED_COLOR = '#3D58D4'
 export const CHECKOUT_COLOR = '#47CCBF'
-
 
 //krtya HR 
 // export const DEFALUTCOLOR = '#FC7845';

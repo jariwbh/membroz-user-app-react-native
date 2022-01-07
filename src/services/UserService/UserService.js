@@ -5,9 +5,8 @@ export const getByIdUserService = (id) => {
 }
 
 export const patchUserService = (id, body) => {
-    JSON.stringify(body);
-    //return Axios.patch('users/' + id, body);
-    return Axios.put('users/' + id, body);
+    return Axios.patch('users/' + id, body);
+    //return Axios.put('users/' + id, body);
 }
 
 export const CheckUserService = (body) => {

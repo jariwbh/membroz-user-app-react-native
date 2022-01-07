@@ -82,7 +82,7 @@ const styles = (colorcode) => StyleSheet.create(
       borderTopLeftRadius: 25,
       borderTopRightRadius: 25,
       alignItems: KEY.CENTER,
-      justifyContent: 'center'
+      justifyContent: KEY.CENTER
     },
     viewRectangle: {
       borderLeftWidth: 70,
@@ -90,8 +90,8 @@ const styles = (colorcode) => StyleSheet.create(
       borderLeftColor: COLOR.DEFALUTCOLOR,
       borderRightColor: COLOR.DEFALUTCOLOR,
       width: WIDTH - 15,
-      height: 100,
-      marginTop: 25,
+      height: 105,
+      marginTop: 20,
       marginLeft: 10,
       marginRight: 10,
       borderRadius: 5,
@@ -164,7 +164,37 @@ const styles = (colorcode) => StyleSheet.create(
       alignItems: KEY.FLEX_START,
       marginBottom: 0,
       backgroundColor: COLOR.WHITE
-    }
+    },
+    modalContainer: {
+      backgroundColor: COLOR.WHITE,
+      paddingHorizontal: 16,
+      paddingTop: 20,
+      paddingBottom: 40,
+      alignItems: KEY.CENTER
+    },
+    modalTitle: {
+      fontSize: 22,
+      fontWeight: '600',
+      marginBottom: 15
+    },
+    modalText: {
+      fontSize: 18,
+      color: COLOR.BLACK,
+      textAlign: KEY.CENTER,
+    },
+    button: {
+      backgroundColor: COLOR.DEFALUTCOLOR,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      width: WIDTH - 20,
+      alignItems: KEY.CENTER,
+      marginTop: 25,
+      borderRadius: 10
+    },
+    buttonText: {
+      color: COLOR.WHITE,
+      fontSize: 20,
+    },
   });
 
 export default styles;

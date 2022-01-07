@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-  StatusBar,
+  StatusBar, Modal, Button,
   Platform, Alert, Linking, Share
 } from 'react-native';
 import { getByIdUserService, patchUserService } from '../../services/UserService/UserService';
@@ -39,6 +39,7 @@ import RNExitApp from 'react-native-exit-app';
 import crashlytics from "@react-native-firebase/crashlytics";
 import moment from 'moment';
 import MyPermissionController from '../../helpers/appPermission';
+import NetInfo from "@react-native-community/netinfo";
 
 //STATIC VARIABLE 
 const HEIGHT = Dimensions.get('window').height;
@@ -84,6 +85,8 @@ const HomeScreen = (props) => {
   const [userInfo, setUserInfo] = useState(null);
   const [todayAttendTime, setTodayAttendTime] = useState(null);
   const [timerShow, setTimerShow] = useState(false);
+  const [interNetStatus, setInterNetStatus] = useState(false);
+  const [visibleModel, setVisibleModel] = useState(false);
 
   let currentTime = moment();
   let checkinTime = moment(todayAttendTime && todayAttendTime.checkin);
@@ -115,6 +118,7 @@ const HomeScreen = (props) => {
   );
 
   useEffect(() => {
+    inetrnetChecker();
     // CHECK REMOTECONTROLLER USE TO AUTOCONFIG APP
     RemoteController();
     getUserDeatilsLocalStorage();
@@ -125,7 +129,7 @@ const HomeScreen = (props) => {
   useEffect(() => {
   }, [loading, backgroungImage, scanIconVisible, sharedIconVisible, notificationIconVisible, photoCounter,
     todayAttendTime, timerShow, mobileapppermissions, notification, userDesignation, userName, userID,
-    timerShow, userProfilePic, shareusAndroid, shareusIos, userInfo
+    timerShow, userProfilePic, shareusAndroid, shareusIos, userInfo, interNetStatus, visibleModel
   ])
 
   //Get CheckIn time
@@ -199,7 +203,7 @@ const HomeScreen = (props) => {
     var userInfo = await LocalService.LocalStorageService();
     if (userInfo) {
       getuserid = userInfo?._id;
-      setUserInfo
+      setUserInfo(userInfo);
       setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
       setUserName(userInfo?.fullname.substring(0, 15));
       setUserID(userInfo?._id);
@@ -217,23 +221,25 @@ const HomeScreen = (props) => {
 
   //GET USER DATA USEING API CALL
   const getUserDeatils = async (id) => {
-    try {
-      const response = await getByIdUserService(id);
-      if (response.data != null && response.data != 'undefind' && response.status == 200) {
-        if (response.data.message === 'You do not have permission') {
-          setloading(false);
-          LocalService.RemoveAuthenticateUser();
-          props.navigation.replace(SCREEN.AUTH);
-        } else {
-          Toast.show('Welcome', Toast.SHORT);
-          LocalService.AuthenticateUser(response.data);
+    if (interNetStatus) {
+      try {
+        const response = await getByIdUserService(id);
+        if (response.data != null && response.data != 'undefind' && response.status == 200) {
+          if (response.data.message === 'You do not have permission') {
+            setloading(false);
+            LocalService.RemoveAuthenticateUser();
+            props.navigation.replace(SCREEN.AUTH);
+          } else {
+            Toast.show('Welcome', Toast.SHORT);
+            LocalService.AuthenticateUser(response.data);
+          }
         }
+      } catch (error) {
+        setloading(false);
+        firebase.crashlytics().recordError(error);
+        //LocalService.RemoveAuthenticateUser();
+        props.navigation.replace(SCREEN.AUTH);
       }
-    } catch (error) {
-      setloading(false);
-      firebase.crashlytics().recordError(error);
-      //LocalService.RemoveAuthenticateUser();
-      props.navigation.replace(SCREEN.AUTH);
     }
   }
 
@@ -246,7 +252,6 @@ const HomeScreen = (props) => {
       }
     } catch (error) {
       firebase.crashlytics().recordError(error);
-      setloading(false);
     }
   }
 
@@ -255,7 +260,6 @@ const HomeScreen = (props) => {
     var userInfo = await LocalService.LocalStorageService();
     if (userInfo) {
       let mobileapppermissions = userInfo.role.mobileapppermissions;
-      //let mobileapppermissions = ["freshlead", "followup", "meeting", "mylead", "calender", "support"];
       let finalMenuPermission = [];
       MenuDefaultArray.forEach(menuEle => {
         mobileapppermissions.forEach(MobileEle => {
@@ -275,7 +279,6 @@ const HomeScreen = (props) => {
       setNotification(response.data.length);
     } catch (error) {
       firebase.crashlytics().recordError(error);
-      setloading(false);
     }
   }
 
@@ -397,7 +400,6 @@ const HomeScreen = (props) => {
     }
     catch (error) {
       firebase.crashlytics().recordError(error);
-      setloading(false);
     }
   }
 
@@ -496,104 +498,155 @@ const HomeScreen = (props) => {
     props.navigation.navigate(SCREEN.VIEWIMAGESCREEN, { viewimage });
   }
 
+  //INTERNER CHECKER FUNCTION
+  const inetrnetChecker = () => {
+    NetInfo.fetch().then(state => {
+      setInterNetStatus(state.isConnected);
+      setVisibleModel(state.isConnected === false ? true : false);
+    });
+  }
+
+  //MODEL POPUP OPEN IN TRY AGAIN CLICK TO CALL
+  const onRetry = () => {
+    setloading(true);
+    RemoteController();
+    getUserDeatilsLocalStorage();
+    MenuPermission();
+    getGalleryImages();
+    setVisibleModel(false);
+  }
+
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
-      <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
-      <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ width: WIDTH, height: HEIGHT }}>
-        <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 35 }}>
-          {
-            scanIconVisible &&
-            <TouchableOpacity onPress={() => checkDayInTime()}
-              style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.WHITE, marginLeft: 15, marginTop: 10 }}>
-              <Icon name='qrcode-scan' size={28} color={COLOR.WHITE} />
-            </TouchableOpacity>
-          }
-          {
-            sharedIconVisible &&
-            <TouchableOpacity onPress={() => onPressShareButton()}
-              style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, marginLeft: !scanIconVisible ? WIDTH / 2 + 100 : WIDTH / 2 + 30, marginRight: !scanIconVisible ? 15 : 0, marginTop: !scanIconVisible ? 10 : 10 }}>
-              <Ionicons name='share-social' size={30} color={COLOR.WHITE} />
-            </TouchableOpacity>
-          }
-          {
-            notificationIconVisible &&
-            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NOTIFICATIONSCREEN)}
-              style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, marginRight: 25, marginTop: !scanIconVisible ? 0 : -15 || !sharedIconVisible ? 0 : -15 }}>
-              <Ionicons name='notifications-outline' size={30} color={COLOR.WHITE} />
-              <View style={{ marginLeft: 0, marginBottom: !sharedIconVisible ? 0 : 0, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, backgroundColor: COLOR.NOTIFICATION_COLOR }}>
-                <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, fontSize: 12, color: COLOR.WHITE }}>{notification}</Text>
-              </View>
-            </TouchableOpacity>
-          }
-        </View>
 
-        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-          <TouchableOpacity style={styles().viewPhoto} onPress={() => props.navigation.navigate(SCREEN.GALLERYSCREEN)}>
-            <Image source={IMAGE.PICTURE_ICON} style={styles().picture_Icon_iconPhoto} />
-            <Text style={{ color: COLOR.WHITE, marginTop: 0, marginLeft: 10 }}>{`${photoCounter}` + ' ' + 'Photos'} </Text>
-            <Icon name='chevron-right' size={25} style={styles().arror_iconPhoto} />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles().viewName}>
-          <TouchableOpacity onPress={() => onTouchViewProfile(userProfilePic)} style={styles().viweRound}>
-            <Image source={!userProfilePic ? IMAGE.USERPROFILE : { uri: userProfilePic }}
-              style={!userProfilePic ? { height: 70, width: 70 } : { height: 95, width: 95, borderRadius: 100 }} />
-          </TouchableOpacity>
-
-          <View>
-            <View style={{ flexDirection: KEY.COLUMN }}>
-              <Text style={styles().text} numberOfLines={1}>{userName}</Text>
-              <Text style={{ color: COLOR.MENU_TEXT_COLOR, fontSize: FONT.FONT_SIZE_16, marginLeft: 5, maxWidth: WIDTH / 2, }} numberOfLines={1}>{userDesignation}</Text>
-            </View>
+    !visibleModel ?
+      <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
+        <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+        <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ width: WIDTH, height: HEIGHT }}>
+          <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 35 }}>
+            {
+              scanIconVisible &&
+              <TouchableOpacity onPress={() => checkDayInTime()}
+                style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.WHITE, marginLeft: 15, marginTop: 10 }}>
+                <Icon name='qrcode-scan' size={28} color={COLOR.WHITE} />
+              </TouchableOpacity>
+            }
+            {
+              sharedIconVisible &&
+              <TouchableOpacity onPress={() => onPressShareButton()}
+                style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, marginLeft: !scanIconVisible ? WIDTH / 2 + 100 : WIDTH / 2 + 30, marginRight: !scanIconVisible ? 15 : 0, marginTop: !scanIconVisible ? 10 : 10 }}>
+                <Ionicons name='share-social' size={30} color={COLOR.WHITE} />
+              </TouchableOpacity>
+            }
+            {
+              notificationIconVisible &&
+              <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NOTIFICATIONSCREEN)}
+                style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, marginRight: 25, marginTop: !scanIconVisible ? 0 : -15 || !sharedIconVisible ? 0 : -15 }}>
+                <Ionicons name='notifications-outline' size={30} color={COLOR.WHITE} />
+                <View style={{ marginLeft: 0, marginBottom: !sharedIconVisible ? 0 : 0, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, backgroundColor: COLOR.NOTIFICATION_COLOR }}>
+                  <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, fontSize: 12, color: COLOR.WHITE }}>{notification}</Text>
+                </View>
+              </TouchableOpacity>
+            }
           </View>
 
-          <View style={styles().viewLine} />
-          <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.UPDATEPROFILESCREEN)}>
-            <Image source={IMAGE.PENCIL_ICON_SIMPLE} style={{ height: 20, width: 20, tintColor: COLOR.DEFALUTCOLOR, margin: 8 }} />
-          </TouchableOpacity>
-        </View>
+          <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+            <TouchableOpacity style={styles().viewPhoto} onPress={() => props.navigation.navigate(SCREEN.GALLERYSCREEN)}>
+              <Image source={IMAGE.PICTURE_ICON} style={styles().picture_Icon_iconPhoto} />
+              <Text style={{ color: COLOR.WHITE, marginTop: 0, marginLeft: 10 }}>{`${photoCounter}` + ' ' + 'Photos'} </Text>
+              <Icon name='chevron-right' size={25} style={styles().arror_iconPhoto} />
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles().viewMain}>
-          {timerShow &&
-            <View style={styles().viewRectangle}>
-              <View style={{ marginLeft: 15 }}>
-                <Ionicons name='ios-alarm-outline' size={40} color={COLOR.WHITE} style={{ marginTop: 15, alignItems: KEY.CENTER, marginLeft: -70, marginBottom: 15 }} />
+          <View style={styles().viewName}>
+            <TouchableOpacity onPress={() => onTouchViewProfile(userProfilePic)} style={styles().viweRound}>
+              <Image source={!userProfilePic ? IMAGE.USERPROFILE : { uri: userProfilePic }}
+                style={!userProfilePic ? { height: 70, width: 70 } : { height: 95, width: 95, borderRadius: 100 }} />
+            </TouchableOpacity>
+
+            <View>
+              <View style={{ flexDirection: KEY.COLUMN }}>
+                <Text style={styles().text} numberOfLines={1}>{userName}</Text>
+                <Text style={{ color: COLOR.MENU_TEXT_COLOR, fontSize: FONT.FONT_SIZE_16, marginLeft: 5, maxWidth: WIDTH / 2, }} numberOfLines={1}>{userDesignation}</Text>
               </View>
-              <View style={{ flexDirection: KEY.COLUMN, marginLeft: -5 }}>
-                <Text style={styles().rectangleText}>Checkin Time</Text>
-                <Text style={{ fontSize: FONT.FONT_SIZE_14, textTransform: KEY.UPPERCASE }}>{moment(checkinTime).format('DD MMM YYYY, h:mm:ss a')}</Text>
-                <Text style={styles().rectangleText}>Total Time</Text>
-                {todayAttendTime && todayAttendTime.property && todayAttendTime.property.mode === 'checkout' ?
-                  <Text style={{ fontSize: FONT.FONT_SIZE_14 }}>{totalTime}</Text>
-                  :
-                  <Text style={{ fontSize: FONT.FONT_SIZE_14 }}>{finalcal}</Text>
-                }
+            </View>
+
+            <View style={styles().viewLine} />
+            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.UPDATEPROFILESCREEN)}>
+              <Image source={IMAGE.PENCIL_ICON_SIMPLE} style={{ height: 20, width: 20, tintColor: COLOR.DEFALUTCOLOR, margin: 8 }} />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles().viewMain}>
+            {timerShow &&
+              <View style={styles().viewRectangle}>
+                <View style={{ marginLeft: 15 }}>
+                  <Ionicons name='ios-alarm-outline' size={40} color={COLOR.WHITE} style={{ marginTop: 15, alignItems: KEY.CENTER, marginLeft: -70, marginBottom: 15 }} />
+                </View>
+                <View style={{ flexDirection: KEY.COLUMN, marginLeft: -5 }}>
+                  <Text style={styles().rectangleText}>Checkin Time</Text>
+                  <Text style={{ fontSize: FONT.FONT_SIZE_14, textTransform: KEY.UPPERCASE }}>{moment(checkinTime).format('DD MMM YYYY, h:mm:ss a')}</Text>
+                  <Text style={styles().rectangleText}>Total Time</Text>
+                  {todayAttendTime && todayAttendTime.property && todayAttendTime.property.mode === 'checkout' ?
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14 }}>{totalTime}</Text>
+                    :
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14 }}>{finalcal}</Text>
+                  }
+                </View>
+                <View style={{ flex: 1, alignItems: KEY.FLEX_END, marginTop: 0 }}>
+                  <TouchableOpacity style={styles().rectangleRound} onPress={() => onPressLogout()} >
+                    <FontAwesome name='sign-out' size={45} color={COLOR.DEFALUTCOLOR} />
+                    {/* <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_14, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}</Text> */}
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={{ flex: 1, alignItems: KEY.FLEX_END, marginTop: 0 }}>
-                <TouchableOpacity style={styles().rectangleRound} onPress={() => onPressLogout()} >
-                  <FontAwesome name='sign-out' size={45} color={COLOR.DEFALUTCOLOR} />
-                  {/* <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_14, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}</Text> */}
+            }
+            <FlatList
+              style={{ marginTop: 15 }}
+              data={mobileapppermissions}
+              numColumns={WIDTH <= 420 ? 2 : 3}
+              scrollEnabled={true}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+              keyboardShouldPersistTaps={KEY.ALWAYS}
+              renderItem={renderMenu}
+              contentContainerStyle={{ paddingBottom: HEIGHT / 2 + 100, alignSelf: KEY.CENTER }}
+            />
+          </View>
+
+
+        </ImageBackground>
+        {loading ? <Loader /> : null}
+      </SafeAreaView>
+      :
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+        {/* message model Pop */}
+        <Modal
+          animationType='slide'
+          transparent={true}
+          visible={visibleModel}
+          animationInTiming={600}
+          onRequestClose={() => setVisibleModel(!visibleModel)}
+        >
+          <View style={{ alignItems: KEY.CENTER, flex: 1 }}>
+            <View style={{ position: KEY.ABSOLUTE, bottom: 0 }}>
+              <View style={styles().modalContainer}>
+                <Text style={styles().modalTitle}>Connection Error</Text>
+                <Text style={styles().modalText}>
+                  Oops! your device is
+                </Text>
+                <Text style={styles().modalText}>
+                  not connected to the Internet.
+                </Text>
+                <TouchableOpacity style={styles().button} onPress={() => onRetry()}>
+                  <Text style={styles().buttonText}>Try Again</Text>
                 </TouchableOpacity>
               </View>
             </View>
-          }
-          <FlatList
-            style={{ marginTop: 15 }}
-            data={mobileapppermissions}
-            numColumns={WIDTH <= 420 ? 2 : 3}
-            scrollEnabled={true}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-            keyboardShouldPersistTaps={KEY.ALWAYS}
-            renderItem={renderMenu}
-            contentContainerStyle={{ paddingBottom: HEIGHT / 2 + 100, alignSelf: KEY.CENTER }}
-          />
-        </View>
-      </ImageBackground>
-      {loading ? <Loader /> : null}
-    </SafeAreaView>
+          </View>
+        </Modal>
+      </SafeAreaView>
   );
 }
 export default HomeScreen;
