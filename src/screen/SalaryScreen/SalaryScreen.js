@@ -102,6 +102,7 @@ export default SalaryScreen = (props) => {
     const getSalaryHistoryList = async () => {
         try {
             const response = await userSalaryService(currentYear);
+            console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200 && response.data.length > 0) {
                 let filterArray = [];
                 response.data.forEach(element => {
@@ -118,6 +119,7 @@ export default SalaryScreen = (props) => {
                 setLoading(false);
             }
         } catch (error) {
+            console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setLoading(false);
         }
