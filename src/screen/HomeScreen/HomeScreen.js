@@ -106,12 +106,14 @@ const HomeScreen = (props) => {
       const getCallBackScreen = async () => {
         var userInfo = await LocalService.LocalStorageService();
         getuserid = userInfo?._id;
+        RemoteController();
         setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
         setUserName(userInfo?.fullname.substring(0, 15));
         setUserID(userInfo?._id);
         getNotification(userInfo?._id);
         getCheckinTime(userInfo?._id);
         setUserProfilePic(userInfo?.profilepic);
+        await getAppVersion(appVersionCode);
       }
       getCallBackScreen();
     }, [])
