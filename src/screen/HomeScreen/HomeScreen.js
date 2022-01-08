@@ -112,8 +112,8 @@ const HomeScreen = (props) => {
         setUserID(userInfo?._id);
         getNotification(userInfo?._id);
         getCheckinTime(userInfo?._id);
-        setUserProfilePic(userInfo?.profilepic);        
-        await getAppVersion(appVersionCode);
+        setUserProfilePic(userInfo?.profilepic);
+        // await getAppVersion(appVersionCode);
       }
       getCallBackScreen();
     }, [])
@@ -525,7 +525,7 @@ const HomeScreen = (props) => {
       <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
         <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
         <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ width: WIDTH, height: HEIGHT }}>
-          <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: Platform.OS===KEY.IOS?25:35 }}>
+          <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: Platform.OS === KEY.IOS ? 25 : 35 }}>
             {
               scanIconVisible &&
               <TouchableOpacity onPress={() => checkDayInTime()}
