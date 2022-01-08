@@ -106,13 +106,13 @@ const HomeScreen = (props) => {
       const getCallBackScreen = async () => {
         var userInfo = await LocalService.LocalStorageService();
         getuserid = userInfo?._id;
-        RemoteController();
+        await RemoteController();
         setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
         setUserName(userInfo?.fullname.substring(0, 15));
         setUserID(userInfo?._id);
         getNotification(userInfo?._id);
         getCheckinTime(userInfo?._id);
-        setUserProfilePic(userInfo?.profilepic);
+        setUserProfilePic(userInfo?.profilepic);        
         await getAppVersion(appVersionCode);
       }
       getCallBackScreen();
@@ -426,7 +426,7 @@ const HomeScreen = (props) => {
         {
           text: "Update Now", onPress: () => {
             if (Platform.OS === KEY.IOS) {
-              Linking.openURL(`itms://itunes.apple.com/in/app/apple-store/${iosUrl}`);
+              Linking.openURL(`itms-apps://apps.apple.com/id/app/${iosUrl}`);
             } else {
               Linking.openURL(`market://details?id=${androidUrl}`);
             }
@@ -525,7 +525,7 @@ const HomeScreen = (props) => {
       <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
         <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
         <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ width: WIDTH, height: HEIGHT }}>
-          <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 35 }}>
+          <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: Platform.OS===KEY.IOS?25:35 }}>
             {
               scanIconVisible &&
               <TouchableOpacity onPress={() => checkDayInTime()}

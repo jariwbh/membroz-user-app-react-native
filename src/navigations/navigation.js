@@ -393,7 +393,7 @@ const TabNavigation = () => {
                 tabBarActiveTintColor: COLOR.DEFALUTCOLOR,
                 tabBarInactiveTintColor: COLOR.GREY,
                 tabBarStyle: {
-                    height: Platform.OS == 'android' ? 55 : 80,
+                    height: Platform.OS == 'android' ? 55 : 60,
                     borderTopRightRadius: 10,
                     borderTopLeftRadius: 10,
                     backgroundColor: COLOR.BACKGROUNDCOLOR,
