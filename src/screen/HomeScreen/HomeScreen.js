@@ -514,6 +514,7 @@ const HomeScreen = (props) => {
     MenuPermission();
     getGalleryImages();
     setVisibleModel(false);
+    inetrnetChecker();
   }
 
   return (
