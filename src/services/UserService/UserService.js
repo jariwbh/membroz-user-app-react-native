@@ -9,6 +9,10 @@ export const patchUserService = (id, body) => {
     //return Axios.put('users/' + id, body);
 }
 
+export const updateUserService = (id, body) => {
+    return Axios.put('users/' + id, body);
+}
+
 export const CheckUserService = (body) => {
     return Axios.post('public/checkuser', body);
 }

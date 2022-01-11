@@ -584,7 +584,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.staffmembroz;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.membrozcrm;
 				PRODUCT_NAME = membroz_user_app;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -611,7 +611,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.staffmembroz;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.membrozcrm;
 				PRODUCT_NAME = membroz_user_app;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

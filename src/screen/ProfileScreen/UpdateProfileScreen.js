@@ -24,7 +24,7 @@ import Toast from 'react-native-simple-toast';
 import RNFetchBlob from 'rn-fetch-blob';
 import { CLOUD_URL, UPLOAD_PRESET } from '../../context/actions/type';
 import MyPermissionController from '../../helpers/appPermission';
-import { patchUserService } from '../../services/UserService/UserService';
+import { patchUserService, updateUserService } from '../../services/UserService/UserService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import moment from 'moment';
 const WIDTH = Dimensions.get('window').width;
@@ -258,7 +258,7 @@ const UpdateProfileScreen = (props) => {
         user.property.fullname = userName;
         user.fullname = userName;
         try {
-            const response = await patchUserService(userID, user);
+            const response = await updateUserService(userID, user);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 props.navigation.navigate(SCREEN.PROFILESCREEN);
                 LocalService.AuthenticateUser(response.data);

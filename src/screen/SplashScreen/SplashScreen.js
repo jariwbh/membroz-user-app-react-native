@@ -117,13 +117,13 @@ function SplashScreen(props) {
     return (
         <SafeAreaView style={{ flex: 1 }} >
             {showMessageModalVisible ?
-                <StatusBar hidden={false} translucent={false} backgroundColor={COLOR.GRAY_MEDIUM} barStyle={KEY.LIGHT_CONTENT} />
-                :
                 <StatusBar hidden={false} translucent={false} backgroundColor={COLOR.SPLASHCOLOR} barStyle={KEY.LIGHT_CONTENT} />
+                :
+                <StatusBar hidden={false} translucent={false} backgroundColor={COLOR.GRAY_MEDIUM} barStyle={KEY.LIGHT_CONTENT} />
             }
             <ImageBackground source={splashimage ? { uri: splashimage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={styles.imageStyle} >
                 {appLogoVisible ?
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: HEIGHT / 2.5 }}>
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: HEIGHT / (2 * 8) }}>
                         <Image style={styles.imageLogo} resizeMode={KEY.STRETCH} source={logo ? { uri: logo } : IMAGE.MEMBROZ_LOGO} />
                     </View> : <></>
                 }
