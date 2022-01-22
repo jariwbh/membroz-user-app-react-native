@@ -142,9 +142,9 @@ const HomeStackScreen = () => {
             }} />
             <HomeStack.Screen name="ViewImage" component={VIEWIMAGE} options={{
                 headerTitleAlign: KEY.CENTER,
-                title: '',
+                title: 'Gallery',
                 headerTintColor: COLOR.WHITE,
-                headerStyle: { backgroundColor: COLOR.BLACK }
+                headerStyle: { backgroundColor: COLOR.DEFALUTCOLOR }
             }} />
             <HomeStack.Screen name="ViewImageScreen" component={VIEWIMAGESCREEN} options={{
                 headerTitleAlign: KEY.CENTER,

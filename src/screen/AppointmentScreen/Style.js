@@ -116,9 +116,40 @@ const styles = (colorcode) => StyleSheet.create({
         alignItems: KEY.CENTER,
         marginTop: 10
     },
+    doneBtn: {
+        borderRadius: 10,
+        backgroundColor: COLOR.DEFALUTCOLOR,
+        width: WIDTH - 40,
+        height: 45,
+        marginTop: 15,
+        justifyContent: KEY.CENTER,
+        alignItems: KEY.CENTER
+    },
     centerView: {
         justifyContent: KEY.CENTER,
         alignItems: KEY.CENTER
+    },
+    noteView: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: COLOR.GRAY_DARK,
+        alignItems: KEY.FLEX_START,
+        marginBottom: 10,
+        width: WIDTH - 30,
+        color: COLOR.BLACK,
+        fontSize: FONT.FONT_SIZE_14,
+        paddingLeft: 15,
+    },
+    noteViewError: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: COLOR.ERRORCOLOR,
+        alignItems: KEY.FLEX_START,
+        marginBottom: 10,
+        width: WIDTH - 30,
+        color: COLOR.BLACK,
+        fontSize: FONT.FONT_SIZE_14,
+        paddingLeft: 15,
     }
 });
 export default styles;

@@ -1,4 +1,4 @@
-package com.membrozcrm;
+package com.dubaiyogatrainers;
 
 import com.facebook.react.ReactActivity;
 

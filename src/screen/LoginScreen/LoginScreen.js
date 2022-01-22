@@ -98,7 +98,7 @@ export default LoginScreen = (props) => {
             return;
         }
         const body = {
-            username: username,
+            username: username.trim(),
             password: password
         }
         setLoading(true);

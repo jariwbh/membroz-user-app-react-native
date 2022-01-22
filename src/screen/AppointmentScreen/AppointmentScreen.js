@@ -30,6 +30,7 @@ export default class AppointmentScreen extends Component {
     constructor(props) {
         super(props);
         this.userDetails = null;
+        this.currentDate = null;
         this.startDate = moment().clone().startOf('month').format('YYYY-MM-DD');
         this.endDate = moment().clone().endOf('month').format('YYYY-MM-DD');
         this.today = moment().clone().endOf('month').format('YYYY-MM-DD');
@@ -49,7 +50,8 @@ export default class AppointmentScreen extends Component {
             memberPhoto: null,
             memberMobile: null,
             serviceType: null,
-            meetingUrl: null
+            meetingUrl: null,
+            selectedDay: null,
         };
         this.onChangeMonth = this.onChangeMonth.bind(this);
     }
@@ -62,11 +64,13 @@ export default class AppointmentScreen extends Component {
                 this.props.navigation.replace(SCREEN.LOGINSCREEN);
             }, 3000);
         } else {
+            this.currentDate = moment().format('YYYY-MM-DD');
             this.userDetails = JSON.parse(getUser);
             let data = {
                 id: this.userDetails._id,
-                datRange: { gte: moment(this.startDate).format(), lte: this.endDate }
+                datRange: { gte: moment(this.currentDate).format(), lte: this.currentDate }
             }
+            this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') })
             await this.getAppointmentService(data);
             await this.setState({ postData: data });
             await this.renderCalendar(this.startDate, this.endDate)
@@ -96,6 +100,20 @@ export default class AppointmentScreen extends Component {
 
     componentDidMount() {
         this.getUserData();
+    }
+
+    //ONPRESS TO SELECT DAY
+    onPressSelectedDay = async (day) => {
+        day = moment(day.dateString).format('YYYY-MM-DD');
+        let markedDates = {};
+        markedDates[day] = { selected: true, marked: false, selectedColor: COLOR.DEFALUTCOLOR }
+        this.setState({ selectedDay: markedDates })
+        this.currentDate = day;
+        let data = {
+            id: this.userDetails._id,
+            datRange: { gte: moment(this.currentDate).format(), lte: this.currentDate }
+        }
+        await this.getAppointmentService(data);
     }
 
     //CALCULATE CALENDER DATE AND POST DATA TO CALENDER COMPOMENT  
@@ -150,6 +168,7 @@ export default class AppointmentScreen extends Component {
 
     //change month to call funation
     async onChangeMonth(val) {
+        let data;
         this.setState({ loading: true });
         this.startDate = moment().year(val.year).month(val.month - 1, 'months').startOf('month').format('YYYY-MM-DD');
         if (this.currentMonth == val.month && moment().format('YYYY') == val.year) {
@@ -157,9 +176,17 @@ export default class AppointmentScreen extends Component {
         } else {
             this.endDate = moment().year(val.year).month(val.month - 1, 'months').endOf('month').format('YYYY-MM-DD');
         }
-        let data = {
-            id: this.userDetails._id,
-            datRange: { gte: this.startDate, lte: moment(this.endDate, "YYYY-MM-DD").add(1, 'days') }
+        if (Number(moment().format('M')) == val.month) {
+            data = {
+                id: this.userDetails._id,
+                datRange: { gte: moment(this.currentDate).format(), lte: this.currentDate }
+            }
+            this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') })
+        } else {
+            data = {
+                id: this.userDetails._id,
+                datRange: { gte: this.startDate, lte: moment(this.endDate, "YYYY-MM-DD").add(1, 'days') }
+            }
         }
         await this.getAppointmentService(data);
         await this.renderCalendar();
@@ -180,9 +207,9 @@ export default class AppointmentScreen extends Component {
                 <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
-                <Text style={styles().rectangleText}>{item.attendee.fullname}</Text>
-                <Text style={styles().rectangleSubText}>{item.refid.title}</Text>
-                <Text style={styles().rectangleSubText}>{item.timeslot.starttime + ' - ' + item.timeslot.endtime}</Text>
+                <Text style={styles().rectangleText}>{item?.attendee?.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item?.refid?.title}</Text>
+                <Text style={styles().rectangleSubText}>{item?.timeslot?.starttime + ' - ' + item?.timeslot?.endtime}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CONFIRMED_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
                     <TouchableOpacity style={{ justifyContent: KEY.FLEX_END, marginRight: -15 }} onPress={() => this.showModelPopup(item)}>
@@ -199,9 +226,9 @@ export default class AppointmentScreen extends Component {
                 <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
-                <Text style={styles().rectangleText}>{item.attendee.fullname}</Text>
-                <Text style={styles().rectangleSubText}>{item.refid.title}</Text>
-                <Text style={styles().rectangleSubText}>{item.timeslot.starttime + ' - ' + item.timeslot.endtime}</Text>
+                <Text style={styles().rectangleText}>{item?.attendee?.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item?.refid?.title}</Text>
+                <Text style={styles().rectangleSubText}>{item?.timeslot?.starttime + ' - ' + item?.timeslot?.endtime}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CANCEL_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
                     <TouchableOpacity style={{ justifyContent: KEY.FLEX_END, marginRight: -15 }} onPress={() => this.showModelPopup(item)}>
@@ -218,9 +245,9 @@ export default class AppointmentScreen extends Component {
                 <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
-                <Text style={styles().rectangleText}>{item.attendee.fullname}</Text>
-                <Text style={styles().rectangleSubText}>{item.refid.title}</Text>
-                <Text style={styles().rectangleSubText}>{item.timeslot.starttime + ' - ' + item.timeslot.endtime}</Text>
+                <Text style={styles().rectangleText}>{item?.attendee?.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item?.refid?.title}</Text>
+                <Text style={styles().rectangleSubText}>{item?.timeslot?.starttime + ' - ' + item?.timeslot?.endtime}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.NOSHOW_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
                     <TouchableOpacity style={{ justifyContent: KEY.FLEX_END, marginRight: -15 }} onPress={() => this.showModelPopup(item)}>
@@ -237,9 +264,9 @@ export default class AppointmentScreen extends Component {
                 <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 0 }}>
-                <Text style={styles().rectangleText}>{item.attendee.fullname}</Text>
-                <Text style={styles().rectangleSubText}>{item.refid.title}</Text>
-                <Text style={styles().rectangleSubText}>{item.timeslot.starttime + ' - ' + item.timeslot.endtime}</Text>
+                <Text style={styles().rectangleText}>{item?.attendee?.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item?.refid?.title}</Text>
+                <Text style={styles().rectangleSubText}>{item?.timeslot?.starttime + ' - ' + item?.timeslot?.endtime}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.REQUESTED_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
                     <TouchableOpacity style={{ justifyContent: KEY.FLEX_END, marginRight: -20 }} onPress={() => this.showModelPopup(item)}>
@@ -256,9 +283,9 @@ export default class AppointmentScreen extends Component {
                 <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
-                <Text style={styles().rectangleText}>{item.attendee.fullname}</Text>
-                <Text style={styles().rectangleSubText}>{item.refid.title}</Text>
-                <Text style={styles().rectangleSubText}>{item.timeslot.starttime + ' - ' + item.timeslot.endtime}</Text>
+                <Text style={styles().rectangleText}>{item?.attendee?.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item?.refid?.title}</Text>
+                <Text style={styles().rectangleSubText}>{item?.timeslot?.starttime + ' - ' + item?.timeslot?.endtime}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CHECKOUT_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
                     <TouchableOpacity style={{ justifyContent: KEY.FLEX_END, marginRight: -15 }} onPress={() => this.showModelPopup(item)}>
@@ -289,14 +316,15 @@ export default class AppointmentScreen extends Component {
                             todayTextColor: COLOR.DEFALUTCOLOR,
                         }}
                         style={{ backgroundColor: COLOR.BACKGROUNDCOLOR }}
-                        markedDates={this.state.renderList}
+                        markedDates={this.state.selectedDay}
+                        onDayPress={(day) => this.onPressSelectedDay(day)}
                         onMonthChange={(month) => this.onChangeMonth(month)}
                         markingType={'custom'}
                         hideExtraDays={true}
                     />
                     {(this.state.AppointmentList && this.state.AppointmentList.length > 0) &&
                         <View>
-                            <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 15, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>List of Appintments</Text>
+                            <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 10, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>List of Appintments</Text>
                             <FlatList
                                 data={this.state.AppointmentList}
                                 renderItem={this.renderAllAppointmentList}

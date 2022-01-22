@@ -10,6 +10,10 @@ export const AppintmentService = (data) => {
     return Axios.post('appointments/filter', body);
 }
 
+export const patchAppointmentService = (id, body) => {
+    return Axios.patch('appointments/' + id, body);
+}
+
 export const addAppointmentService = (data) => {
     const body = JSON.stringify(data)
     return Axios.post('appointments', body);

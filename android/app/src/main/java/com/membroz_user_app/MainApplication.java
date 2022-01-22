@@ -1,4 +1,4 @@
-package com.membrozcrm;
+package com.dubaiyogatrainers;
 
 import android.app.Application;
 import android.content.Context;
