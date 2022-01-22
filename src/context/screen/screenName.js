@@ -36,7 +36,9 @@ export const TIMESHEETSCREEN = 'TimesheetScreen';
 export const ATTENDANCESCREEN = 'AttendanceScreen';
 export const SCANNERSCREEN = 'ScannerScreen';
 export const VIEWIMAGESCREEN = 'ViewImageScreen';
+export const APPOINTMENTSCREEN = 'AppointmentScreen';
 export const APPOINTMENTDETAILSCREEN = 'AppointmentDetailScreen';
+
 
 
 

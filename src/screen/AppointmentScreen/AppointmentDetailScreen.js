@@ -7,7 +7,7 @@ import {
     Image,
     Text,
     StatusBar,
-    TouchableOpacity, TextInput
+    TouchableOpacity, TextInput, Keyboard
 } from 'react-native';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
@@ -142,6 +142,7 @@ const AppointmentDetailScreen = (props) => {
         }
         setloading(true);
         try {
+            Keyboard.dismiss();
             await UpdateMemberInfoService();
             await UpdateAppointmentService();
             props.navigation.goBack(null);

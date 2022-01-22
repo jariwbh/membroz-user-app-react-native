@@ -52,8 +52,17 @@ export default class AppointmentScreen extends Component {
             serviceType: null,
             meetingUrl: null,
             selectedDay: null,
+            previousDay: null,
+            userID: null
         };
         this.onChangeMonth = this.onChangeMonth.bind(this);
+        this._unsubscribeSiFocus = this.props.navigation.addListener('focus', (e) => {
+            this.selectPreviewDay();
+        });
+    }
+
+    selectPreviewDay = () => {
+        this.onPressSelectedDay(this.state.previousDay);
     }
 
     //get login user infomation and api
@@ -71,6 +80,7 @@ export default class AppointmentScreen extends Component {
                 datRange: { gte: moment(this.currentDate).format(), lte: this.currentDate }
             }
             this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') })
+            this.setState({ userID: this.userDetails._id });
             await this.getAppointmentService(data);
             await this.setState({ postData: data });
             await this.renderCalendar(this.startDate, this.endDate)
@@ -98,16 +108,22 @@ export default class AppointmentScreen extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this.getUserData();
+    }
+
+    componentWillUnmount() {
+        // Remove the event listener
+        this._unsubscribeSiFocus();
     }
 
     //ONPRESS TO SELECT DAY
     onPressSelectedDay = async (day) => {
+        this.setState({ previousDay: day });
         day = moment(day.dateString).format('YYYY-MM-DD');
         let markedDates = {};
         markedDates[day] = { selected: true, marked: false, selectedColor: COLOR.DEFALUTCOLOR }
-        this.setState({ selectedDay: markedDates })
+        this.setState({ selectedDay: markedDates, loading: true })
         this.currentDate = day;
         let data = {
             id: this.userDetails._id,
@@ -176,7 +192,7 @@ export default class AppointmentScreen extends Component {
         } else {
             this.endDate = moment().year(val.year).month(val.month - 1, 'months').endOf('month').format('YYYY-MM-DD');
         }
-        if (Number(moment().format('M')) == val.month) {
+        if (Number(moment().format('M')) == val.month && Number(moment().format('YYYY')) === val.year) {
             data = {
                 id: this.userDetails._id,
                 datRange: { gte: moment(this.currentDate).format(), lte: this.currentDate }
