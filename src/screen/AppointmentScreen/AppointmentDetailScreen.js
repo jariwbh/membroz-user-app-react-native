@@ -24,7 +24,7 @@ import Loader from '../../components/loader/index';
 import Toast from 'react-native-simple-toast';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import { DEFAULTPROFILE } from '../../context/actions/type';
-import { patchUserService } from '../../services/UserService/UserService';
+import { UpdateMemberService } from '../../services/UserService/UserService';
 import { patchAppointmentService } from '../../services/AppointmentService/AppiontmentService';
 const WIDTH = Dimensions.get('window').width;
 
@@ -53,7 +53,7 @@ const AppointmentDetailScreen = (props) => {
         setUserID(userInfo?._id);
         setAppointmentID(item?._id);
         setMemberID(item?.attendee?._id);
-        setMemberInfo(item?.attendee?.property);
+        setMemberInfo(item?.attendee);
         setMemberNote(item?.attendee?.property?.notes ? item.attendee.property.notes : null);
     }
 
@@ -101,9 +101,9 @@ const AppointmentDetailScreen = (props) => {
     //UPDATE MEMBER INFO API CALL
     const UpdateMemberInfoService = async () => {
         let member = memberInfo;
-        member.notes = memberNote;
+        member.property.notes = memberNote;
         try {
-            const response = await patchUserService(userID, member);
+            const response = await UpdateMemberService(memberID, member);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 console.log('Your Profile Updated');
             }

@@ -120,7 +120,7 @@ export default class AppointmentScreen extends Component {
     //ONPRESS TO SELECT DAY
     onPressSelectedDay = async (day) => {
         this.setState({ previousDay: day });
-        day = moment(day.dateString).format('YYYY-MM-DD');
+        day = day && day.dateString ? moment(day.dateString).format('YYYY-MM-DD') : { dateString: moment().format('YYYY-MM-DD') };
         let markedDates = {};
         markedDates[day] = { selected: true, marked: false, selectedColor: COLOR.DEFALUTCOLOR }
         this.setState({ selectedDay: markedDates, loading: true })

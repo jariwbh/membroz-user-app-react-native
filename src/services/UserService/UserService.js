@@ -4,11 +4,6 @@ export const getByIdUserService = (id) => {
     return Axios.get('users/' + id);
 }
 
-export const patchUserService = (id, body) => {
-    return Axios.patch('users/' + id, body);
-    //return Axios.put('users/' + id, body);
-}
-
 export const updateUserService = (id, body) => {
     return Axios.put('users/' + id, body);
 }
@@ -35,6 +30,10 @@ export const UserListService = () => {
         "formname": "user"
     }
     return Axios.post('users/filter', body);
+}
+
+export const UpdateMemberService = (id, body) => {
+    return Axios.put('members/' + id, body);
 }
 
 // {
