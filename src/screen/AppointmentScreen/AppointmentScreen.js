@@ -99,7 +99,22 @@ export default class AppointmentScreen extends Component {
         try {
             return AppintmentService(data).then(response => {
                 if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                    this.setState({ AppointmentList: response.data, loading: false });
+                    var appointmentLists = [...response.data];
+                    appointmentLists.map(p => {
+                        var starttime = p.timeslot.starttime.split(":");
+                        var hours = starttime[0];
+                        var minutes = starttime[1];
+                        if (hours && hours.length == 1) {
+                            hours = "0" + hours;
+                        }
+                        if (minutes && minutes.length == 1) {
+                            minutes = "0" + minutes;
+                        }
+                        p.starttime = hours + ":" + minutes + ":00";
+                    });
+
+                    appointmentLists.sort((a, b) => a.starttime.localeCompare(b.starttime));
+                    this.setState({ AppointmentList: appointmentLists, loading: false });
                 }
             })
         } catch (error) {

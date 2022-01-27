@@ -154,6 +154,25 @@ const AppointmentDetailScreen = (props) => {
         }
     }
 
+    //SAVE BUTTON CLICK TO CALL FUNCTION
+    const onPressToSaveNotes = async () => {
+        if (!memberNote) {
+            checkNote(memberNote);
+            return;
+        }
+        setloading(true);
+        try {
+            Keyboard.dismiss();
+            await UpdateMemberInfoService();
+            props.navigation.goBack(null);
+        }
+        catch (error) {
+            console.log(`error`, error);
+            firebase.crashlytics().recordError(error);
+            setloading(false);
+        }
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
@@ -234,8 +253,12 @@ const AppointmentDetailScreen = (props) => {
                     </View>
                     {memberNoteError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{memberNoteError}</Text>}
 
+                    <TouchableOpacity style={styles().doneBtn} onPress={() => onPressToSaveNotes()}>
+                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Save</Text>
+                    </TouchableOpacity>
+
                     <TouchableOpacity style={styles().doneBtn} onPress={() => onPressSubmit()}>
-                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Submit</Text>
+                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Forward  & Confirm</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

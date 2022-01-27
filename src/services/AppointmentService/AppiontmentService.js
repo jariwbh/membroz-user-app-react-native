@@ -5,7 +5,8 @@ export const AppintmentService = (data) => {
         "search": [
             { "searchfield": "appointmentdate", "searchvalue": data.datRange.gte, "criteria": "gte", "datatype": "Date", "cond": "and" },
             { "searchfield": "appointmentdate", "searchvalue": data.datRange.lte, "criteria": "lte", "datatype": "Date", "cond": "and" },
-            { "searchfield": "host", "searchvalue": data.id, "criteria": "eq", "datatype": "ObjectId" }], "sort": { "appointmentdate": -1 }
+            { "searchfield": "host", "searchvalue": data.id, "criteria": "eq", "datatype": "ObjectId" }],
+        "sort": { "appointmentdate": -1 }
     }
     return Axios.post('appointments/filter', body);
 }
