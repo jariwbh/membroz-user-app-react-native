@@ -258,7 +258,7 @@ const AppointmentDetailScreen = (props) => {
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles().doneBtn} onPress={() => onPressSubmit()}>
-                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Forward  & Confirm</Text>
+                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Save & Confirm</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
