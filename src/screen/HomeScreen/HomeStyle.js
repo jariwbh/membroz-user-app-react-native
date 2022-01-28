@@ -41,7 +41,7 @@ const styles = (colorcode) => StyleSheet.create(
       alignItems: KEY.CENTER,
       borderRadius: 20,
       backgroundColor: COLOR.WHITE,
-      marginTop: 20,
+      marginTop: 50,
       marginRight: 20,
       marginLeft: 20,
       flexDirection: KEY.ROW
@@ -60,9 +60,17 @@ const styles = (colorcode) => StyleSheet.create(
     text: {
       maxWidth: WIDTH / 2,
       fontSize: FONT.FONT_SIZE_22,
-      color: COLOR.DEFALUTCOLOR,
+      color: COLOR.BLACK_OLIVE,
       marginLeft: 5,
-      fontWeight: FONT.FONT_WEIGHT_NORMAL,
+      fontWeight: FONT.FONT_WEIGHT_BOLD,
+      textTransform: KEY.CAPITALIZE
+    },
+    text2: {
+      maxWidth: WIDTH / 2,
+      fontSize: FONT.FONT_SIZE_16,
+      color: COLOR.BLACK_OLIVE,
+      marginLeft: 5,
+      fontWeight: FONT.FONT_WEIGHT_BOLD,
       textTransform: KEY.CAPITALIZE
     },
     viewLine: {
@@ -74,15 +82,16 @@ const styles = (colorcode) => StyleSheet.create(
       marginTop: 0
     },
     viewMain: {
-      backgroundColor: COLOR.ANTI_FLASH_WHITE,
-      //marginTop: -HEIGHT / 5,
-      marginTop: 30,
-      height: HEIGHT,
-      width: WIDTH,
+      backgroundColor: COLOR.BACKGROUNDCOLOR,
+      //marginTop: 50,
+      // marginTop: 30,
+      // height: HEIGHT,
+      //width: WIDTH,
       borderTopLeftRadius: 25,
       borderTopRightRadius: 25,
       alignItems: KEY.CENTER,
-      justifyContent: KEY.CENTER
+      justifyContent: KEY.CENTER,
+      marginLeft: -2
     },
     viewRectangle: {
       borderLeftWidth: 70,
@@ -124,14 +133,10 @@ const styles = (colorcode) => StyleSheet.create(
       justifyContent: KEY.CENTER
     },
     viewSquareTwoColumn: {
-      height: 95,
+      height: 130,
       width: WIDTH / 2.2,
-      marginTop: 5,
-      marginRight: 3,
-      marginLeft: 3,
-      borderRightWidth: 5,
-      borderRadius: 4,
-      borderRightColor: colorcode,
+      margin: 6,
+      borderRadius: 10,
       shadowColor: COLOR.BLACK,
       shadowOffset: {
         width: 0,
@@ -141,7 +146,6 @@ const styles = (colorcode) => StyleSheet.create(
       shadowRadius: 2.22,
       elevation: 3,
       alignItems: KEY.FLEX_START,
-      marginBottom: 0,
       backgroundColor: COLOR.WHITE
     },
     viewSquareThreeColumn: {

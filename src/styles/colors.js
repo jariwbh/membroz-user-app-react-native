@@ -1,9 +1,9 @@
 //APP MAIN COLOR
-export const DEFALUTCOLOR = '#39BB5C'; //'#C42B32' //'#FC7845'; 
-export const DEFAULTLIGHT = '#99CE75';
+export const DEFALUTCOLOR = '#FC7845';
+export const DEFAULTLIGHT = '#FDA786';
 export const BACKGROUNDCOLOR = '#FFFFFF';
 export const SPLASHCOLOR = '#FFFFFF';
-export const STATUSCOLOR = '#39BB5C';
+export const STATUSCOLOR = '#FC7845';
 
 //BASIC COLOR
 export const PRIMARY = '#1779ba';
@@ -91,10 +91,15 @@ export const CHECKOUT_COLOR = '#47CCBF'
 
 //krtya HR 
 // export const DEFALUTCOLOR = '#FC7845';
-// export const BACKGROUNDCOLOR = '#FFFFFF';
 // export const DEFAULTLIGHT = '#FDA786';
+// export const BACKGROUNDCOLOR = '#FFFFFF';
+// export const SPLASHCOLOR = '#FFFFFF';
+// export const STATUSCOLOR = '#FC7845';
 
 //dubai yoga topic
 // export const DEFALUTCOLOR = '#39BB5C';
 // export const DEFAULTLIGHT = '#99CE75';
+// export const BACKGROUNDCOLOR = '#FFFFFF';
+// export const SPLASHCOLOR = '#FFFFFF';
+// export const STATUSCOLOR = '#39BB5C';
 

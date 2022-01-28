@@ -47,23 +47,23 @@ const WIDTH = Dimensions.get('window').width;
 
 //STATIC DATA
 let MenuDefaultArray = [
-  { "menuname": "freshlead", "title": "Fresh Call", "screenname": "FreshLeadScreen", "colorcode": "#2AAA63", "imageurl": IMAGE.PHONE_WITH_WIRE, "height": 20, "width": 20 },
-  { "menuname": "followup", "title": "Follow Up", "screenname": "FollowupScreen", "colorcode": "#FF4D4D", "imageurl": IMAGE.CLOCK, "height": 20, "width": 20 },
-  { "menuname": "meeting", "title": "Meeting", "screenname": "MeetingScreen", "colorcode": "#007AFF", "imageurl": IMAGE.IC_GROUP, "height": 20, "width": 20 },
-  { "menuname": "mylead", "title": "My Lead", "screenname": "MyLeadScreen", "colorcode": "#B366FF", "imageurl": IMAGE.PORTFOLIO, "height": 20, "width": 20 },
-  { "menuname": "attendance", "title": "Attendance", "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 20, "width": 20 },
-  { "menuname": "calender", "title": "Calender", "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 20, "width": 20 },
-  { "menuname": "booking", "title": "Book a Holiday", "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 20, "width": 20 },
-  { "menuname": "appointment", "title": "My Appointment", "screenname": "AppointmentScreen", "colorcode": "#F2542C", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 20, "width": 20 },
-  { "menuname": "event", "title": "Event", "screenname": "EventScreen", "colorcode": "#C889F2", "imageurl": IMAGE.IC_EVENT, "height": 20, "width": 20 },
-  { "menuname": "salary", "title": "My Salary", "screenname": "SalaryScreen", "colorcode": "#4B9E47", "imageurl": IMAGE.PAYMENT_ICON, "height": 20, "width": 23 },
-  { "menuname": "leave", "title": "My Leave", "screenname": "LeaveScreen", "colorcode": "#91479E", "imageurl": IMAGE.IC_PRESCRIPTION, "height": 20, "width": 20 },
-  { "menuname": "timesheet", "title": "Timesheet", "screenname": "TimesheetScreen", "colorcode": "#757FD9", "imageurl": IMAGE.TIMELINEICON, "height": 20, "width": 20 },
-  { "menuname": "claim", "title": "My Claim", "screenname": "MyClaimScreen", "colorcode": "#EB4034", "imageurl": IMAGE.CLAIMICON, "height": 20, "width": 20 },
-  { "menuname": "announcement", "title": "Announcement", "screenname": "AnnouncementScreen", "colorcode": "#CFD03B", "imageurl": IMAGE.NOTICE_OUTLINE, "height": 20, "width": 20 },
-  { "menuname": "team", "title": "Team", "screenname": "MyTeamScreen", "colorcode": "#0099EB", "imageurl": IMAGE.IC_GROUP, "height": 20, "width": 20 },
-  { "menuname": "support", "title": "Support", "screenname": "SupportScreen", "colorcode": "#F9C688", "imageurl": IMAGE.SUPPORT_ICON, "height": 25, "width": 14 },
-  { "menuname": "referfriend", "title": "Refer a Friend", "screenname": "ReferFriendScreen", "colorcode": "#9E7347", "imageurl": IMAGE.REFERICON, "height": 20, "width": 20 },
+  { "menuname": "freshlead", "title": "Fresh Call", "screenname": "FreshLeadScreen", "colorcode": "#2AAA63", "imageurl": IMAGE.PHONE_WITH_WIRE, "height": 30, "width": 30 },
+  { "menuname": "followup", "title": "Follow Up", "screenname": "FollowupScreen", "colorcode": "#FF4D4D", "imageurl": IMAGE.CLOCK, "height": 30, "width": 30 },
+  { "menuname": "meeting", "title": "Meeting", "screenname": "MeetingScreen", "colorcode": "#007AFF", "imageurl": IMAGE.IC_GROUP, "height": 30, "width": 30 },
+  { "menuname": "mylead", "title": "My Lead", "screenname": "MyLeadScreen", "colorcode": "#B366FF", "imageurl": IMAGE.PORTFOLIO, "height": 30, "width": 30 },
+  { "menuname": "attendance", "title": "Attendance", "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 30, "width": 30 },
+  { "menuname": "calender", "title": "Calender", "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 30, "width": 30 },
+  { "menuname": "booking", "title": "Book a Holiday", "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 30, "width": 30 },
+  { "menuname": "appointment", "title": "My Appointment", "screenname": "AppointmentScreen", "colorcode": "#F2542C", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 30, "width": 30 },
+  { "menuname": "event", "title": "Event", "screenname": "EventScreen", "colorcode": "#C889F2", "imageurl": IMAGE.IC_EVENT, "height": 30, "width": 30 },
+  { "menuname": "salary", "title": "My Salary", "screenname": "SalaryScreen", "colorcode": "#4B9E47", "imageurl": IMAGE.PAYMENT_ICON, "height": 30, "width": 33 },
+  { "menuname": "leave", "title": "My Leave", "screenname": "LeaveScreen", "colorcode": "#91479E", "imageurl": IMAGE.IC_PRESCRIPTION, "height": 30, "width": 30 },
+  { "menuname": "timesheet", "title": "Timesheet", "screenname": "TimesheetScreen", "colorcode": "#757FD9", "imageurl": IMAGE.TIMELINEICON, "height": 30, "width": 30 },
+  { "menuname": "claim", "title": "My Claim", "screenname": "MyClaimScreen", "colorcode": "#EB4034", "imageurl": IMAGE.CLAIMICON, "height": 30, "width": 30 },
+  { "menuname": "announcement", "title": "Announcement", "screenname": "AnnouncementScreen", "colorcode": "#CFD03B", "imageurl": IMAGE.NOTICE_OUTLINE, "height": 30, "width": 30 },
+  { "menuname": "team", "title": "Team", "screenname": "MyTeamScreen", "colorcode": "#0099EB", "imageurl": IMAGE.IC_GROUP, "height": 30, "width": 30 },
+  { "menuname": "support", "title": "Support", "screenname": "SupportScreen", "colorcode": "#F9C688", "imageurl": IMAGE.SUPPORT_ICON, "height": 40, "width": 21 },
+  { "menuname": "referfriend", "title": "Refer a Friend", "screenname": "ReferFriendScreen", "colorcode": "#9E7347", "imageurl": IMAGE.REFERICON, "height": 30, "width": 30 },
 ];
 
 //HOME SCREEN FUNCTION
@@ -107,8 +107,8 @@ const HomeScreen = (props) => {
         var userInfo = await LocalService.LocalStorageService();
         getuserid = userInfo?._id;
         await RemoteController();
-        setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
-        setUserName(userInfo?.fullname.substring(0, 15));
+        setUserDesignation(userInfo?.designationid?.title);
+        setUserName(userInfo?.fullname);
         setUserID(userInfo?._id);
         getNotification(userInfo?._id);
         getCheckinTime(userInfo?._id);
@@ -206,8 +206,8 @@ const HomeScreen = (props) => {
     if (userInfo) {
       getuserid = userInfo?._id;
       setUserInfo(userInfo);
-      setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
-      setUserName(userInfo?.fullname.substring(0, 15));
+      setUserDesignation(userInfo?.designationid?.title);
+      setUserName(userInfo?.fullname);
       setUserID(userInfo?._id);
       getUserDeatils(userInfo?._id);
       getCheckinTime(userInfo?._id);
@@ -286,15 +286,17 @@ const HomeScreen = (props) => {
 
   //MENU RENDER FUNCTION
   const renderMenu = (item) => (
-    <TouchableOpacity onPress={() => props.navigation.navigate(item.item.screenname)} style={{ marginBottom: 5 }}>
-      <View style={WIDTH <= 420 ? styles(item.item.colorcode).viewSquareTwoColumn : styles(item.item.colorcode).viewSquareThreeColumn}>
+    <TouchableOpacity onPress={() => props.navigation.navigate(item.item.screenname)} style={{ marginBottom: 0 }}>
+      <View style={styles(item.item.colorcode).viewSquareTwoColumn}>
         <View style={{
-          height: 40, width: 40, marginBottom: 10, backgroundColor: item.item.colorcode, borderRadius: 100,
-          justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 15, marginLeft: 20
+          height: 70, width: 70, marginBottom: 10, backgroundColor: item.item.colorcode, borderRadius: 100,
+          justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 15, alignSelf: KEY.CENTER, marginLeft: -5
         }}>
           <Image source={item.item.imageurl} style={{ height: item.item.height, width: item.item.width }} />
         </View>
-        <Text numberOfLines={1} style={{ flex: 1, fontSize: FONT.FONT_SIZE_16, marginLeft: 20, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR }}>{item.item.title}</Text>
+        <Text numberOfLines={1}
+          style={{ flex: 1, textAlign: 'center', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR }}>
+          {item.item.title}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -524,58 +526,52 @@ const HomeScreen = (props) => {
     !visibleModel ?
       <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
         <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
-        <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ width: WIDTH, height: HEIGHT }}>
-          <View style={{ justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: Platform.OS === KEY.IOS ? 25 : 35 }}>
+        {/* <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={{ width: WIDTH, height: HEIGHT }}> */}
+        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
+          <View style={{
+            justifyContent: !scanIconVisible ? KEY.FLEX_END : KEY.SPACEBETWEEN || !sharedIconVisible ? KEY.SPACEBETWEEN : KEY.FLEX_END,
+            alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: Platform.OS === KEY.IOS ? 25 : 35
+          }}>
             {
               scanIconVisible &&
               <TouchableOpacity onPress={() => checkDayInTime()}
-                style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.WHITE, marginLeft: 15, marginTop: 10 }}>
-                <Icon name='qrcode-scan' size={28} color={COLOR.WHITE} />
+                style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, tintColor: COLOR.BLACK, marginLeft: 15, marginTop: 10 }}>
+                <Icon name='qrcode-scan' size={28} color={COLOR.BLACK} />
               </TouchableOpacity>
             }
+
             {
               sharedIconVisible &&
               <TouchableOpacity onPress={() => onPressShareButton()}
                 style={{ justifyContent: KEY.FLEX_START, alignItems: KEY.FLEX_START, marginLeft: !scanIconVisible ? WIDTH / 2 + 100 : WIDTH / 2 + 30, marginRight: !scanIconVisible ? 15 : 0, marginTop: !scanIconVisible ? 10 : 10 }}>
-                <Ionicons name='share-social' size={30} color={COLOR.WHITE} />
+                <Ionicons name='share-social' size={30} color={COLOR.BLACK} />
               </TouchableOpacity>
             }
+
             {
               notificationIconVisible &&
               <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.NOTIFICATIONSCREEN)}
-                style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, marginRight: 25, marginTop: !scanIconVisible ? 0 : -15 || !sharedIconVisible ? 0 : -15 }}>
-                <Ionicons name='notifications-outline' size={30} color={COLOR.WHITE} />
+                style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, marginRight: 20, marginTop: !scanIconVisible ? 0 : -15 || !sharedIconVisible ? 0 : -15 }}>
+                <Ionicons name='notifications-outline' size={30} color={COLOR.BLACK} />
                 <View style={{ marginLeft: 0, marginBottom: !sharedIconVisible ? 0 : 0, marginTop: -40, height: 22, width: 22, borderRadius: 100, justifyContent: KEY.CENTER, alignItems: KEY.CENTER, backgroundColor: COLOR.NOTIFICATION_COLOR }}>
-                  <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, fontSize: 12, color: COLOR.WHITE }}>{notification}</Text>
+                  <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, fontSize: 12, color: COLOR.BLACK }}>{notification}</Text>
                 </View>
               </TouchableOpacity>
             }
           </View>
 
-          <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-            <TouchableOpacity style={styles().viewPhoto} onPress={() => props.navigation.navigate(SCREEN.GALLERYSCREEN)}>
-              <Image source={IMAGE.PICTURE_ICON} style={styles().picture_Icon_iconPhoto} />
-              <Text style={{ color: COLOR.WHITE, marginTop: 0, marginLeft: 10 }}>{`${photoCounter}` + ' ' + 'Photos'} </Text>
-              <Icon name='chevron-right' size={25} style={styles().arror_iconPhoto} />
-            </TouchableOpacity>
+          <View style={{ marginTop: 30, marginLeft: 10 }}>
+            <Text style={styles().text} numberOfLines={1}>Welcome,</Text>
+            <Text style={styles().text} numberOfLines={1}>{userName}</Text>
+            {/* <Text style={styles().text2} numberOfLines={1}>{userDesignation}</Text> */}
           </View>
 
-          <View style={styles().viewName}>
-            <TouchableOpacity onPress={() => onTouchViewProfile(userProfilePic)} style={styles().viweRound}>
-              <Image source={!userProfilePic ? IMAGE.USERPROFILE : { uri: userProfilePic }}
-                style={!userProfilePic ? { height: 70, width: 70 } : { height: 95, width: 95, borderRadius: 100 }} />
-            </TouchableOpacity>
-
-            <View>
-              <View style={{ flexDirection: KEY.COLUMN }}>
-                <Text style={styles().text} numberOfLines={1}>{userName}</Text>
-                <Text style={{ color: COLOR.MENU_TEXT_COLOR, fontSize: FONT.FONT_SIZE_16, marginLeft: 5, maxWidth: WIDTH / 2, }} numberOfLines={1}>{userDesignation}</Text>
-              </View>
-            </View>
-
-            <View style={styles().viewLine} />
+          <View style={{ ustifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, marginTop: -70, marginRight: 20 }}>
             <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.UPDATEPROFILESCREEN)}>
-              <Image source={IMAGE.PENCIL_ICON_SIMPLE} style={{ height: 20, width: 20, tintColor: COLOR.DEFALUTCOLOR, margin: 8 }} />
+              <View style={{ height: 84, width: 84, borderColor: COLOR.DEFALUTCOLOR, borderRadius: 100, borderWidth: 2 }}>
+                <Image source={!userProfilePic ? IMAGE.USERPROFILE : { uri: userProfilePic }}
+                  style={{ height: 80, width: 80, borderRadius: 100 }} />
+              </View>
             </TouchableOpacity>
           </View>
 
@@ -606,24 +602,21 @@ const HomeScreen = (props) => {
             <FlatList
               style={{ marginTop: 15 }}
               data={mobileapppermissions}
-              numColumns={WIDTH <= 420 ? 2 : 3}
-              scrollEnabled={true}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
+              numColumns={2}
               keyExtractor={(item, index) => index.toString()}
               keyboardShouldPersistTaps={KEY.ALWAYS}
               renderItem={renderMenu}
-              contentContainerStyle={{ paddingBottom: HEIGHT / 2 + 100, alignSelf: KEY.CENTER }}
+              contentContainerStyle={{ paddingBottom: 20, alignSelf: KEY.CENTER }}
             />
           </View>
-
-
-        </ImageBackground>
+        </ScrollView>
+        {/* </ImageBackground> */}
         {loading ? <Loader /> : null}
       </SafeAreaView>
       :
       <SafeAreaView style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)' }}>
         <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
+
         {/* message model Pop */}
         <Modal
           animationType='slide'
@@ -652,4 +645,5 @@ const HomeScreen = (props) => {
       </SafeAreaView>
   );
 }
+
 export default HomeScreen;
