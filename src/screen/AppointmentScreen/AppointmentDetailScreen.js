@@ -9,23 +9,26 @@ import {
     StatusBar,
     TouchableOpacity, TextInput, Keyboard
 } from 'react-native';
+import { patchAppointmentService } from '../../services/AppointmentService/AppiontmentService';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { UpdateMemberService } from '../../services/UserService/UserService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { DEFAULTPROFILE } from '../../context/actions/type';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import Loader from '../../components/loader/index';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import Toast from 'react-native-simple-toast';
 import styles from './Style';
 import moment from 'moment';
-import * as SCREEN from '../../context/screen/screenName';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import * as LocalService from '../../services/LocalService/LocalService';
-import Loader from '../../components/loader/index';
-import Toast from 'react-native-simple-toast';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import { DEFAULTPROFILE } from '../../context/actions/type';
-import { UpdateMemberService } from '../../services/UserService/UserService';
-import { patchAppointmentService } from '../../services/AppointmentService/AppiontmentService';
+
 const WIDTH = Dimensions.get('window').width;
 
 const AppointmentDetailScreen = (props) => {
@@ -39,6 +42,8 @@ const AppointmentDetailScreen = (props) => {
     const [appointmentID, setAppointmentID] = useState(null);
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         getUserDeatilsLocalStorage();
     }, []);
 
@@ -71,7 +76,7 @@ const AppointmentDetailScreen = (props) => {
     //CHECK VALIDATION OF NOTE
     const checkNote = (note) => {
         if (!note || note.length <= 0) {
-            setMemberNoteError('Notes Required!');
+            setMemberNoteError(languageConfig.notesrequired);
             setMemberNote(note);
             return;
         }
@@ -85,7 +90,7 @@ const AppointmentDetailScreen = (props) => {
         if (url) {
             return props.navigation.navigate(SCREEN.WEBVIEWSCREEN, { url })
         } else {
-            Toast.show('Join meeting problem', Toast.SHORT);
+            Toast.show(languageConfig.Joinmeetingproblem, Toast.SHORT);
         }
     }
 
@@ -123,14 +128,14 @@ const AppointmentDetailScreen = (props) => {
             const response = await patchAppointmentService(appointmentID, body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setloading(false);
-                Toast.show('Your appointment confirmed', Toast.LONG);
+                Toast.show(languageConfig.yourappointmentconfirmed, Toast.LONG);
             }
         }
         catch (error) {
             console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setloading(false);
-            Toast.show('Your appointment not confirmed', Toast.LONG);
+            Toast.show(languageConfig.yourappointmenterror, Toast.LONG);
         }
     }
 
@@ -148,7 +153,6 @@ const AppointmentDetailScreen = (props) => {
             props.navigation.goBack(null);
         }
         catch (error) {
-            console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setloading(false);
         }
@@ -167,7 +171,6 @@ const AppointmentDetailScreen = (props) => {
             props.navigation.goBack(null);
         }
         catch (error) {
-            console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setloading(false);
         }
@@ -225,20 +228,20 @@ const AppointmentDetailScreen = (props) => {
                         <View style={{ flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginTop: 10 }}>
                             <MaterialCommunityIcons name='calendar' size={20} color={COLOR.BLACK} style={{ marginRight: 10 }} />
                             <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK, marginTop: 5 }}>
-                                {'Booked on ' + moment(bookingDate).format('LL')}
+                                {languageConfig.bookedontext + ' ' + moment(bookingDate).format('LL')}
                             </Text>
                         </View>
                     }
 
                     {meetingUrl &&
                         <TouchableOpacity style={styles().meetingBtn} onPress={() => openWebView(meetingUrl)}>
-                            <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Join Now</Text>
+                            <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>{languageConfig.joinnow}</Text>
                         </TouchableOpacity>
                     }
 
-                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK, marginTop: 10 }}>Notes : </Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK, marginTop: 10 }}>{languageConfig.notestext} : </Text>
                     <View style={{ marginTop: 5, marginLeft: -20, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        <TextInput placeholder="Notes"
+                        <TextInput placeholder={languageConfig.notestext}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             style={styles().noteView}
                             style={memberNoteError == null ? styles().noteView : styles().noteViewError}
@@ -254,11 +257,11 @@ const AppointmentDetailScreen = (props) => {
                     {memberNoteError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 5 }}>{memberNoteError}</Text>}
 
                     <TouchableOpacity style={styles().doneBtn} onPress={() => onPressToSaveNotes()}>
-                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Save</Text>
+                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>{languageConfig.savetext}</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles().doneBtn} onPress={() => onPressSubmit()}>
-                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Save & Confirm</Text>
+                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>{languageConfig.saveconfirm}</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

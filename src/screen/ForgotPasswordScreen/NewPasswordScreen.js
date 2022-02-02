@@ -11,18 +11,21 @@ import {
     StyleSheet,
     StatusBar, Image, Keyboard
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-import AsyncStorage from '@react-native-community/async-storage';
-import { REMOTEDATA } from '../../context/actions/type';
-import Loader from '../../components/loader/index';
 import { ForgetPasswordService } from '../../services/PasswordService/PasswordService';
-import Toast from 'react-native-simple-toast';
-import axiosConfig from '../../helpers/axiosConfig';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import AsyncStorage from '@react-native-community/async-storage';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import { REMOTEDATA } from '../../context/actions/type';
+import axiosConfig from '../../helpers/axiosConfig';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
@@ -55,7 +58,7 @@ const NewPasswordScreen = (props) => {
     //check password validation
     const setNewPasswordCheck = (password) => {
         if (!password || password.length <= 0) {
-            setNewPassworderror('New Password Required!');
+            setNewPassworderror(languageConfig.newpassworderror);
             return;
         }
         setNewPassword(password);
@@ -66,7 +69,7 @@ const NewPasswordScreen = (props) => {
     //check password validation
     const setRePasswordCheck = (repassword) => {
         if (!repassword || repassword.length <= 0) {
-            setRePassworderror('Confirm Required!');
+            setRePassworderror(languageConfig.confirmpassworderror);
             return;
         }
         setRePassword(repassword);
@@ -93,8 +96,8 @@ const NewPasswordScreen = (props) => {
         }
 
         if (newPassword != rePassword) {
-            setRePassworderror(`Can't Match Confirm Password`);
-            setNewPassworderror(`Can't Match Password`);
+            setRePassworderror(languageConfig.repassworderror);
+            setNewPassworderror(languageConfig.renewpassworderror);
             return;
         }
 
@@ -107,13 +110,13 @@ const NewPasswordScreen = (props) => {
             const response = await ForgetPasswordService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setloading(false);
-                Toast.show('Your Password is Reset', Toast.SHORT);
+                Toast.show(languageConfig.resetsuccesmessage, Toast.SHORT);
                 props.navigation.replace(SCREEN.LOGINSCREEN)
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);
             resetScreen();
-            Toast.show('Something wrong, try again letter!', Toast.SHORT);
+            Toast.show(languageConfig.reseterrormessage, Toast.SHORT);
         };
     }
 
@@ -128,7 +131,7 @@ const NewPasswordScreen = (props) => {
                             <View>
                                 <TextInput
                                     selectionColor={COLOR.DEFALUTCOLOR}
-                                    placeholder="NewPassword"
+                                    placeholder={languageConfig.newpasswordplaceholder}
                                     placeholderTextColor={COLOR.WHITE}
                                     selectionColor={COLOR.WHITE}
                                     style={!newPassworderror ? styles.inputTextView : styles.inputTextViewError}
@@ -145,7 +148,7 @@ const NewPasswordScreen = (props) => {
                             <View>
                                 <TextInput
                                     selectionColor={COLOR.DEFALUTCOLOR}
-                                    placeholder="Confirm Password"
+                                    placeholder={languageConfig.confirmpasswordplaceholder}
                                     placeholderTextColor={COLOR.WHITE}
                                     selectionColor={COLOR.WHITE}
                                     style={!rePassworderror ? styles.inputTextView : styles.inputTextViewError}
@@ -161,7 +164,7 @@ const NewPasswordScreen = (props) => {
                             </View>
                         </View>
                         <TouchableOpacity style={styles.forgotButton} onPress={() => onPressSubmit()}>
-                            <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Reset Password</Text>
+                            <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>{languageConfig.resetpasswordbtn}</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -170,7 +173,9 @@ const NewPasswordScreen = (props) => {
         </SafeAreaView>
     );
 }
+
 export default NewPasswordScreen;
+
 const styles = StyleSheet.create({
     containerView: {
         justifyContent: KEY.CENTER,

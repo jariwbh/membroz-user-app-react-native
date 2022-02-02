@@ -25,6 +25,8 @@ target 'membroz_user_app' do
   # pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
   pod 'RNExitApp', :path => '../node_modules/react-native-exit-app'
   pod 'react-native-restart', :path => '../node_modules/react-native-restart'
+  pod 'ReactNativeLocalization', :path => '../node_modules/react-native-localization'
+
   target 'membroz_user_appTests' do
     inherit! :complete
     # Pods for testing

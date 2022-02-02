@@ -8,17 +8,20 @@ import {
     Text, FlatList, TouchableOpacity,
     StatusBar, RefreshControl
 } from 'react-native';
-import * as IMAGE from '../../styles/image'
-import * as FONT from '../../styles/typography'
-import * as COLOR from '../../styles/colors'
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-import styles from './styles';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import Loader from '../../components/loader/index';
-import moment from 'moment';
-import * as LocalService from '../../services/LocalService/LocalService';
 import { AannouncementService } from '../../services/NotificationService/NotificationService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import styles from './styles';
+import moment from 'moment'; 3
+
 const WIDTH = Dimensions.get('window').width;
 
 const AnnouncementScreen = (props) => {
@@ -28,6 +31,8 @@ const AnnouncementScreen = (props) => {
     const [refreshing, setrefreshing] = useState(false);
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setLoading(true);
         getUserDeatilsLocalStorage();
     }, [])
@@ -95,7 +100,7 @@ const AnnouncementScreen = (props) => {
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
-                            title="Pull to refresh"
+                            title={languageConfig.pullrefreshtext}
                             tintColor={COLOR.DEFALUTCOLOR}
                             titleColor={COLOR.DEFALUTCOLOR}
                             colors={[COLOR.DEFALUTCOLOR]}
@@ -108,7 +113,7 @@ const AnnouncementScreen = (props) => {
                 loading == false ?
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                     </View>
                     : <Loader />
             }

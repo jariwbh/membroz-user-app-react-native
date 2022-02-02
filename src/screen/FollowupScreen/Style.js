@@ -1,10 +1,7 @@
-import React from 'react';
-import {
-  StyleSheet, Dimensions
-} from 'react-native';
-import * as COLOR from '../../styles/colors';
+import { StyleSheet, Dimensions } from 'react-native';
 import * as FONT from '../../styles/typography';
 import * as KEY from '../../context/actions/key';
+import * as COLOR from '../../styles/colors';
 
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;

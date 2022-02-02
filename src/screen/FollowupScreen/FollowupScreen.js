@@ -8,23 +8,26 @@ import {
     View, FlatList, RefreshControl,
     StatusBar, TouchableOpacity, Pressable
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-import { followUpService } from '../../services/FollowUpService/FollowUpService';
-import Loader from '../../components/loader/index';
-import * as LocalService from '../../services/LocalService/LocalService';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import { useFocusEffect } from '@react-navigation/native';
-import styles from './Style';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
+import { followUpService } from '../../services/FollowUpService/FollowUpService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import languageConfig from '../../languages/languageConfig';
+import { useFocusEffect } from '@react-navigation/native';
+import * as SCREEN from '../../context/screen/screenName';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import styles from './Style';
 import moment from 'moment';
+
 const WIDTH = Dimensions.get('window').width;
 
 const FollowupScreen = (props) => {
@@ -41,6 +44,8 @@ const FollowupScreen = (props) => {
     );
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setLoading(true);
     }, []);
 
@@ -142,19 +147,19 @@ const FollowupScreen = (props) => {
                         </TouchableOpacity>
                     </View>
                     <View style={{ marginLeft: 20, justifyContent: KEY.CENTER, marginTop: 5, marginBottom: 10 }}>
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: 'center' }}>
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: KEY.CENTER }}>
                             <Entypo size={25} name="user" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                             <Text style={styles.textsub}>{item?.customerid?.property?.fullname}</Text>
                         </View>
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: 'center' }}>
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: KEY.CENTER }}>
                             <Ionicons size={25} name="call-outline" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                             <Text style={styles.textsub}>{item?.customerid?.property?.mobile}</Text>
                         </View>
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: 'center', marginBottom: 0 }}>
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: KEY.CENTER, marginBottom: 0 }}>
                             <MaterialCommunityIcons size={25} name="calendar" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                             <Text style={styles.textDate}>{moment(item?.duedate).format('lll')}</Text>
                         </View>
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: 'center' }}>
+                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: KEY.CENTER }}>
                             <FontAwesome5 size={23} name="user-cog" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
                             <Text style={styles.textsub}>{item?.addedby?.fullname}</Text>
                         </View>
@@ -219,7 +224,7 @@ const FollowupScreen = (props) => {
                             refreshControl={
                                 <RefreshControl
                                     refreshing={refreshing}
-                                    title="Pull to refresh"
+                                    title={languageConfig.pullrefreshtext}
                                     tintColor={COLOR.DEFALUTCOLOR}
                                     titleColor={COLOR.DEFALUTCOLOR}
                                     colors={[COLOR.DEFALUTCOLOR]}
@@ -229,7 +234,7 @@ const FollowupScreen = (props) => {
                                 SearchfollowUp && SearchfollowUp.length == 0 &&
                                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                     <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 50 }} resizeMode={KEY.CONTAIN} />
-                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                                 </View>
                             )}
                         />
@@ -240,7 +245,7 @@ const FollowupScreen = (props) => {
                     <>
                         <View activeOpacity={0.7} style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                             <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 150 }} resizeMode={KEY.CONTAIN} />
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                         </View>
                     </>
                     : <Loader />

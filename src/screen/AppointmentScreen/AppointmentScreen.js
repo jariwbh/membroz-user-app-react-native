@@ -10,20 +10,23 @@ import {
     TouchableOpacity,
     FlatList
 } from 'react-native';
+import { AppintmentService } from '../../services/AppointmentService/AppiontmentService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import { AUTHUSER, DEFAULTPROFILE } from '../../context/actions/type';
+import AsyncStorage from '@react-native-community/async-storage';
+import languageConfig from '../../languages/languageConfig';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
 import { Calendar } from 'react-native-calendars';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import moment from 'moment';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import AsyncStorage from '@react-native-community/async-storage';
-import { AUTHUSER, DEFAULTPROFILE } from '../../context/actions/type';
-import * as SCREEN from '../../context/screen/screenName';
 import styles from './Style';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { AppintmentService } from '../../services/AppointmentService/AppiontmentService';
+import moment from 'moment';
+
 const WIDTH = Dimensions.get('window').width;
 
 export default class AppointmentScreen extends Component {
@@ -124,6 +127,8 @@ export default class AppointmentScreen extends Component {
     }
 
     async componentDidMount() {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         this.getUserData();
     }
 
@@ -355,7 +360,7 @@ export default class AppointmentScreen extends Component {
                     />
                     {(this.state.AppointmentList && this.state.AppointmentList.length > 0) &&
                         <View>
-                            <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 10, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>List of Appintments</Text>
+                            <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 10, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>{languageConfig.listofappintments}</Text>
                             <FlatList
                                 data={this.state.AppointmentList}
                                 renderItem={this.renderAllAppointmentList}

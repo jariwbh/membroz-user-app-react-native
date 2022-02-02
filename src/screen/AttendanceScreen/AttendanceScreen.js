@@ -10,19 +10,22 @@ import {
 } from 'react-native';
 import { AttendenceService } from '../../services/AttendanceService/AttendanceService';
 import { HodidayService } from '../../services/CalenderService/CalenderService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import * as LocalService from '../../services/LocalService/LocalService';
+import AsyncStorage from '@react-native-community/async-storage';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
 import { Calendar } from 'react-native-calendars';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import moment from 'moment';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import AsyncStorage from '@react-native-community/async-storage';
-import { AUTHUSER } from '../../context/actions/type';
-import * as SCREEN from '../../context/screen/screenName';
 import styles from './Style';
+import moment from 'moment';
+
 const WIDTH = Dimensions.get('window').width;
 
 export default class AttendanceScreen extends Component {
@@ -98,6 +101,8 @@ export default class AttendanceScreen extends Component {
     }
 
     componentDidMount() {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         this.getUserData();
     }
 
@@ -205,7 +210,7 @@ export default class AttendanceScreen extends Component {
             </View>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
                 <Text style={styles.rectangleText}>CheckIn Time : {moment(item.checkin).format('h:mm:ss a')}</Text>
-                {item.checkout && <Text style={styles.rectangleText}>CheckOut Time : {moment(item.checkout).format('h:mm:ss a')}</Text>}
+                {item.checkout && <Text style={styles.rectangleText}>{languageConfig.checkouttime + ' : ' + moment(item.checkout).format('h:mm:ss a')}</Text>}
                 <Text style={styles.rectangleText}>Total Time : {this.getCalculateTime(item)}</Text>
             </View>
         </View>
@@ -247,7 +252,7 @@ export default class AttendanceScreen extends Component {
                     />
                     {(this.state.attendenceList && this.state.attendenceList.length > 0) &&
                         <View>
-                            <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 15, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>List of Attendance</Text>
+                            <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 15, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>{languageConfig.attendanceheader}</Text>
                             <FlatList
                                 data={this.state.attendenceList}
                                 renderItem={this.renderAllAttendencesList}

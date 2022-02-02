@@ -11,18 +11,21 @@ import {
     ScrollView
 } from 'react-native';
 import styles from './Style';
-import * as IMAGE from '../../styles/image'
-import * as FONT from '../../styles/typography'
-import * as COLOR from '../../styles/colors'
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-import moment from 'moment';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Calendar } from 'react-native-calendars';
-import Loader from '../../components/loader/index';
-import SelectDropdown from 'react-native-select-dropdown';
 import { CalenderService } from '../../services/CalenderService/CalenderService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import SelectDropdown from 'react-native-select-dropdown';
+import Loader from '../../components/loader/index';
+import { Calendar } from 'react-native-calendars';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import moment from 'moment';
+
 const dropdowndata = ["All", "Holiday", "Event"];
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -58,6 +61,8 @@ export default class CalendarScreen extends Component {
     }
 
     componentDidMount() {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         this.getHolidayService();
     }
 
@@ -210,7 +215,7 @@ export default class CalendarScreen extends Component {
 
                     {(this.state.holidaysList == null) || (this.state.holidaysList && this.state.holidaysList.length > 0) &&
                         <View>
-                            <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 15, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>List of {this.state.selectedItem}</Text>
+                            <Text style={{ fontSize: 18, marginLeft: 20, color: COLOR.BLACK, marginTop: 15, marginBottom: 5, textTransform: KEY.CAPITALIZE }}>{languageConfig.listof + ' ' + this.state.selectedItem}</Text>
                             <FlatList
                                 data={this.state.currentMonthHolidays}
                                 renderItem={this.renderHolidaysList}
@@ -220,7 +225,7 @@ export default class CalendarScreen extends Component {
                                     this.state.currentMonthHolidays && this.state.currentMonthHolidays.length == 0 &&
                                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 50 }} resizeMode={KEY.CONTAIN} />
-                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                                     </View>
                                 )}
                             />

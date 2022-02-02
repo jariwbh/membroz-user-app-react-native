@@ -12,34 +12,37 @@ import {
     FlatList, TextInput,
     Linking, RefreshControl, Modal, Keyboard
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-import styles from './Style';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
-import * as LocalService from '../../services/LocalService/LocalService';
-import moment from 'moment';
-import Toast from 'react-native-simple-toast';
-import Loader from '../../components/loader/index';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import { DispositionService, followupHistoryService, addDispositionService } from '../../services/DispositionService/DispositionService';
-import TreeView from "react-native-animated-tree-view";
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Picker } from '@react-native-picker/picker';
-const WIDTH = Dimensions.get('window').width;
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
 import { UserListService } from '../../services/UserService/UserService';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import languageConfig from '../../languages/languageConfig';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as SCREEN from '../../context/screen/screenName';
+import TreeView from "react-native-animated-tree-view";
+import Entypo from 'react-native-vector-icons/Entypo';
+import { Picker } from '@react-native-picker/picker';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import styles from './Style';
+import moment from 'moment';
+
+const WIDTH = Dimensions.get('window').width;
 const ListTab = [
     {
-        'status': 'disposition'
+        'status': languageConfig.dispositiontext
     },
     {
-        'status': 'followup history'
+        'status': languageConfig.followuphistory
     }
 ]
 
@@ -55,7 +58,7 @@ const FollowupDetailScreen = (props) => {
     const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
     const [formFields, setFormFields] = useState([]);
     const [isFollowUpChecked, setIsFollowUpChecked] = useState(false);
-    const [status, setStatus] = useState('disposition');
+    const [status, setStatus] = useState(languageConfig.dispositiontext);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
     const [followUpDate, setFollowUpDate] = useState(null);
@@ -83,7 +86,7 @@ const FollowupDetailScreen = (props) => {
     //check validation of FollowUp Date
     const checkFollowUpDate = (followDate) => {
         if (!followDate || followDate.length <= 0) {
-            setFollowUpDateError('Follow Date Required!');
+            setFollowUpDateError(languageConfig.followrequired);
             setFollowUpDate(followDate);
             return;
         }
@@ -95,7 +98,7 @@ const FollowupDetailScreen = (props) => {
     //check validation of FollowUp Time
     const checkFollowUpTime = (followTime) => {
         if (!followTime || followTime.length <= 0) {
-            setFollowUpTimeError('Follow Time Required!');
+            setFollowUpTimeError(languageConfig.followtimerequired);
             setFollowUpTime(followTime);
             return;
         }
@@ -107,7 +110,7 @@ const FollowupDetailScreen = (props) => {
     //check validation of AssignTO
     const checkAssignTO = (assignTO) => {
         if (!assignTO || assignTO.length <= 0) {
-            setAssignTOError('Assign TO Required!');
+            setAssignTOError(languageConfig.assignrequired);
             setAssignTO(assignTO);
             return;
         }
@@ -275,13 +278,13 @@ const FollowupDetailScreen = (props) => {
                 let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
                 Linking.openURL(url).then((data) => {
                 }).catch(() => {
-                    Toast.show('Make sure WhatsApp installed on your device', Toast.SHORT);
+                    Toast.show(languageConfig.whatsappmessage, Toast.SHORT);
                 });
             } else {
-                Toast.show('Please insert message to send', Toast.SHORT);
+                Toast.show(languageConfig.whatsappmessage1, Toast.SHORT);
             }
         } else {
-            Toast.show('Please insert mobile no', Toast.SHORT);
+            Toast.show(languageConfig.whatsappmessage2, Toast.SHORT);
         }
     }
 
@@ -324,7 +327,7 @@ const FollowupDetailScreen = (props) => {
                 <View style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginLeft: 20 }}>
                     <View style={{ flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_START }}>
                         <Text style={styles.textTitle2}>{item?.customerid?.property?.fullname}</Text>
-                        <Text style={styles.textsub2}>Create by : {item?.addedby?.property?.fullname}</Text>
+                        <Text style={styles.textsub2}>{languageConfig.createby} : {item?.addedby?.property?.fullname}</Text>
                         <Text style={styles.textsub2}>{item?.dispositionid?.disposition}</Text>
                         {
                             item?.displayproperty.map((val, i) => (
@@ -453,7 +456,7 @@ const FollowupDetailScreen = (props) => {
                         onSubmitEditing={() => Keyboard.dismiss()}
                         onChangeText={(val) => getInputFieldValue(item, val)}
                     />
-                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{'Field is required!'}</Text>}
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{languageConfig.fieldisrequired}</Text>}
                 </View>
             }
             {
@@ -475,7 +478,7 @@ const FollowupDetailScreen = (props) => {
                         onSubmitEditing={() => Keyboard.dismiss()}
                         onChangeText={(val) => getInputFieldValue(item, val)}
                     />
-                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{'Field is required!'}</Text>}
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{languageConfig.fieldisrequired}</Text>}
                 </View>
             }
             {
@@ -498,7 +501,7 @@ const FollowupDetailScreen = (props) => {
                         onSubmitEditing={() => Keyboard.dismiss()}
                         onChangeText={(val) => getInputFieldValue(item, val)}
                     />
-                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{'Field is required!'}</Text>}
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{languageConfig.fieldisrequired}</Text>}
                 </View>
             }
             {
@@ -517,7 +520,7 @@ const FollowupDetailScreen = (props) => {
                         </View>
                     ))
                     }
-                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'Field is required!'}</Text>}
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{languageConfig.fieldisrequired}</Text>}
                 </View>
             }
             {
@@ -536,7 +539,7 @@ const FollowupDetailScreen = (props) => {
                         </View>
                     ))
                     }
-                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'Field is required!'}</Text>}
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{languageConfig.fieldisrequired}</Text>}
                 </View>
             }
             {
@@ -563,7 +566,7 @@ const FollowupDetailScreen = (props) => {
                             ))
                         }
                     </Picker>
-                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{'Field is required!'}</Text>}
+                    {item.required && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: 0, marginBottom: 10 }}>{languageConfig.fieldisrequired}</Text>}
                 </View>
             }
         </View>
@@ -606,16 +609,16 @@ const FollowupDetailScreen = (props) => {
                     fieldExists = fieldValArray.find(ele => ele.fieldname == element.fieldname);
                     if (!fieldExists) {
                         ary.push(fieldExists);
-                        Toast.show('Please fill in required fields');
+                        Toast.show(languageConfig.fielderrormessage);
                         return;
                     } else {
                         if (!fieldExists.value) {
                             ary.push(fieldExists);
-                            Toast.show('Please fill in required fields');
+                            Toast.show(languageConfig.fielderrormessage);
                             return;
                         } else if (fieldExists.value && (fieldExists.value == null || fieldExists.value.length == 0 || fieldExists.value == "")) {
                             ary.push(fieldExists);
-                            Toast.show('Please fill in required fields');
+                            Toast.show(languageConfig.fielderrormessage);
                             return;
                         }
                     }
@@ -624,14 +627,14 @@ const FollowupDetailScreen = (props) => {
         } else {
             formFields.forEach(element => {
                 if (element.required) {
-                    Toast.show('Please fill in required fields');
+                    Toast.show(languageConfig.fielderrormessage);
                     return;
                 }
             });
         }
 
         if (ary && ary.length != 0) {
-            Toast.show('Please fill in required fields');
+            Toast.show(languageConfig.fielderrormessage);
             return;
         }
 
@@ -658,7 +661,7 @@ const FollowupDetailScreen = (props) => {
             const response = await addDispositionService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setSpinner(false);
-                Toast.show('Your form is submited');
+                Toast.show(languageConfig.formsubmitmessage);
                 closeModelPopUp();
                 getFollowupHistoryList(followupDetail._id);
             }
@@ -750,12 +753,12 @@ const FollowupDetailScreen = (props) => {
                         }
                     </View>
                     {
-                        status == 'disposition' &&
+                        status == languageConfig.dispositiontext &&
                         <View style={{ marginTop: 20 }}>
                             <TreeView data={dispositionRenderList} onClick={(e) => dispositionMangeField(e)} leftImage={(<MaterialCommunityIcons size={10} name="message" color={COLOR.DEFALUTCOLOR} />)} />
                         </View>
                     }
-                    {status == 'followup history' &&
+                    {status == languageConfig.followuphistory &&
                         <FlatList
                             style={{ marginTop: 10 }}
                             data={followupHistoryList}
@@ -766,7 +769,7 @@ const FollowupDetailScreen = (props) => {
                             refreshControl={
                                 <RefreshControl
                                     refreshing={refreshing}
-                                    title="Pull to refresh"
+                                    title={languageConfig.pullrefreshtext}
                                     tintColor={COLOR.DEFALUTCOLOR}
                                     titleColor={COLOR.DEFALUTCOLOR}
                                     colors={[COLOR.DEFALUTCOLOR]}
@@ -778,7 +781,7 @@ const FollowupDetailScreen = (props) => {
                                     :
                                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                                     </View>
                             )}
                         />
@@ -815,7 +818,7 @@ const FollowupDetailScreen = (props) => {
                                     {
                                         isFollowUpChecked === true ?
                                             <View style={{ marginTop: 10 }}>
-                                                <Text style={styles.textTitle}>Follow Up</Text>
+                                                <Text style={styles.textTitle}>{languageConfig.followuptext}</Text>
                                                 <TouchableOpacity onPress={() => FollowUpCheckBoxFalse(false)}>
                                                     <FontAwesome size={40}
                                                         color={COLOR.DEFALUTCOLOR} name='toggle-on'
@@ -824,7 +827,7 @@ const FollowupDetailScreen = (props) => {
                                             </View>
                                             :
                                             <View style={{ marginTop: 10 }}>
-                                                <Text style={styles.textTitle}>Follow Up</Text>
+                                                <Text style={styles.textTitle}>{languageConfig.followuptext}</Text>
                                                 <TouchableOpacity onPress={() => FollowUpCheckBoxTrue(true)}>
                                                     <FontAwesome size={40}
                                                         color={COLOR.DEFALUTCOLOR}
@@ -837,10 +840,10 @@ const FollowupDetailScreen = (props) => {
                                 {isFollowUpChecked === true &&
                                     <View style={{ alignItems: KEY.CENTER, justifyContent: KEY.CENTER }}>
                                         <View>
-                                            <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Followup Date</Text>
+                                            <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{languageConfig.followupdatetext}</Text>
                                             <TextInput
                                                 selectionColor={COLOR.DEFALUTCOLOR}
-                                                placeholder="Follow Up Date"
+                                                placeholder={languageConfig.followupdatetext}
                                                 style={followUpDateError == null ? styles.inputTextView : styles.inputTextViewError}
                                                 type={KEY.CLEAR}
                                                 returnKeyType={KEY.NEXT}
@@ -860,10 +863,10 @@ const FollowupDetailScreen = (props) => {
                                             {followUpDateError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{followUpDateError}</Text>}
                                         </View>
                                         <View>
-                                            <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Followup Time</Text>
+                                            <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{languageConfig.followuptimetext}</Text>
                                             <TextInput
                                                 selectionColor={COLOR.DEFALUTCOLOR}
-                                                placeholder="Follow Up Time"
+                                                placeholder={languageConfig.followuptimetext}
                                                 style={followUpTimeError == null ? styles.inputTextView : styles.inputTextViewError}
                                                 type={KEY.CLEAR}
                                                 returnKeyType={KEY.NEXT}
@@ -882,7 +885,7 @@ const FollowupDetailScreen = (props) => {
                                             {followUpTimeError && <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginTop: -10, marginBottom: 10 }}>{followUpTimeError}</Text>}
                                         </View>
                                         <View>
-                                            <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>Assign To </Text>
+                                            <Text style={{ fontSize: FONT.FONT_SIZE_16, marginBottom: 3 }}>{languageConfig.assigntotext} </Text>
                                             <TextInput
                                                 style={assignTOError == null ? styles.inputTextView : styles.inputTextViewError}
                                                 type={KEY.CLEAR}
@@ -907,10 +910,10 @@ const FollowupDetailScreen = (props) => {
                                     marginTop: 30, marginLeft: 25, marginRight: 25, marginBottom: 10
                                 }}>
                                     <TouchableOpacity onPress={() => closeModelPopUp()} style={styles.btnStyle}>
-                                        <Text style={{ fontSize: FONT.FONT_SIZE_20, color: COLOR.WHITE }}>Cancel</Text>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_20, color: COLOR.WHITE }}>{languageConfig.cancel}</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => onPressToSubmitDisposion()} style={styles.btnStyle}>
-                                        <Text style={{ fontSize: FONT.FONT_SIZE_20, color: COLOR.WHITE }}>Submit</Text>
+                                        <Text style={{ fontSize: FONT.FONT_SIZE_20, color: COLOR.WHITE }}>{languageConfig.submit}</Text>
                                     </TouchableOpacity>
                                 </View>
                             </ScrollView>

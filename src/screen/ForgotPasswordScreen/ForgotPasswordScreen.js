@@ -10,20 +10,23 @@ import {
     TouchableOpacity,
     StatusBar, Image, Keyboard
 } from 'react-native';
-import styles from './Style';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
+import { SendEmailService, SendSmsService } from '../../services/SendEmailandSmsService/SendEmailandSmsService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import { CheckUserService } from '../../services/UserService/UserService';
 import AsyncStorage from '@react-native-community/async-storage';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
 import { REMOTEDATA } from '../../context/actions/type';
 import axiosConfig from '../../helpers/axiosConfig';
-import Toast from 'react-native-simple-toast';
 import Loader from '../../components/loader/index';
-import { SendEmailService, SendSmsService } from '../../services/SendEmailandSmsService/SendEmailandSmsService';
-import { CheckUserService } from '../../services/UserService/UserService';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import styles from './Style';
+
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
@@ -40,6 +43,8 @@ const ForgotPasswordScreen = (props) => {
     const [appName, setAppName] = useState(null);
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         // check AuthController use to Login Or Not Login
         AuthController();
     }, []);
@@ -63,7 +68,7 @@ const ForgotPasswordScreen = (props) => {
     const checkEmail = (email) => {
         if (!email || email.length <= 0) {
             setUserName(email);
-            setUserNameError('Username Required!');
+            setUserNameError(languageConfig.usernameerror);
             return;
         }
         setUserName(email);
@@ -100,15 +105,14 @@ const ForgotPasswordScreen = (props) => {
             const CheckUserResponse = await CheckUserService(body);
             if (Object.keys(CheckUserResponse.data).length !== 0 && CheckUserResponse.data != null && CheckUserResponse.data != 'undefind' && CheckUserResponse.status == 200) {
                 const verifyOtpNumber = Math.floor(1000 + Math.random() * 9000);
-                console.log(`verifyOtpNumber`, verifyOtpNumber)
                 setVerifyOtpNumber(verifyOtpNumber);
                 setUserInfo(CheckUserResponse.data);
                 onPressSubmit(CheckUserResponse.data.property, verifyOtpNumber);
-                Toast.show('OTP Sending', Toast.SHORT);
+                Toast.show(languageConfig.optsending, Toast.SHORT);
                 setloading(false);
             }
             else {
-                Toast.show('User not exits!', Toast.SHORT);
+                Toast.show(languageConfig.usernotexits, Toast.SHORT);
                 resetScreen();
             }
         }
@@ -116,14 +120,14 @@ const ForgotPasswordScreen = (props) => {
             console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             resetScreen();
-            Toast.show('User not exits!', Toast.SHORT);
+            Toast.show(languageConfig.usernotexits, Toast.SHORT);
         };
     }
 
     //OTP verify function
     const otpVerify = async () => {
         if (!inputOtpNumber) {
-            setInputOtpNumberError('OTP Required!');
+            setInputOtpNumberError(languageConfig.otprequired);
             return;
         }
         setloading(true);
@@ -140,13 +144,13 @@ const ForgotPasswordScreen = (props) => {
             } else {
                 setloading(false);
                 setInputOtpNumber(null);
-                setInputOtpNumberError('OTP not match!');
+                setInputOtpNumberError(languageConfig.otpnotmatch);
             }
         }
         catch (error) {
             firebase.crashlytics().recordError(error);
             resetScreen();
-            Toast.show('User not exits!', Toast.SHORT);
+            Toast.show(languageConfig.usernotexits, Toast.SHORT);
         };
     }
 
@@ -196,7 +200,7 @@ const ForgotPasswordScreen = (props) => {
         catch (error) {
             firebase.crashlytics().recordError(error);
             resetScreen();
-            Toast.show('User not exits!', Toast.SHORT);
+            Toast.show(languageConfig.usernotexits, Toast.SHORT);
         };
     }
 
@@ -208,7 +212,7 @@ const ForgotPasswordScreen = (props) => {
                     <View style={styles.containerView}>
                         <Image source={IMAGE.LOCK_ICON} style={{ height: 80, width: 80, marginTop: 80, tintColor: COLOR.DEFALUTCOLOR }} />
                         <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16, marginTop: 15, marginLeft: 25, marginRight: 25, textAlign: KEY.CENTER, lineHeight: 25 }}>
-                            Enter your Username or phone number bellow to receive your password reset instructions
+                            {languageConfig.loginwithotpheader}
                         </Text>
                         {
                             userInfo ?
@@ -216,7 +220,7 @@ const ForgotPasswordScreen = (props) => {
                                     <View>
                                         <TextInput
                                             selectionColor={COLOR.DEFALUTCOLOR}
-                                            placeholder={"Enter OTP"}
+                                            placeholder={languageConfig.otpplaceholder}
                                             keyboardType={KEY.NUMBER_PAD}
                                             placeholderTextColor={COLOR.WHITE}
                                             selectionColor={COLOR.WHITE}
@@ -231,7 +235,7 @@ const ForgotPasswordScreen = (props) => {
                                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                         <TouchableOpacity style={styles.forgotButton}
                                             onPress={() => otpVerify()}>
-                                            <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Verify OTP</Text>
+                                            <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>{languageConfig.verifyotp}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -240,7 +244,7 @@ const ForgotPasswordScreen = (props) => {
                                     <View style={{ justifyContent: KEY.CENTER }}>
                                         <TextInput
                                             selectionColor={COLOR.DEFALUTCOLOR}
-                                            placeholder={"Enter User Name"}
+                                            placeholder={languageConfig.usernametext}
                                             placeholderTextColor={COLOR.WHITE}
                                             selectionColor={COLOR.WHITE}
                                             style={!userNameError ? styles.inputTextView : styles.inputTextViewError}
@@ -253,7 +257,10 @@ const ForgotPasswordScreen = (props) => {
                                     </View>
                                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                         <TouchableOpacity style={styles.forgotButton} onPress={() => createOtp()}>
-                                            <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>NEXT</Text>
+                                            <Text style={{
+                                                fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE,
+                                                fontSize: FONT.FONT_SIZE_18, textTransform: KEY.CAPITALIZE
+                                            }}>{languageConfig.next}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -265,5 +272,6 @@ const ForgotPasswordScreen = (props) => {
         </SafeAreaView>
     );
 }
+
 export default ForgotPasswordScreen;
 
