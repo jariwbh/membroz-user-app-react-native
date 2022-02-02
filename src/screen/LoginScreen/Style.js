@@ -61,10 +61,8 @@ const styles = StyleSheet.create({
         alignItems: KEY.CENTER
     },
     backgroundImage: {
-        flex: 1,
-        height: HEIGHT,
-        width: WIDTH,
-        justifyContent: KEY.CENTER
+        width: '100%',
+        height: '100%',
     }
 });
 

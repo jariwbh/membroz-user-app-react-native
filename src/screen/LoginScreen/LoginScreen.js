@@ -162,9 +162,9 @@ export default LoginScreen = (props) => {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar hidden={false} translucent={false} backgroundColor={COLOR.STATUSCOLOR} barStyle={KEY.DARK_CONTENT} />
-            <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={STYLES.backgroundImage} >
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
+            <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.LIGHT_CONTENT} />
+            <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} style={STYLES.backgroundImage} >
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={STYLES.containerView}>
                         {appLogoVisible ?

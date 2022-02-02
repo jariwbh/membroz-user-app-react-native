@@ -119,8 +119,8 @@ const NewPasswordScreen = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
-            <StatusBar hidden={false} translucent={false} backgroundColor={COLOR.STATUSCOLOR} barStyle={KEY.DARK_CONTENT} />
-            <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} resizeMode={KEY.COVER} style={styles.backgroundImage} >
+            <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.LIGHT_CONTENT} />
+            <ImageBackground source={backgroungImage ? { uri: backgroungImage } : IMAGE.BACKGROUND_IMAGE} style={styles.backgroundImage} >
                 <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                     <View style={styles.containerView}>
                         <Image source={IMAGE.LOCK_ICON} style={{ height: 80, width: 80, marginTop: 80, marginBottom: 50, tintColor: COLOR.DEFALUTCOLOR }} />
@@ -211,9 +211,8 @@ const styles = StyleSheet.create({
     },
     backgroundImage: {
         flex: 1,
-        height: HEIGHT,
-        width: WIDTH,
-        justifyContent: KEY.CENTER
+        width: '100%',
+        height: '100%',
     }
 });
 

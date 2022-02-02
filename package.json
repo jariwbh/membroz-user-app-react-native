@@ -37,6 +37,7 @@
     "react-native-image-picker": "^4.1.1",
     "react-native-loading-spinner-overlay": "^2.0.0",
     "react-native-modal-datetime-picker": "^11.0.0",
+    "react-native-navigation-bar-color": "^2.0.1",
     "react-native-paper": "^4.9.2",
     "react-native-permissions": "^3.0.5",
     "react-native-push-notification": "^8.1.0",
