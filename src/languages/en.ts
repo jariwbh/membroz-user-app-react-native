@@ -271,9 +271,6 @@ export default {
     followupdatetext: "Follow Up Date",
     followuptimetext: "Follow Up Time",
     assigntotext: "Assign To ",
-
-    //=====================
-
     checkout: "Check out",
     checkin: "Check in",
     homecheckintext: "Are you sure you want to",
@@ -306,8 +303,22 @@ export default {
     loantext: "Loan",
     Purchasetext: "Purchase",
     othertext: "Other",
-
-    //=====================
+    leadsuccessmessage: "Lead Add Successfully",
+    leaderrormessage: "Lead Add Problem",
+    salarytext: "salary",
+    paysliptext: "payslip",
+    paidsalarytext: "Paid Salary",
+    bonusamounttext: "Bonus Amount",
+    totalsalarytext: "Total Salary",
+    earningstext: "Earnings",
+    basictext: "Basic",
+    bonustext: "Bonus",
+    expensetext: "Expense",
+    deductionstext: "Deductions",
+    providenttext: "Provident Fund Deduction",
+    professionaltax: "Professional Tax",
+    leavestext: "Leaves",
+    carryforwordtext: "Carry Forword Leave",
 
     //menu text
     updatenow: "Update Now",
@@ -342,8 +353,6 @@ export default {
     usage: "Usage",
     team: "Team",
     support: "Support",
-
-    //=============================//
     freshcall: "Fresh Call",
     meeting: "Meeting",
     mylead: "My Lead",
@@ -352,8 +361,6 @@ export default {
     myleave: "My Leave",
     timesheet: "Timesheet",
     myclaim: "My Claim",
-
-    //=============================//
 
     //screen title text
     loginotp: "Login OTP",
@@ -394,10 +401,24 @@ export default {
     bookappointment: "Book Appointment",
     asset: "Asset",
     packagedetails: "Package Details",
+    tasks: "Tasks",
+    task: "Task",
+    freshcalltitle: "Fresh Call",
+    addlead: "Add Lead",
+    leaverequest: "Leave Request",
+    myleaves: "My Leaves",
+    MyClaims: "My Claims",
+    claimrequest: "Claim Request",
+    teams: "Teams",
+    referfriendtitle: "Refer Friend",
+    timesheettitle: "Time sheet",
+    attendancetitle: "Attendance",
+    myappoinments: "My Appoinments",
+    viewappoinment: "View Appoinment",
 
     //splashscreen text
     splashtext1: "Initialization application",
-    splashtext2: "initialization your app",
+    splashtext2: "Initialization your app",
     splashtext3: "please wait few Seconds",
     splashtext4: "auto restart app"
 }

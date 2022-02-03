@@ -10,23 +10,26 @@ import {
     TouchableOpacity,
     StatusBar, Modal, Keyboard
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-import styles from './UpdateProfileStyle';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { patchUserService, updateUserService } from '../../services/UserService/UserService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import * as LocalService from '../../services/LocalService/LocalService';
+import { CLOUD_URL, UPLOAD_PRESET } from '../../context/actions/type';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import MyPermissionController from '../../helpers/appPermission';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
 import * as ImagePicker from "react-native-image-picker";
 import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import styles from './UpdateProfileStyle';
 import RNFetchBlob from 'rn-fetch-blob';
-import { CLOUD_URL, UPLOAD_PRESET } from '../../context/actions/type';
-import MyPermissionController from '../../helpers/appPermission';
-import { patchUserService, updateUserService } from '../../services/UserService/UserService';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import moment from 'moment';
+
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
@@ -94,7 +97,7 @@ const UpdateProfileScreen = (props) => {
     //check validation of fullname
     const checkFullName = (fullname) => {
         if (!fullname || fullname.length <= 0) {
-            setUserNameError('Fullname can not be empty');
+            setUserNameError(languageConfig.fullnameerror);
             setUserName(fullname);
             return;
         }
@@ -107,11 +110,11 @@ const UpdateProfileScreen = (props) => {
     const checkEmail = (email) => {
         const re = /\S+@\S+\.\S+/;
         if (!email || email.length <= 0) {
-            setUserEmailError('Email Id can not be empty');
+            setUserEmailError(languageConfig.emailemptyerror);
             return;
         }
         if (!re.test(email)) {
-            setUserEmailError('Enter valid email address');
+            setUserEmailError(languageConfig.emailinvalid);
             return;
         }
         setUserEmail(email);
@@ -121,15 +124,15 @@ const UpdateProfileScreen = (props) => {
 
     //check validation of mobile number
     const checkMobile = (mobile) => {
-        const reg = /^\d{10}$/;
+        //const reg = /^\d{10}$/;
         if (!mobile || mobile.length <= 0) {
-            setUserMobileError('Mobile Number cannot be empty');
+            setUserMobileError(languageConfig.mobileemptyerror);
             return;
         }
-        if (!reg.test(mobile)) {
-            setUserMobileError('Enter valid Mobile Number');
-            return;
-        }
+        // if (!reg.test(mobile)) {
+        //     setUserMobileError(languageConfig.mobileinvalid);
+        //     return;
+        // }
         setUserMobile(mobile);
         setUserMobileError(null);
         return;
@@ -207,10 +210,10 @@ const UpdateProfileScreen = (props) => {
                     }
                 }).catch(error => {
                     firebase.crashlytics().recordError(error);
-                    alert("Uploading Failed!");
+                    alert(languageConfig.supportimagefail);
                 })
         } else {
-            alert('Please Select File');
+            alert(languageConfig.supportimageerror);
         }
     }
 
@@ -222,14 +225,14 @@ const UpdateProfileScreen = (props) => {
             const response = await patchUserService(userID, user);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 LocalService.AuthenticateUser(response.data);
-                Toast.show('Your Profile Updated', Toast.LONG);
+                Toast.show(languageConfig.profilesucessmessage, Toast.LONG);
             }
         }
         catch (error) {
             console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setloading(false);
-            Toast.show('Your Profile Not Update', Toast.LONG);
+            Toast.show(languageConfig.profileerrormessage, Toast.LONG);
         }
     }
 
@@ -263,14 +266,14 @@ const UpdateProfileScreen = (props) => {
                 props.navigation.navigate(SCREEN.PROFILESCREEN);
                 LocalService.AuthenticateUser(response.data);
                 setloading(false);
-                Toast.show('Your Profile Updated', Toast.LONG);
+                Toast.show(languageConfig.profilesucessmessage, Toast.LONG);
             }
         }
         catch (error) {
             console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setloading(false);
-            Toast.show('Your Profile Not Update', Toast.LONG);
+            Toast.show(languageConfig.profileerrormessage, Toast.LONG);
         }
     }
 
@@ -290,7 +293,7 @@ const UpdateProfileScreen = (props) => {
 
                     <View>
                         <TextInput
-                            placeholder="UserName"
+                            placeholder={languageConfig.usernameplaceholder}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             style={userNameError == null ? styles.inputTextView : styles.inputTextViewError}
                             type={KEY.CLEAR}
@@ -306,7 +309,7 @@ const UpdateProfileScreen = (props) => {
 
                     <View>
                         <TextInput
-                            placeholder="Email"
+                            placeholder={languageConfig.emailplaceholder}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             keyboardType={KEY.EMAILADDRESS}
                             style={userEmailError == null ? styles.inputTextView : styles.inputTextViewError}
@@ -324,7 +327,7 @@ const UpdateProfileScreen = (props) => {
 
                     <View>
                         <TextInput
-                            placeholder="Mobile Number"
+                            placeholder={languageConfig.mobileplaceholder}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             keyboardType={KEY.NUMBER_PAD}
                             style={userMoblieError == null ? styles.inputTextView : styles.inputTextViewError}
@@ -342,7 +345,7 @@ const UpdateProfileScreen = (props) => {
 
                     <View>
                         <TextInput
-                            placeholder="Date Of Birth"
+                            placeholder={languageConfig.dobtext}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             style={styles.inputTextView}
                             type={KEY.CLEAR}
@@ -364,7 +367,7 @@ const UpdateProfileScreen = (props) => {
                     </View>
 
                     <View>
-                        <TextInput placeholder="Address"
+                        <TextInput placeholder={languageConfig.addresstext}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             style={styles.addressView}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -381,7 +384,7 @@ const UpdateProfileScreen = (props) => {
                     </View>
 
                     <View>
-                        <TextInput placeholder="PinCode"
+                        <TextInput placeholder={languageConfig.pincodetext}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             keyboardType={KEY.NUMBER_PAD}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -396,7 +399,7 @@ const UpdateProfileScreen = (props) => {
                     </View>
 
                     <TouchableOpacity style={styles.updateBtn} onPress={() => UpdateProfileService()}>
-                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Update</Text>
+                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>{languageConfig.updatetext}</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -411,13 +414,13 @@ const UpdateProfileScreen = (props) => {
                     <View style={{ position: KEY.ABSOLUTE, bottom: 0 }}>
                         <View style={styles.msgModalView}>
                             <TouchableOpacity onPress={() => uploadImageOption('camera')} >
-                                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 15 }}>Take Photo</Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 15 }}>{languageConfig.takephototext}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => uploadImageOption('gallery')} >
-                                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 15, marginBottom: 10 }}>Choose From Gallery</Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 15, marginBottom: 10 }}>{languageConfig.choosegallerytext}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => setshowMessageModalVisible(false)} >
-                                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 10, marginBottom: 10 }}>Close</Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 10, marginBottom: 10 }}>{languageConfig.closetext}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -428,5 +431,6 @@ const UpdateProfileScreen = (props) => {
         </SafeAreaView>
     );
 }
+
 export default UpdateProfileScreen;
 

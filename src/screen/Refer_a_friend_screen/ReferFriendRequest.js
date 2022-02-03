@@ -11,15 +11,18 @@ import {
     StatusBar
 } from 'react-native';
 import { ReferFriendService } from '../../services/ReferFriendService/ReferaFriendService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import * as LocalService from '../../services/LocalService/LocalService';
+import languageConfig from '../../languages/languageConfig';
 import * as SCREEN from '../../context/screen/screenName';
 import * as KEY from '../../context/actions/key';
 import Toast from 'react-native-simple-toast';
 import * as COLOR from '../../styles/colors';
+import Loader from '../../components/loader';
 import * as IMAGE from '../../styles/image';
 import styles from './Style';
-import Loader from '../../components/loader';
+
 const WIDTH = Dimensions.get('window').width;
 
 const ReferFriendRequest = (props) => {
@@ -35,6 +38,8 @@ const ReferFriendRequest = (props) => {
     const thirdTextInputRef = React.createRef();
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         getUserDeatilsLocalStorage();
     }, [])
 
@@ -44,7 +49,7 @@ const ReferFriendRequest = (props) => {
     //check validation of fullname
     const checkFullname = (fullname) => {
         if (!fullname || fullname <= 0) {
-            return setfullnameError('Fullname Required!');
+            return setfullnameError(languageConfig.fullnameerror);
         }
         setFullname(fullname);
         setfullnameError(null);
@@ -55,12 +60,12 @@ const ReferFriendRequest = (props) => {
     const checkEmail = (email) => {
         const re = /\S+@\S+\.\S+/;
         if (!email || email.length <= 0) {
-            setEmailerror('Email Required!');
+            setEmailerror(languageConfig.emailerror);
             setEmail(null);
             return;
         }
         if (!re.test(email)) {
-            setEmailerror('Ooops! We need a valid email address');
+            setEmailerror(languageConfig.emailinvalid);
             setEmail(null);
             return;
         }
@@ -71,17 +76,17 @@ const ReferFriendRequest = (props) => {
 
     //check validation of mobile number
     const checkMobileNumber = (mobile) => {
-        const reg = /^\d{10}$/;
+        // const reg = /^\d{10}$/;
         if (!mobile || mobile.length <= 0) {
             setMobileno(null);
-            setMobilenoError('Mobile Number Required!');
+            setMobilenoError(languageConfig.mobileerror);
             return;
         }
-        if (!reg.test(mobile)) {
-            setMobileno(null);
-            setMobilenoError('Ooops! We need a valid Mobile Number');
-            return;
-        }
+        // if (!reg.test(mobile)) {
+        //     setmobileno(null);
+        //     setmobilenoerror(languageconfig.mobileinvalid);
+        //     return;
+        // }
         setMobileno(mobile);
         setMobilenoError(null);
         return;
@@ -115,12 +120,12 @@ const ReferFriendRequest = (props) => {
             }
             const response = await ReferFriendService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                Toast.show('Submitted successfully', Toast.SHORT);
+                Toast.show(languageConfig.submittedsuccessfully, Toast.SHORT);
                 resetScreen();
                 props.navigation.navigate(SCREEN.REFERFRIENDSCREEN);
             }
         } catch (error) {
-            Toast.show('Submitted problem!', Toast.SHORT);
+            Toast.show(languageConfig.submittedproblem, Toast.SHORT);
             firebase.crashlytics().recordError(error);
             setLoading(false);
         }
@@ -143,11 +148,10 @@ const ReferFriendRequest = (props) => {
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <View style={styles.containView}>
-
                     <View style={{ justifyContent: KEY.CENTER }}>
                         <TextInput
                             selectionColor={COLOR.DEFALUTCOLOR}
-                            placeholder='Fullname'
+                            placeholder={languageConfig.fullnameplaceholder}
                             style={fullnameError == null ? styles.inputTextStyle : styles.inputTextStyleError}
                             type={KEY.CLEAR}
                             returnKeyType={KEY.NEXT}
@@ -159,7 +163,7 @@ const ReferFriendRequest = (props) => {
 
                         <TextInput
                             selectionColor={COLOR.DEFALUTCOLOR}
-                            placeholder='Mobile No'
+                            placeholder={languageConfig.mobileplaceholder}
                             keyboardType='number-pad'
                             style={mobilenoError == null ? styles.inputTextStyle : styles.inputTextStyleError}
                             type={KEY.CLEAR}
@@ -173,7 +177,7 @@ const ReferFriendRequest = (props) => {
 
                         <TextInput
                             selectionColor={COLOR.DEFALUTCOLOR}
-                            placeholder='Email'
+                            placeholder={languageConfig.emailplaceholder}
                             keyboardType='email-address'
                             style={emailError == null ? styles.inputTextStyle : styles.inputTextStyleError}
                             type={KEY.CLEAR}
@@ -185,7 +189,7 @@ const ReferFriendRequest = (props) => {
                             onChangeText={(email) => checkEmail(email)} />
 
                         <TouchableOpacity style={styles.btnSubmit} onPress={() => onPressSubmit()} >
-                            <Text style={styles.btnText}>Submit</Text>
+                            <Text style={styles.btnText}>{languageConfig.submit}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -194,6 +198,7 @@ const ReferFriendRequest = (props) => {
         </SafeAreaView>
     );
 }
+
 export default ReferFriendRequest;
 
 

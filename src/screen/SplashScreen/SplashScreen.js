@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import MyPermissionController from '../../helpers/appPermission';
-import AsyncStorage from '@react-native-community/async-storage';
-import * as SCREEN from '../../context/screen/screenName';
 import {
     View, StatusBar,
     SafeAreaView, Image,
@@ -10,16 +7,22 @@ import {
     Text
 } from 'react-native';
 import { AUTHUSER, REMOTEDATA, REMOTECONFIGKEY } from '../../context/actions/type';
-import axiosConfig from '../../helpers/axiosConfig';
-import styles from './Styles'
-import * as KEY from '../../context/actions/key';
-import * as COLOR from '../../styles/colors';
-import * as FONT from '../../styles/typography';
-import * as IMAGE from '../../styles/image';
-import firebase from '@react-native-firebase/app';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import MyPermissionController from '../../helpers/appPermission';
+import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import axiosConfig from '../../helpers/axiosConfig';
+import firebase from '@react-native-firebase/app';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
 import RNRestart from 'react-native-restart';
+import * as IMAGE from '../../styles/image';
+import styles from './Styles';
+
 const HEIGHT = Dimensions.get('window').height;
 
 function SplashScreen(props) {
@@ -29,6 +32,8 @@ function SplashScreen(props) {
     const [showMessageModalVisible, setshowMessageModalVisible] = useState(false);
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         // check AuthController use to Login Or Not Login
         splashScreen();
         remoteConfigSetup();
@@ -60,7 +65,7 @@ function SplashScreen(props) {
             }, 3000);
         } else {
             setshowMessageModalVisible(true);
-            Toast.show('Initialization application', Toast.SHORT);
+            Toast.show(languageConfig.splashtext1, Toast.SHORT);
             setTimeout(() => {
                 setshowMessageModalVisible(false);
                 // Immediately reload the React Native Bundle
@@ -150,9 +155,9 @@ function SplashScreen(props) {
                                         }}
                                     />
                                 </View>
-                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK_OLIVE, marginTop: 25, textTransform: KEY.CAPITALIZE }}>initialization your app </Text>
-                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK_OLIVE, textTransform: KEY.CAPITALIZE }}>please wait few Seconds</Text>
-                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK_OLIVE, textTransform: KEY.CAPITALIZE }}>auto restart app</Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK_OLIVE, marginTop: 25, textTransform: KEY.CAPITALIZE }}>{languageConfig.splashtext2} </Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK_OLIVE, textTransform: KEY.CAPITALIZE }}>{languageConfig.splashtext3}</Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK_OLIVE, textTransform: KEY.CAPITALIZE }}>{languageConfig.splashtext4}</Text>
                             </View>
                         </View>
                     </View>
@@ -161,4 +166,5 @@ function SplashScreen(props) {
         </SafeAreaView>
     );
 }
+
 export default SplashScreen;

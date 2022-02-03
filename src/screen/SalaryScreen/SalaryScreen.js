@@ -3,35 +3,38 @@ import {
     Dimensions,
     SafeAreaView,
     ScrollView,
-    Image,
-    Text,
-    View,
-    StatusBar, TouchableOpacity, FlatList, RefreshControl
+    Image, Text, View,
+    StatusBar, TouchableOpacity,
+    FlatList, RefreshControl
 } from 'react-native';
 import { userSalaryService } from '../../services/SalaryService/SalaryService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import getCurrency from '../../services/getCurrencyService/getCurrency';
 import * as LocalService from '../../services/LocalService/LocalService';
+import getCurrency from '../../services/getCurrencyService/getCurrency';
+import languageConfig from '../../languages/languageConfig';
 import * as SCREEN from '../../context/screen/screenName';
 import Loader from '../../components/loader/index';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as IMAGE from '../../styles/image';
 import * as COLOR from '../../styles/colors';
-const WIDTH = Dimensions.get('window').width;
 import styles from './SalaryStyle';
 import moment from 'moment';
+
+const WIDTH = Dimensions.get('window').width;
+
 const ListTab = [
     {
-        'status': 'salary'
+        'status': languageConfig.salarytext
     },
     {
-        'status': 'payslip'
+        'status': languageConfig.paysliptext
     }
 ]
 
 export default SalaryScreen = (props) => {
-    const [status, setStatus] = useState('salary');
+    const [status, setStatus] = useState(languageConfig.languageConfig.salarytext);
     const [loading, setLoading] = useState(false);
     const [salaryhistoryList, setSalaryHistoryList] = useState([]);
     const [currencySymbol, setCurrencySymbol] = useState(null);
@@ -45,7 +48,10 @@ export default SalaryScreen = (props) => {
     const [totalCF, setTotalCF] = useState(0);
     var currentYear = moment().format('YYYY');
     var userID;
+
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setLoading(true);
         getUserDeatilsLocalStorage();
     }, [])
@@ -102,7 +108,6 @@ export default SalaryScreen = (props) => {
     const getSalaryHistoryList = async () => {
         try {
             const response = await userSalaryService(currentYear);
-            console.log(`response.data`, response.data);
             if (response.data != null && response.data != 'undefind' && response.status == 200 && response.data.length > 0) {
                 let filterArray = [];
                 response.data.forEach(element => {
@@ -130,19 +135,19 @@ export default SalaryScreen = (props) => {
         <View style={styles.viewMain}>
             <Text style={styles.earningTextTitle}>{moment().month(item.month - 1).format("MMM") + ' - ' + moment().year(item.year).format("YYYY")}</Text>
             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
-                <Text style={styles.text}>Paid Salary</Text>
+                <Text style={styles.text}>{languageConfig.paidsalarytext}</Text>
                 <Text style={styles.text}>{currencySymbol + item.earnings}</Text>
             </View>
             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
-                <Text style={styles.text}>Tax Amount</Text>
+                <Text style={styles.text}>{languageConfig.taxamount}</Text>
                 <Text style={styles.text}>{currencySymbol + item.statutorydeductions}</Text>
             </View>
             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
-                <Text style={styles.text}>Bonus Amount</Text>
+                <Text style={styles.text}>{languageConfig.bonusamounttext}</Text>
                 <Text style={styles.text}>{currencySymbol + item.bonus}</Text>
             </View>
             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
-                <Text style={styles.text}>Total Salary</Text>
+                <Text style={styles.text}>{languageConfig.totalsalarytext}</Text>
                 <Text style={styles.text}>{currencySymbol + item.netonhand}</Text>
             </View>
             <View style={{ marginBottom: 15 }} />
@@ -166,7 +171,7 @@ export default SalaryScreen = (props) => {
             </View>
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 {
-                    status == 'payslip' &&
+                    status == languageConfig.paysliptext &&
                     <FlatList
                         style={{ marginTop: 5 }}
                         data={salaryhistoryList}
@@ -177,7 +182,7 @@ export default SalaryScreen = (props) => {
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
-                                title="Pull to refresh"
+                                title={languageConfig.pullrefreshtext}
                                 tintColor={COLOR.DEFALUTCOLOR}
                                 titleColor={COLOR.DEFALUTCOLOR}
                                 colors={[COLOR.DEFALUTCOLOR]}
@@ -189,46 +194,47 @@ export default SalaryScreen = (props) => {
                                 :
                                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                     <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                                 </View>
                         )}
                     />
                 }
-                {status == 'salary' &&
+
+                {status == languageConfig.salarytext &&
                     <>
                         <View style={{ marginTop: 10 }} />
                         <View style={styles.viewMain}>
-                            <Text style={styles.earningTextTitle}>Earnings</Text>
+                            <Text style={styles.earningTextTitle}>{languageConfig.earningstext}</Text>
                             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
-                                <Text style={styles.text}>Basic</Text>
+                                <Text style={styles.text}>{languageConfig.basictext}</Text>
                                 <Text style={styles.text}>{currencySymbol + basicEarning}</Text>
                             </View>
                             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
-                                <Text style={styles.text}>Bonus</Text>
+                                <Text style={styles.text}>{languageConfig.bonustext}</Text>
                                 <Text style={styles.text}>{currencySymbol + bonus}</Text>
                             </View>
                             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
-                                <Text style={styles.text}>Expense</Text>
+                                <Text style={styles.text}>{languageConfig.expensetext}</Text>
                                 <Text style={styles.text}>{currencySymbol + expense}</Text>
                             </View>
                             <View style={{ marginBottom: 15 }} />
                         </View>
                         <View style={styles.viewMain}>
-                            <Text style={styles.deductionTextTitle2}>Deductions</Text>
+                            <Text style={styles.deductionTextTitle2}>{languageConfig.deductionstext}</Text>
                             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
-                                <Text style={styles.text}>Provident Fund Deduction</Text>
+                                <Text style={styles.text}>{languageConfig.providenttext}</Text>
                                 <Text style={styles.text}>{currencySymbol + PFtax}</Text>
                             </View>
                             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
-                                <Text style={styles.text}>Professional Tax</Text>
+                                <Text style={styles.text}>{languageConfig.professionaltax}</Text>
                                 <Text style={styles.text}>{currencySymbol + PTtax}</Text>
                             </View>
                             <View style={{ marginBottom: 15 }} />
                         </View>
                         <View style={styles.viewMain}>
-                            <Text style={styles.leaveTextTitle}>Leaves</Text>
+                            <Text style={styles.leaveTextTitle}>{languageConfig.leavestext}</Text>
                             <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginLeft: 20, marginRight: 20 }}>
-                                <Text style={styles.text}>Carry Forword Leave</Text>
+                                <Text style={styles.text}>{languageConfig.carryforwordtext}</Text>
                                 <Text style={styles.text}>{totalCF}</Text>
                             </View>
                             <View style={{ marginBottom: 15 }} />

@@ -8,20 +8,23 @@ import {
     View, TouchableOpacity, TextInput,
     StatusBar, RefreshControl, FlatList, Linking
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-import Loader from '../../components/loader';
-import styles from './Style';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import { UserListService } from '../../services/UserService/UserService';
 import * as LocalService from '../../services/LocalService/LocalService';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import moment from 'moment';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
 import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import Loader from '../../components/loader';
+import * as IMAGE from '../../styles/image';
+import styles from './Style';
+import moment from 'moment';
+
 const WIDTH = Dimensions.get('window').width;
 
 export default MyTeamScreen = (props) => {
@@ -32,6 +35,8 @@ export default MyTeamScreen = (props) => {
     const [searchText, setSearchText] = useState(null);
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setLoading(true);
         getMyTeamList();
     }, [])
@@ -76,7 +81,7 @@ export default MyTeamScreen = (props) => {
             const url = `mailto:${EmailAddress}`
             Linking.openURL(url);
         } else {
-            Toast.show('Email ID is wrong', Toast.SHORT);
+            Toast.show(languageConfig.emailwrong, Toast.SHORT);
         }
     }
 
@@ -163,7 +168,7 @@ export default MyTeamScreen = (props) => {
                 <View style={styles.centerView}>
                     <View style={styles.statusbar}>
                         <TextInput
-                            placeholder={KEY.SEARCH}
+                            placeholder={languageConfig.search}
                             placeholderTextColor={COLOR.BLACK}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             returnKeyType={KEY.DONE}
@@ -198,7 +203,7 @@ export default MyTeamScreen = (props) => {
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
-                            title="Pull to refresh"
+                            title={languageConfig.pullrefreshtext}
                             tintColor={COLOR.DEFALUTCOLOR}
                             titleColor={COLOR.DEFALUTCOLOR}
                             colors={[COLOR.DEFALUTCOLOR]}
@@ -211,7 +216,7 @@ export default MyTeamScreen = (props) => {
                             :
                             <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                 <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 50 }} resizeMode={KEY.CONTAIN} />
-                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                             </View>
                     )}
                 />

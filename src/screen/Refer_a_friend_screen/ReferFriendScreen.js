@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Dimensions, SafeAreaView, View, Image, Text, RefreshControl,
-    TouchableOpacity, FlatList, StyleSheet, StatusBar
+    Dimensions, SafeAreaView, View,
+    Image, Text, RefreshControl,
+    TouchableOpacity, FlatList,
+    StyleSheet, StatusBar
 } from 'react-native';
 import { ReferFriendListService } from '../../services/ReferFriendService/ReferaFriendService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import * as LocalService from '../../services/LocalService/LocalService';
+import languageConfig from '../../languages/languageConfig';
+import { useFocusEffect } from '@react-navigation/native';
 import * as SCREEN from '../../context/screen/screenName';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
@@ -13,7 +18,7 @@ import Loader from '../../components/loader';
 import * as IMAGE from '../../styles/image';
 import styles from './Style';
 import moment from 'moment';
-import { useFocusEffect } from '@react-navigation/native';
+
 const WIDTH = Dimensions.get('window').width;
 
 const ReferFriendScreen = (props) => {
@@ -29,6 +34,8 @@ const ReferFriendScreen = (props) => {
     );
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setLoading(true);
         getUserDeatilsLocalStorage();
     }, [])
@@ -103,7 +110,7 @@ const ReferFriendScreen = (props) => {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        title="Pull to refresh"
+                        title={languageConfig.pullrefreshtext}
                         tintColor={COLOR.DEFALUTCOLOR}
                         titleColor={COLOR.DEFALUTCOLOR}
                         colors={[COLOR.DEFALUTCOLOR]}
@@ -114,12 +121,12 @@ const ReferFriendScreen = (props) => {
                         null :
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                             <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                         </View>
                 )}
             />
             {!loading &&
-                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', bottom: 0 }}>
+                <View style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, bottom: 0 }}>
                     <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.REFERFRIENDREQUEST)} style={styles.touchStyle}>
                         <Image source={IMAGE.PLUS} style={styles.floatImage} />
                     </TouchableOpacity>
@@ -129,5 +136,6 @@ const ReferFriendScreen = (props) => {
         </SafeAreaView>
     );
 }
+
 export default ReferFriendScreen;
 

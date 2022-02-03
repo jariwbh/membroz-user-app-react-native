@@ -8,24 +8,27 @@ import {
     View, FlatList, RefreshControl,
     StatusBar, TouchableOpacity, Pressable
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
+import { MyLeadService } from '../../services/FreshLeadService/FreshLeadService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useFocusEffect } from '@react-navigation/native';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
+import * as IMAGE from '../../styles/image';
 import styles from './Style';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Loader from '../../components/loader/index';
-import * as LocalService from '../../services/LocalService/LocalService';
-import { MyLeadService } from '../../services/FreshLeadService/FreshLeadService';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import { useFocusEffect } from '@react-navigation/native';
+
 const WIDTH = Dimensions.get('window').width;
 
 const MyLeadScreen = (props) => {
     const [loading, setLoading] = useState(false);
-    const [myLeadList, setMyLeadList] = useState([]);
     const [userID, setUserID] = useState(null);
+    const [myLeadList, setMyLeadList] = useState([]);
     const [refreshing, setrefreshing] = useState(false);
 
     useFocusEffect(
@@ -34,6 +37,11 @@ const MyLeadScreen = (props) => {
             getUserDeatilsLocalStorage();
         }, [])
     );
+
+    useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
+    }, [])
 
     useEffect(() => {
     }, [loading, myLeadList, userID, refreshing]);
@@ -109,14 +117,14 @@ const MyLeadScreen = (props) => {
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
-                                title="Pull to refresh"
+                                title={languageConfig.pullrefreshtext}
                                 tintColor={COLOR.DEFALUTCOLOR}
                                 titleColor={COLOR.DEFALUTCOLOR}
                                 colors={[COLOR.DEFALUTCOLOR]}
                                 onRefresh={onRefresh} />
                         }
                     />
-                    <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', bottom: 0 }}>
+                    <View style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, bottom: 0 }}>
                         <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.ADDLEADSCREEN)} style={styles.touchStyle}>
                             <Image source={IMAGE.PLUS} style={styles.floatImage} />
                         </TouchableOpacity>
@@ -127,9 +135,9 @@ const MyLeadScreen = (props) => {
                     <>
                         <View activeOpacity={0.7} style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                             <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 150 }} resizeMode={KEY.CONTAIN} />
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                         </View>
-                        <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end', bottom: 10, position: 'absolute', right: 10 }}>
+                        <View style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, bottom: 10, position: KEY.ABSOLUTE, right: 10 }}>
                             <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.ADDLEADSCREEN)} style={styles.touchStyle}>
                                 <Image source={IMAGE.PLUS} style={styles.floatImage} />
                             </TouchableOpacity>

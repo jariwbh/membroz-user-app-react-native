@@ -8,18 +8,21 @@ import {
     View,
     StatusBar, TextInput, TouchableOpacity, Keyboard
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-import * as LocalService from '../../services/LocalService/LocalService';
-import Loader from '../../components/loader/index';
-import Toast from 'react-native-simple-toast';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import { EnquiyService } from '../../services/EnquiyService/EnquiyService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-const WIDTH = Dimensions.get('window').width;
+import * as LocalService from '../../services/LocalService/LocalService';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 import styles from './Style';
+
+const WIDTH = Dimensions.get('window').width;
 
 const AddLeadScreen = (props) => {
     const [loading, setloading] = useState(false);
@@ -40,6 +43,8 @@ const AddLeadScreen = (props) => {
     const sixTextInputRef = React.createRef();
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         getUserDeatilsLocalStorage();
     }, []);
 
@@ -57,7 +62,7 @@ const AddLeadScreen = (props) => {
     //check validation of fullname
     const checkFullName = (fullname) => {
         if (!fullname || fullname.length <= 0) {
-            setUserNameError('Full Name Required');
+            setUserNameError(languageConfig.fullnameerror);
             setUserName(fullname);
             return;
         }
@@ -70,11 +75,11 @@ const AddLeadScreen = (props) => {
     const checkMobile = (mobile) => {
         const reg = /^\d{10}$/;
         if (!mobile || mobile.length <= 0) {
-            setUserMobileError('Mobile Number Required');
+            setUserMobileError(languageConfig.mobileerror);
             return;
         }
         if (!reg.test(mobile)) {
-            setUserMobileError('Enter valid Mobile Number');
+            setUserMobileError(languageConfig.mobileinvalid);
             return;
         }
         setUserMobile(mobile);
@@ -121,14 +126,14 @@ const AddLeadScreen = (props) => {
             const response = await EnquiyService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 resetFields();
-                Toast.show('Lead Add Successfully', Toast.LONG);
+                Toast.show(languageConfig.leadsuccessmessage, Toast.LONG);
                 props.navigation.navigate(SCREEN.MYLEADSCREEN);
             }
         }
         catch (error) {
             firebase.crashlytics().recordError(error);
             setloading(false);
-            Toast.show('Lead Add Problem', Toast.LONG);
+            Toast.show(languageConfig.leaderrormessage, Toast.LONG);
         }
     }
 
@@ -142,7 +147,7 @@ const AddLeadScreen = (props) => {
                     <View>
                         <TextInput
                             selectionColor={COLOR.DEFALUTCOLOR}
-                            placeholder="Full Name"
+                            placeholder={languageConfig.fullnameplaceholder}
                             style={userNameError == null ? styles.inputTextView : styles.inputTextViewError}
                             type={KEY.CLEAR}
                             returnKeyType={KEY.NEXT}
@@ -157,7 +162,7 @@ const AddLeadScreen = (props) => {
                     <View>
                         <TextInput
                             selectionColor={COLOR.DEFALUTCOLOR}
-                            placeholder="Mobile Number"
+                            placeholder={languageConfig.mobileplaceholder}
                             keyboardType={KEY.NUMBER_PAD}
                             style={userMoblieError == null ? styles.inputTextView : styles.inputTextViewError}
                             type={KEY.CLEAR}
@@ -174,7 +179,7 @@ const AddLeadScreen = (props) => {
                     <View>
                         <TextInput
                             selectionColor={COLOR.DEFALUTCOLOR}
-                            placeholder="Email"
+                            placeholder={languageConfig.emailplaceholder}
                             keyboardType={KEY.EMAILADDRESS}
                             style={styles.inputTextView}
                             type={KEY.CLEAR}
@@ -188,7 +193,7 @@ const AddLeadScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <TextInput placeholder="Address"
+                        <TextInput placeholder={languageConfig.addresstext}
                             style={styles.addressView}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -204,7 +209,7 @@ const AddLeadScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <TextInput placeholder="PinCode"
+                        <TextInput placeholder={languageConfig.pincodetext}
                             keyboardType={KEY.NUMBER_PAD}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -219,7 +224,7 @@ const AddLeadScreen = (props) => {
                         />
                     </View>
                     <View>
-                        <TextInput placeholder="Note"
+                        <TextInput placeholder={languageConfig.notetext}
                             style={styles.addressView}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
@@ -235,7 +240,7 @@ const AddLeadScreen = (props) => {
                         />
                     </View>
                     <TouchableOpacity style={styles.updateBtn} onPress={() => onPress()}>
-                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Submit</Text>
+                        <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>{languageConfig.submit}</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -243,5 +248,6 @@ const AddLeadScreen = (props) => {
         </SafeAreaView>
     );
 }
+
 export default AddLeadScreen;
 
