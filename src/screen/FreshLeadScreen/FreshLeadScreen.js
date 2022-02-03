@@ -8,19 +8,22 @@ import {
     View, FlatList, RefreshControl, TextInput,
     StatusBar, TouchableOpacity, Pressable
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
+import { FreshLeadService } from '../../services/FreshLeadService/FreshLeadService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import languageConfig from '../../languages/languageConfig';
+import { useFocusEffect } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as SCREEN from '../../context/screen/screenName';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
+import * as IMAGE from '../../styles/image';
 import style from './Style';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Loader from '../../components/loader/index';
-import * as LocalService from '../../services/LocalService/LocalService';
-import { FreshLeadService } from '../../services/FreshLeadService/FreshLeadService';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import { useFocusEffect } from '@react-navigation/native';
+
 const WIDTH = Dimensions.get('window').width;
 
 const FreshLeadScreen = (props) => {
@@ -37,6 +40,8 @@ const FreshLeadScreen = (props) => {
     );
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setLoading(true);
         getUserDeatilsLocalStorage();
     }, [])
@@ -119,7 +124,7 @@ const FreshLeadScreen = (props) => {
                     <View style={style.centerView}>
                         <View style={style.statusbar}>
                             <TextInput
-                                placeholder={KEY.SEARCH}
+                                placeholder={languageConfig.search}
                                 placeholderTextColor={COLOR.GRAY_MEDIUM}
                                 selectionColor={COLOR.DEFALUTCOLOR}
                                 returnKeyType={KEY.DONE}
@@ -142,7 +147,7 @@ const FreshLeadScreen = (props) => {
                             refreshControl={
                                 <RefreshControl
                                     refreshing={refreshing}
-                                    title="Pull to refresh"
+                                    title={languageConfig.pullrefreshtext}
                                     tintColor={COLOR.DEFALUTCOLOR}
                                     titleColor={COLOR.DEFALUTCOLOR}
                                     colors={[COLOR.DEFALUTCOLOR]}
@@ -152,7 +157,7 @@ const FreshLeadScreen = (props) => {
                                 SearchFreshLead && SearchFreshLead.length == 0 &&
                                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                                     <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 50 }} resizeMode={KEY.CONTAIN} />
-                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                                 </View>
                             )}
                         />
@@ -162,11 +167,12 @@ const FreshLeadScreen = (props) => {
                 loading == false ?
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                     </View>
                     : <Loader />
             }
         </SafeAreaView>
     );
 }
+
 export default FreshLeadScreen;

@@ -10,13 +10,15 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { GalleryService } from '../../services/GalleryService/GalleryService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import languageConfig from '../../languages/languageConfig';
 import * as SCREEN from '../../context/screen/screenName';
+import Loader from '../../components/loader/index';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import Loader from '../../components/loader/index';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -26,6 +28,8 @@ const GalleryScreen = (props) => {
     const [loading, setloading] = useState(true);
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setloading(true);
         getGalleryImages();
     }, []);
@@ -92,13 +96,14 @@ const GalleryScreen = (props) => {
                 loading == false ?
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                     </View>
                     : <Loader />
             }
         </SafeAreaView>
     );
 }
+
 export default GalleryScreen;
 
 

@@ -10,16 +10,19 @@ import {
     StyleSheet,
     TouchableOpacity, RefreshControl
 } from 'react-native';
-import Loader from '../../components/loader/index';
-import * as LocalService from '../../services/LocalService/LocalService';
 import { supportHistoryService } from '../../services/HelpSupportService/HelpSupportService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
+import languageConfig from '../../languages/languageConfig';
 import * as SCREEN from '../../context/screen/screenName';
+import Loader from '../../components/loader/index';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import moment from 'moment';
+
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
@@ -30,6 +33,8 @@ const TicketHistoryScreen = (props) => {
     const [ticketHistory, setTicketHistory] = useState(null);
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setLoading(true);
         getUserDeatilsLocalStorage();
     }, [])
@@ -76,47 +81,47 @@ const TicketHistoryScreen = (props) => {
     const renderTicketHistory = ({ item }) => (
         <View style={styles.cardView}>
             <View style={{ flexDirection: KEY.COLUMN, marginLeft: 10, width: 250, padding: 5, flex: 1 }}>
-                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, marginTop: 10 }}>Ticket No.</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, marginTop: 10 }}>{languageConfig.tickettitle}</Text>
                 <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 0, marginTop: -20 }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, flex: 1, width: '35%' }}>{item.docnumber}</Text>
                 </View>
-                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, marginTop: 10 }}>Raised On</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, marginTop: 10 }}>{languageConfig.raisedon}</Text>
                 <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 12, marginTop: -20 }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{moment(item.createdAt).format('LL')}</Text>
                 </View>
-                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, marginTop: 10 }}>Closure Date</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK, marginTop: 10 }}>{languageConfig.closuredate}</Text>
                 <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 12, marginTop: -20 }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{moment(item.updatedAt).format('LL')}</Text>
                 </View>
                 {item.status == "Requested" &&
                     <View style={{ alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 5, marginBottom: 10 }}>
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{'Status'}</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{languageConfig.status}</Text>
                         <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 12 }}>
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.DEFALUTCOLOR }}>{"Pending"}</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.DEFALUTCOLOR }}>{languageConfig.pending}</Text>
                         </View>
                     </View>
                 }
                 {item.status == "deleted" &&
                     <View style={{ alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 5, marginBottom: 10 }}>
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{'Status'}</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{languageConfig.status}</Text>
                         <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 12 }}>
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR }}>{"Cancel"}</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR }}>{languageConfig.cancel}</Text>
                         </View>
                     </View>
                 }
                 {item.status == "Fixed" &&
                     <View style={{ alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 5, marginBottom: 10 }}>
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{'Status'}</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{languageConfig.status}</Text>
                         <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 12 }}>
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GREEN }}>{"Approved"}</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.GREEN }}>{languageConfig.approved}</Text>
                         </View>
                     </View>
                 }
                 {item.status == "Closed" &&
                     <View style={{ alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 5, marginBottom: 10 }}>
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{'Status'}</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.BLACK }}>{languageConfig.status}</Text>
                         <View style={{ alignItems: KEY.FLEX_END, flex: 1, marginRight: 35 }}>
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR }}>{"Closed"}</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR }}>{languageConfig.closed}</Text>
                         </View>
                     </View>
                 }
@@ -141,7 +146,7 @@ const TicketHistoryScreen = (props) => {
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
-                            title="Pull to refresh"
+                            title={languageConfig.pullrefreshtext}
                             tintColor={COLOR.DEFALUTCOLOR}
                             titleColor={COLOR.DEFALUTCOLOR}
                             colors={[COLOR.DEFALUTCOLOR]}
@@ -152,13 +157,14 @@ const TicketHistoryScreen = (props) => {
                 loading == false ?
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                     </View>
                     : <Loader />
             }
         </SafeAreaView>
     );
 }
+
 export default TicketHistoryScreen;
 
 const styles = StyleSheet.create({

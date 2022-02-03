@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Dimensions,
     SafeAreaView,
@@ -8,14 +8,23 @@ import {
     View,
     StatusBar
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import languageConfig from '../../languages/languageConfig';
 import * as SCREEN from '../../context/screen/screenName';
 import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+
 const WIDTH = Dimensions.get('window').width;
 
 export default TimesheetScreen = (props) => {
+
+    useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
+    }, []);
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
@@ -23,7 +32,7 @@ export default TimesheetScreen = (props) => {
             <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                     <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -3,23 +3,26 @@ import {
     View, Text, Dimensions, StyleSheet, SafeAreaView, ImageBackground,
     Image, TextInput, ScrollView, TouchableOpacity, StatusBar, Keyboard
 } from 'react-native';
-import * as SCREEN from '../../context/screen/screenName';
-import * as COLOR from '../../styles/colors';
-import * as FONT from '../../styles/typography';
-import * as KEY from '../../context/actions/key';
-import * as IMAGE from '../../styles/image';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
+import { LoginService } from '../../services/LoginService/LoginService';
 import AsyncStorage from '@react-native-community/async-storage';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
 import { REMOTEDATA } from '../../context/actions/type';
+import axiosConfig from '../../helpers/axiosConfig';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import STYLES from './Style';
+
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
-import STYLES from './Style';
-import Toast from 'react-native-simple-toast';
-import axiosConfig from '../../helpers/axiosConfig';
-import { LoginService } from '../../services/LoginService/LoginService';
-import * as LocalService from '../../services/LocalService/LocalService';
-import Loader from '../../components/loader/index';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default LoginScreen = (props) => {
     const [logo, setLogo] = useState(null);
@@ -34,6 +37,8 @@ export default LoginScreen = (props) => {
     const secondTextInputRef = React.createRef();
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         // check AuthController use to Login Or Not Login
         RemoteController();
         localStorageInfoCheck();
@@ -56,7 +61,7 @@ export default LoginScreen = (props) => {
     const CheckUsername = (username) => {
         if (!username || username.length <= 0) {
             setUsername(null);
-            setUsernameError('Username Required!');
+            setUsernameError(languageConfig.usernameerror);
             return;
         }
         setUsername(username);
@@ -68,7 +73,7 @@ export default LoginScreen = (props) => {
     const CheckPassword = (password) => {
         if (!password || password.length <= 0) {
             setPassword(null);
-            setPasswordError('Password Required!');
+            setPasswordError(languageConfig.passwordrequiredtext);
             return;
         }
         setPassword(password);
@@ -112,7 +117,7 @@ export default LoginScreen = (props) => {
                 setAuthUserInfo(body);
                 resetScreen();
                 props.navigation.replace(SCREEN.TABNAVIGATION);
-                Toast.show('Login Sucessfully', Toast.SHORT);
+                Toast.show(languageConfig.loginsuccess, Toast.SHORT);
             }
         } catch (error) {
             console.log(`error`, error);
@@ -120,7 +125,7 @@ export default LoginScreen = (props) => {
             setPassword(null);
             setPasswordError(null);
             setLoading(false);
-            Toast.show('Username and Password Invalid!', Toast.SHORT);
+            Toast.show(languageConfig.wrongusererror, Toast.SHORT);
         }
     }
 
@@ -173,12 +178,12 @@ export default LoginScreen = (props) => {
                             <View style={{ marginTop: HEIGHT / 3 }} />
                         }
 
-                        <Text style={STYLES.welcomeText}>Welcome</Text>
-                        <Text style={{ color: COLOR.WHITE, fontSize: 18, fontWeight: FONT.FONT_WEIGHT_BOLD, marginBottom: 45 }}>Login To Your Account</Text>
+                        <Text style={STYLES.welcomeText}>{languageConfig.welcometext}</Text>
+                        <Text style={{ color: COLOR.WHITE, fontSize: 18, fontWeight: FONT.FONT_WEIGHT_BOLD, marginBottom: 45 }}>{languageConfig.logintext}</Text>
 
                         <View style={{ justifyContent: KEY.CENTER }}>
                             <TextInput
-                                placeholder={KEY.USERNAME}
+                                placeholder={languageConfig.usernameplaceholder}
                                 placeholderTextColor={COLOR.WHITE}
                                 selectionColor={COLOR.DEFALUTCOLOR}
                                 returnKeyType={KEY.NEXT}
@@ -193,7 +198,7 @@ export default LoginScreen = (props) => {
 
                         <View style={{ justifyContent: KEY.CENTER }}>
                             <TextInput
-                                placeholder={KEY.PASSWORD}
+                                placeholder={languageConfig.passwordplaceholder}
                                 placeholderTextColor={COLOR.WHITE}
                                 selectionColor={COLOR.DEFALUTCOLOR}
                                 returnKeyType={KEY.DONE}
@@ -208,7 +213,7 @@ export default LoginScreen = (props) => {
                             <Text style={{ marginLeft: 10, fontSize: FONT.FONT_SIZE_16, color: COLOR.ERRORCOLOR, marginBottom: 5, marginTop: -5 }}>{passwordError}</Text>
                         </View>
                         <TouchableOpacity style={STYLES.loginBtn} onPress={() => onPressToLogin()}>
-                            <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>Login</Text>
+                            <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_18 }}>{languageConfig.loginbtn}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{
@@ -231,10 +236,10 @@ export default LoginScreen = (props) => {
                                             style={{ margin: 0 }} />
                                     </TouchableOpacity>
                             }
-                            <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16, marginLeft: 2 }}>Remember Me</Text>
+                            <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16, marginLeft: 2 }}>{languageConfig.remembertext}</Text>
                         </View>
                         <TouchableOpacity onPress={() => { props.navigation.navigate(SCREEN.FORGOTPASSWORDSCREEN), resetScreen() }}>
-                            <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Forget Password?</Text>
+                            <Text style={{ color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>{languageConfig.forgetpasswordtext}</Text>
                         </TouchableOpacity>
                     </View>
                     {/* <View style={{ paddingVertical: 50 }} /> */}
@@ -245,47 +250,4 @@ export default LoginScreen = (props) => {
     );
 }
 
-//export default LoginScreen;
-const styles = StyleSheet.create({
-    containerView: {
-        justifyContent: KEY.CENTER,
-        alignItems: KEY.CENTER
-    },
-    imageLogo: {
-        marginLeft: 100,
-        marginRight: 100,
-        marginTop: 50,
-        marginBottom: 55,
-        height: 100,
-        width: 200
-    },
-    welcomeText: {
-        fontSize: 40,
-        color: COLOR.WHITE,
-        fontWeight: FONT.FONT_WEIGHT_BOLD,
-        fontFamily: FONT.FONT_FAMILY_SANS_SERIF,
-    },
-    inputTextView: {
-        borderRadius: 30,
-        borderWidth: 2,
-        borderColor: COLOR.WHITE,
-        alignItems: KEY.FLEX_START,
-        marginBottom: 20,
-        width: WIDTH - 30,
-        height: 45,
-        marginLeft: 20,
-        marginRight: 20,
-        color: COLOR.WHITE,
-        fontSize: FONT.FONT_SIZE_16,
-        paddingLeft: 15
-    },
-    loginBtn: {
-        borderRadius: 30,
-        backgroundColor: COLOR.DEFALUTCOLOR,
-        width: WIDTH - 30,
-        height: 45,
-        marginTop: 15,
-        justifyContent: KEY.CENTER,
-        alignItems: KEY.CENTER
-    }
-});
+

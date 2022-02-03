@@ -8,18 +8,21 @@ import {
     View, FlatList, RefreshControl,
     StatusBar, TouchableOpacity, Pressable
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
+import { FreshMeetingService } from '../../services/MeetingService/MeetingService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useFocusEffect } from '@react-navigation/native';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
+import * as IMAGE from '../../styles/image';
 import style from './Style';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Loader from '../../components/loader/index';
-import * as LocalService from '../../services/LocalService/LocalService';
-import { FreshMeetingService } from '../../services/MeetingService/MeetingService';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import { useFocusEffect } from '@react-navigation/native';
+
 const WIDTH = Dimensions.get('window').width;
 
 const MeetingScreen = (props) => {
@@ -35,6 +38,8 @@ const MeetingScreen = (props) => {
     );
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setLoading(true);
         getUserDeatilsLocalStorage();
     }, [])
@@ -127,7 +132,7 @@ const MeetingScreen = (props) => {
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
-                                title="Pull to refresh"
+                                title={languageConfig.pullrefreshtext}
                                 tintColor={COLOR.DEFALUTCOLOR}
                                 titleColor={COLOR.DEFALUTCOLOR}
                                 colors={[COLOR.DEFALUTCOLOR]}
@@ -139,11 +144,12 @@ const MeetingScreen = (props) => {
                 loading == false ?
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                     </View>
                     : <Loader />
             }
         </SafeAreaView>
     );
 }
+
 export default MeetingScreen;

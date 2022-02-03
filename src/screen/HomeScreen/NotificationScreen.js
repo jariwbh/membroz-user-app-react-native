@@ -6,17 +6,20 @@ import {
     ScrollView, TouchableOpacity,
     StatusBar, View, Text
 } from 'react-native';
-import * as KEY from '../../context/actions/key';
-import * as IMAGE from '../../styles/image';
-import * as COLOR from '../../styles/colors';
-import * as FONT from '../../styles/typography';
+import * as NotificationService from '../../services/NotificationService/NotificationService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import * as LocalService from '../../services/LocalService/LocalService';
-import * as STYLES from './NotificationStyle';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import * as NotificationService from '../../services/NotificationService/NotificationService';
+import languageConfig from '../../languages/languageConfig';
 import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import * as STYLES from './NotificationStyle';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 import moment from 'moment';
+
 const WIDTH = Dimensions.get('window').width;
 
 const NotificationScreen = (props) => {
@@ -29,6 +32,8 @@ const NotificationScreen = (props) => {
     }, [loading, notificationList, userID, refreshing]);
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setloading(true);
         getUserDeatilsLocalStorage();
     }, []);
@@ -131,14 +136,15 @@ const NotificationScreen = (props) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
-            <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
+            <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH}
+                style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
             {(notificationList && notificationList.length > 0)
                 ?
                 <>
                     <View style={{ justifyContent: KEY.KEY.FLEX_END, alignItems: KEY.KEY.FLEX_END }}>
                         <TouchableOpacity onPress={() => clearAllNotification()}
                             style={STYLES.styles.submitbtn}>
-                            <Text style={{ fontSize: 14, color: COLOR.BLACK }}>Clear All</Text>
+                            <Text style={{ fontSize: 14, color: COLOR.BLACK }}>{languageConfig.languageConfig}</Text>
                         </TouchableOpacity>
                     </View>
                     <FlatList
@@ -149,7 +155,7 @@ const NotificationScreen = (props) => {
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
-                                title="Pull to refresh"
+                                title={languageConfig.pullrefreshtext}
                                 tintColor={COLOR.DEFALUTCOLOR}
                                 titleColor={COLOR.DEFALUTCOLOR}
                                 colors={[COLOR.DEFALUTCOLOR]}
@@ -163,13 +169,14 @@ const NotificationScreen = (props) => {
                 loading == false ?
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                     </View>
                     : <Loader />
             }
         </SafeAreaView>
     );
 }
+
 export default NotificationScreen;
 
 

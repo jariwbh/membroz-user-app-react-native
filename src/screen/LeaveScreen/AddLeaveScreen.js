@@ -8,22 +8,25 @@ import {
     View, TextInput,
     StatusBar, TouchableOpacity, Keyboard
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-const WIDTH = Dimensions.get('window').width;
-import * as LocalService from '../../services/LocalService/LocalService';
-import Loader from '../../components/loader/index';
-import { Picker } from '@react-native-picker/picker';
 import { leaveRequestService, leaveTypeService } from '../../services/LeaveService/LeaveService';
-import styles from './Style';
-import moment from 'moment';
-import Toast from 'react-native-simple-toast';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import { Picker } from '@react-native-picker/picker';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
+import styles from './Style';
+import moment from 'moment';
+
+const WIDTH = Dimensions.get('window').width;
 
 export default AddLeaveScreen = (props) => {
     const [loading, setLoading] = useState(false);
@@ -116,7 +119,7 @@ export default AddLeaveScreen = (props) => {
             const response = await leaveRequestService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 resetField();
-                Toast.show('Your leave request submited');
+                Toast.show(languageConfig.leavesubmitmessage);
                 props.navigation.navigate(SCREEN.LEAVESCREEN);
             }
         } catch (error) {
@@ -129,7 +132,7 @@ export default AddLeaveScreen = (props) => {
     //check validation of Leave Type
     const checkLeaveType = (itemValue) => {
         if (!itemValue || itemValue.length <= 0) {
-            setSelectLeaveTypeError('Leave type required!');
+            setSelectLeaveTypeError(languageConfig.leaverequired);
             setSelectLeaveType(itemValue);
             return;
         }
@@ -175,7 +178,7 @@ export default AddLeaveScreen = (props) => {
     //check validation of reason
     const checkReason = (reason) => {
         if (!reason || reason.length <= 0) {
-            setReasonError('reason can not be empty');
+            setReasonError(languageConfig.reasonempty);
             setReason(reason);
             return;
         }
@@ -187,7 +190,7 @@ export default AddLeaveScreen = (props) => {
     //check validation of fromdate
     const checkFromDate = (date) => {
         if (!date || date.length <= 0) {
-            setFromDateError('fromdate can not be empty');
+            setFromDateError(languageConfig.fromdateempty);
             setFromDate(date);
             return;
         }
@@ -199,7 +202,7 @@ export default AddLeaveScreen = (props) => {
     //check validation of todate
     const checkToDate = (date) => {
         if (!date || date.length <= 0) {
-            setToDateError('todate can not be empty');
+            setToDateError(languageConfig.todateempty);
             setToDate(date);
             return;
         }
@@ -229,13 +232,13 @@ export default AddLeaveScreen = (props) => {
                                 leaveTypeList.map((item) => (
                                     <Picker.Item label={item.title} value={item._id} />
                                 ))
-                                : <Picker.Item label={'No data'} value={'No data'} />
+                                : <Picker.Item label={languageConfig.nodata} value={languageConfig.nodata} />
                         }
                     </Picker>
                 </View>
                 <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
                     <TextInput
-                        placeholder="Enter reason"
+                        placeholder={languageConfig.enterreason}
                         selectionColor={COLOR.DEFALUTCOLOR}
                         style={reasonError == null ? styles.inputTextView : styles.inputTextViewError}
                         type={KEY.CLEAR}
@@ -247,7 +250,7 @@ export default AddLeaveScreen = (props) => {
                 </View>
                 <View style={{ marginTop: 5, marginLeft: 20, marginRight: 20 }}>
                     <TextInput
-                        placeholder="From Date"
+                        placeholder={languageConfi.fromdatetext}
                         selectionColor={COLOR.DEFALUTCOLOR}
                         style={fromDateError == null ? styles.inputTextView : styles.inputTextViewError}
                         type={KEY.CLEAR}
@@ -266,7 +269,7 @@ export default AddLeaveScreen = (props) => {
                 </View>
                 <View style={{ marginTop: 5, marginLeft: 20, marginRight: 20 }}>
                     <TextInput
-                        placeholder="To Date"
+                        placeholder={languageConfig.todatetext}
                         selectionColor={COLOR.DEFALUTCOLOR}
                         style={toDateError == null ? styles.inputTextView : styles.inputTextViewError}
                         type={KEY.CLEAR}
@@ -286,7 +289,7 @@ export default AddLeaveScreen = (props) => {
                 <View style={{ marginLeft: 20, marginTop: 0 }}>
                     {
                         <View style={{ marginTop: 0, flexDirection: KEY.ROW, alignItems: KEY.CENTER }}>
-                            <Text style={styles.textTitle2}>Half Day </Text>
+                            <Text style={styles.textTitle2}>{languageConfig.halfdaytext} </Text>
                             <TouchableOpacity onPress={() => setHalfDayLeave(halfDayLeave ? false : true)}>
                                 <FontAwesome size={40}
                                     color={COLOR.DEFALUTCOLOR} name={halfDayLeave === true ? 'toggle-on' : 'toggle-off'}
@@ -296,7 +299,7 @@ export default AddLeaveScreen = (props) => {
                     }
                 </View>
                 <TouchableOpacity style={styles.updateBtn} onPress={() => onPressToSubmitLeaveRequest()}>
-                    <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Submit</Text>
+                    <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>{languageConfig.submit}</Text>
                 </TouchableOpacity>
             </ScrollView>
             {loading ? <Loader /> : null}

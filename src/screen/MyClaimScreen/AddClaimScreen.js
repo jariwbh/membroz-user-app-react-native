@@ -8,28 +8,31 @@ import {
     View, TextInput,
     StatusBar, TouchableOpacity, Keyboard
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
-import * as FONT from '../../styles/typography';
-import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-const WIDTH = Dimensions.get('window').width;
+import { advanceClaimRequestService } from '../../services/AdvanceClaimService/AdvanceClaimService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import * as LocalService from '../../services/LocalService/LocalService';
-import Loader from '../../components/loader/index';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
 import { Picker } from '@react-native-picker/picker';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 import styles from './Style';
 import moment from 'moment';
-import Toast from 'react-native-simple-toast';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { advanceClaimRequestService } from '../../services/AdvanceClaimService/AdvanceClaimService';
+
+const WIDTH = Dimensions.get('window').width;
 
 const claim = [
-    { "_id": "Advance", "title": "Advance" },
-    { "_id": "Travel Cost", "title": "Travel Cost" },
-    { "_id": "Loan", "title": "Loan" },
-    { "_id": "Purchase", "title": "Purchase" },
-    { "_id": "Other", "title": "Other" }
+    { "_id": "Advance", "title": languageConfig.advancetext },
+    { "_id": "Travel Cost", "title": languageConfig.travelcosttext },
+    { "_id": "Loan", "title": languageConfig.loantext },
+    { "_id": "Purchase", "title": languageConfig.Purchasetext },
+    { "_id": "Other", "title": languageConfig.othertext }
 ]
 
 export default AddClaimScreen = (props) => {
@@ -45,6 +48,8 @@ export default AddClaimScreen = (props) => {
     const [note, setNote] = useState(null);
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         getUserDeatilsLocalStorage();
     }, []);
 
@@ -93,10 +98,11 @@ export default AddClaimScreen = (props) => {
             const response = await advanceClaimRequestService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 resetField();
-                Toast.show('Your Claim request submited');
+                Toast.show(languageConfig.claimsuccessmessage);
                 props.navigation.navigate(SCREEN.MYCLAIMSCREEN);
             }
         } catch (error) {
+            Toast.show(languageConfig.claimsuccesserror);
             firebase.crashlytics().recordError(error);
             setLoading(false);
         }
@@ -105,7 +111,7 @@ export default AddClaimScreen = (props) => {
     //CHECK VALIDATION OF CLAIM TYPE
     const checkClaimType = (itemValue) => {
         if (!itemValue || itemValue.length <= 0) {
-            setSelectClaimTypeError('Leave type required!');
+            setSelectClaimTypeError(languageConfig.claimtypeerror);
             setSelectClaimType(itemValue);
             return;
         }
@@ -114,10 +120,10 @@ export default AddClaimScreen = (props) => {
         return;
     }
 
-    //check validation of reason
+    //CHECK VALIDATION OF REASON
     const checkReason = (reason) => {
         if (!reason || reason.length <= 0) {
-            setReasonError('reason can not be empty');
+            setReasonError(languageConfig.reasonempty);
             setReason(reason);
             return;
         }
@@ -126,10 +132,10 @@ export default AddClaimScreen = (props) => {
         return;
     }
 
-    //check validation of fromdate
+    //CHECK VALIDATION OF FROMDATE
     const checkAmount = (amount) => {
         if (!amount || amount.length <= 0) {
-            setAmountError('Amount can not be empty');
+            setAmountError(languageConfig.claimamounterror);
             setAmount(amount);
             return;
         }
@@ -159,14 +165,14 @@ export default AddClaimScreen = (props) => {
                                 claimTypeList.map((item) => (
                                     <Picker.Item label={item.title} value={item._id} />
                                 ))
-                                : <Picker.Item label={'No data'} value={'No data'} />
+                                : <Picker.Item label={languageConfig.nodata} value={languageConfig.nodata} />
                         }
                     </Picker>
                 </View>
 
                 <View style={{ marginTop: 10, marginLeft: 20, marginRight: 20 }}>
                     <TextInput
-                        placeholder="Enter reason"
+                        placeholder={languageConfig.enterreason}
                         selectionColor={COLOR.DEFALUTCOLOR}
                         style={reasonError == null ? styles.inputTextView : styles.inputTextViewError}
                         type={KEY.CLEAR}
@@ -179,7 +185,7 @@ export default AddClaimScreen = (props) => {
 
                 <View style={{ marginTop: 5, marginLeft: 20, marginRight: 20 }}>
                     <TextInput
-                        placeholder="Amount"
+                        placeholder={languageConfig.amounttext}
                         selectionColor={COLOR.DEFALUTCOLOR}
                         style={amountError == null ? styles.inputTextView : styles.inputTextViewError}
                         type={KEY.CLEAR}
@@ -192,7 +198,7 @@ export default AddClaimScreen = (props) => {
 
                 <View style={{ marginTop: 5, marginLeft: 20, marginRight: 20 }}>
                     <TextInput
-                        placeholder="Notes"
+                        placeholder={languageConfig.notetext}
                         selectionColor={COLOR.DEFALUTCOLOR}
                         style={styles.inputTextView}
                         type={KEY.CLEAR}
@@ -204,7 +210,7 @@ export default AddClaimScreen = (props) => {
                 </View>
 
                 <TouchableOpacity style={styles.updateBtn} onPress={() => onPressToSubmitCliamRequest()}>
-                    <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>Submit</Text>
+                    <Text style={{ fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE, fontSize: FONT.FONT_SIZE_16 }}>{languageConfig.submit}</Text>
                 </TouchableOpacity>
             </ScrollView>
             {loading ? <Loader /> : null}

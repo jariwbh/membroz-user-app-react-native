@@ -11,35 +11,37 @@ import {
   Platform, Alert, Linking, Share
 } from 'react-native';
 import { getByIdUserService, patchUserService } from '../../services/UserService/UserService';
-import * as LocalService from '../../services/LocalService/LocalService';
-import AsyncStorage from '@react-native-community/async-storage';
-import * as SCREEN from '../../context/screen/screenName';
+import { NotificationService } from '../../services/NotificationService/NotificationService';
 import { REMOTEDATA, MESSAGINGSENDERID, DEFAULTPROFILE } from '../../context/actions/type';
+import * as AttendanceService from '../../services/AttendanceService/AttendanceService';
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import { GalleryService } from '../../services/GalleryService/GalleryService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import * as LocalService from '../../services/LocalService/LocalService';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-community/async-storage';
+import MyPermissionController from '../../helpers/appPermission';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import PushNotification from "react-native-push-notification";
+import crashlytics from "@react-native-firebase/crashlytics";
+import languageConfig from '../../languages/languageConfig';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useFocusEffect } from '@react-navigation/native';
+import * as SCREEN from '../../context/screen/screenName';
+import messaging from '@react-native-firebase/messaging';
+import NetInfo from "@react-native-community/netinfo";
 import React, { useEffect, useState } from 'react';
+import Loader from '../../components/loader/index';
+import DeviceInfo from 'react-native-device-info';
+import firebase from '@react-native-firebase/app';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
+import Toast from 'react-native-simple-toast';
+import RNExitApp from 'react-native-exit-app';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import styles from './HomeStyle';
-import Loader from '../../components/loader/index';
-import { GalleryService } from '../../services/GalleryService/GalleryService';
-import { NotificationService } from '../../services/NotificationService/NotificationService';
-import * as AttendanceService from '../../services/AttendanceService/AttendanceService';
-import DeviceInfo from 'react-native-device-info';
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification from "react-native-push-notification";
-import firebase from '@react-native-firebase/app';
-import messaging from '@react-native-firebase/messaging';
-import Toast from 'react-native-simple-toast';
-import { useFocusEffect } from '@react-navigation/native';
-import RNExitApp from 'react-native-exit-app';
-import crashlytics from "@react-native-firebase/crashlytics";
 import moment from 'moment';
-import MyPermissionController from '../../helpers/appPermission';
-import NetInfo from "@react-native-community/netinfo";
 
 //STATIC VARIABLE 
 const HEIGHT = Dimensions.get('window').height;
@@ -47,23 +49,23 @@ const WIDTH = Dimensions.get('window').width;
 
 //STATIC DATA
 let MenuDefaultArray = [
-  { "menuname": "freshlead", "title": "Fresh Call", "screenname": "FreshLeadScreen", "colorcode": "#2AAA63", "imageurl": IMAGE.PHONE_WITH_WIRE, "height": 30, "width": 30 },
-  { "menuname": "followup", "title": "Follow Up", "screenname": "FollowupScreen", "colorcode": "#FF4D4D", "imageurl": IMAGE.CLOCK, "height": 30, "width": 30 },
-  { "menuname": "meeting", "title": "Meeting", "screenname": "MeetingScreen", "colorcode": "#007AFF", "imageurl": IMAGE.IC_GROUP, "height": 30, "width": 30 },
-  { "menuname": "mylead", "title": "My Lead", "screenname": "MyLeadScreen", "colorcode": "#B366FF", "imageurl": IMAGE.PORTFOLIO, "height": 30, "width": 30 },
-  { "menuname": "attendance", "title": "Attendance", "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 30, "width": 30 },
-  { "menuname": "calender", "title": "Calender", "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 30, "width": 30 },
-  { "menuname": "booking", "title": "Book a Holiday", "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 30, "width": 30 },
-  { "menuname": "appointment", "title": "My Appointment", "screenname": "AppointmentScreen", "colorcode": "#F2542C", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 30, "width": 30 },
-  { "menuname": "event", "title": "Event", "screenname": "EventScreen", "colorcode": "#C889F2", "imageurl": IMAGE.IC_EVENT, "height": 30, "width": 30 },
-  { "menuname": "salary", "title": "My Salary", "screenname": "SalaryScreen", "colorcode": "#4B9E47", "imageurl": IMAGE.PAYMENT_ICON, "height": 30, "width": 33 },
-  { "menuname": "leave", "title": "My Leave", "screenname": "LeaveScreen", "colorcode": "#91479E", "imageurl": IMAGE.IC_PRESCRIPTION, "height": 30, "width": 30 },
-  { "menuname": "timesheet", "title": "Timesheet", "screenname": "TimesheetScreen", "colorcode": "#757FD9", "imageurl": IMAGE.TIMELINEICON, "height": 30, "width": 30 },
-  { "menuname": "claim", "title": "My Claim", "screenname": "MyClaimScreen", "colorcode": "#EB4034", "imageurl": IMAGE.CLAIMICON, "height": 30, "width": 30 },
-  { "menuname": "announcement", "title": "Announcement", "screenname": "AnnouncementScreen", "colorcode": "#CFD03B", "imageurl": IMAGE.NOTICE_OUTLINE, "height": 30, "width": 30 },
-  { "menuname": "team", "title": "Team", "screenname": "MyTeamScreen", "colorcode": "#0099EB", "imageurl": IMAGE.IC_GROUP, "height": 30, "width": 30 },
-  { "menuname": "support", "title": "Support", "screenname": "SupportScreen", "colorcode": "#F9C688", "imageurl": IMAGE.SUPPORT_ICON, "height": 40, "width": 21 },
-  { "menuname": "referfriend", "title": "Refer a Friend", "screenname": "ReferFriendScreen", "colorcode": "#9E7347", "imageurl": IMAGE.REFERICON, "height": 30, "width": 30 },
+  { "menuname": "freshlead", "title": languageConfig.freshcall, "screenname": "FreshLeadScreen", "colorcode": "#2AAA63", "imageurl": IMAGE.PHONE_WITH_WIRE, "height": 30, "width": 30 },
+  { "menuname": "followup", "title": languageConfig.followuptext, "screenname": "FollowupScreen", "colorcode": "#FF4D4D", "imageurl": IMAGE.CLOCK, "height": 30, "width": 30 },
+  { "menuname": "meeting", "title": languageConfig.meeting, "screenname": "MeetingScreen", "colorcode": "#007AFF", "imageurl": IMAGE.IC_GROUP, "height": 30, "width": 30 },
+  { "menuname": "mylead", "title": languageConfig.mylead, "screenname": "MyLeadScreen", "colorcode": "#B366FF", "imageurl": IMAGE.PORTFOLIO, "height": 30, "width": 30 },
+  { "menuname": "attendance", "title": languageConfig.attendance, "screenname": "AttendanceScreen", "colorcode": "#CFD13B", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 30, "width": 30 },
+  { "menuname": "calender", "title": languageConfig.calender, "screenname": "CalendarScreen", "colorcode": "#FF8D7F", "imageurl": IMAGE.CALENDER_ICON, "height": 30, "width": 30 },
+  { "menuname": "booking", "title": languageConfig.bookholiday, "screenname": "MyBookingScreen", "colorcode": "#FCD138", "imageurl": IMAGE.IC_LIBRARY, "height": 30, "width": 30 },
+  { "menuname": "appointment", "title": languageConfig.myappointment, "screenname": "AppointmentScreen", "colorcode": "#F2542C", "imageurl": IMAGE.ATTENDANCE_ICON, "height": 30, "width": 30 },
+  { "menuname": "event", "title": languageConfig.event, "screenname": "EventScreen", "colorcode": "#C889F2", "imageurl": IMAGE.IC_EVENT, "height": 30, "width": 30 },
+  { "menuname": "salary", "title": languageConfig.mysalary, "screenname": "SalaryScreen", "colorcode": "#4B9E47", "imageurl": IMAGE.PAYMENT_ICON, "height": 30, "width": 33 },
+  { "menuname": "leave", "title": languageConfig.myleave, "screenname": "LeaveScreen", "colorcode": "#91479E", "imageurl": IMAGE.IC_PRESCRIPTION, "height": 30, "width": 30 },
+  { "menuname": "timesheet", "title": languageConfig.timesheet, "screenname": "TimesheetScreen", "colorcode": "#757FD9", "imageurl": IMAGE.TIMELINEICON, "height": 30, "width": 30 },
+  { "menuname": "claim", "title": languageConfig.myclaim, "screenname": "MyClaimScreen", "colorcode": "#EB4034", "imageurl": IMAGE.CLAIMICON, "height": 30, "width": 30 },
+  { "menuname": "announcement", "title": languageConfig.announcement, "screenname": "AnnouncementScreen", "colorcode": "#CFD03B", "imageurl": IMAGE.NOTICE_OUTLINE, "height": 30, "width": 30 },
+  { "menuname": "team", "title": languageConfig.team, "screenname": "MyTeamScreen", "colorcode": "#0099EB", "imageurl": IMAGE.IC_GROUP, "height": 30, "width": 30 },
+  { "menuname": "support", "title": languageConfig.support, "screenname": "SupportScreen", "colorcode": "#F9C688", "imageurl": IMAGE.SUPPORT_ICON, "height": 40, "width": 21 },
+  { "menuname": "referfriend", "title": languageConfig.referfriend, "screenname": "ReferFriendScreen", "colorcode": "#9E7347", "imageurl": IMAGE.REFERICON, "height": 30, "width": 30 },
 ];
 
 //HOME SCREEN FUNCTION
@@ -113,13 +115,14 @@ const HomeScreen = (props) => {
         getNotification(userInfo?._id);
         getCheckinTime(userInfo?._id);
         setUserProfilePic(userInfo?.profilepic);
-        // await getAppVersion(appVersionCode);
       }
       getCallBackScreen();
     }, [])
   );
 
   useEffect(() => {
+    //LANGUAGE MANAGEMENT FUNCTION
+    MemberLanguage();
     inetrnetChecker();
     // CHECK REMOTECONTROLLER USE TO AUTOCONFIG APP
     RemoteController();
@@ -232,7 +235,7 @@ const HomeScreen = (props) => {
             LocalService.RemoveAuthenticateUser();
             props.navigation.replace(SCREEN.AUTH);
           } else {
-            Toast.show('Welcome', Toast.SHORT);
+            Toast.show(languageConfig.welcometext, Toast.SHORT);
             LocalService.AuthenticateUser(response.data);
           }
         }
@@ -295,7 +298,10 @@ const HomeScreen = (props) => {
           <Image source={item.item.imageurl} style={{ height: item.item.height, width: item.item.width }} />
         </View>
         <Text numberOfLines={1}
-          style={{ flex: 1, textAlign: 'center', alignItems: 'center', justifyContent: 'center', alignSelf: 'center', fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR }}>
+          style={{
+            flex: 1, textAlign: KEY.CENTER, alignItems: KEY.CENTER, justifyContent: KEY.CENTER,
+            alignSelf: KEY.CENTER, fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR
+          }}>
           {item.item.title}</Text>
       </View>
     </TouchableOpacity>
@@ -410,13 +416,13 @@ const HomeScreen = (props) => {
   //ALERT BUTTON APP VERSIONCODE
   const checkAlertResponse = () =>
     Alert.alert(
-      "Warning",
+      languageConfig.warning,
       Platform.OS === KEY.IOS ?
-        "Please Update the app in App store otherwise cancel to close app."
-        : "Please Update the app in Play store otherwise cancel to close app.",
+        languageConfig.homeupdatemessage
+        : languageConfig.homeupdatemessage2,
       [
         {
-          text: "Close",
+          text: languageConfig.closetext,
           onPress: () => {
             if (Platform.OS === KEY.IOS) {
               RNExitApp.exitApp();
@@ -426,7 +432,7 @@ const HomeScreen = (props) => {
           }
         },
         {
-          text: "Update Now", onPress: () => {
+          text: languageConfig.updatenow, onPress: () => {
             if (Platform.OS === KEY.IOS) {
               Linking.openURL(`itms-apps://apps.apple.com/id/app/${iosUrl}`);
             } else {
@@ -470,15 +476,15 @@ const HomeScreen = (props) => {
   //LogOut Button click to call 
   const onPressLogout = () => {
     Alert.alert(
-      `${todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}`,
-      `Are you sure you want to ${todayAttendTime?.property?.mode == 'checkin' ? 'check out' : 'check in'}`,
+      `${todayAttendTime?.property?.mode == 'checkin' ? languageConfig.checkout : languageConfig.checkin}`,
+      `${languageConfig.homecheckintext + ' ' + todayAttendTime?.property?.mode == 'checkin' ? languageConfig.checkout : languageConfig.checkin}`,
       [
         {
-          text: "Cancel",
+          text: languageConfig.cancel,
           style: "cancel"
         },
         {
-          text: `${todayAttendTime?.property?.mode == 'checkin' ? 'check out' : 'check in'}`, onPress: () => {
+          text: `${todayAttendTime?.property?.mode == 'checkin' ? languageConfig.checkout : languageConfig.checkin}`, onPress: () => {
             props.navigation.navigate(SCREEN.SCANNERSCREEN, { item: todayAttendTime });
             checkPermission();
           }
@@ -522,7 +528,6 @@ const HomeScreen = (props) => {
   }
 
   return (
-
     !visibleModel ?
       <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
         <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
@@ -561,7 +566,7 @@ const HomeScreen = (props) => {
           </View>
 
           <View style={{ marginTop: 30, marginLeft: 10 }}>
-            <Text style={styles().text} numberOfLines={1}>Welcome,</Text>
+            <Text style={styles().text} numberOfLines={1}>{languageConfig.welcometext},</Text>
             <Text style={styles().text} numberOfLines={1}>{userName}</Text>
             {/* <Text style={styles().text2} numberOfLines={1}>{userDesignation}</Text> */}
           </View>
@@ -582,9 +587,9 @@ const HomeScreen = (props) => {
                   <Ionicons name='ios-alarm-outline' size={40} color={COLOR.WHITE} style={{ marginTop: 15, alignItems: KEY.CENTER, marginLeft: -70, marginBottom: 15 }} />
                 </View>
                 <View style={{ flexDirection: KEY.COLUMN, marginLeft: -5 }}>
-                  <Text style={styles().rectangleText}>Checkin Time</Text>
+                  <Text style={styles().rectangleText}>{languageConfig.checkintime}</Text>
                   <Text style={{ fontSize: FONT.FONT_SIZE_14, textTransform: KEY.UPPERCASE }}>{moment(checkinTime).format('DD MMM YYYY, h:mm:ss a')}</Text>
-                  <Text style={styles().rectangleText}>Total Time</Text>
+                  <Text style={styles().rectangleText}>{languageConfig.totaltimetext}</Text>
                   {todayAttendTime && todayAttendTime.property && todayAttendTime.property.mode === 'checkout' ?
                     <Text style={{ fontSize: FONT.FONT_SIZE_14 }}>{totalTime}</Text>
                     :
@@ -628,15 +633,15 @@ const HomeScreen = (props) => {
           <View style={{ alignItems: KEY.CENTER, flex: 1 }}>
             <View style={{ position: KEY.ABSOLUTE, bottom: 0 }}>
               <View style={styles().modalContainer}>
-                <Text style={styles().modalTitle}>Connection Error</Text>
+                <Text style={styles().modalTitle}>{languageConfig.connectionerrortext}</Text>
                 <Text style={styles().modalText}>
-                  Oops! your device is
+                  {languageConfig.connectionerrortext1}
                 </Text>
                 <Text style={styles().modalText}>
-                  not connected to the Internet.
+                  {languageConfig.connectionerrortext2}
                 </Text>
                 <TouchableOpacity style={styles().button} onPress={() => onRetry()}>
-                  <Text style={styles().buttonText}>Try Again</Text>
+                  <Text style={styles().buttonText}>{languageConfig.tryagain}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -692,7 +697,7 @@ export default HomeScreen;
 // import MyPermissionController from '../../helpers/appPermission';
 // import NetInfo from "@react-native-community/netinfo";
 
-// //STATIC VARIABLE 
+// //STATIC VARIABLE
 // const HEIGHT = Dimensions.get('window').height;
 // const WIDTH = Dimensions.get('window').width;
 
@@ -1116,7 +1121,7 @@ export default HomeScreen;
 //     }
 //   }
 
-//   //LogOut Button click to call 
+//   //LogOut Button click to call
 //   const onPressLogout = () => {
 //     Alert.alert(
 //       `${todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'}`,
@@ -1145,7 +1150,7 @@ export default HomeScreen;
 //     }
 //   }
 
-//   //VIEW PROFILE PICTURE 
+//   //VIEW PROFILE PICTURE
 //   const onTouchViewProfile = () => {
 //     let viewimage = userProfilePic ? userProfilePic : DEFAULTPROFILE;
 //     props.navigation.navigate(SCREEN.VIEWIMAGESCREEN, { viewimage });

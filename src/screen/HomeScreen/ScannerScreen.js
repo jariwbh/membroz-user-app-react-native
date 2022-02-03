@@ -9,20 +9,23 @@ import {
     ImageBackground,
     Alert, Button, Platform
 } from 'react-native'
-import * as SCREEN from '../../context/screen/screenName';
-import * as COLOR from '../../styles/colors';
-import * as FONT from '../../styles/typography';
-import * as KEY from '../../context/actions/key';
-import * as IMAGE from '../../styles/image';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import * as LocalService from '../../services/LocalService/LocalService';
 import * as AttendanceSercice from '../../services/AttendanceService/AttendanceService';
-import Toast from 'react-native-simple-toast';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import * as LocalService from '../../services/LocalService/LocalService';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from 'react-native-camera';
 import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import { RNCamera } from 'react-native-camera';
+import Toast from 'react-native-simple-toast';
+import * as COLOR from '../../styles/colors';
+import * as IMAGE from '../../styles/image';
 import moment from 'moment';
+
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
 
@@ -38,6 +41,8 @@ const ScannerScreen = (props) => {
     let finalcalbreaktime = moment.duration(currentTime.diff(checkoutTime)).asMinutes();
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         getUserDeatilsLocalStorage();
     }, [])
 
@@ -78,16 +83,16 @@ const ScannerScreen = (props) => {
             }
             const response = await AttendanceSercice.addAttendenceService(body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                Toast.show('Check in Successfully', Toast.SHORT);
+                Toast.show(languageConfig.chechinsuccess, Toast.SHORT);
                 props.navigation.replace(SCREEN.HOMESCREEN, { item: response.data });
                 setTorch(RNCamera.Constants.FlashMode.off);
             } else {
                 setTorch(RNCamera.Constants.FlashMode.off);
-                Toast.show('OR-CODE Invalid please try again', Toast.SHORT);
+                Toast.show(languageConfig.chechinerror, Toast.SHORT);
             }
         } catch (error) {
             setTorch(RNCamera.Constants.FlashMode.off);
-            Toast.show('OR-CODE Invalid please try again', Toast.SHORT);
+            Toast.show(languageConfig.chechinerror, Toast.SHORT);
         }
     }
 
@@ -111,18 +116,18 @@ const ScannerScreen = (props) => {
             const response = await AttendanceSercice.updateAttendenceService(id, body);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setLoading(false);
-                Toast.show(`${todayAttendTime?.property?.mode == 'checkin' ? 'Check out' : 'Check in'} Successfully`, Toast.SHORT);
+                Toast.show(`${todayAttendTime?.property?.mode == 'checkin' ? languageConfig.checkout : languageConfig.checkin}` + ' ' + languageConfig.successtext, Toast.SHORT);
                 setTorch(RNCamera.Constants.FlashMode.off);
                 props.navigation.navigate(SCREEN.HOMESCREEN);
             } else {
                 setTorch(RNCamera.Constants.FlashMode.off);
-                Toast.show('OR-CODE Invalid please try again', Toast.SHORT);
+                Toast.show(languageConfig.chechinerror, Toast.SHORT);
             }
         } catch (error) {
             console.log(`error`, error);
             setTorch(RNCamera.Constants.FlashMode.off);
             setLoading(false);
-            Toast.show('OR-CODE Invalid please try again', Toast.SHORT);
+            Toast.show(languageConfig.chechinerror, Toast.SHORT);
         }
     }
 
@@ -140,7 +145,7 @@ const ScannerScreen = (props) => {
                 }
             } else {
                 setLoading(false);
-                Toast.show('OR-CODE Invalid please try again', Toast.SHORT);
+                Toast.show(languageConfig.chechinerror, Toast.SHORT);
             }
         } catch (error) {
             console.log(`error`, error);

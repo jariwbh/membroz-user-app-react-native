@@ -58,9 +58,9 @@ export default WebViewScreen;
 
 const styles = StyleSheet.create({
     IndicatorStyle: {
-        position: "absolute",
-        alignItems: "center",
-        justifyContent: "center",
+        position: KEY.ABSOLUTE,
+        alignItems: KEY.CENTER,
+        justifyContent: KEY.CENTER,
         left: 0,
         right: 0,
         top: 0,

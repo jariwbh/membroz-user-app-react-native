@@ -8,19 +8,22 @@ import {
     View, FlatList, RefreshControl,
     StatusBar, TouchableOpacity, Pressable
 } from 'react-native';
-import * as IMAGE from '../../styles/image';
+import { leaveRequestListService, leaveTypeService } from '../../services/LeaveService/LeaveService';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import * as LocalService from '../../services/LocalService/LocalService';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
+import { useFocusEffect } from '@react-navigation/native';
+import Loader from '../../components/loader/index';
+import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
-import * as SCREEN from '../../context/screen/screenName';
-import * as KEY from '../../context/actions/key';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Loader from '../../components/loader/index';
-import * as LocalService from '../../services/LocalService/LocalService';
-import { leaveRequestListService, leaveTypeService } from '../../services/LeaveService/LeaveService';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
-import { useFocusEffect } from '@react-navigation/native';
+import * as IMAGE from '../../styles/image';
 import styles from './Style';
 import moment from 'moment';
+
 const WIDTH = Dimensions.get('window').width;
 
 export default LeaveScreen = (props) => {
@@ -39,6 +42,8 @@ export default LeaveScreen = (props) => {
     );
 
     useEffect(() => {
+        //LANGUAGE MANAGEMENT FUNCTION
+        MemberLanguage();
         setLoading(true);
         getLeaveType();
         getUserDeatilsLocalStorage();
@@ -190,7 +195,7 @@ export default LeaveScreen = (props) => {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        title="Pull to refresh"
+                        title={languageConfig.languageConfig}
                         tintColor={COLOR.DEFALUTCOLOR}
                         titleColor={COLOR.DEFALUTCOLOR}
                         colors={[COLOR.DEFALUTCOLOR]}
@@ -201,7 +206,7 @@ export default LeaveScreen = (props) => {
                         null :
                         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                             <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>No record found</Text>
+                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                         </View>
                 )}
             />

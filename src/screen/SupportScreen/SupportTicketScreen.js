@@ -1,33 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import {
   Dimensions,
-  SafeAreaView,
-  View,
-  Image,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  TextInput,
-  StatusBar,
-  Keyboard,
-  Platform,
-  Modal
+  SafeAreaView, View,
+  Image, Text,
+  TouchableOpacity, ScrollView,
+  TextInput, StatusBar,
+  Keyboard, Platform, Modal
 } from 'react-native';
 import { HelpSupportService } from '../../services/HelpSupportService/HelpSupportService';
+import { MemberLanguage } from '../../services/LocalService/LanguageService';
+import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import * as LocalService from '../../services/LocalService/LocalService';
+import { CLOUD_URL, UPLOAD_PRESET } from '../../context/actions/type';
+import MyPermissionController from '../../helpers/appPermission';
+import languageConfig from '../../languages/languageConfig';
+import * as SCREEN from '../../context/screen/screenName';
 import * as ImagePicker from "react-native-image-picker";
 import Loader from '../../components/loader/index';
 import * as KEY from '../../context/actions/key';
+import * as FONT from '../../styles/typography';
+import Toast from 'react-native-simple-toast';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import * as SCREEN from '../../context/screen/screenName';
-import Toast from 'react-native-simple-toast';
-import styles from './Style';
 import RNFetchBlob from 'rn-fetch-blob';
-import { CLOUD_URL, UPLOAD_PRESET } from '../../context/actions/type';
-import MyPermissionController from '../../helpers/appPermission';
-import * as FONT from '../../styles/typography';
-import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import styles from './Style';
+
 const WIDTH = Dimensions.get('window').width;
 
 const SupportTicketScreen = (props) => {
@@ -43,6 +40,8 @@ const SupportTicketScreen = (props) => {
   const secondTextInputRef = React.createRef();
 
   useEffect(() => {
+    //LANGUAGE MANAGEMENT FUNCTION
+    MemberLanguage();
     checkPermission();
     getUserDeatilsLocalStorage();
   }, []);
@@ -72,7 +71,7 @@ const SupportTicketScreen = (props) => {
   //CHECK VALIDATION OF SUBJECT
   const checkSubject = (subject) => {
     if (!subject || subject <= 0) {
-      return setSubjectError('Enter subject of your query');
+      return setSubjectError(languageConfig.supportsubjecterror);
     }
     setSubject(subject);
     setSubjectError(null);
@@ -82,7 +81,7 @@ const SupportTicketScreen = (props) => {
   //CHECK VALIDATION OF DESCRIPTION
   const checkDescription = (description) => {
     if (!description || description <= 0) {
-      return setDescriptionError('Enter your query');
+      return setDescriptionError(languageConfig.supportquery);
     }
     setDescription(description);
     setDescriptionError(null);
@@ -117,7 +116,7 @@ const SupportTicketScreen = (props) => {
     try {
       const response = await HelpSupportService(body);
       if (response.data != null && response.data != 'undefind' && response.status == 200) {
-        Toast.show('Ticket submited sucessfully', Toast.LONG);
+        Toast.show(languageConfig.supportticket, Toast.LONG);
         setloading(false);
         setSubject(null);
         setSubjectError(null);
@@ -133,7 +132,7 @@ const SupportTicketScreen = (props) => {
       setSubjectError(null);
       setDescription(null);
       setDescriptionError(null);
-      Toast.show('Ticket submited problem', Toast.LONG);
+      Toast.show(languageConfig.supportticketmessage, Toast.LONG);
     }
   }
 
@@ -196,10 +195,10 @@ const SupportTicketScreen = (props) => {
           }
         }).catch(error => {
           firebase.crashlytics().recordError(error);
-          alert("Uploading Failed!");
+          alert(languageConfig.supportimagefail);
         })
     } else {
-      alert('Please Select File');
+      alert(languageConfig.supportimageerror);
     }
   }
 
@@ -218,12 +217,12 @@ const SupportTicketScreen = (props) => {
       <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
         <View style={styles.containView}>
           <Image source={IMAGE.CONSULT_TALK_ICON} resizeMode={KEY.CONTAIN} style={{ height: 100, width: 100 }} />
-          <Text style={styles.textHeader}>We are here to help you</Text>
+          <Text style={styles.textHeader}>{languageConfig.supportheader}</Text>
 
           <View style={{ justifyContent: KEY.CENTER }}>
             <TextInput
               selectionColor={COLOR.DEFALUTCOLOR}
-              placeholder='Subject'
+              placeholder={languageConfig.subjectplaceholder}
               style={subjectError == null ? styles.textSubject : styles.textSubjectError}
               type={KEY.CLEAR}
               returnKeyType={KEY.NEXT}
@@ -239,7 +238,7 @@ const SupportTicketScreen = (props) => {
           <View style={{ justifyContent: KEY.CENTER }}>
             <TextInput
               selectionColor={COLOR.DEFALUTCOLOR}
-              placeholder='Description'
+              placeholder={languageConfig.descriptionplacholder}
               multiline={true}
               numberOfLines={3}
               style={DescriptionError == null ? styles.textDescription : styles.textDescriptionError}
@@ -258,7 +257,7 @@ const SupportTicketScreen = (props) => {
           <TouchableOpacity onPress={() => { setshowMessageModalVisible(true), Keyboard.dismiss() }}>
             <View pointerEvents="none" style={{ justifyContent: KEY.CENTER }}>
               <TextInput
-                placeholder='Click to upload image'
+                placeholder={languageConfig.imageplaceholder}
                 placeholderTextColor={COLOR.PLACEHOLDER_COLOR}
                 onSubmitEditing={() => Keyboard.dismiss()}
                 style={styles.textDescription} />
@@ -282,13 +281,13 @@ const SupportTicketScreen = (props) => {
           <View style={{ position: KEY.ABSOLUTE, bottom: 0 }}>
             <View style={styles.msgModalView}>
               <TouchableOpacity onPress={() => uploadImageOption('camera')} >
-                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 15 }}>Take Photo</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 15 }}>{languageConfig.takephototext}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => uploadImageOption('gallery')} >
-                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 15, marginBottom: 10 }}>Choose From Gallery</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 15, marginBottom: 10 }}>{languageConfig.choosegallerytext}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => setshowMessageModalVisible(false)} >
-                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 10, marginBottom: 10 }}>Close</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_20, marginLeft: 25, color: COLOR.GRAY_DARK, marginTop: 10, marginBottom: 10 }}>{languageConfig.closetext}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -299,6 +298,7 @@ const SupportTicketScreen = (props) => {
     </SafeAreaView>
   );
 }
+
 export default SupportTicketScreen;
 
 
