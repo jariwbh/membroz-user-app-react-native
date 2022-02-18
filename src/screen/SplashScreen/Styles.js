@@ -7,10 +7,8 @@ const WIDTH = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
     imageStyle: {
-        flex: 1,
-        height: HEIGHT,
-        width: WIDTH,
-        justifyContent: KEY.CENTER
+        height: '100%',
+        width: '100%'
     },
     imageLogo: {
         justifyContent: KEY.CENTER,

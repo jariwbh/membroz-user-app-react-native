@@ -139,8 +139,10 @@ const HomeScreen = (props) => {
 
   //Get CheckIn time
   const getCheckinTime = async (userid) => {
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
     let data = {
-      date: moment().format('YYYY-MM-DD'),
+      date: today,
       id: userid,
     }
     try {

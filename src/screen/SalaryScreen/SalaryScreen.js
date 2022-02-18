@@ -34,7 +34,7 @@ const ListTab = [
 ]
 
 export default SalaryScreen = (props) => {
-    const [status, setStatus] = useState(languageConfig.languageConfig.salarytext);
+    const [status, setStatus] = useState(languageConfig.salarytext);
     const [loading, setLoading] = useState(false);
     const [salaryhistoryList, setSalaryHistoryList] = useState([]);
     const [currencySymbol, setCurrencySymbol] = useState(null);

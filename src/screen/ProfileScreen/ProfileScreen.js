@@ -50,7 +50,7 @@ const ProfileScreen = (props) => {
     useEffect(() => {
         //LANGUAGE MANAGEMENT FUNCTION
         MemberLanguage();
-    }, [input])
+    }, [])
 
     useEffect(() => {
     }, [userProfilePic, fullName, userNumber, rateusAndroid, rateusIos, userDesignation]);
