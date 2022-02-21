@@ -5,4 +5,6 @@
 
 //export const baseURL = 'http://app.dubaiyogatrainers.com/api';
 
-export const baseURL = 'http://krtyahr.membroz.com/api/';
+//export const baseURL = 'http://krtyahr.membroz.com/api/';
+
+export const baseURL = 'http://qa.membroz.com/api/';
