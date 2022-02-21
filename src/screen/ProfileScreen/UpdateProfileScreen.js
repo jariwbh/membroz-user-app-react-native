@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     StatusBar, Modal, Keyboard
 } from 'react-native';
-import { patchUserService, updateUserService } from '../../services/UserService/UserService';
+import { updateUserService } from '../../services/UserService/UserService';
 import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import * as LocalService from '../../services/LocalService/LocalService';
@@ -222,7 +222,7 @@ const UpdateProfileScreen = (props) => {
         let user = userInfo;
         user.profilepic = profilepic;
         try {
-            const response = await patchUserService(userID, user);
+            const response = await updateUserService(userID, user);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 LocalService.AuthenticateUser(response.data);
                 Toast.show(languageConfig.profilesucessmessage, Toast.LONG);

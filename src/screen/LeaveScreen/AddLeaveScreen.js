@@ -250,7 +250,7 @@ export default AddLeaveScreen = (props) => {
                 </View>
                 <View style={{ marginTop: 5, marginLeft: 20, marginRight: 20 }}>
                     <TextInput
-                        placeholder={languageConfi.fromdatetext}
+                        placeholder={languageConfig.fromdatetext}
                         selectionColor={COLOR.DEFALUTCOLOR}
                         style={fromDateError == null ? styles.inputTextView : styles.inputTextViewError}
                         type={KEY.CLEAR}

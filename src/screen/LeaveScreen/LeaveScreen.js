@@ -105,42 +105,76 @@ export default LeaveScreen = (props) => {
     }
 
     //RENDER MYLEAVE LIST USING FLATLIST
-    const renderMyLeave = ({ item }) => (
-        <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 5 }}>
-            <View style={styles.boxView}>
-                <View
-                    style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, marginTop: 10, marginBottom: 10 }}>
-                    <View style={{ marginLeft: 15, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        {item.wfstatus && item.wfstatus.toLowerCase() == "approved" &&
-                            <MaterialCommunityIcons name='check-circle' size={40} style={{ color: COLOR.GREEN, alignItems: KEY.CENTER }} />
-                        }
-                        {item.wfstatus && item.wfstatus.toLowerCase() == "pending" &&
-                            <MaterialCommunityIcons name='clock' size={40} style={{ color: COLOR.YELLOW, alignItems: KEY.CENTER }} />
-                        }
-                        {item.wfstatus && item.wfstatus.toLowerCase() == "declined" &&
-                            <MaterialCommunityIcons name='minus-circle' size={40} style={{ color: COLOR.ERRORCOLOR, alignItems: KEY.CENTER }} />
-                        }
+    const renderMyLeave = ({ item, index }) => (
+        item.selected != true ?
+            <TouchableOpacity onPress={() => onPressToSelectExpandLeave(item, index, true)}
+                style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 5 }}>
+                <View style={styles.boxView}>
+                    <View
+                        style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, marginTop: 10, marginBottom: 10 }}>
+                        <View style={{ marginLeft: 15, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                            {!item.wfstatus &&
+                                <MaterialCommunityIcons name='clock' size={40} style={{ color: COLOR.YELLOW, alignItems: KEY.CENTER }} />
+                            }
+                            {item.wfstatus && item.wfstatus.toLowerCase() == "approved" &&
+                                <MaterialCommunityIcons name='check-circle' size={40} style={{ color: COLOR.GREEN, alignItems: KEY.CENTER }} />
+                            }
+                            {item.wfstatus && item.wfstatus.toLowerCase() == "pending" &&
+                                <MaterialCommunityIcons name='clock' size={40} style={{ color: COLOR.YELLOW, alignItems: KEY.CENTER }} />
+                            }
+                            {item.wfstatus && item.wfstatus.toLowerCase() == "declined" &&
+                                <MaterialCommunityIcons name='minus-circle' size={40} style={{ color: COLOR.ERRORCOLOR, alignItems: KEY.CENTER }} />
+                            }
+                        </View>
+                        <View style={{ flexDirection: KEY.COLUMN, marginLeft: 0 }}>
+                            <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{item.leavetype.title}</Text>
+                            <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{moment(item?.property?.fromdate).format('DD MMM, YYYY') + ' - ' + moment(item?.property?.todate).format('DD MMM, YYYY')}</Text>
+                            <Text style={{ fontSize: 12, color: COLOR.BLACK, marginLeft: 15 }}>{'Created At : ' + moment(item.createdAt).format('ll')}</Text>
+                        </View>
                     </View>
-                    <View style={{ flexDirection: KEY.COLUMN, marginLeft: 0 }}>
-                        <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{moment(item?.property?.fromdate).format('DD MMM, YYYY') + ' - ' + moment(item?.property?.todate).format('DD MMM, YYYY')}</Text>
-                        <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15 }}>{item.leavetype.title}</Text>
-                        <Text style={{ fontSize: 12, color: COLOR.BLACK, marginLeft: 15 }}>{'Created At : ' + moment(item.createdAt).format('ll')}</Text>
-                    </View>
-                    {/* {
-                        item.wfstatus && item.wfstatus.toLowerCase() == "approved" &&
-                        <Text style={{ fontSize: 14, color: COLOR.WEB_FOREST_GREEN, marginTop: 15, marginRight: 20 }}>{'Approved'}</Text>
-                    }
-                    {
-                        item.wfstatus && item.wfstatus.toLowerCase() == "pending" &&
-                        <Text style={{ fontSize: 14, color: COLOR.YELLOW, marginTop: 15, marginRight: 20 }}>{'Pending '}</Text>
-                    }
-                    {
-                        item.wfstatus && item.wfstatus.toLowerCase() == "declined" &&
-                        <Text style={{ fontSize: 14, color: COLOR.ERRORCOLOR, marginTop: 15, marginRight: 20 }}>{'Declined'}</Text>
-                    } */}
                 </View>
-            </View>
-        </View>
+            </TouchableOpacity>
+            :
+            <TouchableOpacity onPress={() => onPressToSelectExpandLeave(item, index, false)}
+                style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 5 }}>
+                <View style={styles.boxView}>
+                    <View
+                        style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, marginTop: 10, marginBottom: 10 }}>
+                        <View style={{ marginLeft: 15, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                            {!item.wfstatus &&
+                                <MaterialCommunityIcons name='clock' size={40} style={{ color: COLOR.YELLOW, alignItems: KEY.CENTER }} />
+                            }
+                            {item.wfstatus && item.wfstatus.toLowerCase() == "approved" &&
+                                <MaterialCommunityIcons name='check-circle' size={40} style={{ color: COLOR.GREEN, alignItems: KEY.CENTER }} />
+                            }
+                            {item.wfstatus && item.wfstatus.toLowerCase() == "pending" &&
+                                <MaterialCommunityIcons name='clock' size={40} style={{ color: COLOR.YELLOW, alignItems: KEY.CENTER }} />
+                            }
+                            {item.wfstatus && item.wfstatus.toLowerCase() == "declined" &&
+                                <MaterialCommunityIcons name='minus-circle' size={40} style={{ color: COLOR.ERRORCOLOR, alignItems: KEY.CENTER }} />
+                            }
+                        </View>
+                        <View style={{ flexDirection: KEY.COLUMN, marginLeft: 0 }}>
+                            <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, fontWeight: FONT.FONT_WEIGHT_BOLD }}>{item.leavetype.title}</Text>
+                            <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, fontWeight: FONT.FONT_WEIGHT_BOLD }}>
+                                {moment(item?.property?.fromdate).format('DD MMM, YYYY') + ' - ' + moment(item?.property?.todate).format('DD MMM, YYYY')}
+                            </Text>
+                            <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15 }}>
+                                Notes : {item?.property && item?.property?.comment ? item.property.comment : " "}
+                            </Text>
+                            {
+                                item?.property && item?.property?.halfday && item?.property?.halfday[0] &&
+                                <Text style={{ fontSize: 14, color: COLOR.BLACK, marginLeft: 15, textTransform: KEY.CAPITALIZE }}>
+                                    Half Day : {item?.property && item?.property?.halfday && item?.property?.halfday[0] ? item.property.halfday[0] : "no"}
+                                </Text>
+                            }
+                            <Text style={{ fontSize: 12, color: COLOR.BLACK, marginLeft: 15 }}>
+                                {'Created At : ' + moment(item?.createdAt).format('ll')}
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+            </TouchableOpacity>
     )
 
     const TabFilter = (title, index) => {

@@ -89,10 +89,12 @@ const ScannerScreen = (props) => {
             } else {
                 setTorch(RNCamera.Constants.FlashMode.off);
                 Toast.show(languageConfig.chechinerror, Toast.SHORT);
+                props.navigation.goBack(null);
             }
         } catch (error) {
             setTorch(RNCamera.Constants.FlashMode.off);
             Toast.show(languageConfig.chechinerror, Toast.SHORT);
+            props.navigation.goBack(null);
         }
     }
 
@@ -122,12 +124,14 @@ const ScannerScreen = (props) => {
             } else {
                 setTorch(RNCamera.Constants.FlashMode.off);
                 Toast.show(languageConfig.chechinerror, Toast.SHORT);
+                props.navigation.goBack(null);
             }
         } catch (error) {
             console.log(`error`, error);
             setTorch(RNCamera.Constants.FlashMode.off);
             setLoading(false);
             Toast.show(languageConfig.chechinerror, Toast.SHORT);
+            props.navigation.goBack(null);
         }
     }
 
@@ -174,7 +178,7 @@ const ScannerScreen = (props) => {
                 topViewStyle={{ height: 0, flex: 0 }}
                 cameraStyle={{ height: HEIGHT }}
                 reactivate={true}
-                reactivateTimeout={1000}
+                reactivateTimeout={10000}
             />
             {loading ? <Loader /> : null}
         </>
