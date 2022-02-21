@@ -243,6 +243,7 @@ export default LoginScreen = (props) => {
                         </TouchableOpacity>
                     </View>
                     {/* <View style={{ paddingVertical: 50 }} /> */}
+                    <View style={{ marginBottom: HEIGHT / 3 }} />
                 </ScrollView>
             </ImageBackground>
             {loading ? <Loader /> : null}
