@@ -129,7 +129,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.staffmembroz"
+        applicationId "com.cocoontrainer"
         minSdkVersion rootProject.ext.minSdkVersion
         missingDimensionStrategy 'react-native-camera', 'general'
         targetSdkVersion rootProject.ext.targetSdkVersion

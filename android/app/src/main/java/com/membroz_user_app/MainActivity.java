@@ -1,4 +1,4 @@
-package com.staffmembroz;
+package com.cocoontrainer;
 
 import com.facebook.react.ReactActivity;
 
