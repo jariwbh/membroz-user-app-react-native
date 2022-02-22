@@ -21,8 +21,9 @@ import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import moment from 'moment-timezone';
+//import moment from 'moment';
 import styles from './Style';
-import moment from 'moment';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -55,6 +56,7 @@ export default LeaveScreen = (props) => {
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
+        moment.tz.setDefault(userInfo?.branchid?.timezone);
         setUserID(userInfo._id);
         getMyLeave(userInfo._id);
     }

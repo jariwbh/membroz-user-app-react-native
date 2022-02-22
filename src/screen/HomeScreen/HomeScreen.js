@@ -11,35 +11,36 @@ import {
   Platform, Alert, Linking, Share
 } from 'react-native';
 import { getByIdUserService, patchUserService } from '../../services/UserService/UserService';
-import * as LocalService from '../../services/LocalService/LocalService';
-import AsyncStorage from '@react-native-community/async-storage';
-import * as SCREEN from '../../context/screen/screenName';
+import { NotificationService } from '../../services/NotificationService/NotificationService';
 import { REMOTEDATA, MESSAGINGSENDERID, DEFAULTPROFILE } from '../../context/actions/type';
+import * as AttendanceService from '../../services/AttendanceService/AttendanceService';
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import { GalleryService } from '../../services/GalleryService/GalleryService';
+import * as LocalService from '../../services/LocalService/LocalService';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-community/async-storage';
+import MyPermissionController from '../../helpers/appPermission';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import PushNotification from "react-native-push-notification";
+import crashlytics from "@react-native-firebase/crashlytics";
+import * as SCREEN from '../../context/screen/screenName';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useFocusEffect } from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
+import NetInfo from "@react-native-community/netinfo";
+import Loader from '../../components/loader/index';
 import React, { useEffect, useState } from 'react';
+import DeviceInfo from 'react-native-device-info';
+import firebase from '@react-native-firebase/app';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
+import RNExitApp from 'react-native-exit-app';
+import Toast from 'react-native-simple-toast';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment-timezone';
 import styles from './HomeStyle';
-import Loader from '../../components/loader/index';
-import { GalleryService } from '../../services/GalleryService/GalleryService';
-import { NotificationService } from '../../services/NotificationService/NotificationService';
-import * as AttendanceService from '../../services/AttendanceService/AttendanceService';
-import DeviceInfo from 'react-native-device-info';
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification from "react-native-push-notification";
-import firebase from '@react-native-firebase/app';
-import messaging from '@react-native-firebase/messaging';
-import Toast from 'react-native-simple-toast';
-import { useFocusEffect } from '@react-navigation/native';
-import RNExitApp from 'react-native-exit-app';
-import crashlytics from "@react-native-firebase/crashlytics";
-import moment from 'moment';
-import MyPermissionController from '../../helpers/appPermission';
-import NetInfo from "@react-native-community/netinfo";
+//import moment from 'moment';
 
 //STATIC VARIABLE
 const HEIGHT = Dimensions.get('window').height;
@@ -136,8 +137,10 @@ const HomeScreen = (props) => {
 
   //Get CheckIn time
   const getCheckinTime = async (userid) => {
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
     let data = {
-      date: moment().format('YYYY-MM-DD'),
+      date: today,
       id: userid,
     }
     try {
@@ -204,6 +207,7 @@ const HomeScreen = (props) => {
   const getUserDeatilsLocalStorage = async () => {
     var userInfo = await LocalService.LocalStorageService();
     if (userInfo) {
+      moment.tz.setDefault(userInfo?.branchid?.timezone);
       getuserid = userInfo?._id;
       setUserInfo(userInfo);
       setUserDesignation(userInfo?.designationid?.title.substring(0, 15));

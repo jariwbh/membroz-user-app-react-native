@@ -18,7 +18,8 @@ import * as FONT from '../../styles/typography';
 import * as STYLES from './NotificationStyle';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import moment from 'moment';
+import moment from 'moment-timezone';
+//import moment from 'moment';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -47,6 +48,7 @@ const NotificationScreen = (props) => {
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
+        moment.tz.setDefault(userInfo?.branchid?.timezone);
         setUserID(userInfo._id);
         getNotification(userInfo._id);
     }

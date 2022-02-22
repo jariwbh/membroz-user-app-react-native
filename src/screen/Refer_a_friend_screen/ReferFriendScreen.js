@@ -16,8 +16,10 @@ import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import Loader from '../../components/loader';
 import * as IMAGE from '../../styles/image';
+import moment from 'moment-timezone';
+//import moment from 'moment';
 import styles from './Style';
-import moment from 'moment';
+
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -59,6 +61,7 @@ const ReferFriendScreen = (props) => {
     // GET USER DATA LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
+        moment.tz.setDefault(userInfo?.branchid?.timezone);
         getReferFriend(userInfo._id);
         setUserID(userInfo._id);
     }

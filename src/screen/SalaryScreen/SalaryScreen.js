@@ -19,8 +19,9 @@ import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as IMAGE from '../../styles/image';
 import * as COLOR from '../../styles/colors';
+import moment from 'moment-timezone';
 import styles from './SalaryStyle';
-import moment from 'moment';
+//import moment from 'moment';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -74,6 +75,7 @@ export default SalaryScreen = (props) => {
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
         if (userInfo) {
+            moment.tz.setDefault(userInfo?.branchid?.timezone);
             userID = userInfo._id;
             const response = getCurrency(userInfo.branchid.currency);
             setBasicEarning(userInfo.salarycomponents && userInfo.salarycomponents[0] && userInfo.salarycomponents[0].amount ? userInfo.salarycomponents[0].amount : 0);

@@ -21,7 +21,8 @@ import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import moment from 'moment';
+import moment from 'moment-timezone';
+//import moment from 'moment';
 
 const HEIGHT = Dimensions.get('window').height;
 const WIDTH = Dimensions.get('window').width;
@@ -45,6 +46,7 @@ const TicketHistoryScreen = (props) => {
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
+        moment.tz.setDefault(userInfo?.branchid?.timezone);
         setUserID(userInfo._id);
         getTicketHistory(userInfo._id);
     }

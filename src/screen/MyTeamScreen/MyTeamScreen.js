@@ -23,7 +23,6 @@ import * as COLOR from '../../styles/colors';
 import Loader from '../../components/loader';
 import * as IMAGE from '../../styles/image';
 import styles from './Style';
-import moment from 'moment';
 
 const WIDTH = Dimensions.get('window').width;
 

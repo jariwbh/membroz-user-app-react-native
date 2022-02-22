@@ -14,17 +14,20 @@ import styles from './Style';
 import { CalenderService } from '../../services/CalenderService/CalenderService';
 import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import AsyncStorage from '@react-native-community/async-storage';
 import languageConfig from '../../languages/languageConfig';
 import * as SCREEN from '../../context/screen/screenName';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SelectDropdown from 'react-native-select-dropdown';
+import { AUTHUSER } from '../../context/actions/type';
 import Loader from '../../components/loader/index';
 import { Calendar } from 'react-native-calendars';
 import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
-import moment from 'moment';
+import moment from 'moment-timezone';
+//import moment from 'moment';
 
 const dropdowndata = ["All", "Holiday", "Event"];
 const HEIGHT = Dimensions.get('window').height;
@@ -36,6 +39,7 @@ export default class CalendarScreen extends Component {
         this.startDate = moment().clone().startOf('month').format('YYYY-MM-DD');
         this.endDate = moment().clone().endOf('month').format('YYYY-MM-DD');
         this.currentMonth = moment().clone().startOf('month').format('M');
+        this.userDetails = null;
         this.state = {
             holidaysList: [],
             renderList: null,
@@ -60,9 +64,27 @@ export default class CalendarScreen extends Component {
         }
     }
 
+    //get login user infomation and api
+    getUserData = async () => {
+        try {
+            var getUser = await AsyncStorage.getItem(AUTHUSER);
+            if (getUser == null) {
+                setTimeout(() => {
+                    this.props.navigation.replace(SCREEN.LOGINSCREEN);
+                }, 3000);
+            } else {
+                this.userDetails = JSON.parse(getUser);
+                moment.tz.setDefault(this.userDetails?.branchid?.timezone);
+            }
+        } catch (error) {
+            console.log(`error`, error);
+        }
+    }
+
     componentDidMount() {
         //LANGUAGE MANAGEMENT FUNCTION
         MemberLanguage();
+        this.getUserData();
         this.getHolidayService();
     }
 

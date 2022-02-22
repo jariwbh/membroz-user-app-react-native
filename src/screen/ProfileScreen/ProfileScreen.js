@@ -26,7 +26,6 @@ import Toast from 'react-native-simple-toast';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import styles from './ProfileStyle';
-import moment from 'moment';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;

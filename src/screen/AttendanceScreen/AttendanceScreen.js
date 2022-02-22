@@ -23,8 +23,9 @@ import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import moment from 'moment-timezone';
+//import moment from 'moment';
 import styles from './Style';
-import moment from 'moment';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -57,6 +58,7 @@ export default class AttendanceScreen extends Component {
             }, 3000);
         } else {
             this.studentDetails = JSON.parse(getUser);
+            moment.tz.setDefault(this.studentDetails?.branchid?.timezone);
             let data = {
                 id: this.studentDetails._id,
                 datRange: { gte: moment(this.startDate).format(), lte: this.endDate }

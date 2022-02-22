@@ -28,7 +28,8 @@ import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import styles from './UpdateProfileStyle';
 import RNFetchBlob from 'rn-fetch-blob';
-import moment from 'moment';
+import moment from 'moment-timezone';
+//import moment from 'moment';
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
@@ -68,6 +69,7 @@ const UpdateProfileScreen = (props) => {
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
+        moment.tz.setDefault(userInfo?.branchid?.timezone);
         setUserInfo(userInfo);
         setUserID(userInfo?._id);
         setUserProfileName(userInfo?.fullname);
