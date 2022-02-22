@@ -1,9 +1,9 @@
 //APP MAIN COLOR
-export const DEFALUTCOLOR = '#FC7845';
-export const DEFAULTLIGHT = '#FDA786';
-export const BACKGROUNDCOLOR = '#F0F0F0';
+export const DEFALUTCOLOR = '#E8A20E';
+export const DEFAULTLIGHT = '#E8A20E';
+export const BACKGROUNDCOLOR = '#FFFFFF';
 export const SPLASHCOLOR = '#FFFFFF';
-export const STATUSCOLOR = '#FC7845';
+export const STATUSCOLOR = '#E8A20E';
 
 //BASIC COLOR
 export const PRIMARY = '#1779ba';
@@ -89,7 +89,7 @@ export const NOSHOW_COLOR = '#F57C00'
 export const REQUESTED_COLOR = '#3D58D4'
 export const CHECKOUT_COLOR = '#47CCBF'
 
-//krtya HR 
+//krtya HR
 // export const DEFALUTCOLOR = '#FC7845';
 // export const DEFAULTLIGHT = '#FDA786';
 // export const BACKGROUNDCOLOR = '#F0F0F0';
@@ -102,4 +102,11 @@ export const CHECKOUT_COLOR = '#47CCBF'
 // export const BACKGROUNDCOLOR = '#FFFFFF';
 // export const SPLASHCOLOR = '#FFFFFF';
 // export const STATUSCOLOR = '#39BB5C';
+
+//Cocoon Medical Spa
+// export const DEFALUTCOLOR = '#E8A20E';
+// export const DEFAULTLIGHT = '#E8A20E';
+// export const BACKGROUNDCOLOR = '#FFFFFF';
+// export const SPLASHCOLOR = '#FFFFFF';
+// export const STATUSCOLOR = '#E8A20E';
 

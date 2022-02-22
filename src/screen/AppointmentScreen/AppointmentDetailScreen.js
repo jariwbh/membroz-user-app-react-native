@@ -239,9 +239,9 @@ const AppointmentDetailScreen = (props) => {
                         </TouchableOpacity>
                     }
 
-                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK, marginTop: 10 }}>{languageConfig.notestext} : </Text>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.BLACK, marginTop: 10 }}>{languageConfig.notetext} : </Text>
                     <View style={{ marginTop: 5, marginLeft: -20, justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        <TextInput placeholder={languageConfig.notestext}
+                        <TextInput placeholder={languageConfig.notetext}
                             selectionColor={COLOR.DEFALUTCOLOR}
                             style={styles().noteView}
                             style={memberNoteError == null ? styles().noteView : styles().noteViewError}

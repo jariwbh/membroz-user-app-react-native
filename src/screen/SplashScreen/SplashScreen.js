@@ -122,9 +122,9 @@ function SplashScreen(props) {
     return (
         <SafeAreaView style={{ flex: 1 }} >
             {showMessageModalVisible ?
-                <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.TRANSPARENT} barStyle={KEY.LIGHT_CONTENT} />
+                <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.LIGHT_CONTENT} />
                 :
-                <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.TRANSPARENT} barStyle={KEY.LIGHT_CONTENT} />
+                <StatusBar hidden={false} translucent={true} backgroundColor={KEY.TRANSPARENT} barStyle={KEY.LIGHT_CONTENT} />
             }
             <ImageBackground source={splashimage ? { uri: splashimage } : IMAGE.BACKGROUND_IMAGE} style={styles.imageStyle} >
                 {appLogoVisible ?

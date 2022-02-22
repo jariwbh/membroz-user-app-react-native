@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
         // height: 100,
         // width: 200,
         marginBottom: 20,
-        height: 100,
-        width: 120
+        height: 120,
+        width: 200
     },
     welcomeText: {
         fontSize: 40,

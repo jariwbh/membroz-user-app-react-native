@@ -24,8 +24,10 @@ import * as KEY from '../../context/actions/key';
 import * as FONT from '../../styles/typography';
 import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
+import moment from 'moment-timezone';
+//import moment from 'moment';
 import styles from './Style';
-import moment from 'moment';
+
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -39,6 +41,7 @@ export default class AppointmentScreen extends Component {
         this.today = moment().clone().endOf('month').format('YYYY-MM-DD');
         this.endDate = this.today;
         this.currentMonth = moment().clone().startOf('month').format('M');
+        this.timezone = null;
         this.state = {
             postData: null,
             loading: true,
@@ -70,23 +73,31 @@ export default class AppointmentScreen extends Component {
 
     //get login user infomation and api
     getUserData = async () => {
-        var getUser = await AsyncStorage.getItem(AUTHUSER);
-        if (getUser == null) {
-            setTimeout(() => {
-                this.props.navigation.replace(SCREEN.LOGINSCREEN);
-            }, 3000);
-        } else {
-            this.currentDate = moment().format('YYYY-MM-DD');
-            this.userDetails = JSON.parse(getUser);
-            let data = {
-                id: this.userDetails._id,
-                datRange: { gte: moment(this.currentDate).format(), lte: this.currentDate }
+        try {
+            var getUser = await AsyncStorage.getItem(AUTHUSER);
+            if (getUser == null) {
+                setTimeout(() => {
+                    this.props.navigation.replace(SCREEN.LOGINSCREEN);
+                }, 3000);
+            } else {
+                this.currentDate = moment().format('YYYY-MM-DD');
+                this.userDetails = JSON.parse(getUser);
+                this.timezone = this.userDetails?.branchid?.timezone;
+                moment.tz.setDefault(this.userDetails?.branchid?.timezone);
+                var today = new Date(this.currentDate);
+                today.setHours(0, 0, 0, 0);
+                let data = {
+                    id: this.userDetails._id,
+                    datRange: { gte: today, lte: today }
+                }
+                this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') })
+                this.setState({ userID: this.userDetails._id });
+                await this.getAppointmentService(data);
+                await this.setState({ postData: data });
+                await this.renderCalendar(this.startDate, this.endDate)
             }
-            this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') })
-            this.setState({ userID: this.userDetails._id });
-            await this.getAppointmentService(data);
-            await this.setState({ postData: data });
-            await this.renderCalendar(this.startDate, this.endDate)
+        } catch (error) {
+            console.log(`error`, error);
         }
     }
 
@@ -145,9 +156,11 @@ export default class AppointmentScreen extends Component {
         markedDates[day] = { selected: true, marked: false, selectedColor: COLOR.DEFALUTCOLOR }
         this.setState({ selectedDay: markedDates, loading: true })
         this.currentDate = day;
+        var today = new Date(this.currentDate);
+        today.setHours(0, 0, 0, 0);
         let data = {
             id: this.userDetails._id,
-            datRange: { gte: moment(this.currentDate).format(), lte: this.currentDate }
+            datRange: { gte: today, lte: today }
         }
         await this.getAppointmentService(data);
     }
@@ -365,7 +378,7 @@ export default class AppointmentScreen extends Component {
                                 data={this.state.AppointmentList}
                                 renderItem={this.renderAllAppointmentList}
                                 showsVerticalScrollIndicator={false}
-                                keyExtractor={item => item._id}
+                                keyExtractor={(item) => item._id}
                                 contentContainerStyle={{ paddingBottom: 20 }}
                             />
                         </View>
