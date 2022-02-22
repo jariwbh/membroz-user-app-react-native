@@ -147,7 +147,8 @@ const HomeScreen = (props) => {
       const checkindatetime = await AttendanceService.getTodayAttendenceService(data);
       if (checkindatetime.data && checkindatetime.data.length > 0) {
         setTodayAttendTime(checkindatetime.data[0]);
-        if (checkindatetime.data[0] && checkindatetime.data[0].property && checkindatetime.data[0].property.mode === 'checkin') {
+        if (checkindatetime.data[0] && checkindatetime.data[0].property &&
+          checkindatetime.data[0].property.mode === 'checkin') {
           setTimerShow(true);
           let secTimer = setInterval(() => {
             setDt(new Date().toLocaleString())

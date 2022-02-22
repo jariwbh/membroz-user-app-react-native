@@ -36,6 +36,7 @@ const ScannerScreen = (props) => {
     const [userID, setUserID] = useState(null);
     const [torch, setTorch] = useState(RNCamera.Constants.FlashMode.off);
     const [branchId, setBranchId] = useState(null);
+    const [currentTimeZone, setCurrentTimeZone] = useState(null);
 
     let currentTime = moment();
     let checkoutTime = moment(todayAttendTime && todayAttendTime.checkout ? todayAttendTime.checkout : currentTime);
@@ -54,6 +55,7 @@ const ScannerScreen = (props) => {
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
         moment.tz.setDefault(userInfo?.branchid?.timezone);
+        setCurrentTimeZone(userInfo?.branchid?.timezone);
         setUserID(userInfo._id);
         setBranchId(userInfo?.branchid?._id);
     }
@@ -71,14 +73,14 @@ const ScannerScreen = (props) => {
     const addAttendence = async () => {
         try {
             let body = {
-                checkin: moment().format(),
-                checkout: moment().format(),
+                checkin: moment.tz(currentTimeZone).toString(),
+                checkout: moment.tz(currentTimeZone).toString(),
                 membrozid: userID,
                 onModel: 'User',
                 property: {
-                    checkin: moment().format(),
-                    checkout: moment().format(),
-                    attendancedate: moment().format(),
+                    // checkin: moment.tz(currentTimeZone).format(),
+                    // checkout: moment.tz(currentTimeZone).format(),
+                    attendancedate: moment.tz(currentTimeZone).format(),
                     breaktime: finalcalbreaktime,
                     mode: 'checkin',
                 }
@@ -106,12 +108,12 @@ const ScannerScreen = (props) => {
         try {
             let body = {
                 checkin: todayAttendTime && todayAttendTime.checkin,
-                checkout: moment().format(),
+                checkout: moment.tz(currentTimeZone).toString(),
                 membrozid: userID,
                 onModel: 'User',
                 property: {
-                    checkin: todayAttendTime && todayAttendTime.checkin,
-                    checkout: moment().format(),
+                    // checkin: todayAttendTime && todayAttendTime.checkin,
+                    // checkout: moment.tz(currentTimeZone).format(),
                     attendancedate: todayAttendTime?.property?.attendancedate,
                     mode: `${todayAttendTime?.property?.mode == 'checkin' ? 'checkout' : 'checkin'}`,
                     breaktime: todayAttendTime?.property?.mode == 'checkout' ? todayAttendTime?.property?.breaktime + Number(finalcalbreaktime.toFixed()) : todayAttendTime?.property?.breaktime,

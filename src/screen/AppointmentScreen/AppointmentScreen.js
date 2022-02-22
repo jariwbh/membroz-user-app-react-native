@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     FlatList
 } from 'react-native';
-import { AppintmentService } from '../../services/AppointmentService/AppiontmentService';
+import { AppintmentService, AppintmentSupportStaffService } from '../../services/AppointmentService/AppiontmentService';
 import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import { AUTHUSER, DEFAULTPROFILE } from '../../context/actions/type';
@@ -88,7 +88,8 @@ export default class AppointmentScreen extends Component {
                 today.setHours(0, 0, 0, 0);
                 let data = {
                     id: this.userDetails._id,
-                    datRange: { gte: today, lte: today }
+                    datRange: { gte: today }
+                    // datRange: { gte: today, lte: today }
                 }
                 this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') })
                 this.setState({ userID: this.userDetails._id });
@@ -111,9 +112,11 @@ export default class AppointmentScreen extends Component {
     //GET APPOINTMENT LIST FUNCTION 
     async getAppointmentService(data) {
         try {
-            return AppintmentService(data).then(response => {
-                if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                    var appointmentLists = [...response.data];
+            const response = await AppintmentService(data);
+            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+                const appintmentSupportStaffService = await AppintmentSupportStaffService(data);
+                if (appintmentSupportStaffService.data != null && appintmentSupportStaffService.data != 'undefind' && response.status == 200) {
+                    var appointmentLists = [...response.data, ...appintmentSupportStaffService.data];
                     appointmentLists.map(p => {
                         var starttime = p.timeslot.starttime.split(":");
                         var hours = starttime[0];
@@ -126,11 +129,10 @@ export default class AppointmentScreen extends Component {
                         }
                         p.starttime = hours + ":" + minutes + ":00";
                     });
-
                     appointmentLists.sort((a, b) => a.starttime.localeCompare(b.starttime));
                     this.setState({ AppointmentList: appointmentLists, loading: false });
                 }
-            })
+            }
         } catch (error) {
             firebase.crashlytics().recordError(error);
             this.setState({ loading: false });
@@ -160,7 +162,8 @@ export default class AppointmentScreen extends Component {
         today.setHours(0, 0, 0, 0);
         let data = {
             id: this.userDetails._id,
-            datRange: { gte: today, lte: today }
+            datRange: { gte: today }
+            // datRange: { gte: today, lte: today }
         }
         await this.getAppointmentService(data);
     }
@@ -226,15 +229,21 @@ export default class AppointmentScreen extends Component {
             this.endDate = moment().year(val.year).month(val.month - 1, 'months').endOf('month').format('YYYY-MM-DD');
         }
         if (Number(moment().format('M')) == val.month && Number(moment().format('YYYY')) === val.year) {
+            var today = new Date(this.currentDate);
+            today.setHours(0, 0, 0, 0);
             data = {
                 id: this.userDetails._id,
-                datRange: { gte: moment(this.currentDate).format(), lte: this.currentDate }
+                datRange: { gte: today }
+                // datRange: { gte: moment(this.currentDate).format(), lte: this.currentDate }
             }
             this.onPressSelectedDay({ dateString: moment().format('YYYY-MM-DD') })
         } else {
+            var today = new Date(this.currentDate);
+            today.setHours(0, 0, 0, 0);
             data = {
                 id: this.userDetails._id,
-                datRange: { gte: this.startDate, lte: moment(this.endDate, "YYYY-MM-DD").add(1, 'days') }
+                datRange: { gte: today }
+                // datRange: { gte: this.startDate, lte: moment(this.endDate, "YYYY-MM-DD").add(1, 'days') }
             }
         }
         await this.getAppointmentService(data);
@@ -337,6 +346,25 @@ export default class AppointmentScreen extends Component {
                 <Text style={styles().rectangleSubText}>{item?.timeslot?.starttime + ' - ' + item?.timeslot?.endtime}</Text>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
                     <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CHECKOUT_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
+                    <TouchableOpacity style={{ justifyContent: KEY.FLEX_END, marginRight: -15 }} onPress={() => this.showModelPopup(item)}>
+                        <AntDesign name='eye' size={30} color={COLOR.NOSHOW_COLOR} />
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </View>
+        ||
+        item.status == 'checkinguest' &&
+        <View style={styles(COLOR.CHECKIN_COLOR).cardView}>
+            <View style={styles(COLOR.CHECKIN_COLOR).filledBox}>
+                <Text style={{ fontSize: FONT.FONT_SIZE_28, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('DD')}</Text>
+                <Text style={{ fontSize: FONT.FONT_SIZE_16, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.WHITE }}>{moment(item.appointmentdate).format('MMM')}</Text>
+            </View>
+            <View style={{ flexDirection: KEY.COLUMN, marginLeft: 5, padding: 5 }}>
+                <Text style={styles().rectangleText}>{item?.attendee?.fullname}</Text>
+                <Text style={styles().rectangleSubText}>{item?.refid?.title}</Text>
+                <Text style={styles().rectangleSubText}>{item?.timeslot?.starttime + ' - ' + item?.timeslot?.endtime}</Text>
+                <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN }}>
+                    <Text style={{ fontSize: FONT.FONT_SIZE_14, color: COLOR.CHECKIN_COLOR, marginTop: 2, textTransform: KEY.CAPITALIZE }}>{item.status}</Text>
                     <TouchableOpacity style={{ justifyContent: KEY.FLEX_END, marginRight: -15 }} onPress={() => this.showModelPopup(item)}>
                         <AntDesign name='eye' size={30} color={COLOR.NOSHOW_COLOR} />
                     </TouchableOpacity>

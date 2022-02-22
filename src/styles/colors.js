@@ -88,6 +88,7 @@ export const CANCEL_COLOR = '#FB3E39'
 export const NOSHOW_COLOR = '#F57C00'
 export const REQUESTED_COLOR = '#3D58D4'
 export const CHECKOUT_COLOR = '#47CCBF'
+export const CHECKIN_COLOR = '#008000'
 
 //krtya HR
 // export const DEFALUTCOLOR = '#FC7845';
