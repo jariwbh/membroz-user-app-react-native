@@ -7,4 +7,6 @@
 
 //export const baseURL = 'http://krtyahr.membroz.com/api/';
 
-export const baseURL = 'http://qa.membroz.com/api/';
+//export const baseURL = 'http://qa.membroz.com/api/';
+
+export const baseURL = 'http://cocoonmedicalspa.membroz.com/api/';
