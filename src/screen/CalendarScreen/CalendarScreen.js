@@ -172,7 +172,7 @@ export default class CalendarScreen extends Component {
     renderHolidaysList = ({ item }) => (
         <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
             <View style={styles.innercardview}>
-                <View style={{ flexDirection: KEY.ROW, marginTop: 15 }}>
+                <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginTop: 15 }}>
                     <Text style={{ fontSize: 14, marginLeft: 15, color: COLOR.BLACK, textTransform: KEY.CAPITALIZE }}>{item.title}</Text>
                 </View>
                 <View style={{ flexDirection: KEY.ROW, justifyContent: KEY.SPACEBETWEEN, marginTop: 5, marginBottom: 10 }}>

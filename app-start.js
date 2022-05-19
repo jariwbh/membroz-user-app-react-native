@@ -9,4 +9,6 @@
 
 //export const baseURL = 'http://qa.membroz.com/api/';
 
-export const baseURL = 'http://cocoonmedicalspa.membroz.com/api/';
+//export const baseURL = 'http://cocoonmedicalspa.membroz.com/api/';
+
+export const baseURL = 'https://gravityclubresorts.membroz.com/api/';

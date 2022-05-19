@@ -1,4 +1,4 @@
-package com.cocoontrainer;
+package com.gravitystaff;
 
 import com.facebook.react.ReactActivity;
 

@@ -1,4 +1,4 @@
-package com.cocoontrainer;
+package com.gravitystaff;
 
 import android.app.Application;
 import android.content.Context;

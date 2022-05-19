@@ -22,7 +22,7 @@ export default {
     explorenow: "Explore Now",
     dontaccount: "Don't have an account?",
     registernow: "Register Now",
-    registerinvaiderror: "Something went wrong. Unable to Register. Please try again latter",
+    registerinvaiderror: "Something went wrong. Unable to Register. Please try again letter",
     fullnameerror: "Full Name Required!",
     mobileerror: "Mobile Number Required!",
     mobileinvalid: "Enter valid Mobile Number",

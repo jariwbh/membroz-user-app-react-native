@@ -1,9 +1,9 @@
 //APP MAIN COLOR
-export const DEFALUTCOLOR = '#E8A20E';
-export const DEFAULTLIGHT = '#E8A20E';
+export const DEFALUTCOLOR = '#D62027';
+export const DEFAULTLIGHT = '#D62027';
 export const BACKGROUNDCOLOR = '#FFFFFF';
 export const SPLASHCOLOR = '#FFFFFF';
-export const STATUSCOLOR = '#E8A20E';
+export const STATUSCOLOR = '#D62027';
 
 //BASIC COLOR
 export const PRIMARY = '#1779ba';
@@ -110,4 +110,12 @@ export const CHECKIN_COLOR = '#008000'
 // export const BACKGROUNDCOLOR = '#FFFFFF';
 // export const SPLASHCOLOR = '#FFFFFF';
 // export const STATUSCOLOR = '#E8A20E';
+
+
+//Gravity Staff app
+// export const DEFALUTCOLOR = '#D62027';
+// export const DEFAULTLIGHT = '#D62027';
+// export const BACKGROUNDCOLOR = '#FFFFFF';
+// export const SPLASHCOLOR = '#FFFFFF';
+// export const STATUSCOLOR = '#D62027';
 
