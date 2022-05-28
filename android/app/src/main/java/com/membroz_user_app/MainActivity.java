@@ -1,4 +1,4 @@
-package com.gravitystaff;
+package com.app.telecallingmembrozapp;
 
 import com.facebook.react.ReactActivity;
 
