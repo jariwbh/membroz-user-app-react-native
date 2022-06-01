@@ -74,11 +74,9 @@ const FreshLeadScreen = (props) => {
         try {
             const response = await FreshLeadService(userID);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                wait(1000).then(() => {
-                    setLoading(false);
-                    setFreshLeadList(response.data);
-                    setSearchFreshLead(response.data);
-                });
+                setLoading(false);
+                setFreshLeadList(response.data);
+                setSearchFreshLead(response.data);
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);

@@ -71,10 +71,8 @@ const MyLeadScreen = (props) => {
         try {
             const response = await MyLeadService(userID);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
-                wait(1000).then(() => {
-                    setLoading(false);
-                    setMyLeadList(response.data);
-                });
+                setLoading(false);
+                setMyLeadList(response.data);
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);
