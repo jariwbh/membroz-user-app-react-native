@@ -116,6 +116,7 @@ export default LeaveScreen = (props) => {
                 renderItem={renderMyClaim}
                 contentContainerStyle={{ paddingBottom: 80 }}
                 keyExtractor={item => item._id}
+                keyboardShouldPersistTaps={KEY.ALWAYS}
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}

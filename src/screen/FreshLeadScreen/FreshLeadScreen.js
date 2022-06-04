@@ -142,6 +142,7 @@ const FreshLeadScreen = (props) => {
                             renderItem={renderFreshLead}
                             contentContainerStyle={{ paddingBottom: 20 }}
                             keyExtractor={item => item._id}
+                            keyboardShouldPersistTaps={KEY.ALWAYS}
                             refreshControl={
                                 <RefreshControl
                                     refreshing={refreshing}

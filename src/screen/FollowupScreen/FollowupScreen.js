@@ -102,7 +102,7 @@ const FollowupScreen = (props) => {
         if (val == true) {
             followUp[index].selected = true;
         }
-        setFollowUpList(followUp);
+        setSearchfollowUp(followUp);
     }
 
     const renderFollowUpDeatils = (val) => {
@@ -223,6 +223,7 @@ const FollowupScreen = (props) => {
                             renderItem={renderFollowUp}
                             contentContainerStyle={{ marginTop: 10, paddingBottom: 20 }}
                             keyExtractor={item => item._id}
+                            keyboardShouldPersistTaps={KEY.ALWAYS}
                             refreshControl={
                                 <RefreshControl
                                     refreshing={refreshing}
