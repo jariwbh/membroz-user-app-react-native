@@ -1,4 +1,4 @@
-package com.app.telecallingmembrozapp;
+package com.membrozcrm;
 
 import com.facebook.react.ReactActivity;
 

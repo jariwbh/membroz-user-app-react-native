@@ -1,4 +1,4 @@
-package com.app.telecallingmembrozapp;
+package com.membrozcrm;
 
 import android.app.Application;
 import android.content.Context;

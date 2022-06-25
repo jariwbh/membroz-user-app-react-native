@@ -15,12 +15,12 @@ const styles = StyleSheet.create({
         marginLeft: 100,
         marginRight: 100,
         marginTop: 50,
-        // marginBottom: 55,
-        // height: 100,
-        // width: 200,
-        marginBottom: 20,
-        height: 120,
-        width: 200
+        marginBottom: 55,
+        height: 100,
+        width: 200,
+        // marginBottom: 20,
+        // height: 120,
+        // width: 200
     },
     welcomeText: {
         fontSize: 40,
