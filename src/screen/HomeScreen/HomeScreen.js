@@ -40,6 +40,7 @@ import * as COLOR from '../../styles/colors';
 import * as IMAGE from '../../styles/image';
 import moment from 'moment-timezone';
 import styles from './HomeStyle';
+import { getDashboard } from '../../services/HomeService/HomeService';
 //import moment from 'moment';
 
 //STATIC VARIABLE
@@ -88,6 +89,10 @@ const HomeScreen = (props) => {
   const [timerShow, setTimerShow] = useState(false);
   const [interNetStatus, setInterNetStatus] = useState(false);
   const [visibleModel, setVisibleModel] = useState(false);
+  const [freshCallCounter, setFreshCallCounter] = useState(0);
+  const [followupCounter, setFollowupCounter] = useState(0);
+  const [meetingCounter, setMeetingCounter] = useState(0);
+  const [myLeadCounter, setMyLeadCounter] = useState(0);
 
   let currentTime = moment();
   let checkinTime = moment(todayAttendTime && todayAttendTime.checkin);
@@ -114,6 +119,7 @@ const HomeScreen = (props) => {
         getNotification(userInfo?._id);
         getCheckinTime(userInfo?._id);
         setUserProfilePic(userInfo?.profilepic);
+        getDashboardDetails(userInfo?._id, userInfo?.branchid?._id);
         // await getAppVersion(appVersionCode);
       }
       getCallBackScreen();
@@ -125,14 +131,14 @@ const HomeScreen = (props) => {
     // CHECK REMOTECONTROLLER USE TO AUTOCONFIG APP
     RemoteController();
     getUserDeatilsLocalStorage();
-    MenuPermission();
     getGalleryImages();
   }, []);
 
   useEffect(() => {
   }, [loading, backgroungImage, scanIconVisible, sharedIconVisible, notificationIconVisible, photoCounter,
     todayAttendTime, timerShow, mobileapppermissions, notification, userDesignation, userName, userID,
-    timerShow, userProfilePic, shareusAndroid, shareusIos, userInfo, interNetStatus, visibleModel
+    timerShow, userProfilePic, shareusAndroid, shareusIos, userInfo, interNetStatus, visibleModel, freshCallCounter,
+    followupCounter, meetingCounter, myLeadCounter
   ])
 
   //Get CheckIn time
@@ -210,6 +216,7 @@ const HomeScreen = (props) => {
     if (userInfo) {
       moment.tz.setDefault(userInfo?.branchid?.timezone);
       getuserid = userInfo?._id;
+      getDashboardDetails(userInfo?._id, userInfo?.branchid?._id);
       setUserInfo(userInfo);
       setUserDesignation(userInfo?.designationid?.title.substring(0, 15));
       setUserName(userInfo?.fullname.substring(0, 15));
@@ -219,6 +226,7 @@ const HomeScreen = (props) => {
       getNotification(userInfo?._id);
       setUserProfilePic(userInfo?.profilepic);
       PushNotifications();
+      MenuPermission();
       await getAppVersion(appVersionCode);
       wait(1000).then(() => {
         setloading(false);
@@ -255,9 +263,26 @@ const HomeScreen = (props) => {
     try {
       const response = await GalleryService();
       if (response.data != null && response.data != 'undefind' && response.status == 200) {
-        setPhotoCounter(response.data.length);
+        setDashBoard(response.data);
       }
     } catch (error) {
+      setloading(false);
+      firebase.crashlytics().recordError(error);
+    }
+  }
+
+  //GET DASHBOARD DETAILS COUNT API DATA GET
+  const getDashboardDetails = async (userID, branchID) => {
+    try {
+      const response = await getDashboard(userID, branchID);
+      if (response.data != null && response.data != 'undefind' && response.status == 200) {
+        setFreshCallCounter(response.data[0].freshcall);
+        setFollowupCounter(response.data[0].followup);
+        setMeetingCounter(response.data[0].meeting);
+        setMyLeadCounter(response.data[0].mylead);
+      }
+    } catch (error) {
+      setloading(false);
       firebase.crashlytics().recordError(error);
     }
   }
@@ -285,6 +310,7 @@ const HomeScreen = (props) => {
       const response = await NotificationService(id);
       setNotification(response.data.length);
     } catch (error) {
+      setloading(false);
       firebase.crashlytics().recordError(error);
     }
   }
@@ -299,7 +325,36 @@ const HomeScreen = (props) => {
         }}>
           <Image source={item.item.imageurl} style={{ height: item.item.height, width: item.item.width }} />
         </View>
-        <Text numberOfLines={1} style={{ flex: 1, fontSize: FONT.FONT_SIZE_16, marginLeft: 20, fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR }}>{item.item.title}</Text>
+        {item.item.menuname === "freshlead" &&
+          <Text numberOfLines={1} style={{
+            flex: 1, fontSize: FONT.FONT_SIZE_16, marginLeft: 20,
+            fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR
+          }}>{(item.item.title) + ' ' + (`(${freshCallCounter})`)}</Text>
+        }
+        {item.item.menuname === "followup" &&
+          <Text numberOfLines={1} style={{
+            flex: 1, fontSize: FONT.FONT_SIZE_16, marginLeft: 20,
+            fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR
+          }}>{(item.item.title) + ' ' + (`(${followupCounter})`)}</Text>
+        }
+        {item.item.menuname === "meeting" &&
+          <Text numberOfLines={1} style={{
+            flex: 1, fontSize: FONT.FONT_SIZE_16, marginLeft: 20,
+            fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR
+          }}>{(item.item.title) + ' ' + (`(${meetingCounter})`)}</Text>
+        }
+        {item.item.menuname === "mylead" &&
+          <Text numberOfLines={1} style={{
+            flex: 1, fontSize: FONT.FONT_SIZE_16, marginLeft: 20,
+            fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR
+          }}>{(item.item.title) + ' ' + (`(${myLeadCounter})`)}</Text>
+        }
+        {item.item.menuname != "freshlead" && item.item.menuname != "followup" && item.item.menuname != "meeting" && item.item.menuname != "mylead" &&
+          <Text numberOfLines={1} style={{
+            flex: 1, fontSize: FONT.FONT_SIZE_16, marginLeft: 20,
+            fontWeight: FONT.FONT_WEIGHT_BOLD, color: COLOR.MENU_TEXT_COLOR
+          }}>{item.item.title}</Text>
+        }
       </View>
     </TouchableOpacity>
   )
@@ -518,14 +573,12 @@ const HomeScreen = (props) => {
     setloading(true);
     RemoteController();
     getUserDeatilsLocalStorage();
-    MenuPermission();
     getGalleryImages();
     setVisibleModel(false);
     inetrnetChecker();
   }
 
   return (
-
     !visibleModel ?
       <SafeAreaView style={{ flex: 1, alignItems: KEY.CENTER, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
         <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />

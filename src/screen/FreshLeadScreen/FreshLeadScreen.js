@@ -230,7 +230,7 @@ const FreshLeadScreen = (props) => {
                         }
                         ListFooterComponent={() => (
                             SearchFreshLead && SearchFreshLead.length == 0 &&
-                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginBottom: HEIGHT * 0.2 }}>
+                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginBottom: HEIGHT * 0.1 }}>
                                 <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: HEIGHT * 0.2 }} resizeMode={KEY.CONTAIN} />
                                 <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
                             </View>
