@@ -167,6 +167,8 @@ export default {
     photos: "Photos",
     home: "home",
     alltext: "ALL",
+    allsmalltext: "all",
+    interesttext: "Interest",
     servicename: "Service Name",
     aboutmembership: "About Membership",
     exploreclubs: "Explore Clubs",

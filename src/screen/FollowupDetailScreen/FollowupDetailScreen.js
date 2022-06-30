@@ -731,6 +731,13 @@ const FollowupDetailScreen = (props) => {
                             </TouchableOpacity>
                         </View>
                         {
+                            followupDetail?.property && followupDetail?.property?.interest &&
+                            <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: KEY.CENTER }}>
+                                <Ionicons size={30} name="heart" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
+                                <Text style={styles.textMobile}>{(languageConfig.interesttext) + (followupDetail?.property && followupDetail?.property?.interest && " : " + followupDetail?.property?.interest)}</Text>
+                            </View>
+                        }
+                        {
                             followupDetail?.property?.primaryemail &&
                             <View style={{ flexDirection: KEY.ROW, marginTop: 10, alignItems: KEY.CENTER }}>
                                 <Ionicons size={30} name="mail" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />

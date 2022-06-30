@@ -11,6 +11,7 @@ import {
 import { FreshLeadService } from '../../services/FreshLeadService/FreshLeadService';
 import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import { filterService } from '../../services/LookupService/LookupService';
 import * as LocalService from '../../services/LocalService/LocalService';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import languageConfig from '../../languages/languageConfig';
@@ -25,6 +26,7 @@ import * as IMAGE from '../../styles/image';
 import style from './Style';
 
 const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 
 const FreshLeadScreen = (props) => {
     const [loading, setLoading] = useState(false);
@@ -32,6 +34,8 @@ const FreshLeadScreen = (props) => {
     const [userID, setUserID] = useState(null);
     const [refreshing, setrefreshing] = useState(false);
     const [SearchFreshLead, setSearchFreshLead] = useState([]);
+    const [filterList, setFilterList] = useState([]);
+    const [selectFilter, setSelectFilter] = useState(undefined);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -47,18 +51,18 @@ const FreshLeadScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [loading, freshLeadList, userID, refreshing, SearchFreshLead]);
+    }, [loading, freshLeadList, userID, refreshing, SearchFreshLead, filterList, selectFilter]);
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
         setUserID(userInfo._id);
-        getFesHLead(userInfo._id);
+        getManagefilter(userInfo._id, selectFilter);
     }
 
     const onRefresh = () => {
         setrefreshing(true);
-        getFesHLead(userID);
+        getFesHLead(userID, selectFilter);
         wait(3000).then(() => setrefreshing(false));
     }
 
@@ -70,9 +74,9 @@ const FreshLeadScreen = (props) => {
     }
 
     //GET FRESH LEAD API THROUGH FETCH DATA
-    const getFesHLead = async (userID) => {
+    const getFesHLead = async (userID, filtername) => {
         try {
-            const response = await FreshLeadService(userID);
+            const response = await FreshLeadService(userID, filtername);
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setLoading(false);
                 setFreshLeadList(response.data);
@@ -101,7 +105,14 @@ const FreshLeadScreen = (props) => {
                 <View style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginLeft: 20 }}>
                     <View style={{ flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_START }}>
                         <Text style={style.textTitle}>{item?.property?.fullname}</Text>
-                        <Text style={style.textsub}>{item?.property?.mobile}</Text>
+                        {
+                            item?.property && item?.property?.mobile &&
+                            <Text style={style.textsub}>{item.property.mobile}</Text>
+                        }
+                        {
+                            item?.property && item?.property?.interest &&
+                            <Text style={style.textsub}>{(languageConfig.interesttext) + (item?.property && item?.property?.interest && " : " + item?.property?.interest)}</Text>
+                        }
                     </View>
                 </View>
                 <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.FOLLOWUPDETAILSCREEN, { item })}
@@ -113,63 +124,121 @@ const FreshLeadScreen = (props) => {
         </Pressable>
     )
 
+    //filter data manage
+    const getManagefilter = async (userID) => {
+        try {
+            const response = await filterService();
+            if (response.data != null && response.data != undefined && response.status == 200 && response.data[0].data.length > 0) {
+                let allOption = { selected: true, name: languageConfig.allsmalltext, code: languageConfig.allsmalltext };
+                let tempArry = [allOption, ...response.data[0].data];
+                setFilterList(tempArry);
+                getFesHLead(userID, undefined);
+            }
+        } catch (error) {
+            firebase.crashlytics().recordError(error);
+            setLoading(false);
+        }
+    }
+
+    //RENDER CATAGORY LIST
+    const renderFilterItem = ({ item, index }) => (
+        item.selected == true ?
+            <TouchableOpacity style={style.activeTabStyle}
+                onPress={() => onPressFilterListItem(item, index)}>
+                <Text style={style.activeTextStyle}>
+                    {item.name}</Text>
+            </TouchableOpacity>
+            :
+            <TouchableOpacity style={style.deactiveTabStyle}
+                onPress={() => onPressFilterListItem(item, index)}>
+                <Text style={style.deactiveTextStyle}>
+                    {item.name}</Text>
+            </TouchableOpacity>
+    )
+
+    //THIS FUNCTION ONPRESS CATEGORY LIST ITEM
+    const onPressFilterListItem = (item, index) => {
+        try {
+            setLoading(true);
+            const filterItem = filterList.map((item, index) => {
+                item.selected = false;
+                return item;
+            });
+            filterItem[index].selected = true;
+            setSelectFilter(item.name);
+            setFilterList(filterItem);
+            if (item.name === languageConfig.allsmalltext) {
+                getFesHLead(userID, undefined);
+            } else {
+                getFesHLead(userID, item.name);
+            }
+
+        } catch (error) {
+            setLoading(false);
+        }
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
-            {freshLeadList && freshLeadList.length > 0 ?
-                <>
-                    <View style={style.centerView}>
-                        <View style={style.statusbar}>
-                            <TextInput
-                                placeholder={languageConfig.search}
-                                placeholderTextColor={COLOR.GRAY_MEDIUM}
-                                selectionColor={COLOR.DEFALUTCOLOR}
-                                returnKeyType={KEY.DONE}
-                                autoCapitalize="none"
-                                style={style.inputTextView}
-                                autoCorrect={false}
-                                onChangeText={(value) => searchFilterFunction(value)}
-                            />
-                            <AntDesign name='search1' size={23} color={COLOR.BLACK} style={{ padding: 10 }} />
-                        </View>
-                    </View>
-                    <View style={style.viewMain}>
-                        <FlatList
-                            style={{ marginTop: 5 }}
-                            data={SearchFreshLead}
-                            showsVerticalScrollIndicator={false}
-                            renderItem={renderFreshLead}
-                            contentContainerStyle={{ paddingBottom: 20 }}
-                            keyExtractor={item => item._id}
-                            keyboardShouldPersistTaps={KEY.ALWAYS}
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={refreshing}
-                                    title={languageConfig.pullrefreshtext}
-                                    tintColor={COLOR.DEFALUTCOLOR}
-                                    titleColor={COLOR.DEFALUTCOLOR}
-                                    colors={[COLOR.DEFALUTCOLOR]}
-                                    onRefresh={onRefresh} />
-                            }
-                            ListFooterComponent={() => (
-                                SearchFreshLead && SearchFreshLead.length == 0 &&
-                                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                                    <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 50 }} resizeMode={KEY.CONTAIN} />
-                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
-                                </View>
-                            )}
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <FlatList
+                        style={{ paddingBottom: 10 }}
+                        showsHorizontalScrollIndicator={false}
+                        numColumns={filterList && filterList.length}
+                        key={filterList && filterList.length}
+                        data={filterList}
+                        renderItem={renderFilterItem}
+                        keyExtractor={item => item.name}
+                        keyboardShouldPersistTaps={KEY.ALWAYS}
+                    />
+                </ScrollView>
+                <View style={style.centerView}>
+                    <View style={style.statusbar}>
+                        <TextInput
+                            placeholder={languageConfig.search}
+                            placeholderTextColor={COLOR.GRAY_MEDIUM}
+                            selectionColor={COLOR.DEFALUTCOLOR}
+                            returnKeyType={KEY.DONE}
+                            autoCapitalize="none"
+                            style={style.inputTextView}
+                            autoCorrect={false}
+                            onChangeText={(value) => searchFilterFunction(value)}
                         />
+                        <AntDesign name='search1' size={23} color={COLOR.BLACK} style={{ padding: 10 }} />
                     </View>
-                </>
-                :
-                loading == false ?
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                        <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 100 }} resizeMode={KEY.CONTAIN} />
-                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
-                    </View>
-                    : <Loader />
-            }
+                </View>
+                <View style={style.viewMain}>
+                    <FlatList
+                        style={{ marginTop: 5 }}
+                        data={SearchFreshLead}
+                        showsVerticalScrollIndicator={false}
+                        renderItem={renderFreshLead}
+                        contentContainerStyle={{ paddingBottom: 20 }}
+                        keyExtractor={item => item._id}
+                        keyboardShouldPersistTaps={KEY.ALWAYS}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                title={languageConfig.pullrefreshtext}
+                                tintColor={COLOR.DEFALUTCOLOR}
+                                titleColor={COLOR.DEFALUTCOLOR}
+                                colors={[COLOR.DEFALUTCOLOR]}
+                                onRefresh={onRefresh} />
+                        }
+                        ListFooterComponent={() => (
+                            SearchFreshLead && SearchFreshLead.length == 0 &&
+                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginBottom: HEIGHT * 0.2 }}>
+                                <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: HEIGHT * 0.2 }} resizeMode={KEY.CONTAIN} />
+                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
+                            </View>
+                        )}
+                    />
+                </View>
+            </ScrollView>
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     );
 }

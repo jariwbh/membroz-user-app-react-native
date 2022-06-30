@@ -4,7 +4,7 @@ import {
     SafeAreaView,
     ScrollView,
     Image,
-    Text,
+    Text, TextInput,
     View, FlatList, RefreshControl,
     StatusBar, TouchableOpacity, Pressable
 } from 'react-native';
@@ -15,6 +15,7 @@ import * as LocalService from '../../services/LocalService/LocalService';
 import languageConfig from '../../languages/languageConfig';
 import * as SCREEN from '../../context/screen/screenName';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useFocusEffect } from '@react-navigation/native';
 import Loader from '../../components/loader/index';
 import * as KEY from '../../context/actions/key';
@@ -30,6 +31,7 @@ const MyLeadScreen = (props) => {
     const [userID, setUserID] = useState(null);
     const [myLeadList, setMyLeadList] = useState([]);
     const [refreshing, setrefreshing] = useState(false);
+    const [SearchFreshLead, setSearchFreshLead] = useState([]);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -44,7 +46,7 @@ const MyLeadScreen = (props) => {
     }, [])
 
     useEffect(() => {
-    }, [loading, myLeadList, userID, refreshing]);
+    }, [loading, myLeadList, userID, refreshing, SearchFreshLead]);
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
@@ -66,6 +68,17 @@ const MyLeadScreen = (props) => {
         });
     }
 
+    //local search Filter Function
+    const searchFilterFunction = (text) => {
+        const newData = myLeadList.filter(item => {
+            const itemData = `${item.property.fullname.toUpperCase()}`
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+        });
+        return setSearchFreshLead(newData);
+    };
+
+
     //GET My LEAD API THROUGH FETCH DATA
     const getMyLead = async (userID) => {
         try {
@@ -73,6 +86,7 @@ const MyLeadScreen = (props) => {
             if (response.data != null && response.data != 'undefind' && response.status == 200) {
                 setLoading(false);
                 setMyLeadList(response.data);
+                setSearchFreshLead(response.data);
             }
         } catch (error) {
             firebase.crashlytics().recordError(error);
@@ -104,31 +118,55 @@ const MyLeadScreen = (props) => {
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
             {myLeadList && myLeadList.length > 0 ?
-                <View style={styles.viewMain}>
-                    <FlatList
-                        style={{ marginTop: 5 }}
-                        data={myLeadList}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={renderMyLead}
-                        contentContainerStyle={{ paddingBottom: 20 }}
-                        keyExtractor={item => item._id}
-                        keyboardShouldPersistTaps={KEY.ALWAYS}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                title={languageConfig.pullrefreshtext}
-                                tintColor={COLOR.DEFALUTCOLOR}
-                                titleColor={COLOR.DEFALUTCOLOR}
-                                colors={[COLOR.DEFALUTCOLOR]}
-                                onRefresh={onRefresh} />
-                        }
-                    />
-                    <View style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, bottom: 0 }}>
-                        <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.ADDLEADSCREEN)} style={styles.touchStyle}>
-                            <Image source={IMAGE.PLUS} style={styles.floatImage} />
-                        </TouchableOpacity>
+                <>
+                    <View style={styles.centerView}>
+                        <View style={styles.statusbar}>
+                            <TextInput
+                                placeholder={languageConfig.search}
+                                placeholderTextColor={COLOR.GRAY_MEDIUM}
+                                selectionColor={COLOR.DEFALUTCOLOR}
+                                returnKeyType={KEY.DONE}
+                                autoCapitalize="none"
+                                style={styles.inputTextView}
+                                autoCorrect={false}
+                                onChangeText={(value) => searchFilterFunction(value)}
+                            />
+                            <AntDesign name='search1' size={23} color={COLOR.BLACK} style={{ padding: 10 }} />
+                        </View>
                     </View>
-                </View>
+                    <View style={styles.viewMain}>
+                        <FlatList
+                            style={{ marginTop: 5 }}
+                            data={SearchFreshLead}
+                            showsVerticalScrollIndicator={false}
+                            renderItem={renderMyLead}
+                            contentContainerStyle={{ paddingBottom: 20 }}
+                            keyExtractor={item => item._id}
+                            keyboardShouldPersistTaps={KEY.ALWAYS}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    title={languageConfig.pullrefreshtext}
+                                    tintColor={COLOR.DEFALUTCOLOR}
+                                    titleColor={COLOR.DEFALUTCOLOR}
+                                    colors={[COLOR.DEFALUTCOLOR]}
+                                    onRefresh={onRefresh} />
+                            }
+                            ListFooterComponent={() => (
+                                SearchFreshLead && SearchFreshLead.length == 0 &&
+                                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                                    <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 50 }} resizeMode={KEY.CONTAIN} />
+                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
+                                </View>
+                            )}
+                        />
+                        <View style={{ justifyContent: KEY.FLEX_END, alignItems: KEY.FLEX_END, bottom: 0 }}>
+                            <TouchableOpacity onPress={() => props.navigation.navigate(SCREEN.ADDLEADSCREEN)} style={styles.touchStyle}>
+                                <Image source={IMAGE.PLUS} style={styles.floatImage} />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </>
                 :
                 loading == false ?
                     <>

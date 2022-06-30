@@ -12,6 +12,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { followUpService } from '../../services/FollowUpService/FollowUpService';
 import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
+import { filterService } from '../../services/LookupService/LookupService';
 import * as LocalService from '../../services/LocalService/LocalService';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -30,6 +31,7 @@ import moment from 'moment-timezone';
 import styles from './Style';
 
 const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 
 const FollowupScreen = (props) => {
     const [loading, setLoading] = useState(false);
@@ -37,6 +39,8 @@ const FollowupScreen = (props) => {
     const [userID, setUserID] = useState(null);
     const [refreshing, setrefreshing] = useState(false);
     const [SearchfollowUp, setSearchfollowUp] = useState([]);
+    const [filterList, setFilterList] = useState([]);
+    const [selectFilter, setSelectFilter] = useState(undefined);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -51,20 +55,20 @@ const FollowupScreen = (props) => {
     }, []);
 
     useEffect(() => {
-    }, [loading, followUpList, userID, refreshing, SearchfollowUp]);
+    }, [loading, followUpList, userID, refreshing, SearchfollowUp, selectFilter]);
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
         var userInfo = await LocalService.LocalStorageService();
         moment.tz.setDefault(userInfo?.branchid?.timezone);
         setUserID(userInfo._id);
-        getFollowUpList(userInfo._id);
+        getManagefilter(userInfo._id);
     }
 
     //GET PULL TO REFRSH FUNCTION
     const onRefresh = () => {
         setrefreshing(true);
-        getFollowUpList(userID);
+        getManagefilter(userID, selectFilter);
         wait(3000).then(() => setrefreshing(false));
     }
 
@@ -76,10 +80,10 @@ const FollowupScreen = (props) => {
     }
 
     //GET My LEAD API THROUGH FETCH DATA
-    const getFollowUpList = async (userID) => {
+    const getFollowUpList = async (userID, filtername) => {
         try {
-            const response = await followUpService(userID);
-            if (response.data != null && response.data != 'undefind' && response.status == 200) {
+            const response = await followUpService(userID, filtername);
+            if (response.data != null && response.data != undefined && response.status == 200) {
                 setFollowUpList(response.data);
                 setSearchfollowUp(response.data);
                 setLoading(false);
@@ -194,65 +198,125 @@ const FollowupScreen = (props) => {
         return setSearchfollowUp(newData);
     };
 
+    //filter data manage
+    const getManagefilter = async (userID, filterVaule) => {
+        try {
+            const response = await filterService();
+            if (response.data != null && response.data != undefined && response.status == 200 && response.data[0].data.length > 0) {
+                if (filterVaule) {
+                    if (filterVaule === languageConfig.allsmalltext) {
+                        getFollowUpList(userID, undefined);
+                    } else {
+                        getFollowUpList(userID, filterVaule);
+                    }
+                } else {
+                    let allOption = { selected: true, name: languageConfig.allsmalltext, code: languageConfig.allsmalltext };
+                    let tempArry = [allOption, ...response.data[0].data];
+                    setFilterList(tempArry);
+                    getFollowUpList(userID, undefined);
+                }
+            }
+        } catch (error) {
+            firebase.crashlytics().recordError(error);
+            setLoading(false);
+        }
+    }
+
+    //RENDER CATAGORY LIST
+    const renderFilterItem = ({ item, index }) => (
+        item.selected == true ?
+            <TouchableOpacity style={styles.activeTabStyle}
+                onPress={() => onPressFilterListItem(item, index)}>
+                <Text style={styles.activeTextStyle}>
+                    {item.name}</Text>
+            </TouchableOpacity>
+            :
+            <TouchableOpacity style={styles.deactiveTabStyle}
+                onPress={() => onPressFilterListItem(item, index)}>
+                <Text style={styles.deactiveTextStyle}>
+                    {item.name}</Text>
+            </TouchableOpacity>
+    )
+
+    //THIS FUNCTION ONPRESS CATEGORY LIST ITEM
+    const onPressFilterListItem = (item, index) => {
+        try {
+            setLoading(true);
+            const filterItem = filterList.map((item, index) => {
+                item.selected = false;
+                return item;
+            });
+            filterItem[index].selected = true;
+            setSelectFilter(item.name);
+            setFilterList(filterItem);
+            getManagefilter(userID, item.name);
+        } catch (error) {
+            setLoading(false);
+        }
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
-            {followUpList && followUpList.length > 0 ?
-                <>
-                    <View style={styles.centerView}>
-                        <View style={styles.statusbar}>
-                            <TextInput
-                                placeholder={KEY.SEARCH}
-                                placeholderTextColor={COLOR.GRAY_MEDIUM}
-                                selectionColor={COLOR.DEFALUTCOLOR}
-                                returnKeyType={KEY.DONE}
-                                autoCapitalize="none"
-                                style={styles.inputTextView}
-                                autoCorrect={false}
-                                onChangeText={(value) => searchFilterFunction(value)}
-                            />
-                            <AntDesign name='search1' size={23} color={COLOR.BLACK} style={{ padding: 10 }} />
-                        </View>
-                    </View>
-                    <View style={styles.viewMain}>
-                        <FlatList
-                            style={{ marginTop: 5 }}
-                            data={SearchfollowUp}
-                            showsVerticalScrollIndicator={false}
-                            renderItem={renderFollowUp}
-                            contentContainerStyle={{ marginTop: 10, paddingBottom: 20 }}
-                            keyExtractor={item => item._id}
-                            keyboardShouldPersistTaps={KEY.ALWAYS}
-                            refreshControl={
-                                <RefreshControl
-                                    refreshing={refreshing}
-                                    title={languageConfig.pullrefreshtext}
-                                    tintColor={COLOR.DEFALUTCOLOR}
-                                    titleColor={COLOR.DEFALUTCOLOR}
-                                    colors={[COLOR.DEFALUTCOLOR]}
-                                    onRefresh={onRefresh} />
-                            }
-                            ListFooterComponent={() => (
-                                SearchfollowUp && SearchfollowUp.length == 0 &&
-                                <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                                    <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 50 }} resizeMode={KEY.CONTAIN} />
-                                    <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
-                                </View>
-                            )}
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    <FlatList
+                        style={{ paddingBottom: 10 }}
+                        showsHorizontalScrollIndicator={false}
+                        numColumns={filterList && filterList.length}
+                        key={filterList && filterList.length}
+                        data={filterList}
+                        renderItem={renderFilterItem}
+                        keyExtractor={item => item.name}
+                        keyboardShouldPersistTaps={KEY.ALWAYS}
+                    />
+                </ScrollView>
+                <View style={styles.centerView}>
+                    <View style={styles.statusbar}>
+                        <TextInput
+                            placeholder={KEY.SEARCH}
+                            placeholderTextColor={COLOR.GRAY_MEDIUM}
+                            selectionColor={COLOR.DEFALUTCOLOR}
+                            returnKeyType={KEY.DONE}
+                            autoCapitalize="none"
+                            style={styles.inputTextView}
+                            autoCorrect={false}
+                            onChangeText={(value) => searchFilterFunction(value)}
                         />
+                        <AntDesign name='search1' size={23} color={COLOR.BLACK} style={{ padding: 10 }} />
                     </View>
-                </>
-                :
-                loading == false ?
-                    <>
-                        <View activeOpacity={0.7} style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
-                            <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: 150 }} resizeMode={KEY.CONTAIN} />
-                            <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
-                        </View>
-                    </>
-                    : <Loader />
-            }
+                </View>
+                <View style={styles.viewMain}>
+                    <FlatList
+                        style={{ marginTop: 5 }}
+                        data={SearchfollowUp}
+                        showsVerticalScrollIndicator={false}
+                        renderItem={renderFollowUp}
+                        contentContainerStyle={{ marginTop: 10, paddingBottom: 20 }}
+                        keyExtractor={item => item._id}
+                        keyboardShouldPersistTaps={KEY.ALWAYS}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                title={languageConfig.pullrefreshtext}
+                                tintColor={COLOR.DEFALUTCOLOR}
+                                titleColor={COLOR.DEFALUTCOLOR}
+                                colors={[COLOR.DEFALUTCOLOR]}
+                                onRefresh={onRefresh} />
+                        }
+                        ListFooterComponent={() => (
+                            SearchfollowUp && SearchfollowUp.length == 0 &&
+                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginBottom: HEIGHT * 0.2 }}>
+                                <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: HEIGHT * 0.2 }} resizeMode={KEY.CONTAIN} />
+                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
+                            </View>
+                        )}
+                    />
+                </View>
+
+            </ScrollView>
+            {loading ? <Loader /> : null}
         </SafeAreaView>
     );
 }

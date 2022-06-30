@@ -67,6 +67,56 @@ const styles = StyleSheet.create({
   inputTextView: {
     fontSize: FONT.FONT_SIZE_14,
     flex: 1
+  },
+  deactiveTabStyle: {
+    height: 25,
+    marginTop: 10,
+    borderRadius: 100,
+    backgroundColor: COLOR.WHITE,
+    shadowColor: COLOR.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 3,
+    alignItems: KEY.CENTER,
+    justifyContent: KEY.CENTER,
+    margin: 10
+  },
+  activeTabStyle: {
+    height: 25,
+    marginTop: 10,
+    borderRadius: 100,
+    backgroundColor: COLOR.DEFALUTCOLOR,
+    shadowColor: COLOR.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 3,
+    alignItems: KEY.CENTER,
+    justifyContent: KEY.CENTER,
+    margin: 10
+  },
+  deactiveTextStyle: {
+    fontSize: FONT.FONT_SIZE_14,
+    fontWeight: FONT.FONT_BOLD,
+    textTransform: KEY.CAPITALIZE,
+    color: COLOR.BLACK,
+    marginLeft: 15,
+    marginRight: 15
+  },
+  activeTextStyle: {
+    fontSize: FONT.FONT_SIZE_14,
+    fontWeight: FONT.FONT_BOLD,
+    textTransform: KEY.CAPITALIZE,
+    color: COLOR.WHITE,
+    marginLeft: 15,
+    marginRight: 15
   }
 });
 
