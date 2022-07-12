@@ -273,8 +273,12 @@ const HomeScreen = (props) => {
 
   //GET DASHBOARD DETAILS COUNT API DATA GET
   const getDashboardDetails = async (userID, branchID) => {
+    var today = new Date();
+    let startDateTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
+    let endDateTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
+    let date = { startdate: startDateTime, enddate: endDateTime };
     try {
-      const response = await getDashboard(userID, branchID);
+      const response = await getDashboard(userID, branchID, date);
       if (response.data != null && response.data != 'undefind' && response.status == 200) {
         setFreshCallCounter(response.data[0].freshcall);
         setFollowupCounter(response.data[0].followup);

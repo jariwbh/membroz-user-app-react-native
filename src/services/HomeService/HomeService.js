@@ -4,7 +4,7 @@ const getCategory = () => {
     return Axios.get('lookups/607d5c7bdc539117484cda38');
 }
 
-const getDashboard = (userID, branchID) => {
+const getDashboard = (userID, branchID, date) => {
     let body = {
         "search": [
             {
@@ -18,6 +18,18 @@ const getDashboard = (userID, branchID) => {
                 "searchvalue": userID,
                 "criteria": "eq",
                 "datatype": "ObjectId"
+            },
+            {
+                "searchfield": "startdate",
+                "searchvalue": date.startdate,
+                "criteria": "eq",
+                "datatype": "Date"
+            },
+            {
+                "searchfield": "enddate",
+                "searchvalue": date.enddate,
+                "criteria": "eq",
+                "datatype": "Date"
             }
         ],
         "id": "62bd3e25264cd749f83e9fba"

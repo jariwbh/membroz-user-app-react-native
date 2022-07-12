@@ -94,21 +94,6 @@ const FollowupScreen = (props) => {
         }
     }
 
-    //select to collapsible (show data)
-    const onPressToSelectFollowUp = (item, index, val) => {
-        const followUp = followUpList.map((item) => {
-            item.selected = false;
-            return item;
-        });
-        if (val == false) {
-            followUp[index].selected = false;
-        }
-        if (val == true) {
-            followUp[index].selected = true;
-        }
-        setSearchfollowUp(followUp);
-    }
-
     const renderFollowUpDeatils = (val) => {
         let item = {
             _id: val?.customerid?._id,
@@ -124,68 +109,24 @@ const FollowupScreen = (props) => {
 
     //RENDER FOLLOW UP LIST USING FLATLIST
     const renderFollowUp = ({ item, index }) => (
-        item.selected != true ?
-            <>
-                <TouchableOpacity onPress={() => onPressToSelectFollowUp(item, index, true)}>
-                    <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10 }}>
-                        <View style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginLeft: 20 }}>
-                            <View style={{ flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_START }}>
-                                <Text style={styles.textTitle}>{item?.customerid?.property?.fullname}</Text>
-                                <Text style={styles.textTitle}>{item?.customerid?.property?.mobile}</Text>
-                            </View>
-                        </View>
-                        <TouchableOpacity onPress={() => onPressToSelectFollowUp(item, index, true)}
-                            style={{ justifyContent: KEY.FLEX_END, marginRight: 20 }}>
-                            <AntDesign name='down' size={20} style={{ color: COLOR.BLACK, alignItems: KEY.FLEX_START, marginTop: 8 }} />
-                        </TouchableOpacity>
-                    </View>
-                </TouchableOpacity>
-                <View style={{ borderBottomColor: COLOR.GRAY_MEDIUM, borderBottomWidth: 1, marginTop: 10, marginRight: 15, marginLeft: 15 }} />
-            </>
-            :
-            <>
-                <TouchableOpacity onPress={() => onPressToSelectFollowUp(item, index, false)}>
-                    <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 5, marginLeft: 20 }}>
-                        <Text style={styles.textTitle}>{item.type}</Text>
-                        <TouchableOpacity onPress={() => onPressToSelectFollowUp(item, index, false)}
-                            style={{ justifyContent: KEY.FLEX_END, marginRight: 20 }}>
-                            <AntDesign name='up' size={20} style={{ color: COLOR.BLACK, alignItems: KEY.FLEX_START, marginTop: 8 }} />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ marginLeft: 20, justifyContent: KEY.CENTER, marginTop: 5, marginBottom: 10 }}>
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: KEY.CENTER }}>
-                            <Entypo size={25} name="user" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                            <Text style={styles.textsub}>{item?.customerid?.property?.fullname}</Text>
-                        </View>
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: KEY.CENTER }}>
-                            <Ionicons size={25} name="call-outline" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                            <Text style={styles.textsub}>{item?.customerid?.property?.mobile}</Text>
-                        </View>
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: KEY.CENTER, marginBottom: 0 }}>
-                            <MaterialCommunityIcons size={25} name="calendar" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                            <Text style={styles.textDate}>{moment(item?.duedate).format('lll')}</Text>
-                        </View>
-                        <View style={{ flexDirection: KEY.ROW, marginTop: 8, alignItems: KEY.CENTER }}>
-                            <FontAwesome5 size={23} name="user-cog" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                            <Text style={styles.textsub}>{item?.addedby?.fullname}</Text>
+        <>
+            <TouchableOpacity onPress={() => renderFollowUpDeatils(item)}>
+                <View style={{ justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: 10 }}>
+                    <View style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, alignItems: KEY.CENTER, marginLeft: 20 }}>
+                        <View style={{ flexDirection: KEY.COLUMN, alignItems: KEY.FLEX_START }}>
+                            <Text numberOfLines={1} style={styles.textTitle}>{item?.customerid?.property?.fullname}</Text>
+                            <Text style={styles.textTitle}>{item?.customerid?.property?.mobile}</Text>
+                            <Text style={styles.textsub}>{item.type}</Text>
                         </View>
                     </View>
-                    <View style={{ marginLeft: 20, justifyContent: KEY.SPACEBETWEEN, alignItems: KEY.CENTER, flexDirection: KEY.ROW, marginTop: -5 }}>
-                        <View style={{ justifyContent: KEY.FLEX_START, flexDirection: KEY.ROW, alignItems: KEY.CENTER }}>
-                            <FontAwesome5 size={23} name="user-check" color={COLOR.DEFALUTCOLOR} style={{ marginRight: 10 }} />
-                            <Text style={styles.textsub}>{item?.assingeeuser?.fullname}</Text>
-                        </View>
-                    </View>
-                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginTop: 10 }}>
-                        <TouchableOpacity onPress={() => renderFollowUpDeatils(item)}
-                            style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, backgroundColor: COLOR.DEFALUTCOLOR, width: 150, height: 40, borderRadius: 100, flexDirection: KEY.ROW }}>
-                            <Text style={styles.textsubCallBtn}>View More</Text>
-                            <AntDesign name='rightcircle' size={25} style={{ color: COLOR.WHITE }} />
-                        </TouchableOpacity>
-                    </View>
-                </TouchableOpacity>
-                <View style={{ borderBottomColor: COLOR.GRAY_MEDIUM, borderBottomWidth: 1, marginTop: 15, marginRight: 15, marginLeft: 15 }} />
-            </>
+                    <TouchableOpacity onPress={() => renderFollowUpDeatils(item)}
+                        style={{ justifyContent: KEY.FLEX_END, marginRight: 20 }}>
+                        <AntDesign name='right' size={20} style={{ color: COLOR.GRAY_DARK, alignItems: KEY.FLEX_START, marginTop: 8 }} />
+                    </TouchableOpacity>
+                </View>
+            </TouchableOpacity>
+            <View style={{ borderBottomColor: COLOR.GRAY_MEDIUM, borderBottomWidth: 1, marginTop: 10, marginRight: 15, marginLeft: 15 }} />
+        </>
     )
 
     //local search Filter Function
@@ -259,7 +200,7 @@ const FollowupScreen = (props) => {
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <FlatList
                         style={{ paddingBottom: 10 }}
@@ -314,7 +255,6 @@ const FollowupScreen = (props) => {
                         )}
                     />
                 </View>
-
             </ScrollView>
             {loading ? <Loader /> : null}
         </SafeAreaView>

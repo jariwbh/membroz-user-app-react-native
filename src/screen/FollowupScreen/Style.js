@@ -19,14 +19,15 @@ const styles = StyleSheet.create({
     textTransform: KEY.CAPITALIZE,
     color: COLOR.LIGHT_BLACK,
     fontWeight: FONT.FONT_WEIGHT_BOLD,
-    fontSize: FONT.FONT_SIZE_18
+    fontSize: FONT.FONT_SIZE_16,
+    width: WIDTH - 80
   },
   textsub: {
     textTransform: KEY.CAPITALIZE,
     color: COLOR.LIGHT_BLACK,
-    fontWeight: FONT.FONT_WEIGHT_BOLD,
-    fontSize: FONT.FONT_SIZE_18,
-    width: WIDTH - 150
+    fontWeight: FONT.FONT_WEIGHT_NORMAL,
+    fontSize: FONT.FONT_SIZE_14,
+    width: WIDTH - 80
   },
   textsubCallBtn: {
     textTransform: KEY.CAPITALIZE,
