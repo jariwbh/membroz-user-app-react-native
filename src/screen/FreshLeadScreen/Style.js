@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   statusbar: {
     flexDirection: KEY.ROW,
     alignItems: KEY.CENTER,
-    marginTop: 20,
+    marginTop: 0,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: COLOR.GRANITE_GRAY,
@@ -62,7 +62,9 @@ const styles = StyleSheet.create({
     height: 45,
     color: COLOR.BLACK_OLIVE,
     marginBottom: 5,
-    paddingLeft: 15
+    paddingLeft: 15,
+    marginLeft: 20,
+    marginRight: 20
   },
   inputTextView: {
     fontSize: FONT.FONT_SIZE_14,

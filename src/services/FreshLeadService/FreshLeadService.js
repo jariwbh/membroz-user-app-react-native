@@ -1,6 +1,6 @@
 import Axios from '../../helpers/appConfig';
 
-export const FreshLeadService = (userID, filterValue) => {
+export const FreshLeadService = (userID, filterValue, pageno, sizeno) => {
     let body;
     if (userID != null && userID != undefined && filterValue != null && filterValue != undefined) {
         body = {
@@ -47,7 +47,7 @@ export const FreshLeadService = (userID, filterValue) => {
                     "fieldname": "createdAt",
                     "value": "1"
                 }
-            ], "formname": "mypromotion"
+            ], "formname": "mypromotion", "pageNo": pageno.toString(), "size": sizeno.toString()
         }
     } else {
         body = {
@@ -88,13 +88,13 @@ export const FreshLeadService = (userID, filterValue) => {
                     "fieldname": "createdAt",
                     "value": "1"
                 }
-            ], "formname": "mypromotion"
+            ], "formname": "mypromotion", "pageNo": pageno.toString(), "size": sizeno.toString()
         }
     }
     return Axios.post('enquiries/filter', body);
 }
 
-export const MyLeadService = (userID, filterValue) => {
+export const MyLeadService = (userID, filterValue, pageno, sizeno) => {
     let body;
     if (userID != null && userID != undefined && filterValue != null && filterValue != undefined) {
         body = {
@@ -127,7 +127,7 @@ export const MyLeadService = (userID, filterValue) => {
                     "fieldname": "createdAt",
                     "value": "1"
                 }
-            ], "formname": "mypromotion"
+            ], "formname": "mypromotion", "pageNo": pageno.toString(), "size": sizeno.toString()
         }
     } else {
         body = {
@@ -154,7 +154,7 @@ export const MyLeadService = (userID, filterValue) => {
                     "fieldname": "createdAt",
                     "value": "1"
                 }
-            ], "formname": "mypromotion"
+            ], "formname": "mypromotion", "pageNo": pageno.toString(), "size": sizeno.toString()
         }
     }
     return Axios.post('enquiries/filter', body);

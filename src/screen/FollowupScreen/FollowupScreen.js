@@ -6,7 +6,7 @@ import {
     Image,
     Text, TextInput,
     View, FlatList, RefreshControl,
-    StatusBar, TouchableOpacity, Pressable
+    StatusBar, TouchableOpacity, ActivityIndicator
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { followUpService } from '../../services/FollowUpService/FollowUpService';
@@ -41,6 +41,10 @@ const FollowupScreen = (props) => {
     const [SearchfollowUp, setSearchfollowUp] = useState([]);
     const [filterList, setFilterList] = useState([]);
     const [selectFilter, setSelectFilter] = useState(undefined);
+    const [loadingMore, setLoadingMore] = useState(false);
+    const [defaultPageNo, setdefaultPageNo] = useState(1);
+    let defaultSize = 10;
+    let stopFetchMore = true;
 
     useFocusEffect(
         React.useCallback(() => {
@@ -55,7 +59,7 @@ const FollowupScreen = (props) => {
     }, []);
 
     useEffect(() => {
-    }, [loading, followUpList, userID, refreshing, SearchfollowUp, selectFilter]);
+    }, [loading, followUpList, userID, refreshing, SearchfollowUp, selectFilter, defaultPageNo]);
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
@@ -82,13 +86,14 @@ const FollowupScreen = (props) => {
     //GET My LEAD API THROUGH FETCH DATA
     const getFollowUpList = async (userID, filtername) => {
         try {
-            const response = await followUpService(userID, filtername);
+            const response = await followUpService(userID, filtername, defaultPageNo, defaultSize);
             if (response.data != null && response.data != undefined && response.status == 200) {
                 setFollowUpList(response.data);
                 setSearchfollowUp(response.data);
                 setLoading(false);
             }
         } catch (error) {
+            console.log(`error`, error);
             firebase.crashlytics().recordError(error);
             setLoading(false);
         }
@@ -196,14 +201,42 @@ const FollowupScreen = (props) => {
         }
     }
 
+    const ListFooterComponent = () => (
+        <ActivityIndicator
+            size={KEY.LARGE}
+            color={COLOR.DEFALUTCOLOR}
+            style={{
+                justifyContent: KEY.CENTER,
+                alignItems: KEY.CENTER,
+            }}
+        />
+    );
+
+    const handleOnEndReached = async () => {
+        setLoadingMore(true);
+        if (!stopFetchMore) {
+            let no = Number(defaultPageNo) + 1;
+            setdefaultPageNo(no);
+            const response = await followUpService(userID, selectFilter, no, defaultSize);
+            if (response.data != null && response.data != undefined && response.status == 200) {
+                setFollowUpList([...followUpList, ...response.data]);
+                setSearchfollowUp([...SearchfollowUp, ...response.data]);
+                stopFetchMore = true;
+            } else {
+                return setLoadingMore(false);
+            }
+        }
+        setLoadingMore(false);
+    };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLOR.BACKGROUNDCOLOR }}>
             <StatusBar hidden={false} translucent={true} backgroundColor={COLOR.DEFALUTCOLOR} barStyle={KEY.DARK_CONTENT} />
             <Image source={IMAGE.HEADER} resizeMode={KEY.STRETCH} style={{ width: WIDTH, height: 60, marginTop: 0, tintColor: COLOR.DEFALUTCOLOR }} />
-            <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={KEY.ALWAYS}>
+            <View>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <FlatList
-                        style={{ paddingBottom: 10 }}
+                        contentContainerStyle={{ marginBottom: 10 }}
                         showsHorizontalScrollIndicator={false}
                         numColumns={filterList && filterList.length}
                         key={filterList && filterList.length}
@@ -213,49 +246,53 @@ const FollowupScreen = (props) => {
                         keyboardShouldPersistTaps={KEY.ALWAYS}
                     />
                 </ScrollView>
-                <View style={styles.centerView}>
-                    <View style={styles.statusbar}>
-                        <TextInput
-                            placeholder={KEY.SEARCH}
-                            placeholderTextColor={COLOR.GRAY_MEDIUM}
-                            selectionColor={COLOR.DEFALUTCOLOR}
-                            returnKeyType={KEY.DONE}
-                            autoCapitalize="none"
-                            style={styles.inputTextView}
-                            autoCorrect={false}
-                            onChangeText={(value) => searchFilterFunction(value)}
-                        />
-                        <AntDesign name='search1' size={23} color={COLOR.BLACK} style={{ padding: 10 }} />
-                    </View>
-                </View>
-                <View style={styles.viewMain}>
-                    <FlatList
-                        style={{ marginTop: 5 }}
-                        data={SearchfollowUp}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={renderFollowUp}
-                        contentContainerStyle={{ marginTop: 10, paddingBottom: 20 }}
-                        keyExtractor={item => item._id}
-                        keyboardShouldPersistTaps={KEY.ALWAYS}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                title={languageConfig.pullrefreshtext}
-                                tintColor={COLOR.DEFALUTCOLOR}
-                                titleColor={COLOR.DEFALUTCOLOR}
-                                colors={[COLOR.DEFALUTCOLOR]}
-                                onRefresh={onRefresh} />
-                        }
-                        ListFooterComponent={() => (
-                            SearchfollowUp && SearchfollowUp.length == 0 &&
-                            <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginBottom: HEIGHT * 0.2 }}>
-                                <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: HEIGHT * 0.2 }} resizeMode={KEY.CONTAIN} />
-                                <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
-                            </View>
-                        )}
+                <View style={styles.statusbar}>
+                    <TextInput
+                        placeholder={KEY.SEARCH}
+                        placeholderTextColor={COLOR.GRAY_MEDIUM}
+                        selectionColor={COLOR.DEFALUTCOLOR}
+                        returnKeyType={KEY.DONE}
+                        autoCapitalize="none"
+                        style={styles.inputTextView}
+                        autoCorrect={false}
+                        onChangeText={(value) => searchFilterFunction(value)}
                     />
+                    <AntDesign name='search1' size={23} color={COLOR.BLACK} style={{ padding: 10 }} />
                 </View>
-            </ScrollView>
+            </View>
+            <FlatList
+                style={{ marginTop: 5 }}
+                data={SearchfollowUp}
+                showsVerticalScrollIndicator={false}
+                renderItem={renderFollowUp}
+                contentContainerStyle={{ marginTop: 10, paddingBottom: 40 }}
+                keyExtractor={item => item._id}
+                keyboardShouldPersistTaps={KEY.ALWAYS}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        title={languageConfig.pullrefreshtext}
+                        tintColor={COLOR.DEFALUTCOLOR}
+                        titleColor={COLOR.DEFALUTCOLOR}
+                        colors={[COLOR.DEFALUTCOLOR]}
+                        onRefresh={onRefresh} />
+                }
+                onEndReached={handleOnEndReached}
+                onEndReachedThreshold={0.5}
+                onScrollBeginDrag={() => {
+                    stopFetchMore = false;
+                }}
+                ListFooterComponent={() => (
+                    loadingMore && <ListFooterComponent />
+                )}
+                ListEmptyComponent={
+                    SearchfollowUp && SearchfollowUp.length === 0 &&
+                    <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
+                        <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: HEIGHT * 0.2 }} resizeMode={KEY.CONTAIN} />
+                        <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
+                    </View>
+                }
+            />
             {loading ? <Loader /> : null}
         </SafeAreaView>
     );

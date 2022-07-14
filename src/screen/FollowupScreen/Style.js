@@ -71,13 +71,16 @@ const styles = StyleSheet.create({
     height: 45,
     color: COLOR.BLACK_OLIVE,
     marginBottom: 5,
-    paddingLeft: 15
+    paddingLeft: 15,
+    marginLeft: 20,
+    marginRight: 20
   },
   inputTextView: {
     fontSize: FONT.FONT_SIZE_14,
     flex: 1
   },
   centerView: {
+    marginTop: 10,
     alignItems: KEY.CENTER,
     justifyContent: KEY.CENTER
   },
