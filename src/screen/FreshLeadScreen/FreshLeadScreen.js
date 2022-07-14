@@ -8,7 +8,7 @@ import {
     View, FlatList, RefreshControl, TextInput,
     StatusBar, TouchableOpacity, Pressable, ActivityIndicator
 } from 'react-native';
-import { FreshLeadService } from '../../services/FreshLeadService/FreshLeadService';
+import { FreshLeadService, SearchFreshLeadService } from '../../services/FreshLeadService/FreshLeadService';
 import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import { filterService } from '../../services/LookupService/LookupService';
@@ -38,6 +38,7 @@ const FreshLeadScreen = (props) => {
     const [selectFilter, setSelectFilter] = useState(undefined);
     const [loadingMore, setLoadingMore] = useState(false);
     const [defaultPageNo, setdefaultPageNo] = useState(1);
+    const [searchText, setsearchText] = useState('');
     let defaultSize = 10;
     let stopFetchMore = true;
 
@@ -56,7 +57,7 @@ const FreshLeadScreen = (props) => {
 
     useEffect(() => {
     }, [loading, freshLeadList, userID, refreshing, SearchFreshLead,
-        filterList, selectFilter, loadingMore, defaultPageNo]);
+        filterList, selectFilter, loadingMore, defaultPageNo, searchText]);
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
@@ -94,13 +95,22 @@ const FreshLeadScreen = (props) => {
     }
 
     //local search Filter Function
-    const searchFilterFunction = (text) => {
-        const newData = freshLeadList.filter(item => {
-            const itemData = `${item.property.fullname.toUpperCase()}`
-            const textData = text.toUpperCase();
-            return itemData.indexOf(textData) > -1;
-        });
-        return setSearchFreshLead(newData);
+    const searchFilterFunction = async (text) => {
+        if (text != null && text != undefined) {
+            let pageno = 1, pagesize = 10;
+            setsearchText(text);
+            setLoadingMore(true);
+            const response = await SearchFreshLeadService(userID, selectFilter, pageno, pagesize, text)
+            if (response.data != null && response.data != undefined && response.status == 200) {
+                setSearchFreshLead(response.data);
+                setLoadingMore(false);
+                setdefaultPageNo(1);
+            }
+        } else {
+            setdefaultPageNo(1);
+            setFreshLeadList([]);
+            setSearchFreshLead([]);
+        }
     };
 
     //RENDER FRESHLEAD LIST USING FLATLIST
@@ -268,7 +278,7 @@ const FreshLeadScreen = (props) => {
                     loadingMore && <ListFooterComponent />
                 )}
                 ListEmptyComponent={() => (
-                    SearchFreshLead && SearchFreshLead.length == 0 &&
+                    freshLeadList && freshLeadList.length == 0 &&
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER, marginBottom: HEIGHT * 0.1 }}>
                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: HEIGHT * 0.2 }} resizeMode={KEY.CONTAIN} />
                         <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>

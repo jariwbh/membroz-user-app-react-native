@@ -8,7 +8,7 @@ import {
     View, FlatList, RefreshControl, ActivityIndicator,
     StatusBar, TouchableOpacity, Pressable
 } from 'react-native';
-import { MyLeadService } from '../../services/FreshLeadService/FreshLeadService';
+import { MyLeadService, SearchMyLeadService } from '../../services/FreshLeadService/FreshLeadService';
 import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import { filterService } from '../../services/LookupService/LookupService';
@@ -38,6 +38,7 @@ const MyLeadScreen = (props) => {
     const [selectFilter, setSelectFilter] = useState(undefined);
     const [loadingMore, setLoadingMore] = useState(false);
     const [defaultPageNo, setdefaultPageNo] = useState(1);
+    const [searchText, setsearchText] = useState('');
     let defaultSize = 10;
     let stopFetchMore = true;
 
@@ -55,7 +56,7 @@ const MyLeadScreen = (props) => {
 
     useEffect(() => {
     }, [loading, myLeadList, userID, refreshing, SearchFreshLead,
-        filterList, selectFilter, defaultPageNo, loadingMore]);
+        filterList, selectFilter, defaultPageNo, loadingMore, searchText]);
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
@@ -78,13 +79,22 @@ const MyLeadScreen = (props) => {
     }
 
     //local search Filter Function
-    const searchFilterFunction = (text) => {
-        const newData = myLeadList.filter(item => {
-            const itemData = `${item.property.fullname.toUpperCase()}`
-            const textData = text.toUpperCase();
-            return itemData.indexOf(textData) > -1;
-        });
-        return setSearchFreshLead(newData);
+    const searchFilterFunction = async (text) => {
+        if (text != null && text != undefined) {
+            let pageno = 1, pagesize = 10;
+            setsearchText(text);
+            setLoadingMore(true);
+            const response = await SearchMyLeadService(userID, selectFilter, pageno, pagesize, text)
+            if (response.data != null && response.data != undefined && response.status == 200) {
+                setSearchFreshLead(response.data);
+                setLoadingMore(false);
+                setdefaultPageNo(1);
+            }
+        } else {
+            setdefaultPageNo(1);
+            setMyLeadList([]);
+            setSearchFreshLead([]);
+        }
     };
 
     //GET My LEAD API THROUGH FETCH DATA
@@ -267,7 +277,7 @@ const MyLeadScreen = (props) => {
                     loadingMore && <ListFooterComponent />
                 )}
                 ListEmptyComponent={() => (
-                    SearchFreshLead && SearchFreshLead.length == 0 &&
+                    myLeadList && myLeadList.length == 0 &&
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: HEIGHT * 0.2 }} resizeMode={KEY.CONTAIN} />
                         <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>

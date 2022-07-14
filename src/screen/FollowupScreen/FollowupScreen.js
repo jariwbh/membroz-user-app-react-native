@@ -9,7 +9,7 @@ import {
     StatusBar, TouchableOpacity, ActivityIndicator
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { followUpService } from '../../services/FollowUpService/FollowUpService';
+import { followUpService, SearchFollowUpService } from '../../services/FollowUpService/FollowUpService';
 import { MemberLanguage } from '../../services/LocalService/LanguageService';
 import crashlytics, { firebase } from "@react-native-firebase/crashlytics";
 import { filterService } from '../../services/LookupService/LookupService';
@@ -43,6 +43,7 @@ const FollowupScreen = (props) => {
     const [selectFilter, setSelectFilter] = useState(undefined);
     const [loadingMore, setLoadingMore] = useState(false);
     const [defaultPageNo, setdefaultPageNo] = useState(1);
+    const [searchText, setsearchText] = useState('');
     let defaultSize = 10;
     let stopFetchMore = true;
 
@@ -59,7 +60,8 @@ const FollowupScreen = (props) => {
     }, []);
 
     useEffect(() => {
-    }, [loading, followUpList, userID, refreshing, SearchfollowUp, selectFilter, defaultPageNo]);
+    }, [loading, followUpList, userID, refreshing, SearchfollowUp,
+        selectFilter, defaultPageNo, searchText]);
 
     //GET USER DATA IN MOBILE LOCAL STORAGE
     const getUserDeatilsLocalStorage = async () => {
@@ -135,13 +137,22 @@ const FollowupScreen = (props) => {
     )
 
     //local search Filter Function
-    const searchFilterFunction = (text) => {
-        const newData = followUpList.filter(item => {
-            const itemData = `${item?.customerid?.property?.fullname.toUpperCase()}`
-            const textData = text.toUpperCase();
-            return itemData.indexOf(textData) > -1;
-        });
-        return setSearchfollowUp(newData);
+    const searchFilterFunction = async (text) => {
+        if (text != null && text != undefined) {
+            let pageno = 1, pagesize = 10;
+            setsearchText(text);
+            setLoadingMore(true);
+            const response = await SearchFollowUpService(userID, selectFilter, pageno, pagesize, text)
+            if (response.data != null && response.data != undefined && response.status == 200) {
+                setSearchfollowUp(response.data);
+                setLoadingMore(false);
+                setdefaultPageNo(1);
+            }
+        } else {
+            setdefaultPageNo(1);
+            setFollowUpList([]);
+            setSearchfollowUp([]);
+        }
     };
 
     //filter data manage
@@ -286,7 +297,7 @@ const FollowupScreen = (props) => {
                     loadingMore && <ListFooterComponent />
                 )}
                 ListEmptyComponent={
-                    SearchfollowUp && SearchfollowUp.length === 0 &&
+                    followUpList && followUpList.length === 0 &&
                     <View style={{ justifyContent: KEY.CENTER, alignItems: KEY.CENTER }}>
                         <Image source={IMAGE.RECORD_ICON} style={{ height: 150, width: 200, marginTop: HEIGHT * 0.2 }} resizeMode={KEY.CONTAIN} />
                         <Text style={{ fontSize: FONT.FONT_SIZE_16, color: COLOR.TAUPE_GRAY, marginTop: 10 }}>{languageConfig.norecordtext}</Text>
