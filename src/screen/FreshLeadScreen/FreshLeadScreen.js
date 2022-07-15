@@ -98,7 +98,8 @@ const FreshLeadScreen = (props) => {
     const searchFilterFunction = async (text) => {
         if (text != null && text != undefined) {
             let pageno = 1, pagesize = 10;
-            setsearchText(text);
+            //setsearchText(text);
+            setSearchFreshLead([]);
             setLoadingMore(true);
             const response = await SearchFreshLeadService(userID, selectFilter, pageno, pagesize, text)
             if (response.data != null && response.data != undefined && response.status == 200) {
@@ -247,9 +248,12 @@ const FreshLeadScreen = (props) => {
                         autoCapitalize="none"
                         style={style.inputTextView}
                         autoCorrect={false}
-                        onChangeText={(value) => searchFilterFunction(value)}
+                        onChangeText={(value) => setsearchText(value)}
+                        onSubmitEditing={() => searchFilterFunction(searchText)}
                     />
-                    <AntDesign name='search1' size={23} color={COLOR.BLACK} style={{ padding: 10 }} />
+                    <TouchableOpacity onPress={() => searchFilterFunction(searchText)}>
+                        <AntDesign name='search1' size={23} color={COLOR.BLACK} style={{ padding: 10 }} />
+                    </TouchableOpacity>
                 </View>
             </View>
             <FlatList
