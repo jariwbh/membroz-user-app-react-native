@@ -75,11 +75,11 @@ export const SearchFollowUpService = (userID, filterValue, pageno, sizeno, searc
             ],
             "select": [
                 {
-                    "fieldname": "customerid.propperty.fullname",
+                    "fieldname": "customerid.property.fullname",
                     "value": "1"
                 },
                 {
-                    "fieldname": "customerid.propperty.mobile",
+                    "fieldname": "customerid.property.mobile",
                     "value": "1"
                 },
                 {
@@ -152,11 +152,11 @@ export const SearchFollowUpService = (userID, filterValue, pageno, sizeno, searc
             ],
             "select": [
                 {
-                    "fieldname": "customerid.propperty.fullname",
+                    "fieldname": "customerid.property.fullname",
                     "value": "1"
                 },
                 {
-                    "fieldname": "customerid.propperty.mobile",
+                    "fieldname": "customerid.property.mobile",
                     "value": "1"
                 },
                 {
